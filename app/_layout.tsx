@@ -1,6 +1,8 @@
 import { Header } from "@/components/Header";
+import { HikesContextProvider } from "@/contexts/hikesProvider/HikesContextProvider";
 import { LocalizationContextProvider } from "@/contexts/localization/LocalizationContextProvider";
 import { ServicesContextProvider } from "@/contexts/services/ServicesContextProvider";
+import { UserChoicesContextProvider } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import {
   DarkTheme,
@@ -15,20 +17,24 @@ export default function RootLayout() {
 
   return (
     <ServicesContextProvider>
-      <LocalizationContextProvider>
-        <ThemeProvider
-          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-        >
-          <Stack>
-            <Stack.Screen
-              name="index"
-              options={{
-                header: () => <Header />,
-              }}
-            />
-          </Stack>
-        </ThemeProvider>
-      </LocalizationContextProvider>
+      <HikesContextProvider>
+        <UserChoicesContextProvider>
+          <LocalizationContextProvider>
+            <ThemeProvider
+              value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+            >
+              <Stack>
+                <Stack.Screen
+                  name="index"
+                  options={{
+                    header: () => <Header />,
+                  }}
+                />
+              </Stack>
+            </ThemeProvider>
+          </LocalizationContextProvider>
+        </UserChoicesContextProvider>
+      </HikesContextProvider>
     </ServicesContextProvider>
   );
 }

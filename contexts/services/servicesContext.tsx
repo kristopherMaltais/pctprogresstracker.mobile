@@ -2,13 +2,13 @@ import React from "react";
 import { AxiosService } from "../../services/httpService/axiosService";
 import { SecureStoreServiceImpl } from "../../services/secureStoreService/secureStoreServiceImpl";
 import { HikeSnapServices } from "./models/hikeSnapServices";
-import { initializeMapModule } from "./modules/mapModule";
+import { initializeHikeModule } from "./modules/hikeModule";
 
 const initialize = () => {
   const services: HikeSnapServices = {};
 
   initializeCommonServices(services);
-  initializeMapModule(services);
+  initializeHikeModule(services);
 
   return services;
 };
