@@ -1,11 +1,12 @@
 // App.tsx
 import { DropDownHikeList } from "@/components/DropDownHikeList";
-import { HikingProgressBuilder } from "@/components/hikingProgress/HikingProgressBuilder";
+import { HikingProgressOptionsSlider } from "@/components/hikingProgress/HikingProgressOptionsSlider";
 import { HikingProgressPlaceholder } from "@/components/hikingProgress/HikingProgressPlaceholder";
 import { UserSettings } from "@/components/userSettings/UserSettings";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import React, { useRef } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import ViewShot from "react-native-view-shot";
 
@@ -15,25 +16,32 @@ export default function App() {
   const { selectedHike } = useUserChoices();
 
   return (
-    <ScrollView bounces={false} style={styles.container}>
+    <KeyboardAwareScrollView
+      contentContainerStyle={styles.scrollContainer}
+      extraScrollHeight={100}
+      enableOnAndroid
+      keyboardShouldPersistTaps="handled"
+      bounces={false}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={styles.dropDownListContainer}>
         <DropDownHikeList />
       </View>
       <View style={styles.hikingProgressContainer}>
         {selectedHike ? (
-          <HikingProgressBuilder />
+          <HikingProgressOptionsSlider />
         ) : (
           <HikingProgressPlaceholder />
         )}
       </View>
-      <UserSettings />
-    </ScrollView>
+      {selectedHike && <UserSettings />}
+    </KeyboardAwareScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: "white",
   },
   dropDownListContainer: {
     width: "100%",
@@ -43,5 +51,9 @@ const styles = StyleSheet.create({
   hikingProgressContainer: {
     height: 550,
     marginTop: -10,
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    backgroundColor: "white",
   },
 });

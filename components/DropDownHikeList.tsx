@@ -8,7 +8,7 @@ import { Dropdown } from "react-native-element-dropdown";
 
 type DropDownHikeListProps = {};
 
-type DropDownHike = {
+type DropDownOption = {
   label: string;
   value: string;
 };
@@ -16,7 +16,7 @@ type DropDownHike = {
 export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
   const { t } = useLocalization();
 
-  const [hikeList, setHikeList] = useState<any>([]);
+  const [hikeList, setHikeList] = useState<DropDownOption[]>([]);
   const { hikes } = useHikes();
   const { selectedHike, setSelectedHike } = useUserChoices();
 
@@ -29,11 +29,16 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
     );
   }, [hikes]);
 
+  const updateSelectedHike = (option: DropDownOption) => {
+    const hikeFound = hikes.find((hike: Hike) => hike.id === option.value);
+    setSelectedHike(hikeFound!);
+  };
+
   return (
     <View>
       <Dropdown
         style={styles.dropdown}
-        onChange={setSelectedHike}
+        onChange={updateSelectedHike}
         data={hikeList}
         value={selectedHike}
         maxHeight={300}
@@ -52,7 +57,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     height: 50,
     borderRadius: 10,
-    opacity: 0.6,
     paddingHorizontal: 16,
   },
 });

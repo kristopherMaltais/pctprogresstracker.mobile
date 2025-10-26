@@ -1,28 +1,48 @@
-import { StyleSheet, Text, View } from "react-native";
+import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
+import { StyleSheet, View } from "react-native";
+import { DistanceHikedInput } from "./DistanceHikedInput";
+import { Download } from "./Download";
+import { MeasurementUnitSwitch } from "./MeasurementUnitSwitch";
+import { Share } from "./Share";
+import { UploadBackgroundImage } from "./UploadBackgroundImage";
 
 export const UserSettings: React.FC = () => {
+  const { selectedProgressType } = useUserChoices();
+
   return (
     <View style={styles.container}>
-      <Text>Settings</Text>
+      <UploadBackgroundImage />
+      <MeasurementUnitSwitch />
+      <DistanceHikedInput />
+      <View style={styles.exporting}>
+        <Download />
+        <Share />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    height: 300,
     marginBottom: 32,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 16,
-    paddingBottom: 16,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
-    // backgroundColor: "black",
     borderRadius: 20,
     backgroundColor: "white", // 👈 Add this
     marginHorizontal: 16,
+    padding: 16,
+  },
+  measurementUnit: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  exporting: {
+    marginTop: 8,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 });

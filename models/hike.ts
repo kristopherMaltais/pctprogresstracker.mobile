@@ -2,6 +2,7 @@ export type Hike = {
   id: string;
   name: string;
   path: string;
-  totalDistanceKilometer: string;
-  totalDistanceMile: string;
+  pathLength: number;
+  totalDistanceKilometer: number;
+  totalDistanceMile: number;
 };
