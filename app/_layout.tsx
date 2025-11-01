@@ -12,12 +12,14 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { Stack } from "expo-router";
+import { useTranslation } from "react-i18next";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   i18n.init;
+  const { t } = useTranslation();
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -40,7 +42,10 @@ export default function RootLayout() {
                       name="settings"
                       options={{
                         header: () => (
-                          <Header pageTitle="Settings" showSettings={false} />
+                          <Header
+                            pageTitle={t("index:settings.title")}
+                            showSettings={false}
+                          />
                         ),
                       }}
                     />

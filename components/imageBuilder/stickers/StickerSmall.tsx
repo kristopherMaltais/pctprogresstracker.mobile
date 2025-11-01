@@ -2,6 +2,7 @@ import { EditWrapper } from "@/components/EditWrapper";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { MeasurementUnit } from "@/models/measurementUnit";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, View } from "react-native";
 import Animated, {
   useAnimatedProps,
@@ -18,6 +19,8 @@ export const StickerSmall: React.FC = () => {
     measurementUnit,
     showBorders,
   } = useUserChoices();
+
+  const { t } = useTranslation();
 
   const AnimatedPath = Animated.createAnimatedComponent(Path);
 
@@ -85,11 +88,11 @@ export const StickerSmall: React.FC = () => {
             source={require("@/assets/images/pctNoBackground.png")}
             style={{ width: 60, height: 60, marginTop: 55 }}
           />
-          <Text style={styles.label}>Total</Text>
+          <Text style={styles.label}>{t("index:sticker.total")}</Text>
           <Text style={styles.value}>
             {selectedHikeTotalDistance} {getMeasurementUnit()}
           </Text>
-          <Text style={styles.label}>Distance Hiked</Text>
+          <Text style={styles.label}>{t("index:sticker.distanceHiked")}</Text>
           <Text style={styles.value}>
             {distanceHiked} {getMeasurementUnit()}
           </Text>

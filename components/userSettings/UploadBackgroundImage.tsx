@@ -1,14 +1,15 @@
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import * as ImagePicker from "expo-image-picker";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 type Props = {};
 
 export const UploadBackgroundImage: React.FC<Props> = () => {
   const { setBackgroundImage, selectedProgressType } = useUserChoices();
+  const { t } = useTranslation();
 
-  // Open image picker
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -17,13 +18,15 @@ export const UploadBackgroundImage: React.FC<Props> = () => {
 
     if (!result.canceled) {
       // @ts-ignore
-      setBackgroundImage(result.assets[0].uri); // Expo SDK 49+ returns assets
+      setBackgroundImage(result.assets[0].uri);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Upload background</Text>
+      <Text style={styles.label}>
+        {t("index:userSettings.backgroundImage")}
+      </Text>
       <TouchableOpacity
         disabled={selectedProgressType != 0}
         style={styles.button}

@@ -1,27 +1,29 @@
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 type ShowBordersSwitchProps = {};
 
 export const ShowBordersSwitch: React.FC<ShowBordersSwitchProps> = ({}) => {
   const { showBorders, setShowBorders } = useUserChoices();
+  const { t } = useTranslation();
   const handleToggle = () => {
     setShowBorders(!showBorders);
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Borders</Text>
+      <Text style={styles.label}>{t("index:userSettings.borders.title")}</Text>
       <Pressable style={styles.switchContainer} onPress={handleToggle}>
         <View style={[styles.option, showBorders && styles.activeOption]}>
           <Text style={[styles.text, showBorders && styles.activeText]}>
-            show
+            {t("index:userSettings.borders.show")}
           </Text>
         </View>
         <View style={[styles.option, !showBorders && styles.activeOption]}>
           <Text style={[styles.text, !showBorders && styles.activeText]}>
-            hide
+            {t("index:userSettings.borders.hide")}
           </Text>
         </View>
       </Pressable>

@@ -1,9 +1,11 @@
+import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 export const Download: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <TouchableOpacity style={styles.container}>
-      <Text style={styles.label}>Download</Text>
+      <Text style={styles.label}>{t("index:userSettings.download")}</Text>
     </TouchableOpacity>
   );
 };
@@ -18,6 +20,6 @@ const styles = StyleSheet.create({
   },
   label: {
     fontWeight: "600",
-    fontSize: 18,
+    fontSize: 16,
   },
 });

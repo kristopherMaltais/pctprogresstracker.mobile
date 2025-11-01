@@ -1,6 +1,7 @@
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { MeasurementUnit } from "@/models/measurementUnit";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   Keyboard,
   StyleSheet,
@@ -15,6 +16,8 @@ type Props = {};
 export const DistanceHikedInput: React.FC<Props> = () => {
   const { distanceHiked, setDistanceHiked, measurementUnit, selectedHike } =
     useUserChoices();
+
+  const { t } = useTranslation();
 
   const getMaximumValue = () => {
     return measurementUnit == MeasurementUnit.KILOMETER
@@ -35,7 +38,9 @@ export const DistanceHikedInput: React.FC<Props> = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-        <Text style={styles.label}>Distance hiked</Text>
+        <Text style={styles.label}>
+          {t("index:userSettings.distanceHiked")}
+        </Text>
         <View style={styles.inputRow}>
           <TextInput
             style={styles.input}

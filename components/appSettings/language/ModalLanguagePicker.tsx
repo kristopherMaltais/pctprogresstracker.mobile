@@ -15,8 +15,6 @@ export const ModalLanguagePicker: React.FC<ModalLanguagePickerProps> = ({
   onLanguageChange,
   onClose,
 }) => {
-  //   const { t, currentLanguage } = useLocalization();
-
   const { i18n, t } = useTranslation();
 
   return (
@@ -41,7 +39,7 @@ export const ModalLanguagePicker: React.FC<ModalLanguagePickerProps> = ({
                 style={styles.image}
               />
               <Text style={styles.language}>
-                {t("settings:language.french")}
+                {t("index:settings.language.french")}
               </Text>
             </Pressable>
             <Pressable
@@ -58,7 +56,7 @@ export const ModalLanguagePicker: React.FC<ModalLanguagePickerProps> = ({
                 style={styles.image}
               />
               <Text style={styles.language}>
-                {t("settings:language.english")}
+                {t("index:settings.language.english")}
               </Text>
             </Pressable>
           </View>

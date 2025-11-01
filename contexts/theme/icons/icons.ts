@@ -9,4 +9,8 @@ export const icons: Array<Image> = [
     name: "rightChevron",
     image: require("../../../assets/images/rightChevron.png"),
   },
+  {
+    name: "madeInQuebec",
+    image: require("../../../assets/images/quebecFlag.png"),
+  },
 ];

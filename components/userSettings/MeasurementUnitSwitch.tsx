@@ -1,6 +1,7 @@
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { MeasurementUnit } from "@/models/measurementUnit";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 type MeasurementUnitSwitchProps = {};
@@ -9,6 +10,7 @@ export const MeasurementUnitSwitch: React.FC<
   MeasurementUnitSwitchProps
 > = ({}) => {
   const { measurementUnit, setMeasurementUnit } = useUserChoices();
+  const { t } = useTranslation();
   const isMiles = measurementUnit === MeasurementUnit.MILE;
 
   const handleToggle = () => {
@@ -18,7 +20,7 @@ export const MeasurementUnitSwitch: React.FC<
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Unit</Text>
+      <Text style={styles.label}>{t("index:userSettings.unit")}</Text>
       <Pressable style={styles.switchContainer} onPress={handleToggle}>
         <View
           style={[

@@ -24,9 +24,8 @@ export default function App() {
       bounces={false}
       showsVerticalScrollIndicator={false}
     >
-      <View style={styles.dropDownListContainer}>
-        <DropDownHikeList />
-      </View>
+      <DropDownHikeList />
+
       <View style={styles.hikingProgressContainer}>
         {selectedHike ? <ImageBuilderSlider /> : <ImageBuilderLoading />}
       </View>
@@ -38,11 +37,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-  },
-  dropDownListContainer: {
-    width: "100%",
-    height: 100,
-    backgroundColor: "#FFCD3C",
   },
   hikingProgressContainer: {
     height: 550,

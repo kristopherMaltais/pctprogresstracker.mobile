@@ -1,6 +1,27 @@
 {
   "dropDownHikeListPlaceHolder": "Select a hike",
+  "sticker": {
+    "total": "Total",
+    "distanceHiked": "Distance hiked"
+  },
+  "userSettings": {
+    "distanceHiked": "Distance hiked",
+    "unit": "Unit",
+    "borders": {
+      "title": "Borders",
+      "show": "show",
+      "hide": "hide"
+    },
+    "backgroundImage": "Upload background",
+    "download": "Download",
+    "share": "Share my hike"
+  },
   "settings": {
-    "language": "Change language"
+    "title": "Settings",
+    "language": {
+      "title": "Change language",
+      "french": "French",
+      "english": "English"
+    }
   }
 }

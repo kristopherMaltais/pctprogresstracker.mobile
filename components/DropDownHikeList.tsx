@@ -35,7 +35,7 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Dropdown
         style={styles.dropdown}
         onChange={updateSelectedHike}
@@ -58,5 +58,10 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     paddingHorizontal: 16,
+  },
+  container: {
+    width: "100%",
+    height: 100,
+    backgroundColor: "#FFCD3C",
   },
 });

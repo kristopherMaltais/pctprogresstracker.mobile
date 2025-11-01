@@ -1,9 +1,11 @@
+import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 export const Share: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <TouchableOpacity style={styles.container}>
-      <Text style={styles.label}>Share my hike</Text>
+      <Text style={styles.label}>{t("index:userSettings.share")}</Text>
     </TouchableOpacity>
   );
 };
@@ -21,6 +23,6 @@ const styles = StyleSheet.create({
   label: {
     fontWeight: "600",
     color: "white",
-    fontSize: 18,
+    fontSize: 16,
   },
 });

@@ -1,6 +1,27 @@
 {
   "dropDownHikeListPlaceHolder": "Choisir une randonnée",
+  "sticker": {
+    "total": "Total",
+    "distanceHiked": "Distance parcourue"
+  },
+  "userSettings": {
+    "distanceHiked": "Distance parcourue",
+    "unit": "Unité de mesure",
+    "borders": {
+      "title": "Frontières",
+      "show": "oui",
+      "hide": "non"
+    },
+    "backgroundImage": "Télécharger une image",
+    "download": "Télécharger",
+    "share": "Partager"
+  },
   "settings": {
-    "language": "Chosir une langue"
+    "title": "paramètres",
+    "language": {
+      "title": "Changer la langue",
+      "french": "Français",
+      "english": "Anglais"
+    }
   }
 }
