@@ -1,6 +1,6 @@
 import { Image, StyleSheet, View } from "react-native";
 
-export const HikingProgressPlaceholder: React.FC = () => {
+export const ImageBuilderLoading: React.FC = () => {
   return (
     <View style={styles.container}>
       <Image

@@ -1,13 +1,14 @@
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import React from "react";
 import { ImageBackground, StyleSheet } from "react-native";
-import { Sticker } from "../../Sticker";
 
-type HikingProgressStickerProps = {};
+type HikingProgressStickerProps = {
+  children: React.ReactNode;
+};
 
-export const HikingProgressSticker: React.FC<
-  HikingProgressStickerProps
-> = () => {
+export const ImageBuilderSticker: React.FC<HikingProgressStickerProps> = ({
+  children,
+}) => {
   const { backgroundImage } = useUserChoices();
 
   return (
@@ -17,7 +18,7 @@ export const HikingProgressSticker: React.FC<
       imageStyle={{ borderRadius: 20 }}
       resizeMode="cover"
     >
-      <Sticker />
+      {children}
     </ImageBackground>
   );
 };

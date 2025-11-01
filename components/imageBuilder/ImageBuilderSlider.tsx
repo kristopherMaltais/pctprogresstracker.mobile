@@ -1,17 +1,22 @@
 import { useScroll } from "@/contexts/scrollProvider/ScrollContextProvider";
 import React, { useState } from "react";
 import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
-import { HikingProgressMap } from "./hikingProgressTypes/HikingProgressMap";
-import { HikingProgressSticker } from "./hikingProgressTypes/HikingProgressSticker";
+import { ImageBuilderSticker } from "./ImageBuilderSticker";
+import { StickerLarge } from "./stickers/StickerLarge";
+import { StickerSmall } from "./stickers/StickerSmall";
 
-export const HikingProgressOptionsSlider: React.FC = () => {
+export const ImageBuilderSlider: React.FC = () => {
   const { scrollEnabled } = useScroll();
   const { width } = Dimensions.get("window");
   const [activeIndex, setActiveIndex] = useState(0);
 
   const items = [
-    <HikingProgressSticker key="sticker" />,
-    <HikingProgressMap key="map" />,
+    <ImageBuilderSticker key="sticker">
+      <StickerSmall />
+    </ImageBuilderSticker>,
+    <ImageBuilderSticker key="sticker">
+      <StickerLarge />
+    </ImageBuilderSticker>,
   ];
 
   const handleScroll = (event: any) => {
@@ -24,10 +29,11 @@ export const HikingProgressOptionsSlider: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       <ScrollView
         scrollEnabled={scrollEnabled}
         horizontal
+        style={styles.container}
         showsHorizontalScrollIndicator={false}
         snapToInterval={width - 16}
         decelerationRate="fast"
@@ -42,7 +48,6 @@ export const HikingProgressOptionsSlider: React.FC = () => {
         ))}
       </ScrollView>
 
-      {/* Index indicator (dots) */}
       <View style={styles.dotsContainer}>
         {items.map((_, idx) => (
           <View
@@ -80,7 +85,7 @@ const styles = StyleSheet.create({
   dotsContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 8,
+    marginTop: -16,
   },
   dot: {
     width: 8,

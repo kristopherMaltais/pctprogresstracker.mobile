@@ -1,7 +1,7 @@
 // App.tsx
 import { DropDownHikeList } from "@/components/DropDownHikeList";
-import { HikingProgressOptionsSlider } from "@/components/hikingProgress/HikingProgressOptionsSlider";
-import { HikingProgressPlaceholder } from "@/components/hikingProgress/HikingProgressPlaceholder";
+import { ImageBuilderLoading } from "@/components/imageBuilder/ImageBuilderLoading";
+import { ImageBuilderSlider } from "@/components/imageBuilder/ImageBuilderSlider";
 import { UserSettings } from "@/components/userSettings/UserSettings";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import React, { useRef } from "react";
@@ -28,11 +28,7 @@ export default function App() {
         <DropDownHikeList />
       </View>
       <View style={styles.hikingProgressContainer}>
-        {selectedHike ? (
-          <HikingProgressOptionsSlider />
-        ) : (
-          <HikingProgressPlaceholder />
-        )}
+        {selectedHike ? <ImageBuilderSlider /> : <ImageBuilderLoading />}
       </View>
       {selectedHike && <UserSettings />}
     </KeyboardAwareScrollView>
