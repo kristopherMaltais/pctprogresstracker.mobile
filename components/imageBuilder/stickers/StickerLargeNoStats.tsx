@@ -1,7 +1,6 @@
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
-import { MeasurementUnit } from "@/models/measurementUnit";
 import React, { useEffect } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import Animated, {
   useAnimatedProps,
   useSharedValue,
@@ -9,29 +8,20 @@ import Animated, {
 } from "react-native-reanimated";
 import Svg, { Path } from "react-native-svg";
 
-export const StickerLarge: React.FC = () => {
+export const StickerLargeNoStats: React.FC = () => {
   const {
-    selectedHike,
     distanceHiked,
     selectedHikeTotalDistance,
-    measurementUnit,
     showBorders,
+    selectedHike,
   } = useUserChoices();
 
   const AnimatedPath = Animated.createAnimatedComponent(Path);
-
-  const calculatePercentage = () =>
-    (distanceHiked * 100) / selectedHike?.totalDistanceKilometer!;
-
   const progress = useSharedValue(0);
 
   const animatedProps = useAnimatedProps(() => ({
     strokeDashoffset: selectedHike?.pathLength! - progress.value,
   }));
-
-  const getMeasurementUnit = () => {
-    return measurementUnit == MeasurementUnit.KILOMETER ? "km" : "mi";
-  };
 
   useEffect(() => {
     const ratio = Math.max(
@@ -68,20 +58,6 @@ export const StickerLarge: React.FC = () => {
             animatedProps={animatedProps}
           />
         </Svg>
-
-        <View style={styles.statsContainer}>
-          <Text style={styles.label}>Total</Text>
-          <Text style={styles.value}>
-            {selectedHikeTotalDistance} {getMeasurementUnit()}
-          </Text>
-          <Text style={styles.label}>Distance Hiked</Text>
-          <Text style={styles.value}>
-            {distanceHiked} {getMeasurementUnit()}
-          </Text>
-          <Text style={styles.percentage}>
-            {Math.round(calculatePercentage())}%
-          </Text>
-        </View>
       </View>
       <Image
         source={require("@/assets/images/pctNoBackground.png")}
@@ -90,7 +66,7 @@ export const StickerLarge: React.FC = () => {
           height: 50,
           position: "absolute",
           bottom: -20,
-          right: -10,
+          right: -65,
         }}
       />
     </View>
@@ -98,7 +74,7 @@ export const StickerLarge: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flexDirection: "row", width: 310, height: 425 },
+  container: { flexDirection: "row", width: 200, height: 425 },
   statsContainer: {
     display: "flex",
     alignItems: "center",

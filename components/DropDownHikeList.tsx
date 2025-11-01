@@ -1,8 +1,9 @@
 import { useHikes } from "@/contexts/hikesProvider/HikesContextProvider";
-import { useLocalization } from "@/contexts/localization/LocalizationContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { Hike } from "@/models/hike";
+
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
@@ -14,11 +15,10 @@ type DropDownOption = {
 };
 
 export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
-  const { t } = useLocalization();
-
   const [hikeList, setHikeList] = useState<DropDownOption[]>([]);
   const { hikes } = useHikes();
   const { selectedHike, setSelectedHike } = useUserChoices();
+  const { t } = useTranslation();
 
   useEffect(() => {
     setHikeList(

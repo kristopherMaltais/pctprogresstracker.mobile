@@ -1,3 +1,6 @@
 {
-  "dropDownHikeListPlaceHolder": "Choisir une randonnée"
+  "dropDownHikeListPlaceHolder": "Choisir une randonnée",
+  "settings": {
+    "language": "Chosir une langue"
+  }
 }

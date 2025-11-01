@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 export const Download: React.FC = () => {
   return (
     <TouchableOpacity style={styles.container}>
-      <Text style={styles.label}>Télécharger</Text>
+      <Text style={styles.label}>Download</Text>
     </TouchableOpacity>
   );
 };

@@ -1,24 +1,78 @@
-import { StyleSheet, Text, View } from "react-native";
+import { useRouter } from "expo-router";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export const Header: React.FC = () => {
+type HeaderProps = {
+  pageTitle: string;
+  showSettings?: boolean;
+};
+
+export const Header: React.FC<HeaderProps> = ({
+  pageTitle,
+  showSettings = true,
+}) => {
+  const router = useRouter();
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Hike Snap</Text>
+      <View style={styles.body}>
+        <View style={styles.left}>
+          {router.canGoBack() && (
+            <TouchableOpacity
+              onPress={() => {
+                router.back();
+              }}
+            >
+              <Image
+                source={require("@/assets/images/back.png")}
+                style={{
+                  width: 15,
+                  height: 25,
+                }}
+              />
+            </TouchableOpacity>
+          )}
+          <Text style={styles.title}>{pageTitle}</Text>
+        </View>
+        <TouchableOpacity
+          style={styles.settings}
+          onPress={() => {
+            router.push("/settings");
+          }}
+        >
+          {showSettings && (
+            <Image
+              source={require("@/assets/images/settings.png")}
+              style={{
+                width: 30,
+                height: 30,
+              }}
+            />
+          )}
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    height: 100,
+    height: 120,
     justifyContent: "flex-end",
     paddingHorizontal: 16,
     backgroundColor: "#FFCD3C",
     paddingBottom: 16,
   },
+  body: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   title: {
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
+    marginLeft: 8,
   },
+  left: { display: "flex", flexDirection: "row", alignItems: "center" },
+  settings: {},
 });

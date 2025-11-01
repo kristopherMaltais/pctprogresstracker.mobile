@@ -3,7 +3,9 @@ import React, { useState } from "react";
 import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
 import { ImageBuilderSticker } from "./ImageBuilderSticker";
 import { StickerLarge } from "./stickers/StickerLarge";
+import { StickerLargeNoStats } from "./stickers/StickerLargeNoStats";
 import { StickerSmall } from "./stickers/StickerSmall";
+import { StickerStats } from "./stickers/StickerStats";
 
 export const ImageBuilderSlider: React.FC = () => {
   const { scrollEnabled } = useScroll();
@@ -16,6 +18,12 @@ export const ImageBuilderSlider: React.FC = () => {
     </ImageBuilderSticker>,
     <ImageBuilderSticker key="sticker">
       <StickerLarge />
+    </ImageBuilderSticker>,
+    <ImageBuilderSticker key="sticker">
+      <StickerLargeNoStats />
+    </ImageBuilderSticker>,
+    <ImageBuilderSticker key="sticker">
+      <StickerStats />
     </ImageBuilderSticker>,
   ];
 

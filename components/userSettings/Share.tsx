@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 export const Share: React.FC = () => {
   return (
     <TouchableOpacity style={styles.container}>
-      <Text style={styles.label}>Partager</Text>
+      <Text style={styles.label}>Share my hike</Text>
     </TouchableOpacity>
   );
 };

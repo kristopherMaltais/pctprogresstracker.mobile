@@ -4,6 +4,7 @@ import { DistanceHikedInput } from "./DistanceHikedInput";
 import { Download } from "./Download";
 import { MeasurementUnitSwitch } from "./MeasurementUnitSwitch";
 import { Share } from "./Share";
+import { ShowBordersSwitch } from "./ShowBordersSwitch";
 import { UploadBackgroundImage } from "./UploadBackgroundImage";
 
 export const UserSettings: React.FC = () => {
@@ -12,6 +13,7 @@ export const UserSettings: React.FC = () => {
   return (
     <View style={styles.container}>
       <UploadBackgroundImage />
+      <ShowBordersSwitch />
       <MeasurementUnitSwitch />
       <DistanceHikedInput />
       <View style={styles.exporting}>

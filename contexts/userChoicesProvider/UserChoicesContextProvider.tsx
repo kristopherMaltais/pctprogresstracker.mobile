@@ -7,6 +7,8 @@ interface UserChoicesProps {
   setSelectedHike: (hike: Hike) => void;
   selectedProgressType: number;
   setSelectedProgressType: (index: number) => void;
+  showBorders: boolean;
+  setShowBorders: (flag: boolean) => void;
   backgroundImage: string | undefined;
   setBackgroundImage: (image: string) => void;
   distanceHiked: number;
@@ -46,6 +48,7 @@ export const UserChoicesContextProvider = ({
     useState<number>(0);
   const [distanceHiked, setDistanceHiked] = useState<number>(0);
   const [displayHikeLogo, setDisplayHikeLogo] = useState<boolean>(true);
+  const [showBorders, setShowBorders] = useState<boolean>(true);
   const [measurementUnit, setMeasurementUnit] = useState<MeasurementUnit>(
     MeasurementUnit.KILOMETER
   );
@@ -62,6 +65,8 @@ export const UserChoicesContextProvider = ({
   const contextValue: UserChoicesProps = {
     selectedHike: selectedHike,
     setSelectedHike: setSelectedHike,
+    showBorders: showBorders,
+    setShowBorders: setShowBorders,
     selectedProgressType: selectedProgressType,
     setSelectedProgressType: setSelectedProgressType,
     backgroundImage: backgroundImage,
