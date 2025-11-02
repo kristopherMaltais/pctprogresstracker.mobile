@@ -65,7 +65,6 @@ export const EditWrapper: React.FC<EditWrapperProps> = ({
       { scale: scale.value },
       { rotateZ: `${rotation.value}rad` },
     ],
-    opacity: isDragging.value ? 0.9 : 1,
     borderWidth: borderSize,
     borderColor: isDragging.value ? "#FC5200" : "transparent",
     borderRadius: 8,

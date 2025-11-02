@@ -1,4 +1,4 @@
-import { useHikes } from "@/contexts/hikesProvider/HikesContextProvider";
+import { useHikes } from "@/contexts/hikes/HikesContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { Hike } from "@/models/hike";
 

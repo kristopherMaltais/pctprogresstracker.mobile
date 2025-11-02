@@ -1,6 +1,7 @@
-import { useScroll } from "@/contexts/scrollProvider/ScrollContextProvider";
-import React, { useState } from "react";
+import { useViewShot } from "@/contexts/viewShot/ViewShotContextProvider";
+import React, { useEffect, useRef, useState } from "react";
 import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
+import ViewShot from "react-native-view-shot";
 import { ImageBuilderSticker } from "./ImageBuilderSticker";
 import { StickerLarge } from "./stickers/StickerLarge";
 import { StickerLargeNoStats } from "./stickers/StickerLargeNoStats";
@@ -8,24 +9,18 @@ import { StickerSmall } from "./stickers/StickerSmall";
 import { StickerStats } from "./stickers/StickerStats";
 
 export const ImageBuilderSlider: React.FC = () => {
-  const { scrollEnabled } = useScroll();
   const { width } = Dimensions.get("window");
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const items = [
-    <ImageBuilderSticker key="sticker">
-      <StickerSmall />
-    </ImageBuilderSticker>,
-    <ImageBuilderSticker key="sticker">
-      <StickerLarge />
-    </ImageBuilderSticker>,
-    <ImageBuilderSticker key="sticker">
-      <StickerLargeNoStats />
-    </ImageBuilderSticker>,
-    <ImageBuilderSticker key="sticker">
-      <StickerStats />
-    </ImageBuilderSticker>,
-  ];
+  const itemRefs = useRef<(ViewShot | null)[]>([]);
+
+  const { setViewShot } = useViewShot();
+
+  useEffect(() => {
+    if (itemRefs.current[activeIndex]) {
+      setViewShot(itemRefs.current[activeIndex]);
+    }
+  }, [activeIndex]);
 
   const handleScroll = (event: any) => {
     const offsetX = event.nativeEvent.contentOffset.x;
@@ -36,10 +31,24 @@ export const ImageBuilderSlider: React.FC = () => {
     setActiveIndex(index);
   };
 
+  const items = [
+    <ImageBuilderSticker>
+      <StickerSmall />
+    </ImageBuilderSticker>,
+    <ImageBuilderSticker>
+      <StickerLarge />
+    </ImageBuilderSticker>,
+    <ImageBuilderSticker>
+      <StickerLargeNoStats />
+    </ImageBuilderSticker>,
+    <ImageBuilderSticker>
+      <StickerStats />
+    </ImageBuilderSticker>,
+  ];
+
   return (
     <View>
       <ScrollView
-        scrollEnabled={scrollEnabled}
         horizontal
         style={styles.container}
         showsHorizontalScrollIndicator={false}
@@ -50,9 +59,13 @@ export const ImageBuilderSlider: React.FC = () => {
         scrollEventThrottle={16}
       >
         {items.map((item, idx) => (
-          <View key={idx} style={[styles.item, { width: width - 32 }]}>
-            {item}
-          </View>
+          <ViewShot
+            key={idx}
+            ref={(ref) => (itemRefs.current[idx] = ref)}
+            options={{ format: "png", quality: 0.9 }}
+          >
+            <View style={[styles.item, { width: width - 32 }]}>{item}</View>
+          </ViewShot>
         ))}
       </ScrollView>
 

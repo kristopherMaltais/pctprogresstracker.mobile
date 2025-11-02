@@ -1,9 +1,9 @@
 import { Header } from "@/components/Header";
-import { HikesContextProvider } from "@/contexts/hikesProvider/HikesContextProvider";
-import { ScrollContextProvider } from "@/contexts/scrollProvider/ScrollContextProvider";
+import { HikesContextProvider } from "@/contexts/hikes/HikesContextProvider";
 import { ServicesContextProvider } from "@/contexts/services/ServicesContextProvider";
 import { ThemeContextProvider } from "@/contexts/theme/ThemeContextProvider";
 import { UserChoicesContextProvider } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
+import { ViewShotContextProvider } from "@/contexts/viewShot/ViewShotContextProvider";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import i18n from "@/localization/i18n";
 import {
@@ -23,8 +23,8 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <ThemeContextProvider>
-        <ScrollContextProvider>
+      <ViewShotContextProvider>
+        <ThemeContextProvider>
           <ServicesContextProvider>
             <HikesContextProvider>
               <UserChoicesContextProvider>
@@ -54,8 +54,8 @@ export default function RootLayout() {
               </UserChoicesContextProvider>
             </HikesContextProvider>
           </ServicesContextProvider>
-        </ScrollContextProvider>
-      </ThemeContextProvider>
+        </ThemeContextProvider>
+      </ViewShotContextProvider>
     </GestureHandlerRootView>
   );
 }
