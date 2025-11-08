@@ -5,7 +5,7 @@ import { Alert, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 export const Share: React.FC = () => {
   const { t } = useTranslation();
-  const { viewShot } = useViewShot();
+  const { viewShot, setViewShot } = useViewShot();
 
   const share = async () => {
     if (!viewShot) {
@@ -20,7 +20,7 @@ export const Share: React.FC = () => {
         return;
       }
 
-      await Sharing.shareAsync(viewShot, {
+      await Sharing.shareAsync(await viewShot.capture(), {
         dialogTitle: "Share your hiking progress",
       });
     } catch (err) {

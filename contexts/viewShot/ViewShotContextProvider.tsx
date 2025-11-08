@@ -2,8 +2,8 @@ import React, { createContext, useContext, useState } from "react";
 import ViewShot from "react-native-view-shot";
 
 interface ViewShotProps {
-  setViewShot: (viewShot: ViewShot) => Promise<void>;
-  viewShot: string;
+  setViewShot: (viewShot: ViewShot) => void;
+  viewShot: ViewShot | undefined;
 }
 
 interface ViewShotProviderProps {
@@ -25,14 +25,7 @@ export const useViewShot = (): ViewShotProps => {
 export const ViewShotContextProvider = ({
   children,
 }: ViewShotProviderProps) => {
-  const [viewShot, _setViewShot] = useState<string>("");
-
-  const setViewShot = async (viewShot: ViewShot) => {
-    if (viewShot.capture) {
-      const uri = await viewShot.capture();
-      _setViewShot(uri);
-    }
-  };
+  const [viewShot, setViewShot] = useState<ViewShot>();
 
   const contextValue: ViewShotProps = {
     setViewShot: setViewShot,

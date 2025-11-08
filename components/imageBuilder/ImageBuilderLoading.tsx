@@ -5,7 +5,7 @@ export const ImageBuilderLoading: React.FC = () => {
     <View style={styles.container}>
       <Image
         source={require("@/assets/images/hikingProgressPlaceholder.gif")}
-        style={{ width: 150, height: 150 }}
+        style={styles.image}
       />
     </View>
   );
@@ -13,18 +13,16 @@ export const ImageBuilderLoading: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: -20,
     height: 500,
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 16,
-    paddingBottom: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    // backgroundColor: "black",
     borderRadius: 20,
-    backgroundColor: "white", // 👈 Add this
+    backgroundColor: "white",
     marginHorizontal: 16,
+  },
+  image: {
+    width: 150,
+    height: 150,
   },
 });

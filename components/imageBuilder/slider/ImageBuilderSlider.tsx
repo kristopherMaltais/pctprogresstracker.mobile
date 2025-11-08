@@ -1,20 +1,23 @@
+import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import React, { useState } from "react";
-import { Dimensions, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { runOnJS } from "react-native-reanimated";
-import { editWrapperPanRef } from "../EditWrapper";
+import { editWrapperPanRef } from "../../EditWrapper";
+import { ImageBuilderLoading } from "../ImageBuilderLoading";
 import {
   ImageBuilderSticker,
   imageBuilderStickerPanRef,
-} from "./ImageBuilderSticker";
-import { StickerLarge } from "./stickers/StickerLarge";
-import { StickerLargeNoStats } from "./stickers/StickerLargeNoStats";
-import { StickerSmall } from "./stickers/StickerSmall";
-import { StickerStats } from "./stickers/StickerStats";
+} from "../ImageBuilderSticker";
+import { StickerLarge } from "../stickers/StickerLarge";
+import { StickerLargeNoStats } from "../stickers/StickerLargeNoStats";
+import { StickerSmall } from "../stickers/StickerSmall";
+import { StickerStats } from "../stickers/StickerStats";
+import { IndexIndicator } from "./IndexIndicator";
 
 export const ImageBuilderSlider: React.FC = () => {
-  const { width } = Dimensions.get("window");
   const [activeIndex, setActiveIndex] = useState(0);
+  const { selectedHike } = useUserChoices();
 
   const stickers = [
     <StickerSmall key="small" />,
@@ -48,60 +51,35 @@ export const ImageBuilderSlider: React.FC = () => {
   const combinedGesture = Gesture.Simultaneous(gesture);
 
   return (
-    <View style={[styles.container, { width: width - 32 }]}>
-      <GestureDetector gesture={combinedGesture}>
-        <View style={styles.inner}>
+    <View style={styles.container}>
+      {selectedHike ? (
+        <GestureDetector gesture={combinedGesture}>
           <ImageBuilderSticker>{stickers[activeIndex]}</ImageBuilderSticker>
-        </View>
-      </GestureDetector>
+        </GestureDetector>
+      ) : (
+        <ImageBuilderLoading />
+      )}
 
-      <View style={styles.dotsContainer}>
-        {stickers.map((_, idx) => (
-          <View
-            key={idx}
-            style={[
-              styles.dot,
-              idx === activeIndex ? styles.activeDot : styles.inactiveDot,
-            ]}
-          />
-        ))}
-      </View>
+      {selectedHike && (
+        <IndexIndicator
+          indexCount={stickers.length}
+          activeIndex={activeIndex}
+        />
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    alignSelf: "center",
-    height: 530,
-    justifyContent: "center",
-  },
-  inner: {
+    marginBottom: 24,
+    width: "100%",
     height: 500,
-    borderRadius: 20,
-    backgroundColor: "white",
+    alignSelf: "center",
     justifyContent: "center",
-    alignItems: "center",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
-  },
-  dotsContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 12,
-  },
-  dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginHorizontal: 4,
-  },
-  activeDot: {
-    backgroundColor: "#FFCD3C",
-  },
-  inactiveDot: {
-    backgroundColor: "#D1D1D1",
   },
 });

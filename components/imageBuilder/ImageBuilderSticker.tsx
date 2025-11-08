@@ -1,6 +1,7 @@
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
+import { useViewShot } from "@/contexts/viewShot/ViewShotContextProvider";
 import * as Haptics from "expo-haptics";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { StyleSheet } from "react-native";
 import {
   Gesture,
@@ -13,6 +14,7 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
+import ViewShot from "react-native-view-shot";
 
 type ImageBuilderStickerProps = {
   children: React.ReactNode;
@@ -28,6 +30,15 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
   canScale = true,
 }) => {
   const { backgroundImage } = useUserChoices();
+  const { setViewShot } = useViewShot();
+
+  const viewShotRef = useRef<ViewShot>(null);
+
+  useEffect(() => {
+    if (viewShotRef.current) {
+      setViewShot(viewShotRef.current);
+    }
+  }, [viewShotRef]);
 
   const triggerVibration = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -112,22 +123,23 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
 
   return (
     <GestureDetector gesture={composedGesture}>
-      <Animated.View style={[styles.container, animatedContainerStyle]}>
-        <Animated.Image
-          source={{ uri: backgroundImage }}
-          style={[styles.backgroundImage, animatedStyle]}
-        />
-        {children}
-      </Animated.View>
+      <ViewShot ref={viewShotRef} style={styles.viewShot}>
+        <Animated.View style={[styles.container, animatedContainerStyle]}>
+          <Animated.Image
+            source={{ uri: backgroundImage }}
+            style={[styles.backgroundImage, animatedStyle]}
+          />
+          {children}
+        </Animated.View>
+      </ViewShot>
     </GestureDetector>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    height: 500,
     overflow: "hidden",
+    height: 500,
     borderRadius: 20,
     backgroundColor: "#E0E0E0",
     justifyContent: "center",
@@ -138,5 +150,10 @@ const styles = StyleSheet.create({
     height: "100%",
     position: "absolute",
     resizeMode: "cover",
+  },
+  viewShot: {
+    height: 500,
+    marginHorizontal: 16,
+    borderRadius: 20,
   },
 });
