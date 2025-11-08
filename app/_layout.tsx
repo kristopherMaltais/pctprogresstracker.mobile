@@ -22,7 +22,7 @@ export default function RootLayout() {
   const { t } = useTranslation();
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView>
       <ViewShotContextProvider>
         <ThemeContextProvider>
           <ServicesContextProvider>

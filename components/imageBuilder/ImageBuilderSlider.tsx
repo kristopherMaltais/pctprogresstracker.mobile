@@ -1,8 +1,12 @@
-import { useViewShot } from "@/contexts/viewShot/ViewShotContextProvider";
-import React, { useEffect, useRef, useState } from "react";
-import { Dimensions, ScrollView, StyleSheet, View } from "react-native";
-import ViewShot from "react-native-view-shot";
-import { ImageBuilderSticker } from "./ImageBuilderSticker";
+import React, { useState } from "react";
+import { Dimensions, StyleSheet, View } from "react-native";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { runOnJS } from "react-native-reanimated";
+import { editWrapperPanRef } from "../EditWrapper";
+import {
+  ImageBuilderSticker,
+  imageBuilderStickerPanRef,
+} from "./ImageBuilderSticker";
 import { StickerLarge } from "./stickers/StickerLarge";
 import { StickerLargeNoStats } from "./stickers/StickerLargeNoStats";
 import { StickerSmall } from "./stickers/StickerSmall";
@@ -12,65 +16,47 @@ export const ImageBuilderSlider: React.FC = () => {
   const { width } = Dimensions.get("window");
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const itemRefs = useRef<(ViewShot | null)[]>([]);
-
-  const { setViewShot } = useViewShot();
-
-  useEffect(() => {
-    if (itemRefs.current[activeIndex]) {
-      setViewShot(itemRefs.current[activeIndex]);
-    }
-  }, [activeIndex]);
-
-  const handleScroll = (event: any) => {
-    const offsetX = event.nativeEvent.contentOffset.x;
-    const index = Math.min(
-      items.length - 1,
-      Math.max(0, Math.round(offsetX / (width - 16)))
-    );
-    setActiveIndex(index);
-  };
-
-  const items = [
-    <ImageBuilderSticker>
-      <StickerSmall />
-    </ImageBuilderSticker>,
-    <ImageBuilderSticker>
-      <StickerLarge />
-    </ImageBuilderSticker>,
-    <ImageBuilderSticker>
-      <StickerLargeNoStats />
-    </ImageBuilderSticker>,
-    <ImageBuilderSticker>
-      <StickerStats />
-    </ImageBuilderSticker>,
+  const stickers = [
+    <StickerSmall key="small" />,
+    <StickerLarge key="large" />,
+    <StickerLargeNoStats key="largeNoStats" />,
+    <StickerStats key="stats" />,
   ];
 
+  const handleSwipe = (direction: "left" | "right") => {
+    setActiveIndex((prev) => {
+      if (direction === "left") {
+        return prev === stickers.length - 1 ? 0 : prev + 1;
+      } else {
+        return prev === 0 ? stickers.length - 1 : prev - 1;
+      }
+    });
+  };
+
+  const gesture = Gesture.Pan()
+    .onEnd((event) => {
+      const threshold = 50;
+      if (event.translationX > threshold) {
+        runOnJS(handleSwipe)("right");
+      } else if (event.translationX < -threshold) {
+        runOnJS(handleSwipe)("left");
+      }
+    })
+    .simultaneousWithExternalGesture(imageBuilderStickerPanRef)
+    .simultaneousWithExternalGesture(editWrapperPanRef);
+
+  const combinedGesture = Gesture.Simultaneous(gesture);
+
   return (
-    <View>
-      <ScrollView
-        horizontal
-        style={styles.container}
-        showsHorizontalScrollIndicator={false}
-        snapToInterval={width - 16}
-        decelerationRate="fast"
-        contentContainerStyle={{ paddingRight: 16 }}
-        onScroll={handleScroll}
-        scrollEventThrottle={16}
-      >
-        {items.map((item, idx) => (
-          <ViewShot
-            key={idx}
-            ref={(ref) => (itemRefs.current[idx] = ref)}
-            options={{ format: "png", quality: 0.9 }}
-          >
-            <View style={[styles.item, { width: width - 32 }]}>{item}</View>
-          </ViewShot>
-        ))}
-      </ScrollView>
+    <View style={[styles.container, { width: width - 32 }]}>
+      <GestureDetector gesture={combinedGesture}>
+        <View style={styles.inner}>
+          <ImageBuilderSticker>{stickers[activeIndex]}</ImageBuilderSticker>
+        </View>
+      </GestureDetector>
 
       <View style={styles.dotsContainer}>
-        {items.map((_, idx) => (
+        {stickers.map((_, idx) => (
           <View
             key={idx}
             style={[
@@ -86,27 +72,25 @@ export const ImageBuilderSlider: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
+    alignSelf: "center",
     height: 530,
-    shadowColor: "#000",
-    paddingHorizontal: 8,
-    backgroundColor: "transparent",
+    justifyContent: "center",
   },
-  item: {
+  inner: {
+    height: 500,
+    borderRadius: 20,
+    backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
-    marginHorizontal: 8,
-    height: 500,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
-    borderRadius: 20,
-    backgroundColor: "white",
   },
   dotsContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: -16,
+    marginTop: 12,
   },
   dot: {
     width: 8,

@@ -1,8 +1,12 @@
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import * as Haptics from "expo-haptics";
-import React from "react";
+import React, { useRef } from "react";
 import { StyleSheet } from "react-native";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import {
+  Gesture,
+  GestureDetector,
+  GestureType,
+} from "react-native-gesture-handler";
 import Animated, {
   runOnJS,
   useAnimatedStyle,
@@ -15,6 +19,8 @@ type ImageBuilderStickerProps = {
   canTranslate?: boolean;
   canScale?: boolean;
 };
+
+export const imageBuilderStickerPanRef = useRef<GestureType>(undefined);
 
 export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
   children,
@@ -79,7 +85,8 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
         offsetY.value = translateY.value;
         isDragging.value = false;
       }
-    });
+    })
+    .withRef(imageBuilderStickerPanRef);
 
   // Pinch gesture
   const pinchGesture = Gesture.Pinch()
@@ -98,7 +105,6 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
       }
     });
 
-  // Combine gestures: pan + pinch + long press
   const composedGesture = Gesture.Simultaneous(
     longPressGesture,
     Gesture.Simultaneous(panGesture, pinchGesture, tapGesture)

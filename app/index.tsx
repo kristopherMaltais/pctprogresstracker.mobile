@@ -4,15 +4,11 @@ import { ImageBuilderLoading } from "@/components/imageBuilder/ImageBuilderLoadi
 import { ImageBuilderSlider } from "@/components/imageBuilder/ImageBuilderSlider";
 import { UserSettings } from "@/components/userSettings/UserSettings";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
-import React, { useRef } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import ViewShot from "react-native-view-shot";
-
 export default function App() {
-  const viewShotRef = useRef<ViewShot>(null);
-
   const { selectedHike } = useUserChoices();
 
   return (
@@ -40,7 +36,7 @@ const styles = StyleSheet.create({
   },
   hikingProgressContainer: {
     height: 550,
-    marginTop: -10,
+    marginTop: -15,
   },
   scrollContainer: {
     flexGrow: 1,

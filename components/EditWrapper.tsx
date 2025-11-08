@@ -1,6 +1,6 @@
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import * as Haptics from "expo-haptics";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Gesture,
   GestureDetector,
@@ -21,7 +21,7 @@ interface EditWrapperProps {
   canTranslate?: boolean;
 }
 
-export const panRef = React.useRef<GestureType>(Gesture.Pan());
+export const editWrapperPanRef = useRef<GestureType>(undefined);
 
 export const EditWrapper: React.FC<EditWrapperProps> = ({
   children,
@@ -95,7 +95,7 @@ export const EditWrapper: React.FC<EditWrapperProps> = ({
         isDragging.value = false;
       }
     })
-    .withRef(panRef);
+    .withRef(editWrapperPanRef);
 
   const pinchGesture = Gesture.Pinch()
     .onBegin(() => {

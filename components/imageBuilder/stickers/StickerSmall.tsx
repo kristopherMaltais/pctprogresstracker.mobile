@@ -1,7 +1,7 @@
 import { EditWrapper } from "@/components/EditWrapper";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { MeasurementUnit } from "@/models/measurementUnit";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, View } from "react-native";
 import Animated, {
@@ -28,32 +28,34 @@ export const StickerSmall: React.FC = () => {
     (distanceHiked * 100) / selectedHike?.totalDistanceKilometer!;
 
   const progress = useSharedValue(0);
-  const [flag, setFlag] = useState<boolean>(false);
 
-  const animatedProps = useAnimatedProps(() => ({
-    strokeDashoffset: selectedHike?.pathLength! - progress.value,
-  }));
+  const animatedProps = useAnimatedProps(() => {
+    const length = selectedHike?.pathLength ?? 0;
+    return {
+      strokeDashoffset: length - progress.value,
+    } as any;
+  });
 
   const getMeasurementUnit = () => {
     return measurementUnit == MeasurementUnit.KILOMETER ? "km" : "mi";
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setFlag(true);
-    }, 3000);
-    return () => clearTimeout(timer); // cleanup
-  }, []);
+    // wait until we have a valid pathLength before animating
+    if (!selectedHike?.pathLength) return;
 
-  useEffect(() => {
     const ratio = Math.max(
       0,
       Math.min(1, distanceHiked / selectedHikeTotalDistance)
     );
-    progress.value = withTiming(ratio * selectedHike?.pathLength!, {
+
+    // ensure we start from empty before animating
+    progress.value = 0;
+
+    progress.value = withTiming(ratio * selectedHike.pathLength, {
       duration: 2000,
     });
-  }, [distanceHiked, selectedHikeTotalDistance]);
+  }, [distanceHiked, selectedHikeTotalDistance, selectedHike?.pathLength]);
 
   return (
     <EditWrapper borderSize={1.5}>
@@ -71,17 +73,16 @@ export const StickerSmall: React.FC = () => {
             stroke="#D5D5D5"
             strokeWidth={8}
           />
-          {flag && (
+          {selectedHike?.pathLength ? (
             <AnimatedPath
               d="M158.358 456.005C158.639 453.309 155.803 452.428 153.503 451.15C151.203 449.872 149.129 450.411 149.121 440.892C149.113 431.374 149.482 429.195 148.481 425.663C147.48 422.132 147.223 421.434 145.129 419.321C143.036 417.207 142.143 417.097 137.179 415.52C132.216 413.943 117.724 407.499 118.136 399.884C118.074 395.104 119.158 394.911 123.149 392.688C127.139 390.464 130.462 385.067 129.407 374.915C127.467 351.106 122.207 341.112 118.914 331.773C110.134 307.06 103.089 285.75 95.6509 272.144C88.2125 258.538 99.599 242.316 88.508 233.654C81.4083 229.794 79.7147 237.431 70.0985 226.054C65.1221 220.484 66.7757 205.591 67.1512 203.001C81.9931 205.637 87.5582 204.267 93.0779 197.268C114.12 166.359 117.582 151.093 120.412 124.693C120.883 120.137 125.907 116.727 129.602 110.937C133.297 105.147 129.671 101.584 133.772 96.1268C146.563 84.5834 145.283 84.1488 145.889 81.3101C148.002 70.886 146.987 68.7893 143.577 67.7747C140.401 66.3078 151.203 56.3434 152.992 49.1883"
               stroke="#FC5200"
               strokeWidth={4}
               fill="none"
-              strokeDasharray={selectedHike?.pathLength}
-              strokeDashoffset={selectedHike?.pathLength}
+              strokeDasharray={selectedHike.pathLength}
               animatedProps={animatedProps}
             />
-          )}
+          ) : null}
         </Svg>
         <View style={styles.statsContainer}>
           <Image
