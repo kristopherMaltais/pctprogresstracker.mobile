@@ -158,7 +158,5 @@ const styles = StyleSheet.create({
   },
   viewShot: {
     height: "100%",
-    overflow: "hidden",
-    backgroundColor: "red",
   },
 });

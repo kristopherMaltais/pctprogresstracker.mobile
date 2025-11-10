@@ -37,16 +37,9 @@ export const UserSettings: React.FC = () => {
           },
         ]}
       >
-        <TouchableOpacity
-          onPress={() => setIsMenuOpen(!isMenuOpen)}
-          style={{
-            height: 35,
-            width: 35,
-            borderRadius: 8,
-          }}
-        >
+        <TouchableOpacity onPress={() => setIsMenuOpen(!isMenuOpen)}>
           <Image
-            style={{ width: 35, height: 35 }}
+            style={styles.image}
             source={require("../../assets/images/grid.png")}
           />
         </TouchableOpacity>
@@ -66,20 +59,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     position: "absolute",
     width: 50,
-    top: 8,
-    left: 8,
+    top: 0,
+    left: 0,
+    borderBottomRightRadius: 8,
     zIndex: 1,
-    borderRadius: 8,
+    borderRadius: 0,
     backgroundColor: "white",
     padding: 16,
     overflow: "hidden",
   },
-  settingContainer: {
-    height: 40,
-    width: 40,
-    borderRadius: 8,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+  image: {
+    width: 35,
+    height: 35,
   },
 });

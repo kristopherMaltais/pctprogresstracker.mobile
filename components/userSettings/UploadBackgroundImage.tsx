@@ -16,6 +16,8 @@ export const UploadBackgroundImage: React.FC<UploadBackgroundImageProps> = ({
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
+      exif: true, // optionally include full metadata
+      base64: false, // avoid converting to base64, keeps full file
     });
 
     if (!result.canceled) {
