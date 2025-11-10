@@ -72,14 +72,13 @@ export const ImageBuilderSlider: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 24,
+    marginTop: -16,
     width: "100%",
-    height: 500,
-    alignSelf: "center",
-    justifyContent: "center",
+    height: "82%",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
+    paddingHorizontal: 16,
   },
 });

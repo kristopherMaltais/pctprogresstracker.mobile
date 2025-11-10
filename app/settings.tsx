@@ -1,5 +1,5 @@
 // App.tsx
-import { Language } from "@/components/appSettings/language/Langauge";
+import { Language } from "@/components/appSettings/language/Language";
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";

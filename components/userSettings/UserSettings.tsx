@@ -1,50 +1,85 @@
-import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
-import { StyleSheet, View } from "react-native";
-import { DistanceHikedInput } from "./DistanceHikedInput";
-import { Download } from "./Download";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Animated,
+  Dimensions,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import { DistanceHikedInput } from "./distanceHikeInput/DistanceHikedInput";
 import { MeasurementUnitSwitch } from "./MeasurementUnitSwitch";
 import { Share } from "./Share";
 import { ShowBordersSwitch } from "./ShowBordersSwitch";
 import { UploadBackgroundImage } from "./UploadBackgroundImage";
 
 export const UserSettings: React.FC = () => {
-  const { selectedProgressType } = useUserChoices();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const screenHeight = Dimensions.get("window").height;
+  const heightAnim = useRef(new Animated.Value(50)).current;
+
+  useEffect(() => {
+    Animated.timing(heightAnim, {
+      toValue: isMenuOpen ? screenHeight * 0.4 : 50,
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
+  }, [isMenuOpen]);
 
   return (
-    <View style={styles.container}>
-      <UploadBackgroundImage />
-      <ShowBordersSwitch />
-      <MeasurementUnitSwitch />
-      <DistanceHikedInput />
-      <View style={styles.exporting}>
-        <Download />
-        <Share />
-      </View>
-    </View>
+    <>
+      <Animated.View
+        style={[
+          styles.container,
+          {
+            height: heightAnim,
+            justifyContent: isMenuOpen ? "space-between" : "center",
+          },
+        ]}
+      >
+        <TouchableOpacity
+          onPress={() => setIsMenuOpen(!isMenuOpen)}
+          style={{
+            height: 35,
+            width: 35,
+            borderRadius: 8,
+          }}
+        >
+          <Image
+            style={{ width: 35, height: 35 }}
+            source={require("../../assets/images/grid.png")}
+          />
+        </TouchableOpacity>
+        <UploadBackgroundImage show={isMenuOpen} />
+        <ShowBordersSwitch show={isMenuOpen} />
+        <MeasurementUnitSwitch show={isMenuOpen} />
+        <DistanceHikedInput show={isMenuOpen} />
+        <Share show={isMenuOpen} />
+      </Animated.View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 32,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    borderRadius: 20,
-    backgroundColor: "white", // 👈 Add this
-    marginHorizontal: 16,
+    display: "flex",
+    alignItems: "center",
+    position: "absolute",
+    width: 50,
+    top: 8,
+    left: 8,
+    zIndex: 1,
+    borderRadius: 8,
+    backgroundColor: "white",
     padding: 16,
+    overflow: "hidden",
   },
-  measurementUnit: {
+  settingContainer: {
+    height: 40,
+    width: 40,
+    borderRadius: 8,
     display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  exporting: {
-    marginTop: 8,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

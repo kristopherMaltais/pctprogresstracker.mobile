@@ -1,14 +1,16 @@
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import * as ImagePicker from "expo-image-picker";
 import React from "react";
-import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, TouchableOpacity } from "react-native";
 
-type Props = {};
+type UploadBackgroundImageProps = {
+  show: boolean;
+};
 
-export const UploadBackgroundImage: React.FC<Props> = () => {
-  const { setBackgroundImage, selectedProgressType } = useUserChoices();
-  const { t } = useTranslation();
+export const UploadBackgroundImage: React.FC<UploadBackgroundImageProps> = ({
+  show,
+}) => {
+  const { setBackgroundImage } = useUserChoices();
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -23,63 +25,24 @@ export const UploadBackgroundImage: React.FC<Props> = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>
-        {t("index:userSettings.backgroundImage")}
-      </Text>
-      <TouchableOpacity
-        disabled={selectedProgressType != 0}
-        style={styles.button}
-        onPress={pickImage}
-      >
-        <Image
-          style={{ width: 20, height: 20 }}
-          source={require("../../assets/images/upload.png")}
-        />
-      </TouchableOpacity>
-    </View>
+    <>
+      {show && (
+        <TouchableOpacity style={styles.container} onPress={pickImage}>
+          <Image
+            style={styles.image}
+            source={require("../../assets/images/pictures.png")}
+          />
+        </TouchableOpacity>
+      )}
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: 8,
-  },
-  button: {
-    // backgroundColor: "#FFCD3C",
-    borderColor: "#ccc",
-    borderWidth: 1,
-    width: 120,
-    height: 44,
-    borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
   },
-  label: {
-    fontSize: 18,
-  },
-  inputRow: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  input: {
-    width: 120,
-    height: 44,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    textAlign: "center",
-    fontSize: 18,
-    fontWeight: "500",
-    backgroundColor: "#fff",
-  },
-  maxText: {
-    fontSize: 16,
-    marginLeft: 8,
-    color: "#666",
-  },
+  image: { width: 35, height: 35 },
 });

@@ -1,10 +1,36 @@
+import { useViewShot } from "@/contexts/viewShot/ViewShotContextProvider";
+import * as MediaLibrary from "expo-media-library";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { Alert, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 export const Download: React.FC = () => {
   const { t } = useTranslation();
+  const { viewShot } = useViewShot();
+
+  const handleDownload = async () => {
+    try {
+      const uri = await viewShot.capture();
+
+      const permission = await MediaLibrary.requestPermissionsAsync();
+      if (!permission.granted) {
+        Alert.alert(
+          "Permission required",
+          "Cannot save image without permission."
+        );
+        return;
+      }
+
+      const asset = await MediaLibrary.createAssetAsync(uri);
+      await MediaLibrary.createAlbumAsync("MyApp", asset, false);
+      Alert.alert("Saved!", "Your image has been saved to the gallery.");
+    } catch (err) {
+      console.error(err);
+      Alert.alert("Error", "Failed to save image.");
+    }
+  };
+
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={handleDownload}>
       <Text style={styles.label}>{t("index:userSettings.download")}</Text>
     </TouchableOpacity>
   );

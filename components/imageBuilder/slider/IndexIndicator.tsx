@@ -27,13 +27,13 @@ export const IndexIndicator: React.FC<IndexIndicatorProps> = ({
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 8,
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 12,
   },
   dot: {
-    width: 10,
-    height: 10,
+    width: 8,
+    height: 8,
     borderRadius: 8,
     marginHorizontal: 4,
   },

@@ -2,7 +2,7 @@ import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContex
 import { useViewShot } from "@/contexts/viewShot/ViewShotContextProvider";
 import * as Haptics from "expo-haptics";
 import React, { useEffect, useRef } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import {
   Gesture,
   GestureDetector,
@@ -15,6 +15,7 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import ViewShot from "react-native-view-shot";
+import { UserSettings } from "../userSettings/UserSettings";
 
 type ImageBuilderStickerProps = {
   children: React.ReactNode;
@@ -22,7 +23,9 @@ type ImageBuilderStickerProps = {
   canScale?: boolean;
 };
 
-export const imageBuilderStickerPanRef = useRef<GestureType>(undefined);
+export const imageBuilderStickerPanRef = {
+  current: null as GestureType | null,
+};
 
 export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
   children,
@@ -67,7 +70,7 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
 
   const animatedContainerStyle = useAnimatedStyle(() => ({
     borderColor: isDragging.value ? "#FC5200" : "transparent",
-    borderWidth: 2,
+    borderWidth: isDragging.value ? 2 : 0,
   }));
 
   const tapGesture = Gesture.Tap().onStart(() => {
@@ -123,24 +126,26 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
 
   return (
     <GestureDetector gesture={composedGesture}>
-      <ViewShot ref={viewShotRef} style={styles.viewShot}>
-        <Animated.View style={[styles.container, animatedContainerStyle]}>
-          <Animated.Image
-            source={{ uri: backgroundImage }}
-            style={[styles.backgroundImage, animatedStyle]}
-          />
-          {children}
-        </Animated.View>
-      </ViewShot>
+      <View style={{ position: "relative", height: "90%" }}>
+        <UserSettings />
+        <ViewShot ref={viewShotRef} style={styles.viewShot}>
+          <Animated.View style={[styles.container, animatedContainerStyle]}>
+            <Animated.Image
+              source={{ uri: backgroundImage }}
+              style={[styles.backgroundImage, animatedStyle]}
+            />
+            {children}
+          </Animated.View>
+        </ViewShot>
+      </View>
     </GestureDetector>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    height: "100%",
     overflow: "hidden",
-    height: 500,
-    borderRadius: 20,
     backgroundColor: "#E0E0E0",
     justifyContent: "center",
     alignItems: "center",
@@ -152,8 +157,8 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   viewShot: {
-    height: 500,
-    marginHorizontal: 16,
-    borderRadius: 20,
+    height: "100%",
+    overflow: "hidden",
+    backgroundColor: "red",
   },
 });

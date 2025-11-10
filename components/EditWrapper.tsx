@@ -67,7 +67,6 @@ export const EditWrapper: React.FC<EditWrapperProps> = ({
     ],
     borderWidth: borderSize,
     borderColor: isDragging.value ? "#FC5200" : "transparent",
-    borderRadius: 8,
   }));
 
   const longPressGesture = Gesture.LongPress()

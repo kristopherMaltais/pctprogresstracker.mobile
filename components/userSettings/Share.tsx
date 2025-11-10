@@ -1,11 +1,13 @@
 import { useViewShot } from "@/contexts/viewShot/ViewShotContextProvider";
 import * as Sharing from "expo-sharing";
-import { useTranslation } from "react-i18next";
-import { Alert, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { Alert, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-export const Share: React.FC = () => {
-  const { t } = useTranslation();
-  const { viewShot, setViewShot } = useViewShot();
+type ShareProps = {
+  show: boolean;
+};
+
+export const Share: React.FC<ShareProps> = ({ show }) => {
+  const { viewShot } = useViewShot();
 
   const share = async () => {
     if (!viewShot) {
@@ -20,7 +22,7 @@ export const Share: React.FC = () => {
         return;
       }
 
-      await Sharing.shareAsync(await viewShot.capture(), {
+      await Sharing.shareAsync(await viewShot.capture!(), {
         dialogTitle: "Share your hiking progress",
       });
     } catch (err) {
@@ -29,25 +31,23 @@ export const Share: React.FC = () => {
     }
   };
   return (
-    <TouchableOpacity style={styles.container} onPress={share}>
-      <Text style={styles.label}>{t("index:userSettings.share")}</Text>
-    </TouchableOpacity>
+    <>
+      {show && (
+        <TouchableOpacity style={styles.container} onPress={share}>
+          <Image
+            style={styles.image}
+            source={require("../../assets/images/sendTest.png")}
+          />
+        </TouchableOpacity>
+      )}
+    </>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#FFCD3C",
-    width: "48%",
-    paddingVertical: 16,
-    borderRadius: 10,
+    display: "flex",
+    justifyContent: "center",
     alignItems: "center",
-    fontWeight: "600",
-    color: "white",
   },
-  label: {
-    fontWeight: "600",
-    color: "white",
-    fontSize: 16,
-  },
+  image: { width: 35, height: 35 },
 });

@@ -13,13 +13,10 @@ export const ImageBuilderLoading: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: -20,
-    height: 500,
+    height: "90%",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 20,
     backgroundColor: "white",
-    marginHorizontal: 16,
   },
   image: {
     width: 150,
