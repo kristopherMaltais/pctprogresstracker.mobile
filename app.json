@@ -1,26 +1,26 @@
 {
   "expo": {
-    "name": "pctprogresstracker.mobile",
-    "slug": "pctprogresstracker.mobile",
+    "name": "Share my Hike",
+    "slug": "sharemyhike",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/settings.png",
+    "icon": "./assets/images/icon.png",
     "scheme": "pctprogresstrackermobile",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.pctprogresstracker.mobile",
-      "infoPlist": {
-        "LSApplicationQueriesSchemes": ["instagram-stories"]
+      "icon": {
+        "light": "./assets/images/icon.png",
+        "dark": "./assets/images/icon.png",
+        "tinted": "./assets/images/icon.png"
       }
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/settings.png",
-        "backgroundImage": "./assets/images/settings.png",
-        "monochromeImage": "./assets/images/settings.png"
+        "backgroundColor": "#E6F4FE"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
@@ -28,25 +28,28 @@
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/icon.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icontest.png",
-          "backgroundColor": "#fdc93c",
-          "resizeMode": "contain",
-          "dark": {
-            "backgroundColor": "#fff"
-          }
+          "image": "./assets/images/splash-icon.png",
+          "backgroundColor": "#ffffff",
+          "imageWidth": 200
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "948d3418-468c-436d-9b3c-f84789433383"
+      }
     }
   }
 }

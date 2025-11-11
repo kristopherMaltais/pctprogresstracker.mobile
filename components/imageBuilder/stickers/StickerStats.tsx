@@ -1,5 +1,6 @@
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { MeasurementUnit } from "@/models/measurementUnit";
+import { t } from "i18next";
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
@@ -32,11 +33,11 @@ export const StickerStats: React.FC = () => {
       </View>
       <View style={styles.body}>
         <View>
-          <Text style={styles.label}>Total</Text>
+          <Text style={styles.label}>{t("index:sticker.total")}</Text>
           <Text style={styles.value}>
             {selectedHikeTotalDistance} {getMeasurementUnit()}
           </Text>
-          <Text style={styles.label}>Distance Hiked</Text>
+          <Text style={styles.label}>{t("index:sticker.distanceHiked")}</Text>
           <Text style={styles.value}>
             {distanceHiked} {getMeasurementUnit()}
           </Text>
