@@ -145,10 +145,10 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
 const styles = StyleSheet.create({
   container: {
     height: "100%",
-    overflow: "hidden",
     backgroundColor: "#E0E0E0",
     justifyContent: "center",
     alignItems: "center",
+    overflow: "hidden",
   },
   backgroundImage: {
     width: "100%",

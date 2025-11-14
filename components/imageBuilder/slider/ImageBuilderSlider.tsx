@@ -21,9 +21,9 @@ export const ImageBuilderSlider: React.FC = () => {
 
   const stickers = [
     <StickerSmall key="small" />,
+    <StickerStats key="stats" />,
     <StickerLarge key="large" />,
     <StickerLargeNoStats key="largeNoStats" />,
-    <StickerStats key="stats" />,
   ];
 
   const handleSwipe = (direction: "left" | "right") => {

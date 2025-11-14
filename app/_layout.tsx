@@ -35,7 +35,7 @@ export default function RootLayout() {
                     <Stack.Screen
                       name="index"
                       options={{
-                        header: () => <Header pageTitle="Share my hike" />,
+                        header: () => <Header pageTitle="Share my Hike" />,
                       }}
                     />
                     <Stack.Screen
