@@ -57,4 +57,12 @@ export const icons: Array<Image> = [
     name: "shoePrints",
     image: require("../../../assets/images/shoePrints.png"),
   },
+  {
+    name: "success",
+    image: require("../../../assets/images/success.png"),
+  },
+  {
+    name: "error",
+    image: require("../../../assets/images/error.png"),
+  },
 ];

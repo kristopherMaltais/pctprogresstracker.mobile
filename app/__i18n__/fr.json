@@ -23,5 +23,8 @@
       "french": "Français",
       "english": "Anglais"
     }
+  },
+  "errors": {
+    "share": "Un erreur est survenu lors du partage de l'image"
   }
 }

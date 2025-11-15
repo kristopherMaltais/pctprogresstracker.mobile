@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { runOnJS } from "react-native-reanimated";
-import { editWrapperPanRef } from "../../GestureWrapper";
+import { editWrapperPanRef } from "../../common/GestureWrapper";
 import { ImageBuilderPlaceholder } from "../ImageBuilderPlaceholder";
 import {
   ImageBuilderSticker,

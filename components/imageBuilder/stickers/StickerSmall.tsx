@@ -1,4 +1,4 @@
-import { GestureWrapper } from "@/components/GestureWrapper";
+import { GestureWrapper } from "@/components/common/GestureWrapper";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { getMeasurementUnit } from "@/helpers/getMeasurementUnit";
 import { MeasurementUnit } from "@/models/measurementUnit";
