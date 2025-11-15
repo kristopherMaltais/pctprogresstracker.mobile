@@ -126,9 +126,9 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
 
   return (
     <GestureDetector gesture={composedGesture}>
-      <View style={{ position: "relative", height: "90%" }}>
+      <View style={{ height: "90%" }}>
         <UserSettings />
-        <ViewShot ref={viewShotRef} style={styles.viewShot}>
+        <ViewShot ref={viewShotRef}>
           <Animated.View style={[styles.container, animatedContainerStyle]}>
             <Animated.Image
               source={{ uri: backgroundImage }}
@@ -155,8 +155,5 @@ const styles = StyleSheet.create({
     height: "100%",
     position: "absolute",
     resizeMode: "cover",
-  },
-  viewShot: {
-    height: "100%",
   },
 });

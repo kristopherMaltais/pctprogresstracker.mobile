@@ -1,13 +1,13 @@
+import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useViewShot } from "@/contexts/viewShot/ViewShotContextProvider";
 import * as Sharing from "expo-sharing";
 import { Alert, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-type ShareProps = {
-  show: boolean;
-};
+type ShareProps = {};
 
-export const Share: React.FC<ShareProps> = ({ show }) => {
+export const Share: React.FC<ShareProps> = () => {
   const { viewShot } = useViewShot();
+  const { getIcon } = useTheme();
 
   const share = async () => {
     if (!viewShot) {
@@ -31,16 +31,9 @@ export const Share: React.FC<ShareProps> = ({ show }) => {
     }
   };
   return (
-    <>
-      {show && (
-        <TouchableOpacity style={styles.container} onPress={share}>
-          <Image
-            style={styles.image}
-            source={require("../../assets/images/sendTest.png")}
-          />
-        </TouchableOpacity>
-      )}
-    </>
+    <TouchableOpacity style={styles.container} onPress={share}>
+      <Image style={styles.image} source={getIcon("share")} />
+    </TouchableOpacity>
   );
 };
 const styles = StyleSheet.create({

@@ -1,12 +1,11 @@
+import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { Image, StyleSheet, View } from "react-native";
 
-export const ImageBuilderLoading: React.FC = () => {
+export const ImageBuilderPlaceholder: React.FC = () => {
+  const { getIcon } = useTheme();
   return (
     <View style={styles.container}>
-      <Image
-        source={require("@/assets/images/hikingProgressPlaceholder.gif")}
-        style={styles.image}
-      />
+      <Image source={getIcon("imageBuilderPlaceholder")} style={styles.image} />
     </View>
   );
 };

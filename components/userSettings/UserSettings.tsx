@@ -1,3 +1,4 @@
+import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import React, { useEffect, useRef, useState } from "react";
 import {
   Animated,
@@ -14,6 +15,7 @@ import { UploadBackgroundImage } from "./UploadBackgroundImage";
 
 export const UserSettings: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { getIcon } = useTheme();
 
   const screenHeight = Dimensions.get("window").height;
   const heightAnim = useRef(new Animated.Value(50)).current;
@@ -38,16 +40,17 @@ export const UserSettings: React.FC = () => {
         ]}
       >
         <TouchableOpacity onPress={() => setIsMenuOpen(!isMenuOpen)}>
-          <Image
-            style={styles.image}
-            source={require("../../assets/images/grid.png")}
-          />
+          <Image style={styles.image} source={getIcon("userSettings")} />
         </TouchableOpacity>
-        <UploadBackgroundImage show={isMenuOpen} />
-        <ShowBordersSwitch show={isMenuOpen} />
-        <MeasurementUnitSwitch show={isMenuOpen} />
-        <DistanceHikedInput show={isMenuOpen} />
-        <Share show={isMenuOpen} />
+        {isMenuOpen && (
+          <>
+            <UploadBackgroundImage />
+            <ShowBordersSwitch />
+            <MeasurementUnitSwitch />
+            <DistanceHikedInput />
+            <Share />
+          </>
+        )}
       </Animated.View>
     </>
   );

@@ -1,3 +1,4 @@
+import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useRouter } from "expo-router";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -11,6 +12,7 @@ export const Header: React.FC<HeaderProps> = ({
   showSettings = true,
 }) => {
   const router = useRouter();
+  const { getIcon } = useTheme();
   return (
     <View style={styles.container}>
       <View style={styles.body}>
@@ -22,7 +24,7 @@ export const Header: React.FC<HeaderProps> = ({
               }}
             >
               <Image
-                source={require("@/assets/images/back.png")}
+                source={getIcon("back")}
                 style={{
                   width: 15,
                   height: 25,
@@ -40,7 +42,7 @@ export const Header: React.FC<HeaderProps> = ({
         >
           {showSettings && (
             <Image
-              source={require("@/assets/images/settings.png")}
+              source={getIcon("settings")}
               style={{
                 width: 30,
                 height: 30,

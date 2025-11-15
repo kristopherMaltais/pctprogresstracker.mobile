@@ -1,4 +1,4 @@
-import { EditWrapper } from "@/components/EditWrapper";
+import { GestureWrapper } from "@/components/GestureWrapper";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { getMeasurementUnit } from "@/helpers/getMeasurementUnit";
 import { MeasurementUnit } from "@/models/measurementUnit";
@@ -64,7 +64,7 @@ export const StickerSmall: React.FC = () => {
   }, [distanceHiked, selectedHikeTotalDistance, selectedHike?.pathLength]);
 
   return (
-    <EditWrapper borderSize={1.5}>
+    <GestureWrapper borderSize={1.5}>
       <View style={styles.container}>
         <Svg width={120} height={300} viewBox="30 20 190 450" fill="none">
           {showBorders && (
@@ -96,7 +96,7 @@ export const StickerSmall: React.FC = () => {
           <Text style={styles.percentage}>{calculatePercentage()}%</Text>
         </View>
       </View>
-    </EditWrapper>
+    </GestureWrapper>
   );
 };
 

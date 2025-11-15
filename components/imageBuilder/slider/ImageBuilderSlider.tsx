@@ -3,14 +3,12 @@ import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { runOnJS } from "react-native-reanimated";
-import { editWrapperPanRef } from "../../EditWrapper";
-import { ImageBuilderLoading } from "../ImageBuilderLoading";
+import { editWrapperPanRef } from "../../GestureWrapper";
+import { ImageBuilderPlaceholder } from "../ImageBuilderPlaceholder";
 import {
   ImageBuilderSticker,
   imageBuilderStickerPanRef,
 } from "../ImageBuilderSticker";
-import { StickerLarge } from "../stickers/StickerLarge";
-import { StickerLargeNoStats } from "../stickers/StickerLargeNoStats";
 import { StickerSmall } from "../stickers/StickerSmall";
 import { StickerStats } from "../stickers/StickerStats";
 import { IndexIndicator } from "./IndexIndicator";
@@ -19,12 +17,7 @@ export const ImageBuilderSlider: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const { selectedHike } = useUserChoices();
 
-  const stickers = [
-    <StickerSmall key="small" />,
-    <StickerStats key="stats" />,
-    <StickerLarge key="large" />,
-    <StickerLargeNoStats key="largeNoStats" />,
-  ];
+  const stickers = [<StickerStats key="stats" />, <StickerSmall key="small" />];
 
   const handleSwipe = (direction: "left" | "right") => {
     setActiveIndex((prev) => {
@@ -57,7 +50,7 @@ export const ImageBuilderSlider: React.FC = () => {
           <ImageBuilderSticker>{stickers[activeIndex]}</ImageBuilderSticker>
         </GestureDetector>
       ) : (
-        <ImageBuilderLoading />
+        <ImageBuilderPlaceholder />
       )}
 
       {selectedHike && (

@@ -1,34 +1,38 @@
+import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { MeasurementUnit } from "@/models/measurementUnit";
 import React from "react";
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
 
-type MeasurementUnitSwitchProps = {
-  show: boolean;
-};
+type MeasurementUnitSwitchProps = {};
 
-export const MeasurementUnitSwitch: React.FC<MeasurementUnitSwitchProps> = ({
-  show,
-}) => {
-  const { measurementUnit, setMeasurementUnit } = useUserChoices();
-  const isMiles = measurementUnit === MeasurementUnit.MILE;
+export const MeasurementUnitSwitch: React.FC<
+  MeasurementUnitSwitchProps
+> = () => {
+  const {
+    measurementUnit,
+    setMeasurementUnit,
+    setDistanceHiked,
+    distanceHiked,
+  } = useUserChoices();
+  const { getIcon } = useTheme();
 
   const handleToggle = () => {
+    const isMiles = measurementUnit === MeasurementUnit.MILE;
     const newUnit = isMiles ? MeasurementUnit.KILOMETER : MeasurementUnit.MILE;
     setMeasurementUnit(newUnit);
+
+    if (newUnit == MeasurementUnit.MILE) {
+      setDistanceHiked(Math.round(distanceHiked * 0.621371));
+    } else {
+      setDistanceHiked(Math.round(distanceHiked / 0.621371));
+    }
   };
 
   return (
-    <>
-      {show && (
-        <TouchableOpacity style={styles.container} onPress={handleToggle}>
-          <Image
-            style={styles.image}
-            source={require("../../assets/images/rulerTest.png")}
-          />
-        </TouchableOpacity>
-      )}
-    </>
+    <TouchableOpacity style={styles.container} onPress={handleToggle}>
+      <Image style={styles.image} source={getIcon("measurementUnit")} />
+    </TouchableOpacity>
   );
 };
 

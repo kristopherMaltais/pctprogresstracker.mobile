@@ -1,7 +1,7 @@
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { getMeasurementUnit } from "@/helpers/getMeasurementUnit";
 import { MeasurementUnit } from "@/models/measurementUnit";
-import React, { useState } from "react";
+import React from "react";
 import {
   Modal,
   Pressable,
@@ -22,8 +22,6 @@ export const ModalDistanceHikedInput: React.FC<
   const { distanceHiked, setDistanceHiked, measurementUnit, selectedHike } =
     useUserChoices();
 
-  const [_distanceHiked, _setDistanceHiked] = useState(distanceHiked);
-
   const getMaximumValue = () => {
     return measurementUnit == MeasurementUnit.KILOMETER
       ? selectedHike?.totalDistanceKilometer
@@ -32,7 +30,7 @@ export const ModalDistanceHikedInput: React.FC<
 
   const updateValue = (newValue: number) => {
     const clamped = Math.max(0, Math.min(getMaximumValue()!, newValue));
-    _setDistanceHiked(clamped);
+    setDistanceHiked(clamped);
   };
 
   const handleChangeText = (text: string) => {
@@ -42,7 +40,7 @@ export const ModalDistanceHikedInput: React.FC<
   };
 
   const updateDistanceHiked = () => {
-    setDistanceHiked(_distanceHiked);
+    setDistanceHiked(distanceHiked);
     onClose();
   };
 
@@ -50,26 +48,17 @@ export const ModalDistanceHikedInput: React.FC<
     <Modal animationType="slide" transparent={true} visible={isVisible}>
       <Pressable style={styles.centeredView} onPress={updateDistanceHiked}>
         <View style={styles.modalView}>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+          <View style={styles.container}>
             <TextInput
               style={styles.input}
               keyboardType="number-pad"
-              value={_distanceHiked.toString()}
+              value={distanceHiked.toString()}
               onChangeText={handleChangeText}
               returnKeyType="done"
               onSubmitEditing={updateDistanceHiked}
               autoFocus
             />
-            <Text style={{ marginLeft: 4 }}>
-              {getMeasurementUnit(measurementUnit)}
-            </Text>
+            <Text>{getMeasurementUnit(measurementUnit)}</Text>
           </View>
         </View>
       </Pressable>
@@ -99,14 +88,15 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  title: {
-    marginBottom: 15,
-    fontWeight: "bold",
-    fontSize: 16,
-    color: "black",
+  container: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
   input: {
     fontSize: 30,
     height: 40,
   },
+  measurementUnit: { marginLeft: 4 },
 });

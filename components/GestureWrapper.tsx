@@ -23,7 +23,7 @@ interface EditWrapperProps {
 
 export const editWrapperPanRef = useRef<GestureType>(undefined);
 
-export const EditWrapper: React.FC<EditWrapperProps> = ({
+export const GestureWrapper: React.FC<EditWrapperProps> = ({
   children,
   borderSize,
   canScale = true,

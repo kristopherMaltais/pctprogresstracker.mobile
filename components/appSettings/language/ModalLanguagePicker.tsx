@@ -1,3 +1,4 @@
+import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Modal, Pressable, StyleSheet, Text, View } from "react-native";
@@ -16,6 +17,7 @@ export const ModalLanguagePicker: React.FC<ModalLanguagePickerProps> = ({
   onClose,
 }) => {
   const { i18n, t } = useTranslation();
+  const { getIcon } = useTheme();
 
   return (
     <Modal animationType="slide" transparent={true} visible={isVisible}>
@@ -26,7 +28,6 @@ export const ModalLanguagePicker: React.FC<ModalLanguagePickerProps> = ({
           </View>
           <View>
             <Pressable
-              testID="fr-pressable"
               style={{
                 ...styles.languageButton,
                 borderWidth: i18n.language == "fr" ? 1 : 0,
@@ -34,10 +35,7 @@ export const ModalLanguagePicker: React.FC<ModalLanguagePickerProps> = ({
               }}
               onPress={() => onLanguageChange("fr")}
             >
-              <Image
-                source={require("../../../assets/images/quebecFlagLanguagePicker.png")}
-                style={styles.image}
-              />
+              <Image source={getIcon("quebecFlag")} style={styles.image} />
               <Text style={styles.language}>
                 {t("index:settings.language.french")}
               </Text>
@@ -51,10 +49,7 @@ export const ModalLanguagePicker: React.FC<ModalLanguagePickerProps> = ({
               }}
               onPress={() => onLanguageChange("en")}
             >
-              <Image
-                source={require("../../../assets/images/usaFlagLanguagePicker.png")}
-                style={styles.image}
-              />
+              <Image source={getIcon("usaFlag")} style={styles.image} />
               <Text style={styles.language}>
                 {t("index:settings.language.english")}
               </Text>

@@ -19,13 +19,12 @@ export const Setting: React.FC<SettingProps> = ({
   onSettingPress,
 }) => {
   const { getIcon } = useTheme();
+
   return (
     <TouchableOpacity style={styles.container} onPress={onSettingPress}>
       <Image source={getIcon(icon)} style={styles.icon} />
       <Text style={styles.title}>{name}</Text>
-      <View
-        style={{ flex: 1, justifyContent: "flex-end", flexDirection: "row" }}
-      >
+      <View style={styles.clickable}>
         {isToggle ? (
           <Switch
             testID="switch"
@@ -65,4 +64,5 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   switch: { transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] },
+  clickable: { flex: 1, justifyContent: "flex-end", flexDirection: "row" },
 });

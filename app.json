@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Share my Hike",
-    "slug": "sharemyhike",
+    "slug": "SharemyHike",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -37,7 +37,7 @@
         {
           "image": "./assets/images/icon.png",
           "backgroundColor": "#ffffff",
-          "imageWidth": 500
+          "imageWidth": 400
         }
       ]
     ],

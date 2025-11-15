@@ -1,30 +1,21 @@
+import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import React from "react";
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
 
-type ShowBordersSwitchProps = {
-  show: boolean;
-};
+type ShowBordersSwitchProps = {};
 
-export const ShowBordersSwitch: React.FC<ShowBordersSwitchProps> = ({
-  show,
-}) => {
+export const ShowBordersSwitch: React.FC<ShowBordersSwitchProps> = () => {
   const { showBorders, setShowBorders } = useUserChoices();
+  const { getIcon } = useTheme();
   const handleToggle = () => {
     setShowBorders(!showBorders);
   };
 
   return (
-    <>
-      {show && (
-        <TouchableOpacity style={styles.container} onPress={handleToggle}>
-          <Image
-            style={styles.image}
-            source={require("../../assets/images/map.png")}
-          />
-        </TouchableOpacity>
-      )}
-    </>
+    <TouchableOpacity style={styles.container} onPress={handleToggle}>
+      <Image style={styles.image} source={getIcon("borders")} />
+    </TouchableOpacity>
   );
 };
 

@@ -45,6 +45,7 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
         labelField="label"
         valueField="value"
         placeholder={t("index:dropDownHikeListPlaceHolder")}
+        disable={hikes.length == 0}
       />
     </View>
   );
