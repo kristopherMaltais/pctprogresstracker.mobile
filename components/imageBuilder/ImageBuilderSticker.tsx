@@ -66,6 +66,8 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
       { translateY: translateY.value },
       { scale: scale.value },
     ],
+    borderColor: isDragging.value ? "#FC5200" : "transparent",
+    borderWidth: isDragging.value ? 2 : 0,
   }));
 
   const animatedContainerStyle = useAnimatedStyle(() => ({
