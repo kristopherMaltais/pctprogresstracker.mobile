@@ -1,5 +1,6 @@
 import { Header } from "@/components/common/Header";
 import { HikesContextProvider } from "@/contexts/hikes/HikesContextProvider";
+import { PremiumContextProvider } from "@/contexts/premium/PremiumContextProvider";
 import { ServicesContextProvider } from "@/contexts/services/ServicesContextProvider";
 import { ThemeContextProvider } from "@/contexts/theme/ThemeContextProvider";
 import { UserChoicesContextProvider } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
@@ -24,41 +25,43 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView>
-      <ValidationContextProvider>
-        <ViewShotContextProvider>
-          <ThemeContextProvider>
-            <ServicesContextProvider>
-              <HikesContextProvider>
-                <UserChoicesContextProvider>
-                  <ThemeProvider
-                    value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-                  >
-                    <Stack>
-                      <Stack.Screen
-                        name="index"
-                        options={{
-                          header: () => <Header pageTitle="Share my Hike" />,
-                        }}
-                      />
-                      <Stack.Screen
-                        name="settings"
-                        options={{
-                          header: () => (
-                            <Header
-                              pageTitle={t("index:settings.title")}
-                              showSettings={false}
-                            />
-                          ),
-                        }}
-                      />
-                    </Stack>
-                  </ThemeProvider>
-                </UserChoicesContextProvider>
-              </HikesContextProvider>
-            </ServicesContextProvider>
-          </ThemeContextProvider>
-        </ViewShotContextProvider>
-      </ValidationContextProvider>
+      <PremiumContextProvider>
+        <ValidationContextProvider>
+          <ViewShotContextProvider>
+            <ThemeContextProvider>
+              <ServicesContextProvider>
+                <HikesContextProvider>
+                  <UserChoicesContextProvider>
+                    <ThemeProvider
+                      value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+                    >
+                      <Stack>
+                        <Stack.Screen
+                          name="index"
+                          options={{
+                            header: () => <Header pageTitle="Share my Hike" />,
+                          }}
+                        />
+                        <Stack.Screen
+                          name="settings"
+                          options={{
+                            header: () => (
+                              <Header
+                                pageTitle={t("index:settings.title")}
+                                showSettings={false}
+                              />
+                            ),
+                          }}
+                        />
+                      </Stack>
+                    </ThemeProvider>
+                  </UserChoicesContextProvider>
+                </HikesContextProvider>
+              </ServicesContextProvider>
+            </ThemeContextProvider>
+          </ViewShotContextProvider>
+        </ValidationContextProvider>
+      </PremiumContextProvider>
     </GestureHandlerRootView>
   );
 }

@@ -16,9 +16,7 @@ import Animated, {
 interface EditWrapperProps {
   borderSize: number;
   children: React.ReactNode;
-  canScale?: boolean;
-  canRotate?: boolean;
-  canTranslate?: boolean;
+  disabled?: boolean;
 }
 
 export const editWrapperPanRef = useRef<GestureType>(undefined);
@@ -26,9 +24,7 @@ export const editWrapperPanRef = useRef<GestureType>(undefined);
 export const GestureWrapper: React.FC<EditWrapperProps> = ({
   children,
   borderSize,
-  canScale = true,
-  canRotate = true,
-  canTranslate = true,
+  disabled = false,
 }) => {
   const { selectedHike, distanceHiked, selectedHikeTotalDistance } =
     useUserChoices();
@@ -73,7 +69,9 @@ export const GestureWrapper: React.FC<EditWrapperProps> = ({
     .minDuration(150)
     .onStart(() => {
       runOnJS(triggerVibration)();
-      isDragging.value = true;
+      if (!disabled) {
+        isDragging.value = true;
+      }
     });
 
   const tapGesture = Gesture.Tap().onStart(() => {
@@ -82,7 +80,7 @@ export const GestureWrapper: React.FC<EditWrapperProps> = ({
 
   const panGesture = Gesture.Pan()
     .onUpdate((e) => {
-      if (isDragging.value && canTranslate) {
+      if (isDragging.value && !disabled) {
         translateX.value = offsetX.value + e.translationX;
         translateY.value = offsetY.value + e.translationY;
       }
@@ -101,7 +99,7 @@ export const GestureWrapper: React.FC<EditWrapperProps> = ({
       scaleOffset.value = scale.value;
     })
     .onUpdate((e) => {
-      if (isDragging.value && canScale) {
+      if (isDragging.value && !disabled) {
         scale.value = scaleOffset.value * e.scale;
       }
     })
@@ -114,7 +112,7 @@ export const GestureWrapper: React.FC<EditWrapperProps> = ({
 
   const rotationGesture = Gesture.Rotation()
     .onUpdate((e) => {
-      if (isDragging.value && canRotate) {
+      if (isDragging.value && !disabled) {
         rotation.value = rotationOffset.value + e.rotation;
       }
     })

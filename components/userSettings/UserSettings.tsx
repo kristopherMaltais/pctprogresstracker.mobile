@@ -13,7 +13,12 @@ import { Share } from "./Share";
 import { ShowBordersSwitch } from "./ShowBordersSwitch";
 import { UploadBackgroundImage } from "./UploadBackgroundImage";
 
-export const UserSettings: React.FC = () => {
+type userSettingsProps = {
+  disabled?: boolean;
+};
+export const UserSettings: React.FC<userSettingsProps> = ({
+  disabled = false,
+}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { getIcon } = useTheme();
 
@@ -28,6 +33,12 @@ export const UserSettings: React.FC = () => {
     }).start();
   }, [isMenuOpen]);
 
+  useEffect(() => {
+    if (disabled) {
+      setIsMenuOpen(false);
+    }
+  }, [disabled]);
+
   return (
     <>
       <Animated.View
@@ -39,8 +50,13 @@ export const UserSettings: React.FC = () => {
           },
         ]}
       >
-        <TouchableOpacity onPress={() => setIsMenuOpen(!isMenuOpen)}>
-          <Image style={styles.image} source={getIcon("userSettings")} />
+        <TouchableOpacity
+          onPress={() => !disabled && setIsMenuOpen(!isMenuOpen)}
+        >
+          <Image
+            style={disabled ? styles.imageLock : styles.image}
+            source={getIcon(disabled ? "lock" : "userSettings")}
+          />
         </TouchableOpacity>
         {isMenuOpen && (
           <>
@@ -73,5 +89,9 @@ const styles = StyleSheet.create({
   image: {
     width: 35,
     height: 35,
+  },
+  imageLock: {
+    width: 25,
+    height: 25,
   },
 });

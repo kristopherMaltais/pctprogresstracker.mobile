@@ -1,5 +1,5 @@
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { runOnJS } from "react-native-reanimated";
@@ -15,9 +15,16 @@ import { IndexIndicator } from "./IndexIndicator";
 
 export const ImageBuilderSlider: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const { selectedHike } = useUserChoices();
+  const { selectedHike, setIsStickerSelectedPremium } = useUserChoices();
 
-  const stickers = [<StickerStats key="stats" />, <StickerSmall key="small" />];
+  const stickers = [
+    { isPremium: false, sticker: <StickerStats key="stats" /> },
+    { isPremium: true, sticker: <StickerSmall key="small" /> },
+  ];
+
+  useEffect(() => {
+    setIsStickerSelectedPremium(stickers[activeIndex].isPremium);
+  }, [activeIndex]);
 
   const handleSwipe = (direction: "left" | "right") => {
     setActiveIndex((prev) => {
@@ -47,7 +54,9 @@ export const ImageBuilderSlider: React.FC = () => {
     <View style={styles.container}>
       {selectedHike ? (
         <GestureDetector gesture={combinedGesture}>
-          <ImageBuilderSticker>{stickers[activeIndex]}</ImageBuilderSticker>
+          <ImageBuilderSticker>
+            {stickers[activeIndex].sticker}
+          </ImageBuilderSticker>
         </GestureDetector>
       ) : (
         <ImageBuilderPlaceholder />

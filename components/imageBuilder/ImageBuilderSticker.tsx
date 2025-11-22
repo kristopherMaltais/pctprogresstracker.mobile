@@ -1,3 +1,4 @@
+import { usePremium } from "@/contexts/premium/PremiumContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { useViewShot } from "@/contexts/viewShot/ViewShotContextProvider";
 import * as Haptics from "expo-haptics";
@@ -15,12 +16,11 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import ViewShot from "react-native-view-shot";
+import { Premium } from "../premium/Premium";
 import { UserSettings } from "../userSettings/UserSettings";
 
 type ImageBuilderStickerProps = {
   children: React.ReactNode;
-  canTranslate?: boolean;
-  canScale?: boolean;
 };
 
 export const imageBuilderStickerPanRef = {
@@ -29,10 +29,9 @@ export const imageBuilderStickerPanRef = {
 
 export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
   children,
-  canTranslate = true,
-  canScale = true,
 }) => {
-  const { backgroundImage } = useUserChoices();
+  const { backgroundImage, isStickerSelectedPremium } = useUserChoices();
+  const { isPremiumUnlocked } = usePremium();
   const { setViewShot } = useViewShot();
 
   const viewShotRef = useRef<ViewShot>(null);
@@ -66,8 +65,6 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
       { translateY: translateY.value },
       { scale: scale.value },
     ],
-    borderColor: isDragging.value ? "#FC5200" : "transparent",
-    borderWidth: isDragging.value ? 2 : 0,
   }));
 
   const animatedContainerStyle = useAnimatedStyle(() => ({
@@ -90,7 +87,7 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
   // Pan gesture
   const panGesture = Gesture.Pan()
     .onUpdate((e) => {
-      if (isDragging.value && canTranslate) {
+      if (isDragging.value) {
         translateX.value = offsetX.value + e.translationX;
         translateY.value = offsetY.value + e.translationY;
       }
@@ -110,7 +107,7 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
       scaleOffset.value = scale.value;
     })
     .onUpdate((e) => {
-      if (isDragging.value && canScale) {
+      if (isDragging.value) {
         scale.value = scaleOffset.value * e.scale;
       }
     })
@@ -126,11 +123,31 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
     Gesture.Simultaneous(panGesture, pinchGesture, tapGesture)
   );
 
+  const [shotWidth, setShotWidth] = React.useState(0);
+  const [shotHeight, setShotHeight] = React.useState(0);
+
   return (
     <GestureDetector gesture={composedGesture}>
       <View style={{ height: "90%" }}>
-        <UserSettings />
-        <ViewShot ref={viewShotRef}>
+        <UserSettings
+          disabled={isStickerSelectedPremium && !isPremiumUnlocked}
+        />
+        {isStickerSelectedPremium && !isPremiumUnlocked && <Premium />}
+        <ViewShot
+          options={{
+            format: "png",
+            quality: 1,
+            result: "tmpfile",
+            width: shotWidth * 3,
+            height: shotHeight * 3,
+          }}
+          ref={viewShotRef}
+          onLayout={(event) => {
+            const { width, height } = event.nativeEvent.layout;
+            setShotWidth(width);
+            setShotHeight(height);
+          }}
+        >
           <Animated.View style={[styles.container, animatedContainerStyle]}>
             <Animated.Image
               source={{ uri: backgroundImage }}

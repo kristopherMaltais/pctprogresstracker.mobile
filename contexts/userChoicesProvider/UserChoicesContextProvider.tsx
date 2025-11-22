@@ -1,6 +1,7 @@
 import { Hike } from "@/models/hike";
 import { MeasurementUnit } from "@/models/measurementUnit";
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { usePremium } from "../premium/PremiumContextProvider";
 
 interface UserChoicesProps {
   selectedHike: Hike | undefined;
@@ -16,6 +17,8 @@ interface UserChoicesProps {
   measurementUnit: MeasurementUnit;
   setMeasurementUnit: (measurementUnit: MeasurementUnit) => void;
   selectedHikeTotalDistance: number;
+  isStickerSelectedPremium: boolean;
+  setIsStickerSelectedPremium: (flag: boolean) => void;
 }
 
 interface UserChoicesProviderProps {
@@ -38,6 +41,8 @@ export const UserChoicesContextProvider = ({
   children,
 }: UserChoicesProviderProps) => {
   const [selectedHike, setSelectedHike] = useState<Hike>();
+  const [isStickerSelectedPremium, setIsStickerSelectedPremium] =
+    useState<boolean>(false);
   const [selectedProgressType, setSelectedProgressType] = useState<number>(0);
   const [backgroundImage, setBackgroundImage] = useState<string>();
   const [selectedHikeTotalDistance, setSelectecHikeTotalDistance] =
@@ -47,6 +52,8 @@ export const UserChoicesContextProvider = ({
   const [measurementUnit, setMeasurementUnit] = useState<MeasurementUnit>(
     MeasurementUnit.KILOMETER
   );
+
+  const { isPremiumUnlocked } = usePremium();
 
   useEffect(() => {
     if (measurementUnit == MeasurementUnit.KILOMETER) {
@@ -59,17 +66,24 @@ export const UserChoicesContextProvider = ({
   const contextValue: UserChoicesProps = {
     selectedHike: selectedHike,
     setSelectedHike: setSelectedHike,
-    showBorders: showBorders,
+    showBorders:
+      !isPremiumUnlocked && isStickerSelectedPremium ? true : showBorders,
     setShowBorders: setShowBorders,
     selectedProgressType: selectedProgressType,
     setSelectedProgressType: setSelectedProgressType,
-    backgroundImage: backgroundImage,
+    backgroundImage:
+      !isPremiumUnlocked && isStickerSelectedPremium
+        ? undefined
+        : backgroundImage,
     setBackgroundImage: setBackgroundImage,
-    distanceHiked: distanceHiked,
+    distanceHiked:
+      !isPremiumUnlocked && isStickerSelectedPremium ? 0 : distanceHiked,
     setDistanceHiked: setDistanceHiked,
     measurementUnit: measurementUnit,
     setMeasurementUnit: setMeasurementUnit,
     selectedHikeTotalDistance: selectedHikeTotalDistance,
+    isStickerSelectedPremium: isStickerSelectedPremium,
+    setIsStickerSelectedPremium: setIsStickerSelectedPremium,
   };
 
   return (
