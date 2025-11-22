@@ -40,7 +40,7 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
         style={styles.dropdown}
         onChange={updateSelectedHike}
         data={hikeList}
-        value={selectedHike}
+        value={selectedHike?.id}
         maxHeight={300}
         labelField="label"
         valueField="value"

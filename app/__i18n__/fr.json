@@ -26,10 +26,13 @@
   },
   "premium": {
     "title": "Débloquer l'autocollant",
+    "success": "Votre sticker premium est maintenant débloqué. Merci pour votre soutien !",
+    "error": "Une erreur est survenue pendant la transaction. Veuillez réessayer.",
     "message": "Débloquez ce sticker premium pour seulement 1,99 $ ! Chaque achat aide la PCTA : 1 $ sera reversé pour soutenir le Pacific Crest Trail.",
     "button": {
       "unlock": "Débloquer cet autocollant - $1.99",
       "cancel": "Annuler",
+      "close": "Fermer",
       "buy": "Débloquer & Soutenir"
     }
   },

@@ -26,10 +26,13 @@
   },
   "premium": {
     "title": "Unlock Sticker",
+    "success": "Your premium sticker is now unlocked. Thank you for your support!",
+    "error": "Something went wrong during the transaction. Please try again.",
     "message": "Unlock this premium sticker for just $1.99! Each purchase helps the PCTA: $1 will be donated to support the Pacific Crest Trail.",
     "button": {
       "unlock": "Unlock this sticker - $1.99",
       "cancel": "Cancel",
+      "close": "Close",
       "buy": "Unlock & Support"
     }
   },

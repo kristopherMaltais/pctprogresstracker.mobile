@@ -25,8 +25,8 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView>
-      <PremiumContextProvider>
-        <ValidationContextProvider>
+      <ValidationContextProvider>
+        <PremiumContextProvider>
           <ViewShotContextProvider>
             <ThemeContextProvider>
               <ServicesContextProvider>
@@ -60,8 +60,8 @@ export default function RootLayout() {
               </ServicesContextProvider>
             </ThemeContextProvider>
           </ViewShotContextProvider>
-        </ValidationContextProvider>
-      </PremiumContextProvider>
+        </PremiumContextProvider>
+      </ValidationContextProvider>
     </GestureHandlerRootView>
   );
 }

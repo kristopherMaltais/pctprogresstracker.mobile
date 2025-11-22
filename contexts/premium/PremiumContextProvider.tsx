@@ -1,9 +1,12 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { PurchasesOffering } from "react-native-purchases";
 
 interface PremiumProps {
   isPremiumUnlocked: boolean;
   buyPremiumSticker: () => void;
+  premiumState: PremiumState;
+  isPremiumModalVisible: boolean;
+  setIsPremiumModalVisible: (flag: boolean) => void;
 }
 
 interface PremiumProviderProps {
@@ -14,6 +17,13 @@ const APIKeys = {
   apple: "your_revenuecat_apple_api_key",
   google: "your_revenuecat_google_api_key",
 };
+
+export enum PremiumState {
+  PROCESSING = "processing",
+  SUCCESS = "success",
+  ERROR = "error",
+  PENDING = "pending",
+}
 
 export const PremiumContext = createContext<PremiumProps | undefined>(
   undefined
@@ -31,66 +41,87 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
   const [currentOffering, setCurrentOffering] =
     useState<PurchasesOffering | null>(null);
 
+  const [premimumState, setPremiumState] = useState<PremiumState>(
+    PremiumState.PENDING
+  );
+  const [isPremiumModalVisible, setIsPremiumModalVisible] =
+    useState<boolean>(false);
   const [isPremiumUnlocked, setIsPremiumUnlocked] = useState(false);
-
   const premiumStickerId = "premium_sticker_1";
 
-  // To be initialize when Apple will review my in app purchase
-  //   useEffect(() => {
-  //     const setup = async () => {
-  //       if (Platform.OS == "android") {
-  //         await Purchases.configure({ apiKey: APIKeys.google });
-  //       } else {
-  //         await Purchases.configure({ apiKey: APIKeys.apple });
-  //       }
+  useEffect(() => {
+    if (!isPremiumModalVisible) {
+      setPremiumState(PremiumState.PENDING);
+    }
+  }, [isPremiumModalVisible]);
 
-  //       const offerings = await Purchases.getOfferings();
-  //       setCurrentOffering(offerings.current);
-
-  //       // Vérifier si l’utilisateur possède déjà le sticker
-  //       const customerInfo = await Purchases.getCustomerInfo();
-  //       setIsPremiumUnlocked(
-  //         !!customerInfo.entitlements.active[premiumStickerId]
-  //       );
-  //     };
-
-  //     setup().catch(console.log);
-  //   }, []);
-
-  //   const buyPremiumSticker = async () => {
-  //     if (!currentOffering) {
-  //       console.log("No offering available");
-  //       return;
+  // useEffect(() => {
+  //   const setup = async () => {
+  //     if (Platform.OS == "android") {
+  //       await Purchases.configure({ apiKey: APIKeys.google });
+  //     } else {
+  //       await Purchases.configure({ apiKey: APIKeys.apple });
   //     }
 
-  //     const premiumPackage: PurchasesPackage | undefined =
-  //       currentOffering.availablePackages.find(
-  //         (p) => p.product.identifier === premiumStickerId
-  //       );
+  //     const offerings = await Purchases.getOfferings();
+  //     setCurrentOffering(offerings.current);
 
-  //     if (!premiumPackage) {
-  //       console.log("Premium sticker package not found in offering");
-  //       return;
-  //     }
-
-  //     try {
-  //       await Purchases.purchasePackage(premiumPackage);
-  //       const customerInfo = await Purchases.getCustomerInfo();
-  //       setIsPremiumUnlocked(
-  //         !!customerInfo.entitlements.active[premiumStickerId]
-  //       );
-  //     } catch (e) {
-  //       console.log("Purchase failed or canceled", e);
-  //     }
+  //     const customerInfo = await Purchases.getCustomerInfo();
+  //     setIsPremiumUnlocked(
+  //       !!customerInfo.entitlements.active[premiumStickerId]
+  //     );
   //   };
 
+  //   setup().catch(console.log);
+  // }, []);
+
+  // const buyPremiumSticker = async () => {
+  //   setIsProcessing(true);
+  //   if (!currentOffering) {
+  //     console.log("No offering available");
+  //     return;
+  //   }
+
+  //   const premiumPackage: PurchasesPackage | undefined =
+  //     currentOffering.availablePackages.find(
+  //       (p) => p.product.identifier === premiumStickerId
+  //     );
+
+  //   if (!premiumPackage) {
+  //     console.log("Premium sticker package not found in offering");
+  //     return;
+  //   }
+
+  //   Purchases.purchasePackage(premiumPackage)
+  //     .then(() => Purchases.getCustomerInfo())
+  //     .then((customerInfo) => {
+  //       setIsPremiumUnlocked(
+  //         !!customerInfo.entitlements.active[premiumStickerId]
+  //       );
+
+  //       showSuccessModal("Achat reussi");
+  //     })
+  //     .catch((e) => {
+  //       console.log("Purchase failed or canceled", e);
+  //       showErrorModal("erreur lors de l'achat");
+  //     });
+  // };
+
   const buyPremiumSticker = () => {
-    setIsPremiumUnlocked(true);
+    setPremiumState(PremiumState.PROCESSING);
+
+    setTimeout(() => {
+      setPremiumState(PremiumState.SUCCESS);
+      setIsPremiumUnlocked(true);
+    }, 1000);
   };
 
   const contextValue: PremiumProps = {
-    isPremiumUnlocked,
-    buyPremiumSticker,
+    isPremiumUnlocked: isPremiumUnlocked,
+    buyPremiumSticker: buyPremiumSticker,
+    premiumState: premimumState,
+    isPremiumModalVisible: isPremiumModalVisible,
+    setIsPremiumModalVisible: setIsPremiumModalVisible,
   };
 
   return (

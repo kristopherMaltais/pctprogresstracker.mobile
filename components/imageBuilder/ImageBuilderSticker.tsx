@@ -16,7 +16,8 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import ViewShot from "react-native-view-shot";
-import { Premium } from "../premium/Premium";
+import { ModalPremium } from "../premium/ModalPremium";
+import { PremiumButton } from "../premium/PremiumButton";
 import { UserSettings } from "../userSettings/UserSettings";
 
 type ImageBuilderStickerProps = {
@@ -31,7 +32,12 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
   children,
 }) => {
   const { backgroundImage, isStickerSelectedPremium } = useUserChoices();
-  const { isPremiumUnlocked } = usePremium();
+  const {
+    isPremiumUnlocked,
+    isPremiumModalVisible,
+    setIsPremiumModalVisible,
+    buyPremiumSticker,
+  } = usePremium();
   const { setViewShot } = useViewShot();
 
   const viewShotRef = useRef<ViewShot>(null);
@@ -132,7 +138,7 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
         <UserSettings
           disabled={isStickerSelectedPremium && !isPremiumUnlocked}
         />
-        {isStickerSelectedPremium && !isPremiumUnlocked && <Premium />}
+        {isStickerSelectedPremium && !isPremiumUnlocked && <PremiumButton />}
         <ViewShot
           options={{
             format: "png",
@@ -156,6 +162,11 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
             {children}
           </Animated.View>
         </ViewShot>
+        <ModalPremium
+          onConfirm={buyPremiumSticker}
+          onCancel={() => setIsPremiumModalVisible(false)}
+          isVisible={isPremiumModalVisible}
+        />
       </View>
     </GestureDetector>
   );

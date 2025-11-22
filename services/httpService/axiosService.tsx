@@ -37,7 +37,9 @@ export class AxiosService implements HttpService {
 
   public async get(url: string): Promise<HttpResponse> {
     return await this.instance
-      .get(url)
+      .get(url, {
+        responseType: "json",
+      })
       .then((response) => {
         return {
           data: response.data,

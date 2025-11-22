@@ -4,6 +4,7 @@ export type Hike = {
   path: string;
   border: string;
   pathLength: number;
+  logo: string;
   totalDistanceKilometer: number;
   totalDistanceMile: number;
 };
