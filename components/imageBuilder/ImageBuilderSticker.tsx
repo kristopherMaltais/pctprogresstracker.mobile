@@ -25,7 +25,7 @@ type ImageBuilderStickerProps = {
 };
 
 export const imageBuilderStickerPanRef = {
-  current: null as GestureType | null,
+  current: undefined as GestureType | undefined,
 };
 
 export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
