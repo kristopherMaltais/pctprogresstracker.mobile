@@ -3,7 +3,6 @@ import { HttpService } from "../../../httpService/httpService";
 import { HikeRepository } from "../hikeRepository";
 
 export class HikeAxiosRepository implements HikeRepository {
-  // private readonly controllerPath: string = "hikes/";
   private httpService: HttpService;
 
   constructor(httpService: HttpService) {
@@ -11,16 +10,17 @@ export class HikeAxiosRepository implements HikeRepository {
   }
 
   async getHikes(): Promise<Hike[]> {
-    return await this.httpService
-      .get(
-        `https://raw.githubusercontent.com/kristopherMaltais/hike-data/refs/heads/main/hikes.json`
-      )
-      .then((response) => {
-        console.log(response.data[0].id);
-        return response.data;
-      })
-      .catch((error) => {
-        throw error;
-      });
+    try {
+      const response = await fetch(
+        "https://raw.githubusercontent.com/kristopherMaltais/hike-data/refs/heads/main/hikes.json"
+      );
+      const data = await response.json();
+      console.log(data[0].id);
+      console.log("testttt");
+      return data;
+    } catch (error) {
+      console.log("FETCH ERROR:", error);
+      throw error;
+    }
   }
 }

@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
+    elevation: 5,
   },
   image: {
     width: 150,

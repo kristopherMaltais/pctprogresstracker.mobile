@@ -22,6 +22,12 @@
       "title": "Changer la langue",
       "french": "Français",
       "english": "Anglais"
+    },
+    "terms": {
+      "title": "Conditions d’utilisation"
+    },
+    "privacyPolicy": {
+      "title": "Politique de confidentialité"
     }
   },
   "premium": {

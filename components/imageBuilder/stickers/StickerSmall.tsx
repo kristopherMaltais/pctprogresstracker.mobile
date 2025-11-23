@@ -82,7 +82,7 @@ export const StickerSmall: React.FC = () => {
         </Svg>
         <View style={styles.statsContainer}>
           <Image
-            source={require("@/assets/images/pctNoBackground.png")}
+            source={{ uri: selectedHike?.logo }}
             style={{ width: 60, height: 60, marginTop: 55 }}
           />
           <Text style={styles.label}>{t("index:sticker.total")}</Text>

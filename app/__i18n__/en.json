@@ -22,6 +22,12 @@
       "title": "Change language",
       "french": "French",
       "english": "English"
+    },
+    "terms": {
+      "title": "Terms of Use"
+    },
+    "privacyPolicy": {
+      "title": "Privacy Policy"
     }
   },
   "premium": {

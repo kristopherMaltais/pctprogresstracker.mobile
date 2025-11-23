@@ -13,19 +13,27 @@ export const Version: React.FC<VersionProps> = ({}) => {
         <Image style={styles.flagImage} source={getIcon("madeInQuebec")} />
         <Text>Fait au Québec !</Text>
       </View>
+      <View style={styles.version}>
+        <Text>V.1.0</Text>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    display: "flex",
     position: "absolute",
     height: 100,
+    bottom: 120,
     width: "100%",
-    bottom: 100,
+    marginHorizontal: 16,
     flexDirection: "row",
     alignItems: "center",
-    borderWidth: 1,
+    justifyContent: "space-between",
+    paddingHorizontal: 40,
+    borderTopWidth: 0.5,
+    color: "#ccc",
   },
   madeInQuebec: {
     flexDirection: "row",
@@ -33,4 +41,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   flagImage: { width: 30, height: 20, marginRight: 8 },
+  version: {},
 });

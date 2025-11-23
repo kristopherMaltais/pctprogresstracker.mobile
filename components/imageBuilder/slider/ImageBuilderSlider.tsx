@@ -1,6 +1,6 @@
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { runOnJS } from "react-native-reanimated";
 import { editWrapperPanRef } from "../../common/GestureWrapper";
@@ -16,6 +16,8 @@ import { IndexIndicator } from "./IndexIndicator";
 export const ImageBuilderSlider: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const { selectedHike, setIsStickerSelectedPremium } = useUserChoices();
+
+  const { height } = Dimensions.get("window");
 
   const stickers = [
     { isPremium: false, sticker: <StickerStats key="stats" /> },
@@ -51,7 +53,7 @@ export const ImageBuilderSlider: React.FC = () => {
   const combinedGesture = Gesture.Simultaneous(gesture);
 
   return (
-    <View style={styles.container}>
+    <View style={{ ...styles.container, height: height * 0.8 }}>
       {selectedHike ? (
         <GestureDetector gesture={combinedGesture}>
           <ImageBuilderSticker>
@@ -76,7 +78,6 @@ const styles = StyleSheet.create({
   container: {
     marginTop: -16,
     width: "100%",
-    height: "82%",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.2,

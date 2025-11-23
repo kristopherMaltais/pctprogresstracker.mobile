@@ -1,6 +1,13 @@
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useRouter } from "expo-router";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 type HeaderProps = {
   pageTitle: string;
@@ -13,8 +20,9 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const router = useRouter();
   const { getIcon } = useTheme();
+  const { height } = Dimensions.get("window");
   return (
-    <View style={styles.container}>
+    <View style={{ ...styles.container, height: height * 0.12 }}>
       <View style={styles.body}>
         <View style={styles.left}>
           {router.canGoBack() && (
@@ -57,7 +65,6 @@ export const Header: React.FC<HeaderProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    height: 120,
     justifyContent: "flex-end",
     paddingHorizontal: 16,
     backgroundColor: "#FFCD3C",

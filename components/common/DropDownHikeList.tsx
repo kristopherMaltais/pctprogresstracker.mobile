@@ -55,14 +55,14 @@ const styles = StyleSheet.create({
   dropdown: {
     backgroundColor: "#fff",
     marginHorizontal: 16,
-    marginTop: 20,
+    marginTop: 0,
     height: 50,
     borderRadius: 10,
     paddingHorizontal: 16,
   },
   container: {
     width: "100%",
-    height: 100,
+    height: 80,
     backgroundColor: "#FFCD3C",
   },
 });

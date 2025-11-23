@@ -179,6 +179,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     overflow: "hidden",
+    elevation: 5,
   },
   backgroundImage: {
     width: "100%",

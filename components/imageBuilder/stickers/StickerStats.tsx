@@ -24,7 +24,7 @@ export const StickerStats: React.FC = () => {
       <View style={styles.header}>
         <Text style={styles.hikeName}>{selectedHike?.name}</Text>
         <Image
-          source={require("@/assets/images/pctNoBackground.png")}
+          source={{ uri: selectedHike?.logo }}
           style={{
             width: 50,
             height: 50,

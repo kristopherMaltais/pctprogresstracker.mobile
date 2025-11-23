@@ -69,4 +69,12 @@ export const icons: Array<Image> = [
     name: "lock",
     image: require("../../../assets/images/lock.png"),
   },
+  {
+    name: "terms",
+    image: require("../../../assets/images/terms.png"),
+  },
+  {
+    name: "privacyPolicy",
+    image: require("../../../assets/images/privacyPolicy.png"),
+  },
 ];

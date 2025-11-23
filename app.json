@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.pctprogresstracker.mobile",
+      "bundleIdentifier": "com.kristopher.sharemyhike",
       "icon": {
         "light": "./assets/images/icon.png",
         "dark": "./assets/images/icon.png",

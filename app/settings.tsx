@@ -1,5 +1,7 @@
 // App.tsx
 import { Language } from "@/components/appSettings/language/Language";
+import { PrivacyPolicy } from "@/components/appSettings/PrivacyPolicy";
+import { Terms } from "@/components/appSettings/Terms";
 import { Version } from "@/components/appSettings/Version";
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import React from "react";
@@ -10,6 +12,8 @@ export default function settings() {
   return (
     <View style={styles.container}>
       <Language />
+      <Terms />
+      <PrivacyPolicy />
       <Version />
     </View>
   );
