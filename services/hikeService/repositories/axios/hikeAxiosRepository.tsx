@@ -1,4 +1,5 @@
 import { Hike } from "@/models/hike";
+import { HikeWithItinary } from "@/models/hikeWithItinary";
 import { HttpService } from "../../../httpService/httpService";
 import { HikeRepository } from "../hikeRepository";
 
@@ -9,14 +10,12 @@ export class HikeAxiosRepository implements HikeRepository {
     this.httpService = httpService;
   }
 
-  async getHikes(): Promise<Hike[]> {
+  async getHikes(): Promise<Hike[] | HikeWithItinary[]> {
     try {
       const response = await fetch(
         "https://raw.githubusercontent.com/kristopherMaltais/hike-data/refs/heads/main/hikes.json"
       );
       const data = await response.json();
-      console.log(data[0].id);
-      console.log("testttt");
       return data;
     } catch (error) {
       console.log("FETCH ERROR:", error);

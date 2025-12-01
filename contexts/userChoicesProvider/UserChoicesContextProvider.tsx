@@ -63,6 +63,13 @@ export const UserChoicesContextProvider = ({
     }
   }, [measurementUnit, selectedHike]);
 
+  useEffect(() => {
+    setBackgroundImage(undefined);
+    setDistanceHiked(0);
+    setShowBorders(true);
+    setMeasurementUnit(MeasurementUnit.KILOMETER);
+  }, [selectedHike]);
+
   const contextValue: UserChoicesProps = {
     selectedHike: selectedHike,
     setSelectedHike: setSelectedHike,

@@ -23,13 +23,26 @@ export const StickerStats: React.FC = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.hikeName}>{selectedHike?.name}</Text>
-        <Image
+        {/* <Image
           source={{ uri: selectedHike?.logo }}
           style={{
             width: 50,
             height: 50,
           }}
-        />
+        /> */}
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Image
+            source={require("../../../assets/images/icon.png")}
+            style={{ width: 60, height: 60 }}
+          />
+        </View>
       </View>
       <View style={styles.body}>
         <View>
@@ -66,6 +79,7 @@ const styles = StyleSheet.create({
   hikeName: {
     color: "white",
     fontSize: 20,
+    textShadowColor: "black",
   },
   body: {
     display: "flex",
@@ -75,7 +89,7 @@ const styles = StyleSheet.create({
   label: {
     color: "white",
     marginTop: 10,
-    fontSize: 10,
+    fontSize: 14,
   },
   value: {
     fontSize: 20,

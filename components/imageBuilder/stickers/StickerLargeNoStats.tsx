@@ -1,6 +1,6 @@
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import React, { useEffect } from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Animated, {
   useAnimatedProps,
   useSharedValue,
@@ -20,7 +20,8 @@ export const StickerLargeNoStats: React.FC = () => {
   const progress = useSharedValue(0);
 
   const animatedProps = useAnimatedProps(() => ({
-    strokeDashoffset: selectedHike?.pathLength! - progress.value,
+    strokeDashoffset:
+      selectedHike?.stickerMetadata.pathLength! - progress.value,
   }));
 
   useEffect(() => {
@@ -28,33 +29,44 @@ export const StickerLargeNoStats: React.FC = () => {
       0,
       Math.min(1, distanceHiked / selectedHikeTotalDistance)
     );
-    progress.value = withTiming(ratio * selectedHike?.pathLength!, {
-      duration: 2000,
-    });
+    progress.value = withTiming(
+      ratio * selectedHike?.stickerMetadata.pathLength!,
+      {
+        duration: 2000,
+      }
+    );
   }, [distanceHiked, selectedHikeTotalDistance]);
 
   return (
     <View>
-      <View style={styles.container}>
-        <Svg width={185} height={500} viewBox="30 35 190 502" fill="none">
+      <View>
+        <Svg
+          width={selectedHike?.stickerMetadata.width! * 1.2}
+          height={selectedHike?.stickerMetadata.height! * 1.2}
+          viewBox={selectedHike?.stickerMetadata.viewbox}
+          fill="none"
+        >
           {showBorders && (
-            <Path d={selectedHike?.border} stroke="white" strokeWidth={1} />
+            <>
+              <Path d={selectedHike?.border} stroke="white" strokeWidth={4} />
+              {selectedHike?.regions.map((region: string, index: number) => {
+                return (
+                  <Path key={index} d={region} stroke="white" strokeWidth={4} />
+                );
+              })}
+            </>
           )}
-          <Path d={selectedHike?.path} stroke="#D5D5D5" strokeWidth={6} />
+          <Path d={selectedHike?.path} stroke="#D5D5D5" strokeWidth={16} />
           <AnimatedPath
             d={selectedHike?.path}
             stroke="#FC5200"
-            strokeWidth={4}
+            strokeWidth={10}
             fill="none"
-            strokeDasharray={selectedHike?.pathLength!}
+            strokeDasharray={selectedHike?.stickerMetadata.pathLength!}
             animatedProps={animatedProps}
           />
         </Svg>
       </View>
-      <Image
-        source={require("@/assets/images/pctNoBackground.png")}
-        style={styles.logo}
-      />
     </View>
   );
 };
@@ -83,12 +95,5 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
-  },
-  logo: {
-    width: 50,
-    height: 50,
-    position: "absolute",
-    bottom: 30,
-    right: -43,
   },
 });

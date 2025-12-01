@@ -1,5 +1,6 @@
 {
   "dropDownHikeListPlaceHolder": "Choisir une randonnée",
+  "itinary": "Quel est votre itinéraire?",
   "sticker": {
     "total": "Total",
     "distanceHiked": "Distance parcourue"
@@ -36,7 +37,8 @@
     "error": "Une erreur est survenue pendant la transaction. Veuillez réessayer.",
     "message": "Débloquez ce sticker premium pour seulement 1,99 $ ! Chaque achat aide la PCTA : 1 $ sera reversé pour soutenir le Pacific Crest Trail.",
     "button": {
-      "unlock": "Débloquer cet autocollant - $1.99",
+      "unlock": "Débloquer cet autocollant",
+      "headerGoPremium": "Obtenir Premium",
       "cancel": "Annuler",
       "close": "Fermer",
       "buy": "Débloquer & Soutenir"

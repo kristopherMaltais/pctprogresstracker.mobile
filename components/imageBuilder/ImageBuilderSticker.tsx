@@ -10,7 +10,6 @@ import {
   GestureType,
 } from "react-native-gesture-handler";
 import Animated, {
-  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
@@ -62,8 +61,6 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
   const scale = useSharedValue(1);
   const scaleOffset = useSharedValue(1);
 
-  const isDragging = useSharedValue(false);
-
   // Animated style
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [
@@ -73,37 +70,16 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
     ],
   }));
 
-  const animatedContainerStyle = useAnimatedStyle(() => ({
-    borderColor: isDragging.value ? "#FC5200" : "transparent",
-    borderWidth: isDragging.value ? 2 : 0,
-  }));
-
-  const tapGesture = Gesture.Tap().onStart(() => {
-    isDragging.value = false;
-  });
-
-  // Long press gesture
-  const longPressGesture = Gesture.LongPress()
-    .minDuration(150)
-    .onStart(() => {
-      runOnJS(triggerVibration)();
-      isDragging.value = true;
-    });
-
   // Pan gesture
   const panGesture = Gesture.Pan()
+    .minPointers(2)
     .onUpdate((e) => {
-      if (isDragging.value) {
-        translateX.value = offsetX.value + e.translationX;
-        translateY.value = offsetY.value + e.translationY;
-      }
+      translateX.value = offsetX.value + e.translationX;
+      translateY.value = offsetY.value + e.translationY;
     })
     .onEnd(() => {
-      if (isDragging.value) {
-        offsetX.value = translateX.value;
-        offsetY.value = translateY.value;
-        isDragging.value = false;
-      }
+      offsetX.value = translateX.value;
+      offsetY.value = translateY.value;
     })
     .withRef(imageBuilderStickerPanRef);
 
@@ -113,20 +89,15 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
       scaleOffset.value = scale.value;
     })
     .onUpdate((e) => {
-      if (isDragging.value) {
-        scale.value = scaleOffset.value * e.scale;
-      }
+      scale.value = scaleOffset.value * e.scale;
     })
     .onEnd(() => {
-      if (isDragging.value) {
-        if (scale.value < 1) scale.value = withSpring(1);
-        if (scale.value > 3) scale.value = withSpring(3);
-      }
+      if (scale.value < 1) scale.value = withSpring(1);
+      if (scale.value > 3) scale.value = withSpring(3);
     });
 
   const composedGesture = Gesture.Simultaneous(
-    longPressGesture,
-    Gesture.Simultaneous(panGesture, pinchGesture, tapGesture)
+    Gesture.Simultaneous(panGesture, pinchGesture)
   );
 
   const [shotWidth, setShotWidth] = React.useState(0);
@@ -154,7 +125,7 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
             setShotHeight(height);
           }}
         >
-          <Animated.View style={[styles.container, animatedContainerStyle]}>
+          <Animated.View style={styles.container}>
             <Animated.Image
               source={{ uri: backgroundImage }}
               style={[styles.backgroundImage, animatedStyle]}

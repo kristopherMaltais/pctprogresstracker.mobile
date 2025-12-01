@@ -1,12 +1,12 @@
 import { StickerMetadata } from "./stickerMetaData";
 
-export type Hike = {
-  id: string;
+export type Itinary = {
   name: string;
   path: string;
+  pathLength: number;
+  totalDistanceKilometer: number;
+  totalDistanceMile: number;
   stickerMetadata: StickerMetadata;
   regions: string[];
   border: string;
-  totalDistanceKilometer: number;
-  totalDistanceMile: number;
 };

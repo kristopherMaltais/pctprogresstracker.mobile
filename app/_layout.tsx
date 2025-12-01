@@ -1,3 +1,4 @@
+import { Settings } from "@/components/appSettings/Settings";
 import { Header } from "@/components/common/Header";
 import { HikesContextProvider } from "@/contexts/hikes/HikesContextProvider";
 import { PremiumContextProvider } from "@/contexts/premium/PremiumContextProvider";
@@ -14,7 +15,9 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { Stack } from "expo-router";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Drawer } from "react-native-drawer-layout";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
 
@@ -22,6 +25,7 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   i18n.init;
   const { t } = useTranslation();
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
     <GestureHandlerRootView>
@@ -32,29 +36,32 @@ export default function RootLayout() {
               <ServicesContextProvider>
                 <HikesContextProvider>
                   <UserChoicesContextProvider>
-                    <ThemeProvider
-                      value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+                    <Drawer
+                      open={isOpen}
+                      onOpen={() => setIsOpen(true)}
+                      onClose={() => setIsOpen(false)}
+                      drawerPosition="right"
+                      renderDrawerContent={() => <Settings />}
+                      drawerStyle={{ width: "70%" }}
+                      swipeEnabled={true}
                     >
-                      <Stack>
-                        <Stack.Screen
-                          name="index"
-                          options={{
-                            header: () => <Header pageTitle="Share my Hike" />,
-                          }}
-                        />
-                        <Stack.Screen
-                          name="settings"
-                          options={{
-                            header: () => (
-                              <Header
-                                pageTitle={t("index:settings.title")}
-                                showSettings={false}
-                              />
-                            ),
-                          }}
-                        />
-                      </Stack>
-                    </ThemeProvider>
+                      <ThemeProvider
+                        value={
+                          colorScheme === "dark" ? DarkTheme : DefaultTheme
+                        }
+                      >
+                        <Stack>
+                          <Stack.Screen
+                            name="index"
+                            options={{
+                              header: () => (
+                                <Header pageTitle="Share my Hike" />
+                              ),
+                            }}
+                          />
+                        </Stack>
+                      </ThemeProvider>
+                    </Drawer>
                   </UserChoicesContextProvider>
                 </HikesContextProvider>
               </ServicesContextProvider>
