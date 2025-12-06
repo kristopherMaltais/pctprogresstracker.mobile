@@ -1,7 +1,6 @@
 import { usePremium } from "@/contexts/premium/PremiumContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { useViewShot } from "@/contexts/viewShot/ViewShotContextProvider";
-import * as Haptics from "expo-haptics";
 import React, { useEffect, useRef } from "react";
 import { StyleSheet, View } from "react-native";
 import {
@@ -15,9 +14,7 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import ViewShot from "react-native-view-shot";
-import { ModalPremium } from "../premium/ModalPremium";
 import { PremiumButton } from "../premium/PremiumButton";
-import { UserSettings } from "../userSettings/UserSettings";
 
 type ImageBuilderStickerProps = {
   children: React.ReactNode;
@@ -31,12 +28,7 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
   children,
 }) => {
   const { backgroundImage, isStickerSelectedPremium } = useUserChoices();
-  const {
-    isPremiumUnlocked,
-    isPremiumModalVisible,
-    setIsPremiumModalVisible,
-    buyPremiumSticker,
-  } = usePremium();
+  const { isPremiumUnlocked } = usePremium();
   const { setViewShot } = useViewShot();
 
   const viewShotRef = useRef<ViewShot>(null);
@@ -46,10 +38,6 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
       setViewShot(viewShotRef.current);
     }
   }, [viewShotRef]);
-
-  const triggerVibration = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-  };
 
   // Pan offsets
   const translateX = useSharedValue(0);
@@ -80,8 +68,7 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
     .onEnd(() => {
       offsetX.value = translateX.value;
       offsetY.value = translateY.value;
-    })
-    .withRef(imageBuilderStickerPanRef);
+    });
 
   // Pinch gesture
   const pinchGesture = Gesture.Pinch()
@@ -106,9 +93,6 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
   return (
     <GestureDetector gesture={composedGesture}>
       <View style={{ height: "90%" }}>
-        <UserSettings
-          disabled={isStickerSelectedPremium && !isPremiumUnlocked}
-        />
         {isStickerSelectedPremium && !isPremiumUnlocked && <PremiumButton />}
         <ViewShot
           options={{
@@ -133,11 +117,6 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
             {children}
           </Animated.View>
         </ViewShot>
-        <ModalPremium
-          onConfirm={buyPremiumSticker}
-          onCancel={() => setIsPremiumModalVisible(false)}
-          isVisible={isPremiumModalVisible}
-        />
       </View>
     </GestureDetector>
   );

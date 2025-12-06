@@ -1,4 +1,5 @@
 import { GestureWrapper } from "@/components/common/GestureWrapper";
+import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { getMeasurementUnit } from "@/helpers/getMeasurementUnit";
 import React, { useEffect } from "react";
@@ -24,6 +25,7 @@ export const StickerMapVertical: React.FC = () => {
 
   const AnimatedPath = Animated.createAnimatedComponent(Path);
   const progress = useSharedValue(0);
+  const { getIcon } = useTheme();
 
   const animatedProps = useAnimatedProps(() => {
     const length = selectedHike?.stickerMetadata.pathLength ?? 0;
@@ -89,10 +91,7 @@ export const StickerMapVertical: React.FC = () => {
           />
         </Svg>
         <View style={styles.statsContainer}>
-          <Image
-            source={require("../../../assets/images/icon.png")}
-            style={{ width: 140, height: 140 }}
-          />
+          <Image source={getIcon("icon")} style={{ width: 140, height: 140 }} />
           <View>
             <Text style={styles.name}>{selectedHike?.name}</Text>
             <Text style={styles.label}>{t("index:sticker.total")}</Text>

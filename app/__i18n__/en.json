@@ -19,6 +19,8 @@
   },
   "settings": {
     "title": "Settings",
+    "restorePurchase": "Restore Purchase",
+    "madeInQuebec": "Fait au Québec!",
     "language": {
       "title": "Change language",
       "french": "French",
@@ -29,17 +31,20 @@
     },
     "privacyPolicy": {
       "title": "Privacy Policy"
+    },
+    "darkMode": {
+      "title": "Dark Mode"
     }
   },
   "premium": {
-    "title": "Unlock Sticker",
+    "title": "",
     "success": "Your premium sticker is now unlocked. Thank you for your support!",
     "error": "Something went wrong during the transaction. Please try again.",
     "message": "Unlock this premium sticker for just $1.99! Each purchase helps the PCTA: $1 will be donated to support the Pacific Crest Trail.",
     "button": {
       "unlock": "Unlock this sticker",
       "cancel": "Cancel",
-      "headerGoPremium": "Go Premium",
+      "headerGoPremium": "GO PREMIUM",
       "close": "Close",
       "buy": "Unlock & Support"
     }

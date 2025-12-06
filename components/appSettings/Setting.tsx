@@ -7,7 +7,7 @@ type SettingProps = {
   name: string;
   isToggle?: boolean;
   isEnable?: boolean;
-  icon: string;
+  icon?: string;
   onSettingPress?: () => void;
 };
 
@@ -22,7 +22,7 @@ export const Setting: React.FC<SettingProps> = ({
 
   return (
     <TouchableOpacity style={styles.container} onPress={onSettingPress}>
-      <Image source={getIcon(icon)} style={styles.icon} />
+      {icon && <Image source={getIcon(icon)} style={styles.icon} />}
       <Text style={styles.title}>{name}</Text>
       <View style={styles.clickable}>
         {isToggle ? (
@@ -31,6 +31,8 @@ export const Setting: React.FC<SettingProps> = ({
             style={styles.switch}
             value={isEnable}
             onChange={onSettingPress}
+            trackColor={{ true: "#FFCD3C", false: "grey" }}
+            ios_backgroundColor="grey"
           />
         ) : (
           <Image
@@ -59,8 +61,8 @@ const styles = StyleSheet.create({
     height: 10,
   },
   icon: {
-    width: 40,
-    height: 40,
+    width: 30,
+    height: 30,
     marginRight: 16,
   },
   switch: { transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] },

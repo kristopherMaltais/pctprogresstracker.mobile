@@ -19,6 +19,8 @@
   },
   "settings": {
     "title": "paramètres",
+    "restorePurchase": "Restaurer l'achat",
+    "madeInQuebec": "Fait au Québec!",
     "language": {
       "title": "Changer la langue",
       "french": "Français",
@@ -29,10 +31,13 @@
     },
     "privacyPolicy": {
       "title": "Politique de confidentialité"
+    },
+    "darkMode": {
+      "title": "Mode sombre"
     }
   },
   "premium": {
-    "title": "Débloquer l'autocollant",
+    "title": "Devenez Premium : L'expérience complète",
     "success": "Votre sticker premium est maintenant débloqué. Merci pour votre soutien !",
     "error": "Une erreur est survenue pendant la transaction. Veuillez réessayer.",
     "message": "Débloquez ce sticker premium pour seulement 1,99 $ ! Chaque achat aide la PCTA : 1 $ sera reversé pour soutenir le Pacific Crest Trail.",

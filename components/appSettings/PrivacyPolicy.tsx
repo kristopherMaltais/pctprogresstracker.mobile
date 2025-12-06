@@ -18,7 +18,6 @@ export const PrivacyPolicy: React.FC = () => {
     <>
       <Setting
         name={t("index:settings.privacyPolicy.title")}
-        icon={"privacyPolicy"}
         onSettingPress={navigateToPrivacyPolicy}
       />
     </>

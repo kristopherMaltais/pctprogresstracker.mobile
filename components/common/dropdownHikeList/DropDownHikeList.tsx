@@ -6,15 +6,39 @@ import { HikeWithItinary } from "@/models/hikeWithItinary";
 import { Itinary } from "@/models/itinary";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import { ItinarySelectModal } from "./ItinarySelectModal";
-
-type DropDownHikeListProps = {};
+import { ItinarySelectModal } from "../ItinarySelectModal";
 
 type DropDownOption = {
   label: string;
   value: string;
+  disabled: boolean;
+};
+
+type DropDownHikeListProps = {};
+
+const renderItem = (item: any) => {
+  const isDisabled = item.disabled;
+
+  if (isDisabled) {
+    return (
+      <View
+        key={item.value}
+        onStartShouldSetResponder={() => {
+          return true;
+        }}
+      >
+        <Text style={{ color: "red" }}>{item.label}</Text>
+      </View>
+    );
+  }
+
+  return (
+    <View key={item.value}>
+      <Text>{item.label}</Text>
+    </View>
+  );
 };
 
 export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
@@ -30,6 +54,7 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
       hikes.map((hike: Hike | HikeWithItinary) => ({
         label: hike.name,
         value: hike.id,
+        disabled: hike.id == "1" ? true : false,
       }))
     );
   }, [hikes]);
@@ -65,11 +90,13 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
       <Dropdown
         style={styles.dropdown}
         onChange={updateSelectedHike}
+        search
         data={hikeList}
         value={selectedHike?.id}
         maxHeight={300}
         labelField="label"
         valueField="value"
+        renderItem={renderItem}
         placeholder={t("index:dropDownHikeListPlaceHolder")}
         disable={hikes.length == 0}
       />

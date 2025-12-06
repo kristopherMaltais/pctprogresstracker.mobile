@@ -77,4 +77,20 @@ export const icons: Array<Image> = [
     name: "privacyPolicy",
     image: require("../../../assets/images/privacyPolicy.png"),
   },
+  {
+    name: "darkMode",
+    image: require("../../../assets/images/darkMode.png"),
+  },
+  {
+    name: "icon",
+    image: require("../../../assets/images/icon.png"),
+  },
+  {
+    name: "instagram",
+    image: require("../../../assets/images/instagram.png"),
+  },
+  {
+    name: "close",
+    image: require("../../../assets/images/close.png"),
+  },
 ];

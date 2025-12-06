@@ -15,15 +15,18 @@ import { UploadBackgroundImage } from "./UploadBackgroundImage";
 
 type userSettingsProps = {
   disabled?: boolean;
+  hide: boolean;
 };
 export const UserSettings: React.FC<userSettingsProps> = ({
   disabled = false,
+  hide,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { getIcon } = useTheme();
 
   const screenHeight = Dimensions.get("window").height;
   const heightAnim = useRef(new Animated.Value(50)).current;
+  const position = useRef(new Animated.Value(35)).current;
 
   useEffect(() => {
     Animated.timing(heightAnim, {
@@ -32,6 +35,14 @@ export const UserSettings: React.FC<userSettingsProps> = ({
       useNativeDriver: false,
     }).start();
   }, [isMenuOpen]);
+
+  useEffect(() => {
+    Animated.timing(position, {
+      toValue: hide ? -100 : 35,
+      duration: 150,
+      useNativeDriver: false,
+    }).start();
+  }, [hide]);
 
   useEffect(() => {
     if (disabled) {
@@ -47,6 +58,7 @@ export const UserSettings: React.FC<userSettingsProps> = ({
           {
             height: heightAnim,
             justifyContent: isMenuOpen ? "space-between" : "center",
+            left: position,
           },
         ]}
       >
@@ -79,7 +91,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 50,
     top: 10,
-    left: 10,
+    left: 35,
     zIndex: 1,
     borderRadius: 15,
     backgroundColor: "white",

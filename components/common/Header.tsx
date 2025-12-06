@@ -1,6 +1,5 @@
 import { usePremium } from "@/contexts/premium/PremiumContextProvider";
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
-import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import {
   Dimensions,
@@ -13,11 +12,13 @@ import {
 
 type HeaderProps = {
   pageTitle: string;
-  showSettings?: boolean;
+  toggleAppSettingsDrawer: () => void;
 };
 
-export const Header: React.FC<HeaderProps> = ({ pageTitle }) => {
-  const router = useRouter();
+export const Header: React.FC<HeaderProps> = ({
+  pageTitle,
+  toggleAppSettingsDrawer,
+}) => {
   const { getIcon } = useTheme();
   const { t } = useTranslation();
   const { setIsPremiumModalVisible } = usePremium();
@@ -30,13 +31,13 @@ export const Header: React.FC<HeaderProps> = ({ pageTitle }) => {
         </View>
         <TouchableOpacity
           onPress={() => setIsPremiumModalVisible(true)}
-          style={styles.test}
+          style={styles.premium}
         >
           <Text style={{ fontWeight: "bold", color: "white" }}>
             {t("index:premium.button.headerGoPremium")}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={toggleAppSettingsDrawer}>
           <Image
             source={getIcon("settings")}
             style={{
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   left: { display: "flex", flexDirection: "row", alignItems: "center" },
-  test: {
+  premium: {
     paddingHorizontal: 16,
     borderRadius: 15,
     paddingVertical: 8,

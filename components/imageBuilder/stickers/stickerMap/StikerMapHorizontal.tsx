@@ -1,4 +1,5 @@
 import { GestureWrapper } from "@/components/common/GestureWrapper";
+import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { getMeasurementUnit } from "@/helpers/getMeasurementUnit";
 import React, { useEffect, useState } from "react";
@@ -24,6 +25,8 @@ export const StickerMapHorizontal: React.FC = () => {
   const { t } = useTranslation();
   const [isReverse, setIsReverse] = useState<boolean>(true);
 
+  const { getIcon } = useTheme();
+
   const AnimatedPath = Animated.createAnimatedComponent(Path);
 
   const progress = useSharedValue(0);
@@ -35,15 +38,18 @@ export const StickerMapHorizontal: React.FC = () => {
     } as any;
   });
 
+  // Have to look if roundtrip trek
   useEffect(() => {
     if (!selectedHike?.stickerMetadata.pathLength) return;
 
-    let test = distanceHiked;
+    let _distanceHiked = distanceHiked;
+    let _selectedHikedTotalDistance = selectedHikeTotalDistance;
     if (
       selectedHike.stickerMetadata.isRoundTrip &&
       distanceHiked > selectedHike.totalDistanceKilometer / 2
     ) {
-      test = distanceHiked - selectedHikeTotalDistance / 2;
+      _selectedHikedTotalDistance = selectedHikeTotalDistance / 2;
+      _distanceHiked = distanceHiked - _selectedHikedTotalDistance;
       setIsReverse(true);
     } else {
       setIsReverse(false);
@@ -51,7 +57,7 @@ export const StickerMapHorizontal: React.FC = () => {
 
     const ratio = Math.max(
       0,
-      Math.min(1, test / (selectedHikeTotalDistance / 2))
+      Math.min(1, _distanceHiked / _selectedHikedTotalDistance)
     );
 
     progress.value = 0;
@@ -71,10 +77,7 @@ export const StickerMapHorizontal: React.FC = () => {
     <GestureWrapper>
       <View style={styles.container}>
         <View style={styles.statsContainer}>
-          <Image
-            source={require("../../../assets/images/icon.png")}
-            style={{ width: 100, height: 100 }}
-          />
+          <Image source={getIcon("icon")} style={{ width: 100, height: 100 }} />
           <Text style={styles.name}>{selectedHike?.name}</Text>
           <Text style={styles.label}>{t("index:sticker.total")}</Text>
           <Text style={styles.value}>
@@ -108,7 +111,7 @@ export const StickerMapHorizontal: React.FC = () => {
             strokeLinecap="round"
           />
           <AnimatedPath
-            d={isReverse ? reverse(selectedHike?.path) : selectedHike?.path}
+            d={isReverse ? reverse(selectedHike?.path!) : selectedHike?.path}
             stroke="#FC5200"
             strokeWidth={10}
             fill="none"

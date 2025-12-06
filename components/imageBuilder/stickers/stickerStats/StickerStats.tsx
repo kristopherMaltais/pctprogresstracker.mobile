@@ -1,8 +1,10 @@
+import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { MeasurementUnit } from "@/models/measurementUnit";
 import { t } from "i18next";
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
+import { ProgressBar } from "./ProgressBar";
 
 export const StickerStats: React.FC = () => {
   const {
@@ -11,6 +13,8 @@ export const StickerStats: React.FC = () => {
     selectedHikeTotalDistance,
     measurementUnit,
   } = useUserChoices();
+
+  const { getIcon } = useTheme();
 
   const calculatePercentage = () =>
     (distanceHiked * 100) / selectedHike?.totalDistanceKilometer!;
@@ -22,27 +26,21 @@ export const StickerStats: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.hikeName}>{selectedHike?.name}</Text>
-        {/* <Image
-          source={{ uri: selectedHike?.logo }}
-          style={{
-            width: 50,
-            height: 50,
-          }}
-        /> */}
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Image
-            source={require("../../../assets/images/icon.png")}
-            style={{ width: 60, height: 60 }}
-          />
+        <View style={styles.title}>
+          <Text style={styles.hikeName}>{selectedHike?.name}</Text>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Image source={getIcon("icon")} style={styles.logo} />
+          </View>
         </View>
+
+        <ProgressBar percentage={Math.round(calculatePercentage())} />
       </View>
       <View style={styles.body}>
         <View>
@@ -71,6 +69,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   header: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  title: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -103,4 +105,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
+  logo: { width: 60, height: 60 },
 });

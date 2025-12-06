@@ -1,6 +1,8 @@
+import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
+import { MeasurementUnit } from "@/models/measurementUnit";
 import React, { useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import Animated, {
   useAnimatedProps,
   useSharedValue,
@@ -8,13 +10,16 @@ import Animated, {
 } from "react-native-reanimated";
 import Svg, { Path } from "react-native-svg";
 
-export const StickerLargeNoStats: React.FC = () => {
+export const StickerMapLarge: React.FC = () => {
   const {
     distanceHiked,
     selectedHikeTotalDistance,
     showBorders,
     selectedHike,
+    measurementUnit,
   } = useUserChoices();
+
+  const { getIcon } = useTheme();
 
   const AnimatedPath = Animated.createAnimatedComponent(Path);
   const progress = useSharedValue(0);
@@ -38,11 +43,18 @@ export const StickerLargeNoStats: React.FC = () => {
   }, [distanceHiked, selectedHikeTotalDistance]);
 
   return (
-    <View>
+    <View style={styles.container}>
+      <View style={styles.trailInformation}>
+        <Text style={styles.trailName}>{selectedHike?.name}</Text>
+        <Text style={styles.distanceHiked}>
+          {distanceHiked} / {selectedHikeTotalDistance}{" "}
+          {measurementUnit == MeasurementUnit.KILOMETER ? "km" : "mi"}
+        </Text>
+      </View>
       <View>
         <Svg
-          width={selectedHike?.stickerMetadata.width! * 1.2}
-          height={selectedHike?.stickerMetadata.height! * 1.2}
+          width={selectedHike?.stickerMetadata.width! * 1.4}
+          height={selectedHike?.stickerMetadata.height! * 1.4}
           viewBox={selectedHike?.stickerMetadata.viewbox}
           fill="none"
         >
@@ -67,33 +79,38 @@ export const StickerLargeNoStats: React.FC = () => {
           />
         </Svg>
       </View>
+      <Image style={styles.logo} source={getIcon("icon")} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    width: 200,
+    display: "flex",
+    width: "100%",
     height: "100%",
     alignItems: "center",
+    justifyContent: "center",
   },
-  label: {
+  logo: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    width: 80,
+    height: 80,
+  },
+  trailName: {
     color: "white",
-    marginTop: 10,
-    fontSize: 10,
-  },
-  value: {
     fontSize: 20,
-    color: "white",
     fontWeight: "bold",
   },
-
-  percentage: {
-    marginTop: 18,
-    fontSize: 40,
+  distanceHiked: {
     color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
+    fontSize: 14,
+  },
+  trailInformation: {
+    position: "absolute",
+    top: 20,
+    left: 20,
   },
 });

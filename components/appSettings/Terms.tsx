@@ -18,7 +18,6 @@ export const Terms: React.FC = () => {
     <>
       <Setting
         name={t("index:settings.terms.title")}
-        icon={"terms"}
         onSettingPress={navigateToTerms}
       />
     </>

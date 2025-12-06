@@ -1,4 +1,4 @@
-import { Settings } from "@/components/appSettings/Settings";
+import Settings from "@/components/appSettings/Settings";
 import { Header } from "@/components/common/Header";
 import { HikesContextProvider } from "@/contexts/hikes/HikesContextProvider";
 import { PremiumContextProvider } from "@/contexts/premium/PremiumContextProvider";
@@ -15,8 +15,9 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { Stack } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { StatusBar, StatusBarStyle } from "react-native";
 import { Drawer } from "react-native-drawer-layout";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
@@ -25,7 +26,12 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   i18n.init;
   const { t } = useTranslation();
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+  const [statusBar, setStatusBar] = useState<StatusBarStyle>("light-content");
+
+  useEffect(() => {
+    setStatusBar(isOpen ? "dark-content" : "light-content");
+  }, [isOpen]);
 
   return (
     <GestureHandlerRootView>
@@ -42,8 +48,7 @@ export default function RootLayout() {
                       onClose={() => setIsOpen(false)}
                       drawerPosition="right"
                       renderDrawerContent={() => <Settings />}
-                      drawerStyle={{ width: "70%" }}
-                      swipeEnabled={true}
+                      drawerStyle={{ width: "75%" }}
                     >
                       <ThemeProvider
                         value={
@@ -55,11 +60,17 @@ export default function RootLayout() {
                             name="index"
                             options={{
                               header: () => (
-                                <Header pageTitle="Share my Hike" />
+                                <Header
+                                  pageTitle="Share my Hike"
+                                  toggleAppSettingsDrawer={() =>
+                                    setIsOpen((prev) => !prev)
+                                  }
+                                />
                               ),
                             }}
                           />
                         </Stack>
+                        <StatusBar barStyle={statusBar} />
                       </ThemeProvider>
                     </Drawer>
                   </UserChoicesContextProvider>

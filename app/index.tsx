@@ -1,11 +1,11 @@
 // App.tsx
-import { DropDownHikeList } from "@/components/common/DropDownHikeList";
+import { DropDownHikeList } from "@/components/common/dropdownHikeList/DropDownHikeList";
 import { ModalError } from "@/components/common/modals/ModalError";
 import { ModalSuccess } from "@/components/common/modals/ModalSuccess";
 import { ImageBuilderSlider } from "@/components/imageBuilder/slider/ImageBuilderSlider";
 import { useValidation } from "@/contexts/validation/ValidationContextProvider";
 import React from "react";
-import { StatusBar, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 export default function App() {
   const {
@@ -18,7 +18,6 @@ export default function App() {
 
   return (
     <View style={styles.scrollContainer}>
-      <StatusBar barStyle="light-content" />
       <DropDownHikeList />
       <ImageBuilderSlider />
       <ModalError
