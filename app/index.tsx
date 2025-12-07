@@ -3,6 +3,8 @@ import { DropDownHikeList } from "@/components/common/dropdownHikeList/DropDownH
 import { ModalError } from "@/components/common/modals/ModalError";
 import { ModalSuccess } from "@/components/common/modals/ModalSuccess";
 import { ImageBuilderSlider } from "@/components/imageBuilder/slider/ImageBuilderSlider";
+import { Theme } from "@/contexts/theme/models/theme";
+import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useValidation } from "@/contexts/validation/ValidationContextProvider";
 import React from "react";
 import { StyleSheet, View } from "react-native";
@@ -16,8 +18,10 @@ export default function App() {
     closeValidationModal,
   } = useValidation();
 
+  const { theme } = useTheme();
+
   return (
-    <View style={styles.scrollContainer}>
+    <View style={styles(theme).scrollContainer}>
       <DropDownHikeList />
       <ImageBuilderSlider />
       <ModalError
@@ -34,9 +38,10 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  scrollContainer: {
-    flexGrow: 1,
-    backgroundColor: "white",
-  },
-});
+const styles = (theme: Theme) =>
+  StyleSheet.create({
+    scrollContainer: {
+      flexGrow: 1,
+      backgroundColor: theme.background,
+    },
+  });

@@ -1,9 +1,9 @@
+import { ShareMyHikeServices } from "@/contexts/services/models/shareMyHikeServices";
 import { useContext } from "react";
 import { ServicesContext } from "../contexts/services/servicesContext";
-import { HikeSnapServices } from "../services/models/hikeSnapServices";
 
 export const useService = (serviceName: string): any => {
-  const services = useContext(ServicesContext) as HikeSnapServices;
+  const services = useContext(ServicesContext) as ShareMyHikeServices;
 
   if (services[serviceName] === undefined) {
     throw `${serviceName} is not provided`;

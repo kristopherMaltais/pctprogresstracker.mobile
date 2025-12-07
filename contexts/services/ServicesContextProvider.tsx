@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useContext } from "react";
-import { HikeSnapServices } from "./models/hikeSnapServices";
+import { ShareMyHikeServices } from "./models/shareMyHikeServices";
 import { ServicesContext } from "./servicesContext";
 
 type ServicesContextProviderProps = {
@@ -9,7 +9,7 @@ type ServicesContextProviderProps = {
 export const ServicesContextProvider: FunctionComponent<
   ServicesContextProviderProps
 > = (props: ServicesContextProviderProps) => {
-  const Services = useContext(ServicesContext) as HikeSnapServices;
+  const Services = useContext(ServicesContext) as ShareMyHikeServices;
 
   return (
     <ServicesContext.Provider value={Services}>

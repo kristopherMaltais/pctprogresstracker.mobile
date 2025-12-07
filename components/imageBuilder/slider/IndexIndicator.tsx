@@ -1,3 +1,5 @@
+import { Theme } from "@/contexts/theme/models/theme";
+import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
@@ -10,14 +12,17 @@ export const IndexIndicator: React.FC<IndexIndicatorProps> = ({
   indexCount,
   activeIndex,
 }) => {
+  const { theme } = useTheme();
   return (
-    <View style={styles.container}>
+    <View style={styles(theme).container}>
       {Array.from({ length: indexCount }, (_, index) => (
         <View
           key={index}
           style={[
-            styles.dot,
-            index === activeIndex ? styles.activeDot : styles.inactiveDot,
+            styles(theme).dot,
+            index === activeIndex
+              ? styles(theme).activeDot
+              : styles(theme).inactiveDot,
           ]}
         />
       ))}
@@ -25,22 +30,23 @@ export const IndexIndicator: React.FC<IndexIndicatorProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 12,
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-  dot: {
-    width: 10,
-    height: 10,
-    borderRadius: 8,
-    marginHorizontal: 4,
-  },
-  activeDot: {
-    backgroundColor: "#FFCD3C",
-  },
-  inactiveDot: {
-    backgroundColor: "#D1D1D1",
-  },
-});
+const styles = (theme: Theme) =>
+  StyleSheet.create({
+    container: {
+      marginTop: 12,
+      flexDirection: "row",
+      justifyContent: "center",
+    },
+    dot: {
+      width: 10,
+      height: 10,
+      borderRadius: 8,
+      marginHorizontal: 4,
+    },
+    activeDot: {
+      backgroundColor: theme.primary,
+    },
+    inactiveDot: {
+      backgroundColor: "#D1D1D1",
+    },
+  });

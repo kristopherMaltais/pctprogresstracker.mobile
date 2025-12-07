@@ -19,7 +19,7 @@ export const ImageBuilderSlider: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [hideButtons, setHideButtons] = useState<boolean>(false);
   const { selectedHike, setIsStickerSelectedPremium } = useUserChoices();
-  const { getIcon } = useTheme();
+  const { isDarkMode } = useTheme();
 
   const { isPremiumModalVisible, setIsPremiumModalVisible, buyPremiumSticker } =
     usePremium();
@@ -36,7 +36,7 @@ export const ImageBuilderSlider: React.FC = () => {
     setIsStickerSelectedPremium(stickers[activeIndex].isPremium);
   }, [activeIndex]);
 
-  const handleSwipe = (direction: "left" | "right") => {
+  const changeIndex = (direction: "left" | "right") => {
     setActiveIndex((prev) => {
       if (direction === "right") {
         return prev === stickers.length - 1 ? 0 : prev + 1;
@@ -57,7 +57,13 @@ export const ImageBuilderSlider: React.FC = () => {
 
   const composedGesture = Gesture.Simultaneous(Gesture.Simultaneous(longPress));
   return (
-    <View style={{ ...styles.container, height: height * 0.8 }}>
+    <View
+      style={{
+        ...styles.container,
+        height: height * 0.8,
+        shadowOpacity: isDarkMode ? 1 : 0.2,
+      }}
+    >
       {selectedHike ? (
         <GestureDetector gesture={composedGesture}>
           <ImageBuilderSticker>
@@ -72,12 +78,12 @@ export const ImageBuilderSlider: React.FC = () => {
           <UserSettings disabled={false} hide={hideButtons} />
           <SliderButton
             direction="left"
-            changeIndex={() => {}}
+            onPress={changeIndex}
             hide={hideButtons}
           />
           <SliderButton
             direction="right"
-            changeIndex={() => {}}
+            onPress={changeIndex}
             hide={hideButtons}
           />
         </>
@@ -103,9 +109,8 @@ const styles = StyleSheet.create({
     position: "relative",
     marginTop: -16,
     width: "100%",
-    shadowColor: "#000",
+    shadowColor: "#000000BF",
     shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.2,
     shadowRadius: 4,
     paddingHorizontal: 24,
   },

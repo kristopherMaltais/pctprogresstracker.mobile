@@ -1,3 +1,4 @@
+import { Theme } from "@/contexts/theme/models/theme";
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -22,7 +23,7 @@ export const UserSettings: React.FC<userSettingsProps> = ({
   hide,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { getIcon } = useTheme();
+  const { getIcon, theme } = useTheme();
 
   const screenHeight = Dimensions.get("window").height;
   const heightAnim = useRef(new Animated.Value(50)).current;
@@ -39,7 +40,7 @@ export const UserSettings: React.FC<userSettingsProps> = ({
   useEffect(() => {
     Animated.timing(position, {
       toValue: hide ? -100 : 35,
-      duration: 150,
+      duration: 50,
       useNativeDriver: false,
     }).start();
   }, [hide]);
@@ -54,7 +55,7 @@ export const UserSettings: React.FC<userSettingsProps> = ({
     <>
       <Animated.View
         style={[
-          styles.container,
+          styles(theme).container,
           {
             height: heightAnim,
             justifyContent: isMenuOpen ? "space-between" : "center",
@@ -66,7 +67,7 @@ export const UserSettings: React.FC<userSettingsProps> = ({
           onPress={() => !disabled && setIsMenuOpen(!isMenuOpen)}
         >
           <Image
-            style={disabled ? styles.imageLock : styles.image}
+            style={disabled ? styles(theme).imageLock : styles(theme).image}
             source={getIcon(disabled ? "lock" : "userSettings")}
           />
         </TouchableOpacity>
@@ -84,26 +85,27 @@ export const UserSettings: React.FC<userSettingsProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    alignItems: "center",
-    position: "absolute",
-    width: 50,
-    top: 10,
-    left: 35,
-    zIndex: 1,
-    borderRadius: 15,
-    backgroundColor: "white",
-    padding: 16,
-    overflow: "hidden",
-  },
-  image: {
-    width: 35,
-    height: 35,
-  },
-  imageLock: {
-    width: 25,
-    height: 25,
-  },
-});
+const styles = (theme: Theme) =>
+  StyleSheet.create({
+    container: {
+      display: "flex",
+      alignItems: "center",
+      position: "absolute",
+      width: 50,
+      top: 10,
+      left: 35,
+      zIndex: 1,
+      borderRadius: 15,
+      backgroundColor: theme.secondaryBackground,
+      padding: 16,
+      overflow: "hidden",
+    },
+    image: {
+      width: 25,
+      height: 25,
+    },
+    imageLock: {
+      width: 25,
+      height: 25,
+    },
+  });

@@ -39,5 +39,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  image: { width: 35, height: 35 },
+  image: { width: 28, height: 28 },
 });

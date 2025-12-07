@@ -1,7 +1,4 @@
-import {
-  PremiumState,
-  usePremium,
-} from "@/contexts/premium/PremiumContextProvider";
+import { Theme } from "@/contexts/theme/models/theme";
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -19,125 +16,132 @@ export const ModalPremium: React.FC<ModalPremiumProps> = ({
   onConfirm,
 }) => {
   const { t } = useTranslation();
-  const { getIcon } = useTheme();
-  const { premiumState } = usePremium();
-
-  const getMessage = () => {
-    if (premiumState == PremiumState.PENDING) {
-      return t("index:premium.message");
-    } else if (premiumState == PremiumState.SUCCESS) {
-      return t("index:premium.success");
-    } else if (premiumState == PremiumState.ERROR) {
-      return t("index:premium.error");
-    }
-
-    return "";
-  };
-
-  const showBuyButton = () => {
-    if (premiumState == PremiumState.PENDING) {
-      return true;
-    } else if (premiumState == PremiumState.SUCCESS) {
-      return false;
-    } else if (premiumState == PremiumState.ERROR) {
-      return true;
-    }
-  };
+  const { getIcon, theme } = useTheme();
 
   return (
     <Modal animationType="slide" transparent={true} visible={isVisible}>
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          {premiumState == PremiumState.PROCESSING ? (
-            <View style={styles.loading}>
-              <Image
-                source={getIcon("imageBuilderPlaceholder")}
-                style={styles.loadingImage}
-              />
-              <Text>Purchase in progress...</Text>
-            </View>
-          ) : (
-            <>
-              <Text style={styles.title}>{t("index:premium.title")}</Text>
-              <Text style={styles.message}>{getMessage()}</Text>
-              <View style={styles.buttonContainer}>
-                {showBuyButton() && (
-                  <Pressable style={styles.confirmButton} onPress={onConfirm}>
-                    <Text style={{ color: "white", fontWeight: "bold" }}>
-                      {t("index:premium.button.buy")}
-                    </Text>
-                  </Pressable>
-                )}
-                <Pressable style={styles.cancelButton} onPress={onCancel}>
-                  <Text>
-                    {premiumState == PremiumState.SUCCESS
-                      ? t("index:premium.button.close")
-                      : t("index:premium.button.cancel")}
-                  </Text>
-                </Pressable>
-              </View>
-            </>
-          )}
+      <View style={styles(theme).centeredView}>
+        <View style={styles(theme).modalView}>
+          <Pressable style={styles(theme).header} onPress={onCancel}>
+            <Text style={styles(theme).title}>{t("index:premium.title")}</Text>
+            <Image style={styles(theme).close} source={getIcon("close")} />
+          </Pressable>
+          <Text style={{ color: theme.text }}>
+            {t("index:premium.description")}
+          </Text>
+          <Text style={{ marginTop: 16, marginBottom: 8, color: theme.text }}>
+            {t("index:premium.offeringTitle")}
+          </Text>
+          <View style={styles(theme).listItem}>
+            <Text style={styles(theme).bullet}>{"\u2022"}</Text>
+            <Text style={styles(theme).itemText}>
+              <Text style={{ fontWeight: "bold" }}>
+                {t("index:premium.allTrails.title")}
+              </Text>
+              {t("index:premium.allTrails.description")}
+            </Text>
+          </View>
+          <View style={styles(theme).listItem}>
+            <Text style={styles(theme).bullet}>{"\u2022"}</Text>
+            <Text style={styles(theme).itemText}>
+              <Text style={{ fontWeight: "bold" }}>
+                {t("index:premium.noLogo.title")}
+              </Text>
+              {t("index:premium.noLogo.description")}
+            </Text>
+          </View>
+          <View style={styles(theme).listItem}>
+            <Text style={styles(theme).bullet}>{"\u2022"}</Text>
+            <Text style={styles(theme).itemText}>
+              <Text style={{ fontWeight: "bold" }}>
+                {t("index:premium.allStickers.title")}
+              </Text>
+              {t("index:premium.allStickers.description")}
+            </Text>
+          </View>
+          <View style={styles(theme).buttonContainer}>
+            <Pressable style={styles(theme).confirmButton} onPress={onConfirm}>
+              <Text
+                style={{ color: "white", fontWeight: "bold", fontSize: 16 }}
+              >
+                {t("index:premium.button.buy")}
+              </Text>
+            </Pressable>
+          </View>
         </View>
       </View>
     </Modal>
   );
 };
 
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 16,
-  },
-  modalView: {
-    margin: 20,
-    width: "90%",
-    height: "80%",
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 24,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
+const styles = (theme: Theme) =>
+  StyleSheet.create({
+    centeredView: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 16,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  title: {
-    marginBottom: 15,
-    fontWeight: "bold",
-    fontSize: 16,
-  },
-  message: {},
-  buttonContainer: {
-    flexDirection: "row",
-    marginTop: 60,
-    alignItems: "flex-end",
-    justifyContent: "flex-end",
-  },
-  confirmButton: {
-    marginRight: 16,
-    padding: 12,
-    borderRadius: 10,
-    backgroundColor: "#FFCD3C",
-  },
-  cancelButton: {
-    padding: 12,
-    borderRadius: 10,
-    backgroundColor: "#E8E8EE",
-  },
-  loading: {
-    height: "90%",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-  },
-  loadingImage: {
-    width: 100,
-    height: 100,
-  },
-});
+    modalView: {
+      width: "90%",
+      backgroundColor: theme.secondaryBackground,
+      borderRadius: 20,
+      padding: 24,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+    },
+    header: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
+    title: {
+      marginBottom: 15,
+      fontWeight: "bold",
+      fontSize: 16,
+      textAlign: "center",
+      color: theme.text,
+    },
+    buttonContainer: {
+      marginTop: 16,
+    },
+    confirmButton: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      padding: 16,
+      borderRadius: 10,
+      backgroundColor: theme.primary,
+      width: "100%",
+    },
+    listContainer: {
+      marginVertical: 10,
+      paddingHorizontal: 20,
+    },
+    listItem: {
+      flexDirection: "row",
+      alignItems: "flex-start",
+      marginBottom: 5,
+    },
+    bullet: {
+      marginRight: 10,
+      fontSize: 20,
+      lineHeight: 20,
+      color: theme.text,
+    },
+    itemText: {
+      flex: 1,
+      lineHeight: 20,
+      color: theme.text,
+    },
+    close: {
+      width: 15,
+      height: 15,
+    },
+  });

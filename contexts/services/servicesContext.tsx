@@ -1,10 +1,11 @@
+import { SecureStoreServiceImpl } from "@/services/secureStoreService/secureStoreServiceImpl";
 import React from "react";
 import { AxiosService } from "../../services/httpService/axiosService";
-import { HikeSnapServices } from "./models/hikeSnapServices";
+import { ShareMyHikeServices } from "./models/shareMyHikeServices";
 import { initializeHikeModule } from "./modules/hikeModule";
 
 const initialize = () => {
-  const services: HikeSnapServices = {};
+  const services: ShareMyHikeServices = {};
 
   initializeCommonServices(services);
   initializeHikeModule(services);
@@ -12,10 +13,11 @@ const initialize = () => {
   return services;
 };
 
-const initializeCommonServices = (services: HikeSnapServices): void => {
+const initializeCommonServices = (services: ShareMyHikeServices): void => {
   services["Common.HttpService"] = new AxiosService();
+  services["Common.SecureStoreService"] = new SecureStoreServiceImpl();
 };
 
-export const ServicesContext = React.createContext<HikeSnapServices>(
+export const ServicesContext = React.createContext<ShareMyHikeServices>(
   initialize()
 );

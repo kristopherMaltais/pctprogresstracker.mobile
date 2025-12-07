@@ -1,3 +1,4 @@
+import { Theme } from "@/contexts/theme/models/theme";
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -17,40 +18,43 @@ export const ModalLanguagePicker: React.FC<ModalLanguagePickerProps> = ({
   onClose,
 }) => {
   const { i18n, t } = useTranslation();
-  const { getIcon } = useTheme();
+  const { getIcon, theme } = useTheme();
 
   return (
     <Modal animationType="slide" transparent={true} visible={isVisible}>
-      <Pressable style={styles.centeredView} onPress={onClose}>
-        <View style={styles.modalView}>
+      <Pressable style={styles(theme).centeredView} onPress={onClose}>
+        <View style={styles(theme).modalView}>
           <View>
-            <Text style={styles.title}>{title}</Text>
+            <Text style={styles(theme).title}>{title}</Text>
           </View>
           <View>
             <Pressable
               style={{
-                ...styles.languageButton,
+                ...styles(theme).languageButton,
                 borderWidth: i18n.language == "fr" ? 1 : 0,
-                borderColor: "black",
+                borderColor: theme.text,
               }}
               onPress={() => onLanguageChange("fr")}
             >
-              <Image source={getIcon("quebecFlag")} style={styles.image} />
-              <Text style={styles.language}>
+              <Image
+                source={getIcon("quebecFlag")}
+                style={styles(theme).image}
+              />
+              <Text style={styles(theme).language}>
                 {t("index:settings.language.french")}
               </Text>
             </Pressable>
             <Pressable
               testID="en-pressable"
               style={{
-                ...styles.languageButton,
+                ...styles(theme).languageButton,
                 borderWidth: i18n.language == "en" ? 1 : 0,
-                borderColor: "black",
+                borderColor: theme.text,
               }}
               onPress={() => onLanguageChange("en")}
             >
-              <Image source={getIcon("usaFlag")} style={styles.image} />
-              <Text style={styles.language}>
+              <Image source={getIcon("usaFlag")} style={styles(theme).image} />
+              <Text style={styles(theme).language}>
                 {t("index:settings.language.english")}
               </Text>
             </Pressable>
@@ -61,50 +65,50 @@ export const ModalLanguagePicker: React.FC<ModalLanguagePickerProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 16,
-  },
-  modalView: {
-    margin: 20,
-    width: "90%",
-    height: 220,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 24,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
+const styles = (theme: Theme) =>
+  StyleSheet.create({
+    centeredView: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 16,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  image: {
-    width: 45,
-    height: 45,
-    borderRadius: 30,
-    marginRight: 16,
-  },
-  title: {
-    marginBottom: 15,
-    fontWeight: "bold",
-    fontSize: 16,
-    color: "black",
-  },
-  languageButton: {
-    flexDirection: "row",
-    marginBottom: 10,
-    alignItems: "center",
-    borderRadius: 15,
-    padding: 8,
-    borderColor: "white",
-  },
-  language: {
-    color: "black",
-  },
-});
+    modalView: {
+      margin: 20,
+      width: "90%",
+      height: 220,
+      backgroundColor: theme.secondaryBackground,
+      borderRadius: 20,
+      padding: 24,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+    },
+    image: {
+      width: 45,
+      height: 45,
+      borderRadius: 30,
+      marginRight: 16,
+    },
+    title: {
+      marginBottom: 15,
+      fontWeight: "bold",
+      fontSize: 16,
+      color: theme.text,
+    },
+    languageButton: {
+      flexDirection: "row",
+      marginBottom: 10,
+      alignItems: "center",
+      borderRadius: 15,
+      padding: 8,
+    },
+    language: {
+      color: theme.text,
+    },
+  });

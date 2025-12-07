@@ -1,4 +1,5 @@
 import { usePremium } from "@/contexts/premium/PremiumContextProvider";
+import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { useViewShot } from "@/contexts/viewShot/ViewShotContextProvider";
 import React, { useEffect, useRef } from "react";
@@ -30,6 +31,7 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
   const { backgroundImage, isStickerSelectedPremium } = useUserChoices();
   const { isPremiumUnlocked } = usePremium();
   const { setViewShot } = useViewShot();
+  const { theme, isDarkMode } = useTheme();
 
   const viewShotRef = useRef<ViewShot>(null);
 
@@ -109,10 +111,15 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
             setShotHeight(height);
           }}
         >
-          <Animated.View style={styles.container}>
+          <Animated.View
+            style={{
+              ...styles().container,
+              backgroundColor: isDarkMode ? theme.background : "#E0E0E0",
+            }}
+          >
             <Animated.Image
               source={{ uri: backgroundImage }}
-              style={[styles.backgroundImage, animatedStyle]}
+              style={[styles().backgroundImage, animatedStyle]}
             />
             {children}
           </Animated.View>
@@ -122,19 +129,19 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    height: "100%",
-    backgroundColor: "#E0E0E0",
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "hidden",
-    elevation: 5,
-  },
-  backgroundImage: {
-    width: "100%",
-    height: "100%",
-    position: "absolute",
-    resizeMode: "cover",
-  },
-});
+const styles = () =>
+  StyleSheet.create({
+    container: {
+      height: "100%",
+      justifyContent: "center",
+      alignItems: "center",
+      overflow: "hidden",
+      elevation: 5,
+    },
+    backgroundImage: {
+      width: "100%",
+      height: "100%",
+      position: "absolute",
+      resizeMode: "cover",
+    },
+  });

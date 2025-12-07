@@ -1,25 +1,29 @@
+import { Theme } from "@/contexts/theme/models/theme";
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
-import { Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 export const ImageBuilderPlaceholder: React.FC = () => {
-  const { getIcon } = useTheme();
+  const { theme, isDarkMode } = useTheme();
   return (
-    <View style={styles.container}>
-      <Image source={getIcon("imageBuilderPlaceholder")} style={styles.image} />
-    </View>
+    <View
+      style={{
+        ...styles(theme).container,
+        backgroundColor: isDarkMode ? theme.background : "#E0E0E0",
+      }}
+    />
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    height: "90%",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-    elevation: 5,
-  },
-  image: {
-    width: 150,
-    height: 150,
-  },
-});
+const styles = (theme: Theme) =>
+  StyleSheet.create({
+    container: {
+      height: "90%",
+      justifyContent: "center",
+      alignItems: "center",
+      elevation: 5,
+    },
+    image: {
+      width: 150,
+      height: 150,
+    },
+  });

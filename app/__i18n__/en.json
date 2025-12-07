@@ -1,5 +1,6 @@
 {
   "dropDownHikeListPlaceHolder": "Select a hike",
+  "dropDownHikeSearchInputPlaceholder": "Find a hike...",
   "itinary": "What is your itinary?",
   "sticker": {
     "total": "Total",
@@ -37,16 +38,29 @@
     }
   },
   "premium": {
-    "title": "",
+    "title": "Go Premium",
     "success": "Your premium sticker is now unlocked. Thank you for your support!",
-    "error": "Something went wrong during the transaction. Please try again.",
-    "message": "Unlock this premium sticker for just $1.99! Each purchase helps the PCTA: $1 will be donated to support the Pacific Crest Trail.",
+    "error": "An error occurred during the transaction. Please try again.",
+    "description": "Fully enjoy your hiking app with the Premium plan. It offers you more freedom and extra tools to share your favorite moments.",
+    "offeringTitle": "What the Premium Plan offers you:",
+    "allTrails": {
+      "title": "All Trails: ",
+      "description": "Access our entire catalog of hikes. No limits, so you don't miss any of your explorations."
+    },
+    "noLogo": {
+      "title": "Photos without Watermark: ",
+      "description": "Share your hiking photos without the app's logo. Your memories remain entirely yours."
+    },
+    "allStickers": {
+      "title": "All Stickers: ",
+      "description": "Get unlimited access to all the app's exclusive stickers to customize your shares and highlight your progress on social media."
+    },
     "button": {
       "unlock": "Unlock this sticker",
+      "headerGoPremium": "Get Premium",
       "cancel": "Cancel",
-      "headerGoPremium": "GO PREMIUM",
       "close": "Close",
-      "buy": "Unlock & Support"
+      "buy": "Lifetime Access for $4.99"
     }
   },
   "errors": {

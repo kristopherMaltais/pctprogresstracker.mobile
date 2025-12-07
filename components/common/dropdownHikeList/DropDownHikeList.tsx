@@ -2,44 +2,19 @@ import { useHikes } from "@/contexts/hikes/HikesContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { Hike } from "@/models/hike";
 
+import { Theme } from "@/contexts/theme/models/theme";
+import { useTheme } from "@/contexts/theme/ThemeContextProvider";
+import { DropDownOption } from "@/models/dropdownOption";
 import { HikeWithItinary } from "@/models/hikeWithItinary";
 import { Itinary } from "@/models/itinary";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import { ItinarySelectModal } from "../ItinarySelectModal";
-
-type DropDownOption = {
-  label: string;
-  value: string;
-  disabled: boolean;
-};
+import { Option } from "./Option";
 
 type DropDownHikeListProps = {};
-
-const renderItem = (item: any) => {
-  const isDisabled = item.disabled;
-
-  if (isDisabled) {
-    return (
-      <View
-        key={item.value}
-        onStartShouldSetResponder={() => {
-          return true;
-        }}
-      >
-        <Text style={{ color: "red" }}>{item.label}</Text>
-      </View>
-    );
-  }
-
-  return (
-    <View key={item.value}>
-      <Text>{item.label}</Text>
-    </View>
-  );
-};
 
 export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
   const [hikeList, setHikeList] = useState<DropDownOption[]>([]);
@@ -48,14 +23,28 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
   const { hikes } = useHikes();
   const { selectedHike, setSelectedHike } = useUserChoices();
   const { t } = useTranslation();
+  const { theme } = useTheme();
 
   useEffect(() => {
     setHikeList(
-      hikes.map((hike: Hike | HikeWithItinary) => ({
-        label: hike.name,
-        value: hike.id,
-        disabled: hike.id == "1" ? true : false,
-      }))
+      hikes
+        .map((hike: Hike | HikeWithItinary) => ({
+          label: hike.name,
+          value: hike.id,
+          disabled: hike.id === "1",
+        }))
+        .sort((a, b) => {
+          const labelA = a.label.toLowerCase();
+          const labelB = b.label.toLowerCase();
+
+          if (labelA < labelB) {
+            return -1;
+          }
+          if (labelA > labelB) {
+            return 1;
+          }
+          return 0;
+        })
     );
   }, [hikes]);
 
@@ -86,9 +75,9 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles(theme).container}>
       <Dropdown
-        style={styles.dropdown}
+        style={styles(theme).dropdown}
         onChange={updateSelectedHike}
         search
         data={hikeList}
@@ -96,9 +85,23 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
         maxHeight={300}
         labelField="label"
         valueField="value"
-        renderItem={renderItem}
+        renderItem={(option: DropDownOption, selected?: boolean) => (
+          <Option option={option} selected={selected} />
+        )}
         placeholder={t("index:dropDownHikeListPlaceHolder")}
         disable={hikes.length == 0}
+        selectedTextStyle={{ color: theme.text }}
+        containerStyle={{
+          backgroundColor: theme.background,
+          borderWidth: 0,
+        }}
+        inputSearchStyle={{
+          borderColor: theme.text,
+          color: theme.text,
+          backgroundColor: theme.background,
+        }}
+        placeholderStyle={{ color: theme.text }}
+        searchPlaceholder={t("index:dropDownHikeSearchInputPlaceholder")}
       />
       {_selectedHike && "itinaries" in _selectedHike && (
         <ItinarySelectModal
@@ -114,18 +117,19 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
   );
 };
 
-const styles = StyleSheet.create({
-  dropdown: {
-    backgroundColor: "#fff",
-    marginHorizontal: 16,
-    marginTop: 0,
-    height: 50,
-    borderRadius: 10,
-    paddingHorizontal: 16,
-  },
-  container: {
-    width: "100%",
-    height: 80,
-    backgroundColor: "#FFCD3C",
-  },
-});
+const styles = (theme: Theme) =>
+  StyleSheet.create({
+    dropdown: {
+      backgroundColor: theme.background,
+      marginHorizontal: 16,
+      marginTop: 0,
+      height: 50,
+      borderRadius: 10,
+      paddingHorizontal: 16,
+    },
+    container: {
+      width: "100%",
+      height: 80,
+      backgroundColor: theme.header,
+    },
+  });

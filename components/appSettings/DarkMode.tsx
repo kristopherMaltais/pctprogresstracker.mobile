@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import { useTheme } from "@/contexts/theme/ThemeContextProvider";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { Setting } from "./Setting";
 
 export const DarkMode: React.FC = () => {
   const { t } = useTranslation();
-  const [isDarkMode, setIsDakMode] = useState<Boolean>(false);
+  const { isDarkMode, toggleDarkMode } = useTheme();
 
   return (
     <>
@@ -13,7 +14,7 @@ export const DarkMode: React.FC = () => {
         icon={"darkMode"}
         isToggle
         isEnable={isDarkMode}
-        onSettingPress={() => setIsDakMode(!isDarkMode)}
+        onSettingPress={() => toggleDarkMode()}
       />
     </>
   );
