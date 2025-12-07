@@ -1,3 +1,5 @@
+import { Theme } from "@/contexts/theme/models/theme";
+import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { getMeasurementUnit } from "@/helpers/getMeasurementUnit";
 import { MeasurementUnit } from "@/models/measurementUnit";
@@ -21,6 +23,8 @@ export const ModalDistanceHikedInput: React.FC<
 > = ({ isVisible, onClose }) => {
   const { distanceHiked, setDistanceHiked, measurementUnit, selectedHike } =
     useUserChoices();
+
+  const { theme } = useTheme();
 
   const getMaximumValue = () => {
     return measurementUnit == MeasurementUnit.KILOMETER
@@ -46,11 +50,14 @@ export const ModalDistanceHikedInput: React.FC<
 
   return (
     <Modal animationType="slide" transparent={true} visible={isVisible}>
-      <Pressable style={styles.centeredView} onPress={updateDistanceHiked}>
-        <View style={styles.modalView}>
-          <View style={styles.container}>
+      <Pressable
+        style={styles(theme).centeredView}
+        onPress={updateDistanceHiked}
+      >
+        <View style={styles(theme).modalView}>
+          <View style={styles(theme).container}>
             <TextInput
-              style={styles.input}
+              style={styles(theme).input}
               keyboardType="number-pad"
               value={distanceHiked.toString()}
               onChangeText={handleChangeText}
@@ -58,7 +65,9 @@ export const ModalDistanceHikedInput: React.FC<
               onSubmitEditing={updateDistanceHiked}
               autoFocus
             />
-            <Text>{getMeasurementUnit(measurementUnit)}</Text>
+            <Text style={styles(theme).measurementUnit}>
+              {getMeasurementUnit(measurementUnit)}
+            </Text>
           </View>
         </View>
       </Pressable>
@@ -66,37 +75,39 @@ export const ModalDistanceHikedInput: React.FC<
   );
 };
 
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 16,
-  },
-  modalView: {
-    margin: 20,
-    width: "75%",
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 16,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
+const styles = (theme: Theme) =>
+  StyleSheet.create({
+    centeredView: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 16,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  container: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  input: {
-    fontSize: 30,
-    height: 40,
-  },
-  measurementUnit: { marginLeft: 4 },
-});
+    modalView: {
+      margin: 20,
+      width: "75%",
+      backgroundColor: theme.secondaryBackground,
+      borderRadius: 20,
+      padding: 16,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+    },
+    container: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    input: {
+      fontSize: 30,
+      color: theme.text,
+      height: 40,
+    },
+    measurementUnit: { marginLeft: 4, color: theme.text },
+  });

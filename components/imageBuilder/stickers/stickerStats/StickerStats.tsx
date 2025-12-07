@@ -16,8 +16,9 @@ export const StickerStats: React.FC = () => {
 
   const { getIcon } = useTheme();
 
-  const calculatePercentage = () =>
-    (distanceHiked * 100) / selectedHike?.totalDistanceKilometer!;
+  const calculatePercentage = () => {
+    return (distanceHiked * 100) / selectedHike?.totalDistanceKilometer!;
+  };
 
   const getMeasurementUnit = () => {
     return measurementUnit == MeasurementUnit.KILOMETER ? "km" : "mi";

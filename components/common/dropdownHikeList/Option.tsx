@@ -14,7 +14,7 @@ export const Option: React.FC<OptionProps> = ({ option, selected }) => {
       key={option.value}
       style={{
         ...styles.container,
-        backgroundColor: theme.background,
+        backgroundColor: theme.secondaryBackground,
       }}
       onStartShouldSetResponder={() => (option.disabled ? true : false)}
     >

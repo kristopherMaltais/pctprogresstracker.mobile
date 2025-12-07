@@ -6,6 +6,7 @@
     "total": "Total",
     "distanceHiked": "Distance parcourue"
   },
+  "cancel": "Annuler",
   "userSettings": {
     "distanceHiked": "Distance parcourue",
     "unit": "Unité de mesure",
@@ -44,26 +45,26 @@
     "description": "Profitez pleinement de votre application de randonnée avec le Forfait Premium. Il vous offre plus de liberté et des outils supplémentaires pour partager vos moments préférés.",
     "offeringTitle": "Ce que le Forfait Premium vous offre :",
     "allTrails": {
-      "title": "Toutes les Trails: ",
+      "title": "Toutes les randonnées: ",
       "description": "Accédez à l'intégralité de notre catalogue de randonnées. Aucune limite, pour ne rien manquer de vos explorations."
     },
     "noLogo": {
-      "title": "Photos sans Filigrane: ",
+      "title": "Photos sans filigrane: ",
       "description": "Partagez vos photos de randonnée sans le logo de l'application. Vos souvenirs restent entièrement à vous."
     },
     "allStickers": {
-      "title": "Tous les Stickers: ",
-      "description": "Accès illimité à tous les stickers exclusifs de l'application pour personnaliser vos partages et mettre en valeur votre progression sur les réseaux sociaux."
+      "title": "Tous les autocollants: ",
+      "description": "Accès illimité à tous les autocollants exclusifs de l'application pour personnaliser vos partages et mettre en valeur votre progression sur les réseaux sociaux."
     },
     "button": {
       "unlock": "Débloquer cet autocollant",
       "headerGoPremium": "Obtenir Premium",
-      "cancel": "Annuler",
-      "close": "Fermer",
+      "success": "Achat effectué avec succès!",
       "buy": "Accès à vie pour 4,99$"
     }
   },
   "errors": {
-    "share": "Un erreur est survenu lors du partage de l'image"
+    "share": "Un erreur est survenu lors du partage de l'image",
+    "premium": "Une erreur est survenue lors de l'achat. Veuillez réessayer."
   }
 }

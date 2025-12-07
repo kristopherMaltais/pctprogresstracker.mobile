@@ -1,3 +1,4 @@
+import { Theme } from "@/contexts/theme/models/theme";
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import React, { useEffect, useState } from "react";
 import { Image, Modal, Pressable, StyleSheet, Text, View } from "react-native";
@@ -18,7 +19,7 @@ export const ModalSuccess: React.FC<ModalSuccessProps> = ({
     undefined
   );
 
-  const { getIcon } = useTheme();
+  const { getIcon, theme } = useTheme();
 
   useEffect(() => {
     if (isVisible) {
@@ -35,13 +36,13 @@ export const ModalSuccess: React.FC<ModalSuccessProps> = ({
 
   return (
     <Modal animationType="slide" transparent={true} visible={isVisible}>
-      <Pressable style={styles.centeredView} onPress={onPressCloseModal}>
-        <View style={styles.modalView}>
-          <View style={styles.imageContainer}>
-            <Image style={styles.image} source={getIcon("success")} />
+      <Pressable style={styles(theme).centeredView} onPress={onPressCloseModal}>
+        <View style={styles(theme).modalView}>
+          <View style={styles(theme).imageContainer}>
+            <Image style={styles(theme).image} source={getIcon("success")} />
           </View>
           <View>
-            <Text style={styles.message}>{message}</Text>
+            <Text style={styles(theme).message}>{message}</Text>
           </View>
         </View>
       </Pressable>
@@ -49,40 +50,42 @@ export const ModalSuccess: React.FC<ModalSuccessProps> = ({
   );
 };
 
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 16,
-  },
-  modalView: {
-    margin: 20,
-    width: "90%",
-    height: 220,
-    backgroundColor: "#fff",
-    borderRadius: 20,
-    padding: 24,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
+const styles = (theme: Theme) =>
+  StyleSheet.create({
+    centeredView: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 16,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  message: {
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  image: {
-    width: 70,
-    height: 70,
-  },
-  imageContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    paddingBottom: 30,
-  },
-});
+    modalView: {
+      margin: 20,
+      width: "90%",
+      height: 220,
+      backgroundColor: theme.secondaryBackground,
+      borderRadius: 20,
+      padding: 24,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+    },
+    message: {
+      fontWeight: "bold",
+      textAlign: "center",
+      color: theme.text,
+    },
+    image: {
+      width: 70,
+      height: 70,
+    },
+    imageContainer: {
+      justifyContent: "center",
+      alignItems: "center",
+      paddingBottom: 30,
+    },
+  });

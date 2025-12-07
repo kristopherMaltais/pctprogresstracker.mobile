@@ -38,10 +38,6 @@ export const icons: Array<Image> = [
     image: require("../../../assets/images/error.png"),
   },
   {
-    name: "lock",
-    image: require("../../../assets/images/lock.png"),
-  },
-  {
     name: "terms",
     image: require("../../../assets/images/terms.png"),
   },

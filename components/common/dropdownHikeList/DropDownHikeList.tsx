@@ -92,13 +92,13 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
         disable={hikes.length == 0}
         selectedTextStyle={{ color: theme.text }}
         containerStyle={{
-          backgroundColor: theme.background,
+          backgroundColor: theme.secondaryBackground,
           borderWidth: 0,
         }}
         inputSearchStyle={{
           borderColor: theme.text,
           color: theme.text,
-          backgroundColor: theme.background,
+          backgroundColor: theme.secondaryBackground,
         }}
         placeholderStyle={{ color: theme.text }}
         searchPlaceholder={t("index:dropDownHikeSearchInputPlaceholder")}

@@ -21,8 +21,12 @@ export const ImageBuilderSlider: React.FC = () => {
   const { selectedHike, setIsStickerSelectedPremium } = useUserChoices();
   const { isDarkMode } = useTheme();
 
-  const { isPremiumModalVisible, setIsPremiumModalVisible, buyPremiumSticker } =
-    usePremium();
+  const {
+    isPremiumModalVisible,
+    setIsPremiumModalVisible,
+    unlockPremium,
+    isPremiumUnlocked,
+  } = usePremium();
 
   const { height } = Dimensions.get("window");
 
@@ -49,10 +53,14 @@ export const ImageBuilderSlider: React.FC = () => {
   // Pan gesture
   const longPress = Gesture.LongPress()
     .onStart(() => {
-      runOnJS(setHideButtons)(true);
+      if (!stickers[activeIndex].isPremium || isPremiumUnlocked) {
+        runOnJS(setHideButtons)(true);
+      }
     })
     .onEnd(() => {
-      runOnJS(setHideButtons)(false);
+      if (!stickers[activeIndex].isPremium || isPremiumUnlocked) {
+        runOnJS(setHideButtons)(false);
+      }
     });
 
   const composedGesture = Gesture.Simultaneous(Gesture.Simultaneous(longPress));
@@ -75,7 +83,10 @@ export const ImageBuilderSlider: React.FC = () => {
       )}
       {selectedHike && (
         <>
-          <UserSettings disabled={false} hide={hideButtons} />
+          <UserSettings
+            disabled={stickers[activeIndex].isPremium && !isPremiumUnlocked}
+            hide={hideButtons}
+          />
           <SliderButton
             direction="left"
             onPress={changeIndex}
@@ -96,7 +107,7 @@ export const ImageBuilderSlider: React.FC = () => {
         />
       )}
       <ModalPremium
-        onConfirm={buyPremiumSticker}
+        onConfirm={unlockPremium}
         onCancel={() => setIsPremiumModalVisible(false)}
         isVisible={isPremiumModalVisible}
       />

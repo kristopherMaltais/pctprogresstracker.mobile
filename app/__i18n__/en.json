@@ -6,6 +6,7 @@
     "total": "Total",
     "distanceHiked": "Distance hiked"
   },
+  "cancel": "Cancel",
   "userSettings": {
     "distanceHiked": "Distance hiked",
     "unit": "Unit",
@@ -58,12 +59,12 @@
     "button": {
       "unlock": "Unlock this sticker",
       "headerGoPremium": "Get Premium",
-      "cancel": "Cancel",
-      "close": "Close",
+      "success": "Purchase completed successfully!",
       "buy": "Lifetime Access for $4.99"
     }
   },
   "errors": {
-    "share": "An error occurred while sharing the image"
+    "share": "An error occurred while sharing the image.",
+    "premium": "An error occurred during the purchase. Please try again."
   }
 }

@@ -22,7 +22,7 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const { getIcon, theme, isDarkMode } = useTheme();
   const { t } = useTranslation();
-  const { setIsPremiumModalVisible } = usePremium();
+  const { setIsPremiumModalVisible, isPremiumUnlocked } = usePremium();
   const { height } = Dimensions.get("window");
   return (
     <View
@@ -42,14 +42,16 @@ export const Header: React.FC<HeaderProps> = ({
             {pageTitle}
           </Text>
         </View>
-        <TouchableOpacity
-          onPress={() => setIsPremiumModalVisible(true)}
-          style={styles(theme).premium}
-        >
-          <Text style={{ fontWeight: "bold", color: "white" }}>
-            {t("index:premium.button.headerGoPremium")}
-          </Text>
-        </TouchableOpacity>
+        {!isPremiumUnlocked && (
+          <TouchableOpacity
+            onPress={() => setIsPremiumModalVisible(true)}
+            style={styles(theme).premium}
+          >
+            <Text style={{ fontWeight: "bold", color: "white" }}>
+              {t("index:premium.button.headerGoPremium")}
+            </Text>
+          </TouchableOpacity>
+        )}
         <TouchableOpacity onPress={toggleAppSettingsDrawer}>
           <Image
             source={getIcon("settings")}

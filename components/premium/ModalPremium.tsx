@@ -1,8 +1,21 @@
+import {
+  PremiumState,
+  usePremium,
+} from "@/contexts/premium/PremiumContextProvider";
 import { Theme } from "@/contexts/theme/models/theme";
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Image, Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import { Offering } from "./Offering";
 
 type ModalPremiumProps = {
   isVisible: boolean;
@@ -17,6 +30,7 @@ export const ModalPremium: React.FC<ModalPremiumProps> = ({
 }) => {
   const { t } = useTranslation();
   const { getIcon, theme } = useTheme();
+  const { premiumState } = usePremium();
 
   return (
     <Modal animationType="slide" transparent={true} visible={isVisible}>
@@ -26,47 +40,33 @@ export const ModalPremium: React.FC<ModalPremiumProps> = ({
             <Text style={styles(theme).title}>{t("index:premium.title")}</Text>
             <Image style={styles(theme).close} source={getIcon("close")} />
           </Pressable>
-          <Text style={{ color: theme.text }}>
-            {t("index:premium.description")}
-          </Text>
-          <Text style={{ marginTop: 16, marginBottom: 8, color: theme.text }}>
-            {t("index:premium.offeringTitle")}
-          </Text>
-          <View style={styles(theme).listItem}>
-            <Text style={styles(theme).bullet}>{"\u2022"}</Text>
-            <Text style={styles(theme).itemText}>
-              <Text style={{ fontWeight: "bold" }}>
-                {t("index:premium.allTrails.title")}
-              </Text>
-              {t("index:premium.allTrails.description")}
-            </Text>
-          </View>
-          <View style={styles(theme).listItem}>
-            <Text style={styles(theme).bullet}>{"\u2022"}</Text>
-            <Text style={styles(theme).itemText}>
-              <Text style={{ fontWeight: "bold" }}>
-                {t("index:premium.noLogo.title")}
-              </Text>
-              {t("index:premium.noLogo.description")}
-            </Text>
-          </View>
-          <View style={styles(theme).listItem}>
-            <Text style={styles(theme).bullet}>{"\u2022"}</Text>
-            <Text style={styles(theme).itemText}>
-              <Text style={{ fontWeight: "bold" }}>
-                {t("index:premium.allStickers.title")}
-              </Text>
-              {t("index:premium.allStickers.description")}
-            </Text>
-          </View>
+          <Offering />
           <View style={styles(theme).buttonContainer}>
-            <Pressable style={styles(theme).confirmButton} onPress={onConfirm}>
-              <Text
-                style={{ color: "white", fontWeight: "bold", fontSize: 16 }}
-              >
-                {t("index:premium.button.buy")}
-              </Text>
+            <Pressable
+              disabled={premiumState == PremiumState.SUCCESS}
+              style={styles(theme).confirmButton}
+              onPress={onConfirm}
+            >
+              {(premiumState == PremiumState.PENDING ||
+                premiumState == PremiumState.ERROR) && (
+                <Text style={styles(theme).confirmButtonText}>
+                  {t("index:premium.button.buy")}
+                </Text>
+              )}
+              {premiumState == PremiumState.PROCESSING && <ActivityIndicator />}
+              {premiumState == PremiumState.SUCCESS && (
+                <>
+                  <Text style={styles(theme).confirmButtonText}>
+                    {t("index:premium.button.success")}
+                  </Text>
+                </>
+              )}
             </Pressable>
+            {premiumState == PremiumState.ERROR && (
+              <Text style={styles(theme).error}>
+                {t("index:errors.premium")}
+              </Text>
+            )}
           </View>
         </View>
       </View>
@@ -120,28 +120,14 @@ const styles = (theme: Theme) =>
       backgroundColor: theme.primary,
       width: "100%",
     },
-    listContainer: {
-      marginVertical: 10,
-      paddingHorizontal: 20,
-    },
-    listItem: {
-      flexDirection: "row",
-      alignItems: "flex-start",
-      marginBottom: 5,
-    },
-    bullet: {
-      marginRight: 10,
-      fontSize: 20,
-      lineHeight: 20,
-      color: theme.text,
-    },
-    itemText: {
-      flex: 1,
-      lineHeight: 20,
-      color: theme.text,
-    },
+    confirmButtonText: { color: "white", fontWeight: "bold", fontSize: 16 },
     close: {
       width: 15,
       height: 15,
+    },
+    error: {
+      color: "#F74850",
+      marginTop: 16,
+      fontSize: 16,
     },
   });

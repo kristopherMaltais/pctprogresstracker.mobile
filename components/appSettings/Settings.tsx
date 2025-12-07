@@ -10,11 +10,11 @@ import {
   Image,
   Linking,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from "react-native";
 import { DarkMode } from "./DarkMode";
+import { RestorePremiumButton } from "./RestorePremiumButton";
 
 export default function Settings() {
   const { t } = useTranslation();
@@ -39,11 +39,7 @@ export default function Settings() {
       </View>
       <Language />
       <DarkMode />
-      <TouchableOpacity style={styles(theme).premium}>
-        <Text style={styles(theme).premiumText}>
-          {t("index:settings.restorePurchase")}
-        </Text>
-      </TouchableOpacity>
+      <RestorePremiumButton />
       <View style={styles(theme).separator} />
       <Terms />
       <PrivacyPolicy />
@@ -65,23 +61,9 @@ const styles = (theme: Theme) =>
     },
     separator: {
       borderTopWidth: 0.5,
-      height: 2,
+      height: 1,
       marginBottom: 16,
-    },
-    premium: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      paddingHorizontal: 8,
-      paddingVertical: 16,
-      borderRadius: 8,
-      marginBottom: 16,
-      backgroundColor: theme.primary,
-    },
-    premiumText: {
-      color: "white",
-      fontWeight: "bold",
-      textTransform: "uppercase",
+      backgroundColor: theme.text,
     },
     header: {
       display: "flex",

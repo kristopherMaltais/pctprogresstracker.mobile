@@ -5,10 +5,12 @@ import Purchases, {
   PurchasesOffering,
   PurchasesPackage,
 } from "react-native-purchases";
+import { useValidation } from "../validation/ValidationContextProvider";
 
 interface PremiumProps {
   isPremiumUnlocked: boolean;
-  buyPremiumSticker: () => void;
+  unlockPremium: () => void;
+  restorePremium: () => void;
   premiumState: PremiumState;
   isPremiumModalVisible: boolean;
   setIsPremiumModalVisible: (flag: boolean) => void;
@@ -48,19 +50,24 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
     useState<boolean>(false);
   const [isPremiumUnlocked, setIsPremiumUnlocked] = useState(false);
   const premiumStickerId = "premium_sticker";
+  const { showSuccessModal, showErrorModal } = useValidation();
 
   useEffect(() => {
     if (!isPremiumModalVisible) {
       setPremiumState(PremiumState.PENDING);
+    } else if (premimumState == PremiumState.SUCCESS) {
+      setTimeout(() => {
+        setIsPremiumModalVisible(false);
+      }, 2000);
     }
-  }, [isPremiumModalVisible]);
+  }, [isPremiumModalVisible, premimumState]);
 
   useEffect(() => {
     const setup = async () => {
       Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
 
-      const iosApiKey = "appl_UKeJQmzuWxMrqCWHCQznUmTJwXe";
-      // const iosApiKey = "test_BhUMjJVhCzCqQYwysjvdZSiznmF";
+      // const iosApiKey = "appl_UKeJQmzuWxMrqCWHCQznUmTJwXe";
+      const iosApiKey = "test_BhUMjJVhCzCqQYwysjvdZSiznmF";
       const androidApiKey = "test_BhUMjJVhCzCqQYwysjvdZSiznmF";
 
       if (Platform.OS === "ios") {
@@ -80,7 +87,7 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
     setup().catch(console.log);
   }, []);
 
-  const buyPremiumSticker = async () => {
+  const unlockPremium = async () => {
     setPremiumState(PremiumState.PROCESSING);
     if (!currentOffering) {
       console.log("No offering available");
@@ -110,9 +117,26 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
       });
   };
 
+  const restorePremium = async () => {
+    try {
+      const customerInfo = await Purchases.restorePurchases();
+      const premiumEntitlement = customerInfo.entitlements.active["premium"];
+
+      if (premiumEntitlement?.isActive) {
+        setIsPremiumUnlocked(true);
+        showSuccessModal("Achat restauré avec succés!");
+      } else {
+        showErrorModal("Aucun achat integre n'a ete retrouve.");
+      }
+    } catch (e) {
+      showErrorModal("Une erreur est survenu. Veuillez réasseyer.");
+    }
+  };
+
   const contextValue: PremiumProps = {
     isPremiumUnlocked: isPremiumUnlocked,
-    buyPremiumSticker: buyPremiumSticker,
+    unlockPremium: unlockPremium,
+    restorePremium: restorePremium,
     premiumState: premimumState,
     isPremiumModalVisible: isPremiumModalVisible,
     setIsPremiumModalVisible: setIsPremiumModalVisible,

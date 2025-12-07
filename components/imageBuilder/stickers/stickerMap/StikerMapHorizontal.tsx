@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   statsContainer: {
     display: "flex",
     alignItems: "center",
-    width: 145,
+    width: 160,
   },
   label: {
     color: "white",

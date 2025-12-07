@@ -45,4 +45,8 @@ export const iconsLightMode: Array<Image> = [
     name: "close",
     image: require("../../../assets/images/lightMode/close.png"),
   },
+  {
+    name: "lock",
+    image: require("../../../assets/images/lightMode/lock.png"),
+  },
 ];
