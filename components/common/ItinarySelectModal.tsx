@@ -103,6 +103,6 @@ const styles = (theme: Theme) =>
     cancelButton: {
       padding: 12,
       borderRadius: 10,
-      backgroundColor: "#E8E8EE",
+      backgroundColor: theme.tertiaryBackground,
     },
   });

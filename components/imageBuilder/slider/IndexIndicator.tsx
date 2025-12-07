@@ -47,6 +47,6 @@ const styles = (theme: Theme) =>
       backgroundColor: theme.primary,
     },
     inactiveDot: {
-      backgroundColor: "#D1D1D1",
+      backgroundColor: "#E0E0E0",
     },
   });

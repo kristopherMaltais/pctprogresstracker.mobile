@@ -1,3 +1,5 @@
+import { Theme } from "@/contexts/theme/models/theme";
+import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import Animated, {
@@ -13,6 +15,7 @@ type ProgressBarProps = {
 
 export const ProgressBar: React.FC<ProgressBarProps> = ({ percentage }) => {
   const widthPercentage = Math.max(0, Math.min(100, percentage));
+  const { theme } = useTheme();
 
   const animatedWidth = useSharedValue(0);
 
@@ -30,22 +33,23 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ percentage }) => {
   });
 
   return (
-    <View style={styles.container}>
-      <Animated.View style={[styles.filledBar, barStyle]} />
+    <View style={styles(theme).container}>
+      <Animated.View style={[styles(theme).filledBar, barStyle]} />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    height: 20,
-    borderWidth: 1,
-    borderColor: "#FC5200",
-    overflow: "hidden",
-  },
-  filledBar: {
-    height: "100%",
-    backgroundColor: "#FC5200",
-  },
-});
+const styles = (theme: Theme) =>
+  StyleSheet.create({
+    container: {
+      width: "100%",
+      height: 20,
+      borderWidth: 1,
+      borderColor: theme.pathColored,
+      overflow: "hidden",
+    },
+    filledBar: {
+      height: "100%",
+      backgroundColor: theme.pathColored,
+    },
+  });

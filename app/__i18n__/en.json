@@ -40,8 +40,9 @@
   },
   "premium": {
     "title": "Go Premium",
-    "success": "Your premium sticker is now unlocked. Thank you for your support!",
-    "error": "An error occurred during the transaction. Please try again.",
+    "restoreSuccess": "Purchase restored successfully!",
+    "restoreNoUserFound": "No purchases to restore.",
+    "restoreError": "Unable to restore purchase, please try again.",
     "description": "Fully enjoy your hiking app with the Premium plan. It offers you more freedom and extra tools to share your favorite moments.",
     "offeringTitle": "What the Premium Plan offers you:",
     "allTrails": {

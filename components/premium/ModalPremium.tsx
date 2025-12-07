@@ -126,7 +126,7 @@ const styles = (theme: Theme) =>
       height: 15,
     },
     error: {
-      color: "#F74850",
+      color: theme.error,
       marginTop: 16,
       fontSize: 16,
     },

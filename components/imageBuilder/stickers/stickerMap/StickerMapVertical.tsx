@@ -25,7 +25,7 @@ export const StickerMapVertical: React.FC = () => {
 
   const AnimatedPath = Animated.createAnimatedComponent(Path);
   const progress = useSharedValue(0);
-  const { getIcon } = useTheme();
+  const { getIcon, theme } = useTheme();
 
   const animatedProps = useAnimatedProps(() => {
     const length = selectedHike?.stickerMetadata.pathLength ?? 0;
@@ -66,23 +66,32 @@ export const StickerMapVertical: React.FC = () => {
         >
           {showBorders && (
             <>
-              <Path d={selectedHike?.border} stroke="white" strokeWidth={4} />
+              <Path
+                d={selectedHike?.border}
+                stroke={theme.borders}
+                strokeWidth={4}
+              />
               {selectedHike?.regions.map((region: string, index: number) => {
                 return (
-                  <Path key={index} d={region} stroke="white" strokeWidth={4} />
+                  <Path
+                    key={index}
+                    d={region}
+                    stroke={theme.borders}
+                    strokeWidth={4}
+                  />
                 );
               })}
             </>
           )}
           <Path
             d={selectedHike?.path}
-            stroke="#D5D5D5"
+            stroke={theme.path}
             strokeWidth={13}
             strokeLinecap="round"
           />
           <AnimatedPath
             d={selectedHike?.path}
-            stroke="#FC5200"
+            stroke={theme.pathColored}
             strokeWidth={10}
             strokeLinecap="round"
             fill="none"

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Platform } from "react-native";
 import Purchases, {
   LOG_LEVEL,
@@ -40,6 +41,7 @@ export const usePremium = (): PremiumProps => {
 };
 
 export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
+  const { t } = useTranslation();
   const [currentOffering, setCurrentOffering] =
     useState<PurchasesOffering | null>(null);
 
@@ -124,12 +126,12 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
 
       if (premiumEntitlement?.isActive) {
         setIsPremiumUnlocked(true);
-        showSuccessModal("Achat restauré avec succés!");
+        showSuccessModal(t("index:premium.restoreSuccess"));
       } else {
-        showErrorModal("Aucun achat integre n'a ete retrouve.");
+        showErrorModal(t("index:premium.restoreNoUserFound"));
       }
     } catch (e) {
-      showErrorModal("Une erreur est survenu. Veuillez réasseyer.");
+      showErrorModal(t("index:premium.restoreError"));
     }
   };
 

@@ -40,8 +40,9 @@
   },
   "premium": {
     "title": "Passez à Premium",
-    "success": "Votre sticker premium est maintenant débloqué. Merci pour votre soutien !",
-    "error": "Une erreur est survenue pendant la transaction. Veuillez réessayer.",
+    "restoreSuccess": "Achat restauré avec succès!",
+    "restoreNoUserFound": "Aucun achat à restaurer.",
+    "restoreError": "Impossible de restaurer l'achat, veuillez réessayer.",
     "description": "Profitez pleinement de votre application de randonnée avec le Forfait Premium. Il vous offre plus de liberté et des outils supplémentaires pour partager vos moments préférés.",
     "offeringTitle": "Ce que le Forfait Premium vous offre :",
     "allTrails": {

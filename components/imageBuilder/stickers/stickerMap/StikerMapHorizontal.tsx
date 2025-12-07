@@ -25,7 +25,7 @@ export const StickerMapHorizontal: React.FC = () => {
   const { t } = useTranslation();
   const [isReverse, setIsReverse] = useState<boolean>(true);
 
-  const { getIcon } = useTheme();
+  const { getIcon, theme } = useTheme();
 
   const AnimatedPath = Animated.createAnimatedComponent(Path);
 
@@ -96,23 +96,32 @@ export const StickerMapHorizontal: React.FC = () => {
         >
           {showBorders && (
             <>
-              <Path d={selectedHike?.border} stroke="white" strokeWidth={4} />
+              <Path
+                d={selectedHike?.border}
+                stroke={theme.borders}
+                strokeWidth={4}
+              />
               {selectedHike?.regions.map((region: string, index: number) => {
                 return (
-                  <Path key={index} d={region} stroke="white" strokeWidth={4} />
+                  <Path
+                    key={index}
+                    d={region}
+                    stroke={theme.borders}
+                    strokeWidth={4}
+                  />
                 );
               })}
             </>
           )}
           <Path
             d={selectedHike?.path}
-            stroke="#D5D5D5"
+            stroke={theme.path}
             strokeWidth={16}
             strokeLinecap="round"
           />
           <AnimatedPath
             d={isReverse ? reverse(selectedHike?.path!) : selectedHike?.path}
-            stroke="#FC5200"
+            stroke={theme.pathColored}
             strokeWidth={10}
             fill="none"
             strokeDasharray={selectedHike?.stickerMetadata.pathLength}
