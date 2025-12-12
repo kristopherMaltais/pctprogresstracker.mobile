@@ -71,6 +71,8 @@ const styles = (theme: Theme) =>
       justifyContent: "center",
       alignItems: "center",
       width: "100%",
+      marginTop: 16,
+      marginBottom: 16,
     },
     instagram: {
       width: 25,
@@ -78,7 +80,7 @@ const styles = (theme: Theme) =>
       marginTop: 40,
     },
     icon: {
-      width: 100,
-      height: 100,
+      width: 95,
+      height: 60,
     },
   });

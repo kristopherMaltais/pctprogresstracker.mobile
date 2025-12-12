@@ -6,5 +6,6 @@ export type StickerMetadata = {
   pathLength: number;
   width: number;
   height: number;
+  largeStickerRatio: number;
   isRoundTrip: boolean;
 };

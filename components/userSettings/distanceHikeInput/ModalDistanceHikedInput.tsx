@@ -39,8 +39,11 @@ export const ModalDistanceHikedInput: React.FC<
 
   const handleChangeText = (text: string) => {
     const parsed = parseInt(text, 10);
-    if (!isNaN(parsed)) updateValue(parsed);
-    else if (text === "") updateValue(0);
+    if (!isNaN(parsed)) {
+      updateValue(parsed);
+    } else {
+      updateValue(0);
+    }
   };
 
   const updateDistanceHiked = () => {
@@ -58,7 +61,7 @@ export const ModalDistanceHikedInput: React.FC<
           <View style={styles(theme).container}>
             <TextInput
               style={styles(theme).input}
-              keyboardType="number-pad"
+              keyboardType="numeric"
               value={distanceHiked.toString()}
               onChangeText={handleChangeText}
               returnKeyType="done"
@@ -108,6 +111,7 @@ const styles = (theme: Theme) =>
       fontSize: 30,
       color: theme.text,
       height: 40,
+      minWidth: 20,
     },
     measurementUnit: { marginLeft: 4, color: theme.text },
   });

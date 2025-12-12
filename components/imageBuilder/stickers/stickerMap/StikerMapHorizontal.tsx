@@ -77,7 +77,10 @@ export const StickerMapHorizontal: React.FC = () => {
     <GestureWrapper>
       <View style={styles.container}>
         <View style={styles.statsContainer}>
-          <Image source={getIcon("icon")} style={{ width: 100, height: 100 }} />
+          <Image
+            source={getIcon("iconWithTextBackground")}
+            style={{ width: 84, height: 75 }}
+          />
           <Text style={styles.name}>{selectedHike?.name}</Text>
           <Text style={styles.label}>{t("index:sticker.total")}</Text>
           <Text style={styles.value}>
@@ -116,7 +119,7 @@ export const StickerMapHorizontal: React.FC = () => {
           <Path
             d={selectedHike?.path}
             stroke={theme.path}
-            strokeWidth={16}
+            strokeWidth={10}
             strokeLinecap="round"
           />
           <AnimatedPath

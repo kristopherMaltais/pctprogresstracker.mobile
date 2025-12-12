@@ -39,7 +39,10 @@ export const Header: React.FC<HeaderProps> = ({
               color: isDarkMode ? "#E2E4E6" : "white",
             }}
           >
-            {pageTitle}
+            <Image
+              style={{ width: 150, height: 15 }}
+              source={getIcon("iconText")}
+            />
           </Text>
         </View>
         {!isPremiumUnlocked && (

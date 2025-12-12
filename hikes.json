@@ -1,6 +1,7 @@
 [
   {
     "id": "1",
+    "isPremium": false,
     "totalDistanceKilometer": "4265",
     "totalDistanceMile": "2650",
     "name": "Pacific Crest Trail",
@@ -14,6 +15,7 @@
       "direction": "horizontal",
       "width": "125",
       "height": "250",
+      "largeStickerRatio": "1.4",
       "pathLength": "955",
       "isRoundTrip": false
     },
@@ -22,6 +24,7 @@
   },
   {
     "id": "2",
+    "isPremium": false,
     "totalDistanceKilometer": "4990",
     "totalDistanceMile": "3100",
     "name": "Continental Divide Trail",
@@ -39,6 +42,7 @@
       "direction": "horizontal",
       "width": "150",
       "height": "235",
+      "largeStickerRatio": "1.5",
       "pathLength": "1172",
       "isRoundTrip": false
     },
@@ -47,6 +51,7 @@
   },
   {
     "id": "3",
+    "isPremium": false,
     "totalDistanceKilometer": "3540",
     "totalDistanceMile": "2200",
     "name": "Appalachian Trail",
@@ -56,6 +61,7 @@
       "direction": "horizontal",
       "width": "170",
       "height": "240",
+      "largeStickerRatio": "1.4",
       "pathLength": "864",
       "isRoundTrip": false
     },
@@ -64,6 +70,7 @@
   },
   {
     "id": "4",
+    "isPremium": true,
     "totalDistanceKilometer": "180",
     "totalDistanceMile": "112",
     "name": "GR20",
@@ -75,6 +82,7 @@
       "direction": "horizontal",
       "width": "135",
       "height": "270",
+      "largeStickerRatio": "1.6",
       "pathLength": "523",
       "isRoundTrip": false
     },
@@ -83,6 +91,7 @@
   },
   {
     "id": "5",
+    "isPremium": false,
     "name": "Tour du Mont Blanc",
     "itinaries": [
       {
@@ -96,6 +105,7 @@
           "direction": "vertical",
           "width": "280",
           "height": "280",
+          "largeStickerRatio": "1",
           "pathLength": "1777",
           "isRoundTrip": false
         },
@@ -116,6 +126,7 @@
           "direction": "vertical",
           "width": "280",
           "height": "280",
+          "largeStickerRatio": "1",
           "pathLength": "1796",
           "isRoundTrip": false
         },
@@ -136,6 +147,7 @@
           "direction": "vertical",
           "width": "280",
           "height": "280",
+          "largeStickerRatio": "1",
           "pathLength": "1794",
           "isRoundTrip": false
         },
@@ -156,6 +168,7 @@
           "direction": "vertical",
           "width": "280",
           "height": "280",
+          "largeStickerRatio": "1",
           "pathLength": "1788",
           "isRoundTrip": false
         },
@@ -176,6 +189,7 @@
           "direction": "vertical",
           "width": "280",
           "height": "280",
+          "largeStickerRatio": "1",
           "pathLength": "1791",
           "isRoundTrip": false
         },
@@ -196,6 +210,7 @@
           "direction": "vertical",
           "width": "280",
           "height": "280",
+          "largeStickerRatio": "1",
           "pathLength": "1799",
           "isRoundTrip": false
         },
@@ -210,6 +225,7 @@
   {
     "id": "6",
     "name": "Colorado Trail",
+    "isPremium": true,
     "itinaries": [
       {
         "name": "Collegiate East",
@@ -222,6 +238,7 @@
           "direction": "vertical",
           "width": "320",
           "height": "230",
+          "largeStickerRatio": "0.9",
           "pathLength": "1013",
           "isRoundTrip": false
         },
@@ -240,6 +257,7 @@
           "direction": "vertical",
           "width": "320",
           "height": "230",
+          "largeStickerRatio": "0.9",
           "pathLength": "964",
           "isRoundTrip": false
         },
@@ -251,6 +269,7 @@
   },
   {
     "id": "7",
+    "isPremium": true,
     "totalDistanceKilometer": "650",
     "totalDistanceMile": "404",
     "name": "SIA",
@@ -262,6 +281,7 @@
       "direction": "vertical",
       "width": "320",
       "height": "160",
+      "largeStickerRatio": "1",
       "pathLength": "1243",
       "isRoundTrip": false
     },
@@ -270,6 +290,7 @@
   },
   {
     "id": "8",
+    "isPremium": true,
     "totalDistanceKilometer": "1300",
     "totalDistanceMile": "800",
     "name": "Arizona Trail",
@@ -281,6 +302,7 @@
       "direction": "horizontal",
       "width": "180",
       "height": "270",
+      "largeStickerRatio": "1.3",
       "pathLength": "955",
       "isRoundTrip": false
     },
@@ -289,6 +311,7 @@
   },
   {
     "id": "9",
+    "isPremium": false,
     "name": "Camino Frances",
     "itinaries": [
       {
@@ -302,6 +325,7 @@
           "direction": "vertical",
           "width": "230",
           "height": "230",
+          "largeStickerRatio": "1.2",
           "pathLength": "465",
           "isRoundTrip": false
         },
@@ -319,6 +343,7 @@
           "viewbox": "0 0 854 715",
           "direction": "vertical",
           "width": "295",
+          "largeStickerRatio": "1",
           "height": "240",
           "pathLength": "522",
           "isRoundTrip": false
@@ -340,6 +365,7 @@
           "direction": "vertical",
           "width": "295",
           "height": "240",
+          "largeStickerRatio": "1",
           "pathLength": "355",
           "isRoundTrip": false
         },
@@ -359,6 +385,7 @@
           "viewbox": "0 0 854 715",
           "direction": "vertical",
           "width": "295",
+          "largeStickerRatio": "1",
           "height": "240",
           "pathLength": "208",
           "isRoundTrip": false
@@ -380,6 +407,7 @@
           "direction": "vertical",
           "width": "295",
           "height": "240",
+          "largeStickerRatio": "1",
           "pathLength": "485",
           "isRoundTrip": false
         },
@@ -400,6 +428,7 @@
           "direction": "vertical",
           "width": "295",
           "height": "240",
+          "largeStickerRatio": "1",
           "pathLength": "485",
           "isRoundTrip": false
         },
@@ -420,6 +449,7 @@
           "direction": "vertical",
           "width": "295",
           "height": "240",
+          "largeStickerRatio": "1",
           "pathLength": "452",
           "isRoundTrip": false
         },
@@ -433,6 +463,7 @@
   },
   {
     "id": "10",
+    "isPremium": false,
     "name": "Camino Portugues",
     "itinaries": [
       {
@@ -446,6 +477,7 @@
           "direction": "horizontal",
           "width": "200",
           "height": "340",
+          "largeStickerRatio": "1.1",
           "pathLength": "465",
           "isRoundTrip": false
         },
@@ -458,6 +490,7 @@
   },
   {
     "id": "11",
+    "isPremium": false,
     "totalDistanceKilometer": "130",
     "totalDistanceMile": "80",
     "name": "Everest Base Camp Trek",
@@ -472,6 +505,7 @@
       "direction": "horizontal",
       "width": "120",
       "height": "3270",
+      "largeStickerRatio": "1.7",
       "pathLength": "776",
       "isRoundTrip": true
     },
@@ -479,6 +513,7 @@
   },
   {
     "id": "12",
+    "isPremium": true,
     "totalDistanceKilometer": "3034",
     "totalDistanceMile": "1885",
     "name": "Hexatrek",
@@ -491,6 +526,7 @@
       "direction": "vertical",
       "width": "300",
       "height": "300",
+      "largeStickerRatio": "1",
       "pathLength": "840",
       "isRoundTrip": false
     },

@@ -125,4 +125,8 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     paddingHorizontal: 24,
   },
+  contentContainer: {
+    flex: 1,
+    alignItems: "center",
+  },
 });

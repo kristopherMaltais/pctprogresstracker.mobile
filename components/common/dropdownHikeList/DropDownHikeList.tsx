@@ -2,6 +2,7 @@ import { useHikes } from "@/contexts/hikes/HikesContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { Hike } from "@/models/hike";
 
+import { usePremium } from "@/contexts/premium/PremiumContextProvider";
 import { Theme } from "@/contexts/theme/models/theme";
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { DropDownOption } from "@/models/dropdownOption";
@@ -21,6 +22,7 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [_selectedHike, _setSelectedHike] = useState<Hike | HikeWithItinary>();
   const { hikes } = useHikes();
+  const { isPremiumUnlocked } = usePremium();
   const { selectedHike, setSelectedHike } = useUserChoices();
   const { t } = useTranslation();
   const { theme } = useTheme();
@@ -31,7 +33,7 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
         .map((hike: Hike | HikeWithItinary) => ({
           label: hike.name,
           value: hike.id,
-          disabled: hike.id === "1",
+          disabled: hike.isPremium && !isPremiumUnlocked,
         }))
         .sort((a, b) => {
           const labelA = a.label.toLowerCase();
@@ -46,7 +48,7 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
           return 0;
         })
     );
-  }, [hikes]);
+  }, [hikes, isPremiumUnlocked]);
 
   const updateSelectedHike = (option: DropDownOption) => {
     const hikeFound = hikes.find(

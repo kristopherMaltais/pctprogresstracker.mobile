@@ -1,7 +1,7 @@
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { MeasurementUnit } from "@/models/measurementUnit";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import Animated, {
   useAnimatedProps,
@@ -9,6 +9,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import Svg, { Path } from "react-native-svg";
+import { reverse } from "svg-path-reverse";
 
 export const StickerMapLarge: React.FC = () => {
   const {
@@ -20,6 +21,7 @@ export const StickerMapLarge: React.FC = () => {
   } = useUserChoices();
 
   const { getIcon, theme } = useTheme();
+  const [isReverse, setIsReverse] = useState<boolean>(true);
 
   const AnimatedPath = Animated.createAnimatedComponent(Path);
   const progress = useSharedValue(0);
@@ -30,17 +32,38 @@ export const StickerMapLarge: React.FC = () => {
   }));
 
   useEffect(() => {
+    if (!selectedHike?.stickerMetadata.pathLength) return;
+
+    let _distanceHiked = distanceHiked;
+    let _selectedHikedTotalDistance = selectedHikeTotalDistance;
+    if (
+      selectedHike.stickerMetadata.isRoundTrip &&
+      distanceHiked > selectedHike.totalDistanceKilometer / 2
+    ) {
+      _selectedHikedTotalDistance = selectedHikeTotalDistance / 2;
+      _distanceHiked = distanceHiked - _selectedHikedTotalDistance;
+      setIsReverse(true);
+    } else {
+      setIsReverse(false);
+    }
+
     const ratio = Math.max(
       0,
-      Math.min(1, distanceHiked / selectedHikeTotalDistance)
+      Math.min(1, _distanceHiked / _selectedHikedTotalDistance)
     );
+
+    progress.value = 0;
     progress.value = withTiming(
-      ratio * selectedHike?.stickerMetadata.pathLength!,
+      ratio * selectedHike.stickerMetadata.pathLength,
       {
         duration: 2000,
       }
     );
-  }, [distanceHiked, selectedHikeTotalDistance]);
+  }, [
+    distanceHiked,
+    selectedHikeTotalDistance,
+    selectedHike?.stickerMetadata.pathLength,
+  ]);
 
   return (
     <View style={styles.container}>
@@ -53,8 +76,14 @@ export const StickerMapLarge: React.FC = () => {
       </View>
       <View>
         <Svg
-          width={selectedHike?.stickerMetadata.width! * 1.4}
-          height={selectedHike?.stickerMetadata.height! * 1.4}
+          width={
+            selectedHike?.stickerMetadata.width! *
+            selectedHike?.stickerMetadata.largeStickerRatio!
+          }
+          height={
+            selectedHike?.stickerMetadata.height! *
+            selectedHike?.stickerMetadata.largeStickerRatio!
+          }
           viewBox={selectedHike?.stickerMetadata.viewbox}
           fill="none"
         >
@@ -77,9 +106,15 @@ export const StickerMapLarge: React.FC = () => {
               })}
             </>
           )}
-          <Path d={selectedHike?.path} stroke={theme.path} strokeWidth={16} />
-          <AnimatedPath
+          <Path
             d={selectedHike?.path}
+            stroke={theme.path}
+            strokeWidth={16}
+            strokeLinecap="round"
+          />
+          <AnimatedPath
+            strokeLinecap="round"
+            d={isReverse ? reverse(selectedHike?.path!) : selectedHike?.path}
             stroke={theme.pathColored}
             strokeWidth={10}
             fill="none"
@@ -88,7 +123,7 @@ export const StickerMapLarge: React.FC = () => {
           />
         </Svg>
       </View>
-      <Image style={styles.logo} source={getIcon("icon")} />
+      <Image style={styles.logo} source={getIcon("iconWithTextBackground")} />
     </View>
   );
 };
@@ -103,10 +138,10 @@ const styles = StyleSheet.create({
   },
   logo: {
     position: "absolute",
-    bottom: 0,
-    right: 0,
-    width: 80,
-    height: 80,
+    bottom: 10,
+    right: 20,
+    width: 60,
+    height: 55,
   },
   trailName: {
     color: "white",

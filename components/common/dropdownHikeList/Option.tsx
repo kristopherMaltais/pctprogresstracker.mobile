@@ -7,7 +7,7 @@ type OptionProps = {
   selected?: boolean;
 };
 
-export const Option: React.FC<OptionProps> = ({ option, selected }) => {
+export const Option: React.FC<OptionProps> = ({ option }) => {
   const { theme } = useTheme();
   return (
     <View
@@ -18,7 +18,15 @@ export const Option: React.FC<OptionProps> = ({ option, selected }) => {
       }}
       onStartShouldSetResponder={() => (option.disabled ? true : false)}
     >
-      <Text style={{ ...styles.text, color: theme.text }}>{option.label}</Text>
+      <Text
+        style={{
+          ...styles.text,
+          color: theme.text,
+          opacity: option.disabled ? 0.2 : 1,
+        }}
+      >
+        {option.label}
+      </Text>
     </View>
   );
 };

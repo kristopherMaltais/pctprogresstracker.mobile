@@ -37,7 +37,10 @@ export const StickerStats: React.FC = () => {
               alignItems: "center",
             }}
           >
-            <Image source={getIcon("icon")} style={styles.logo} />
+            <Image
+              source={getIcon("iconWithTextBackground")}
+              style={styles.logo}
+            />
           </View>
         </View>
 
@@ -106,5 +109,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-  logo: { width: 60, height: 60 },
+  logo: { width: 58, height: 50, marginBottom: 10 },
 });
