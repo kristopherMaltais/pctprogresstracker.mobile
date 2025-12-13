@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Setting } from "./Setting";
 
 type DirectionProps = {
@@ -5,10 +6,11 @@ type DirectionProps = {
 };
 
 export const Direction: React.FC<DirectionProps> = ({ isMenuOpen }) => {
+  const { t } = useTranslation();
   return (
     <Setting
       icon="direction"
-      label="Direction"
+      label={t("index:userSettings.direction")}
       showLabel={isMenuOpen}
       onPress={() => {}}
     />

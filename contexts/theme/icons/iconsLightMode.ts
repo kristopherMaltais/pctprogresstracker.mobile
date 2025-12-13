@@ -61,4 +61,8 @@ export const iconsLightMode: Array<Image> = [
     name: "position",
     image: require("../../../assets/images/lightMode/position.png"),
   },
+  {
+    name: "save",
+    image: require("../../../assets/images/lightMode/save.png"),
+  },
 ];

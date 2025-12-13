@@ -1,7 +1,7 @@
 import { useValidation } from "@/contexts/validation/ValidationContextProvider";
 import { useViewShot } from "@/contexts/viewShot/ViewShotContextProvider";
 import * as Sharing from "expo-sharing";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 import { Setting } from "./Setting";
 
 type ShareProps = {
@@ -10,6 +10,7 @@ type ShareProps = {
 
 export const Share: React.FC<ShareProps> = ({ isMenuOpen }) => {
   const { viewShot } = useViewShot();
+  const { t } = useTranslation();
   const { showErrorModal } = useValidation();
 
   const share = async () => {
@@ -36,7 +37,7 @@ export const Share: React.FC<ShareProps> = ({ isMenuOpen }) => {
   return (
     <Setting
       icon="share"
-      label="share"
+      label={t("index:userSettings.share")}
       showLabel={isMenuOpen}
       onPress={share}
     />

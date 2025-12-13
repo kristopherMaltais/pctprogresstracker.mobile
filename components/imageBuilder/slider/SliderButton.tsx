@@ -68,11 +68,11 @@ const styles = (theme: Theme) =>
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      top: "40%",
+      top: "80%",
       backgroundColor: theme.secondaryBackground,
       height: 40,
       width: 40,
-      borderRadius: 10,
+      borderRadius: 20,
     },
     imageLeft: {
       width: 10,

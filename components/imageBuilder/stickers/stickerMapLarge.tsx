@@ -1,7 +1,7 @@
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { MeasurementUnit } from "@/models/measurementUnit";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import Animated, {
   useAnimatedProps,
@@ -9,11 +9,11 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import Svg, { Path } from "react-native-svg";
-import { reverse } from "svg-path-reverse";
 
 export const StickerMapLarge: React.FC = () => {
   const {
-    distanceHiked,
+    displayedDistanceHiked,
+    pathDistanceHiked,
     selectedHikeTotalDistance,
     showBorders,
     selectedHike,
@@ -21,7 +21,6 @@ export const StickerMapLarge: React.FC = () => {
   } = useUserChoices();
 
   const { getIcon, theme } = useTheme();
-  const [isReverse, setIsReverse] = useState<boolean>(true);
 
   const AnimatedPath = Animated.createAnimatedComponent(Path);
   const progress = useSharedValue(0);
@@ -34,33 +33,24 @@ export const StickerMapLarge: React.FC = () => {
   useEffect(() => {
     if (!selectedHike?.stickerMetadata.pathLength) return;
 
-    let _distanceHiked = distanceHiked;
-    let _selectedHikedTotalDistance = selectedHikeTotalDistance;
-    if (
-      selectedHike.stickerMetadata.isRoundTrip &&
-      distanceHiked > selectedHike.totalDistanceKilometer / 2
-    ) {
-      _selectedHikedTotalDistance = selectedHikeTotalDistance / 2;
-      _distanceHiked = distanceHiked - _selectedHikedTotalDistance;
-      setIsReverse(true);
-    } else {
-      setIsReverse(false);
-    }
-
     const ratio = Math.max(
       0,
-      Math.min(1, _distanceHiked / _selectedHikedTotalDistance)
+      Math.min(1, pathDistanceHiked / selectedHikeTotalDistance)
     );
 
     progress.value = 0;
-    progress.value = withTiming(
-      ratio * selectedHike.stickerMetadata.pathLength,
-      {
-        duration: 2000,
-      }
-    );
+    if (pathDistanceHiked != displayedDistanceHiked) {
+      progress.value = ratio * selectedHike.stickerMetadata.pathLength;
+    } else {
+      progress.value = withTiming(
+        ratio * selectedHike.stickerMetadata.pathLength,
+        {
+          duration: 2000,
+        }
+      );
+    }
   }, [
-    distanceHiked,
+    pathDistanceHiked,
     selectedHikeTotalDistance,
     selectedHike?.stickerMetadata.pathLength,
   ]);
@@ -70,7 +60,7 @@ export const StickerMapLarge: React.FC = () => {
       <View style={styles.trailInformation}>
         <Text style={styles.trailName}>{selectedHike?.name}</Text>
         <Text style={styles.distanceHiked}>
-          {distanceHiked} / {selectedHikeTotalDistance}{" "}
+          {displayedDistanceHiked} / {selectedHikeTotalDistance}{" "}
           {measurementUnit == MeasurementUnit.KILOMETER ? "km" : "mi"}
         </Text>
       </View>
@@ -114,7 +104,7 @@ export const StickerMapLarge: React.FC = () => {
           />
           <AnimatedPath
             strokeLinecap="round"
-            d={isReverse ? reverse(selectedHike?.path!) : selectedHike?.path}
+            d={selectedHike?.path}
             stroke={theme.pathColored}
             strokeWidth={10}
             fill="none"

@@ -5,7 +5,8 @@ import { Animated, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Direction } from "./Direction";
 import { DistanceHikedInput } from "./distanceHikeInput/DistanceHikedInput";
 import { MeasurementUnitSwitch } from "./MeasurementUnitSwitch";
-import { Position } from "./Position";
+import { Position } from "./position/Position";
+import { PositionInput } from "./position/PositionInput";
 import { Share } from "./Share";
 import { UploadBackgroundImage } from "./UploadBackgroundImage";
 
@@ -20,6 +21,8 @@ export const UserSettings: React.FC<userSettingsProps> = ({
   closeMenu,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isPositionInputOpen, setIsPositionInputOpen] =
+    useState<boolean>(false);
   const { getIcon, theme } = useTheme();
 
   const position = useRef(new Animated.Value(35)).current;
@@ -53,34 +56,48 @@ export const UserSettings: React.FC<userSettingsProps> = ({
           },
         ]}
       >
-        <UploadBackgroundImage
-          isMenuOpen={isMenuOpen}
-          setIsMenuOpen={setIsMenuOpen}
-        />
-        <Share isMenuOpen={isMenuOpen} />
-        <DistanceHikedInput
-          isMenuOpen={isMenuOpen}
-          setIsMenuOpen={setIsMenuOpen}
-        />
-        {isMenuOpen && (
+        {isPositionInputOpen ? (
+          <PositionInput
+            closePositionInput={() => {
+              setIsPositionInputOpen(false);
+              setIsMenuOpen(false);
+            }}
+          />
+        ) : (
           <>
-            <MeasurementUnitSwitch isMenuOpen={isMenuOpen} />
-            <Direction isMenuOpen={isMenuOpen} />
-            <Position isMenuOpen={isMenuOpen} />
+            <UploadBackgroundImage
+              isMenuOpen={isMenuOpen}
+              setIsMenuOpen={setIsMenuOpen}
+            />
+            <Share isMenuOpen={isMenuOpen} />
+            <DistanceHikedInput
+              isMenuOpen={isMenuOpen}
+              setIsMenuOpen={setIsMenuOpen}
+            />
+            {isMenuOpen && (
+              <>
+                <MeasurementUnitSwitch isMenuOpen={isMenuOpen} />
+                <Direction isMenuOpen={isMenuOpen} />
+                <Position
+                  isMenuOpen={isMenuOpen}
+                  openPositionInput={() => setIsPositionInputOpen(true)}
+                />
+              </>
+            )}
+            <TouchableOpacity
+              style={styles(theme).toggleMenu}
+              onPress={() => setIsMenuOpen((prev) => !prev)}
+            >
+              <Image
+                style={{
+                  ...styles(theme).chevron,
+                  transform: [{ rotate: isMenuOpen ? "270deg" : "90deg" }],
+                }}
+                source={getIcon("rightChevron")}
+              ></Image>
+            </TouchableOpacity>
           </>
         )}
-        <TouchableOpacity
-          style={styles(theme).toggleMenu}
-          onPress={() => setIsMenuOpen((prev) => !prev)}
-        >
-          <Image
-            style={{
-              ...styles(theme).chevron,
-              transform: [{ rotate: isMenuOpen ? "270deg" : "90deg" }],
-            }}
-            source={getIcon("rightChevron")}
-          ></Image>
-        </TouchableOpacity>
       </Animated.View>
     </>
   );

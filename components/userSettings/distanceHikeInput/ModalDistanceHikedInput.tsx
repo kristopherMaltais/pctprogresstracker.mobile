@@ -21,8 +21,12 @@ type ModalDistanceHikedInputProps = {
 export const ModalDistanceHikedInput: React.FC<
   ModalDistanceHikedInputProps
 > = ({ isVisible, onClose }) => {
-  const { distanceHiked, setDistanceHiked, measurementUnit, selectedHike } =
-    useUserChoices();
+  const {
+    displayedDistanceHiked,
+    setDistanceHiked,
+    measurementUnit,
+    selectedHike,
+  } = useUserChoices();
 
   const { theme } = useTheme();
 
@@ -47,7 +51,7 @@ export const ModalDistanceHikedInput: React.FC<
   };
 
   const updateDistanceHiked = () => {
-    setDistanceHiked(distanceHiked);
+    setDistanceHiked(displayedDistanceHiked);
     onClose();
   };
 
@@ -62,7 +66,7 @@ export const ModalDistanceHikedInput: React.FC<
             <TextInput
               style={styles(theme).input}
               keyboardType="numeric"
-              value={distanceHiked.toString()}
+              value={displayedDistanceHiked.toString()}
               onChangeText={handleChangeText}
               returnKeyType="done"
               onSubmitEditing={updateDistanceHiked}

@@ -8,16 +8,13 @@
   },
   "cancel": "Cancel",
   "userSettings": {
-    "distanceHiked": "Distance hiked",
-    "unit": "Unit",
-    "borders": {
-      "title": "Borders",
-      "show": "show",
-      "hide": "hide"
-    },
-    "backgroundImage": "Upload background",
-    "download": "Download",
-    "share": "Share my hike"
+    "backgroundImage": "Image",
+    "share": "Share",
+    "distances": "Distances",
+    "direction": "Direction",
+    "position": "Position",
+    "mile": "Mile",
+    "kilometer": "Kilometer"
   },
   "settings": {
     "title": "Settings",

@@ -15,7 +15,8 @@ import Svg, { Path } from "react-native-svg";
 export const StickerMapHorizontal: React.FC = () => {
   const {
     selectedHike,
-    distanceHiked,
+    displayedDistanceHiked,
+    pathDistanceHiked,
     selectedHikeTotalDistance,
     measurementUnit,
     showBorders,
@@ -37,37 +38,28 @@ export const StickerMapHorizontal: React.FC = () => {
     } as any;
   });
 
-  // Have to look if roundtrip trek
   useEffect(() => {
     if (!selectedHike?.stickerMetadata.pathLength) return;
 
-    let _distanceHiked = distanceHiked;
-    let _selectedHikedTotalDistance = selectedHikeTotalDistance;
-    if (
-      selectedHike.stickerMetadata.isRoundTrip &&
-      distanceHiked > selectedHike.totalDistanceKilometer / 2
-    ) {
-      _selectedHikedTotalDistance = selectedHikeTotalDistance / 2;
-      _distanceHiked = distanceHiked - _selectedHikedTotalDistance;
-      setIsReverse(true);
-    } else {
-      setIsReverse(false);
-    }
-
     const ratio = Math.max(
       0,
-      Math.min(1, _distanceHiked / _selectedHikedTotalDistance)
+      Math.min(1, pathDistanceHiked / selectedHikeTotalDistance)
     );
 
     progress.value = 0;
-    progress.value = withTiming(
-      ratio * selectedHike.stickerMetadata.pathLength,
-      {
-        duration: 2000,
-      }
-    );
+    if (pathDistanceHiked != displayedDistanceHiked) {
+      progress.value = ratio * selectedHike.stickerMetadata.pathLength;
+    } else {
+      progress.value = withTiming(
+        ratio * selectedHike.stickerMetadata.pathLength,
+        {
+          duration: 2000,
+        }
+      );
+    }
   }, [
-    distanceHiked,
+    pathDistanceHiked,
+    displayedDistanceHiked,
     selectedHikeTotalDistance,
     selectedHike?.stickerMetadata.pathLength,
   ]);
@@ -87,7 +79,7 @@ export const StickerMapHorizontal: React.FC = () => {
           </Text>
           <Text style={styles.label}>{t("index:sticker.distanceHiked")}</Text>
           <Text style={styles.value}>
-            {distanceHiked} {getMeasurementUnit(measurementUnit)}
+            {displayedDistanceHiked} {getMeasurementUnit(measurementUnit)}
           </Text>
         </View>
         <Svg

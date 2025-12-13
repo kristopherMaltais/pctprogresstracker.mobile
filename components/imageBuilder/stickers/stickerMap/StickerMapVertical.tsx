@@ -1,7 +1,7 @@
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { getMeasurementUnit } from "@/helpers/getMeasurementUnit";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, View } from "react-native";
 import Animated, {
@@ -10,15 +10,15 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import Svg, { Path } from "react-native-svg";
-import { reverse } from "svg-path-reverse";
 
 export const StickerMapVertical: React.FC = () => {
   const {
     selectedHike,
-    distanceHiked,
+    pathDistanceHiked,
     selectedHikeTotalDistance,
     measurementUnit,
     showBorders,
+    displayedDistanceHiked,
   } = useUserChoices();
 
   const { t } = useTranslation();
@@ -26,7 +26,6 @@ export const StickerMapVertical: React.FC = () => {
   const AnimatedPath = Animated.createAnimatedComponent(Path);
   const progress = useSharedValue(0);
   const { getIcon, theme } = useTheme();
-  const [isReverse, setIsReverse] = useState<boolean>(true);
 
   const animatedProps = useAnimatedProps(() => {
     const length = selectedHike?.stickerMetadata.pathLength ?? 0;
@@ -38,33 +37,24 @@ export const StickerMapVertical: React.FC = () => {
   useEffect(() => {
     if (!selectedHike?.stickerMetadata.pathLength) return;
 
-    let _distanceHiked = distanceHiked;
-    let _selectedHikedTotalDistance = selectedHikeTotalDistance;
-    if (
-      selectedHike.stickerMetadata.isRoundTrip &&
-      distanceHiked > selectedHike.totalDistanceKilometer / 2
-    ) {
-      _selectedHikedTotalDistance = selectedHikeTotalDistance / 2;
-      _distanceHiked = distanceHiked - _selectedHikedTotalDistance;
-      setIsReverse(true);
-    } else {
-      setIsReverse(false);
-    }
-
     const ratio = Math.max(
       0,
-      Math.min(1, _distanceHiked / _selectedHikedTotalDistance)
+      Math.min(1, pathDistanceHiked / selectedHikeTotalDistance)
     );
 
     progress.value = 0;
-    progress.value = withTiming(
-      ratio * selectedHike.stickerMetadata.pathLength,
-      {
-        duration: 2000,
-      }
-    );
+    if (pathDistanceHiked != displayedDistanceHiked) {
+      progress.value = ratio * selectedHike.stickerMetadata.pathLength;
+    } else {
+      progress.value = withTiming(
+        ratio * selectedHike.stickerMetadata.pathLength,
+        {
+          duration: 2000,
+        }
+      );
+    }
   }, [
-    distanceHiked,
+    pathDistanceHiked,
     selectedHikeTotalDistance,
     selectedHike?.stickerMetadata.pathLength,
   ]);
@@ -103,7 +93,7 @@ export const StickerMapVertical: React.FC = () => {
           strokeLinecap="round"
         />
         <AnimatedPath
-          d={isReverse ? reverse(selectedHike?.path!) : selectedHike?.path}
+          d={selectedHike?.path!}
           stroke={theme.pathColored}
           strokeWidth={10}
           strokeLinecap="round"
@@ -125,7 +115,7 @@ export const StickerMapVertical: React.FC = () => {
           </Text>
           <Text style={styles.label}>{t("index:sticker.distanceHiked")}</Text>
           <Text style={styles.value}>
-            {distanceHiked} {getMeasurementUnit(measurementUnit)}
+            {displayedDistanceHiked} {getMeasurementUnit(measurementUnit)}
           </Text>
         </View>
       </View>

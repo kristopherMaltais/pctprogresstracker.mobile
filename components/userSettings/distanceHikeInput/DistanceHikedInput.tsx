@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Setting } from "../Setting";
 import { ModalDistanceHikedInput } from "./ModalDistanceHikedInput";
 
@@ -11,6 +12,7 @@ export const DistanceHikedInput: React.FC<DistanceHikedInputProps> = ({
   isMenuOpen,
   setIsMenuOpen,
 }) => {
+  const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const onPress = () => {
@@ -22,7 +24,7 @@ export const DistanceHikedInput: React.FC<DistanceHikedInputProps> = ({
     <>
       <Setting
         icon="shoePrints"
-        label="Distances"
+        label={t("index:userSettings.distances")}
         showLabel={isMenuOpen}
         onPress={onPress}
       />

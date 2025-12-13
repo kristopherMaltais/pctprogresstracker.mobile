@@ -8,16 +8,13 @@
   },
   "cancel": "Annuler",
   "userSettings": {
-    "distanceHiked": "Distance parcourue",
-    "unit": "Unité de mesure",
-    "borders": {
-      "title": "Frontières",
-      "show": "oui",
-      "hide": "non"
-    },
-    "backgroundImage": "Télécharger une image",
-    "download": "Télécharger",
-    "share": "Partager"
+    "backgroundImage": "Image",
+    "share": "Share",
+    "distances": "Distances",
+    "direction": "Direction",
+    "position": "Position",
+    "mile": "Mile",
+    "kilometer": "kilomètre"
   },
   "settings": {
     "title": "paramètres",

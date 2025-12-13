@@ -12,16 +12,15 @@ interface UserChoicesProps {
   setShowBorders: (flag: boolean) => void;
   backgroundImage: string | undefined;
   setBackgroundImage: (image: string) => void;
-  distanceHiked: number;
+  displayedDistanceHiked: number;
   setDistanceHiked: (distance: number) => void;
+  pathDistanceHiked: number;
+  calibratePathDistanceHiked: (adjustment: number) => void;
   measurementUnit: MeasurementUnit;
   setMeasurementUnit: (measurementUnit: MeasurementUnit) => void;
   selectedHikeTotalDistance: number;
   isStickerSelectedPremium: boolean;
   setIsStickerSelectedPremium: (flag: boolean) => void;
-  showEditStickerMenu: boolean;
-  openEditStickerMenu: () => void;
-  closeEditStickerMenu: () => void;
 }
 
 interface UserChoicesProviderProps {
@@ -44,15 +43,15 @@ export const UserChoicesContextProvider = ({
   children,
 }: UserChoicesProviderProps) => {
   const [selectedHike, setSelectedHike] = useState<Hike>();
-  const [showEditStickerMenu, setShowEditStickerMenu] =
-    useState<boolean>(false);
   const [isStickerSelectedPremium, setIsStickerSelectedPremium] =
     useState<boolean>(false);
   const [selectedProgressType, setSelectedProgressType] = useState<number>(0);
   const [backgroundImage, setBackgroundImage] = useState<string>();
   const [selectedHikeTotalDistance, setSelectecHikeTotalDistance] =
     useState<number>(0);
-  const [distanceHiked, setDistanceHiked] = useState<number>(0);
+  const [displayedDistanceHiked, setDisplayedDistanceHiked] =
+    useState<number>(0);
+  const [pathDistanceHiked, setPathDistanceHiked] = useState<number>(0);
   const [showBorders, setShowBorders] = useState<boolean>(true);
   const [measurementUnit, setMeasurementUnit] = useState<MeasurementUnit>(
     MeasurementUnit.KILOMETER
@@ -70,13 +69,20 @@ export const UserChoicesContextProvider = ({
 
   useEffect(() => {
     setBackgroundImage(undefined);
-    setDistanceHiked(0);
+    setDisplayedDistanceHiked(0);
+    setPathDistanceHiked(0);
     setShowBorders(true);
     setMeasurementUnit(MeasurementUnit.KILOMETER);
   }, [selectedHike]);
 
-  const openEditStickerMenu = () => setShowEditStickerMenu(true);
-  const closeEditStickerMenu = () => setShowEditStickerMenu(false);
+  const setDistanceHiked = (distance: number) => {
+    setDisplayedDistanceHiked(distance);
+    setPathDistanceHiked(distance);
+  };
+
+  const calibratePathDistanceHiked = (adjustment: number) => {
+    setPathDistanceHiked(adjustment);
+  };
 
   const contextValue: UserChoicesProps = {
     selectedHike: selectedHike,
@@ -91,17 +97,19 @@ export const UserChoicesContextProvider = ({
         ? undefined
         : backgroundImage,
     setBackgroundImage: setBackgroundImage,
-    distanceHiked:
-      !isPremiumUnlocked && isStickerSelectedPremium ? 0 : distanceHiked,
+    displayedDistanceHiked:
+      !isPremiumUnlocked && isStickerSelectedPremium
+        ? 0
+        : displayedDistanceHiked,
+    calibratePathDistanceHiked: calibratePathDistanceHiked,
+    pathDistanceHiked:
+      !isPremiumUnlocked && isStickerSelectedPremium ? 0 : pathDistanceHiked,
     setDistanceHiked: setDistanceHiked,
     measurementUnit: measurementUnit,
     setMeasurementUnit: setMeasurementUnit,
     selectedHikeTotalDistance: selectedHikeTotalDistance,
     isStickerSelectedPremium: isStickerSelectedPremium,
     setIsStickerSelectedPremium: setIsStickerSelectedPremium,
-    showEditStickerMenu: showEditStickerMenu,
-    openEditStickerMenu: openEditStickerMenu,
-    closeEditStickerMenu: closeEditStickerMenu,
   };
 
   return (
