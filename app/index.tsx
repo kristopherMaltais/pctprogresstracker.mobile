@@ -3,11 +3,13 @@ import { DropDownHikeList } from "@/components/common/dropdownHikeList/DropDownH
 import { ModalError } from "@/components/common/modals/ModalError";
 import { ModalSuccess } from "@/components/common/modals/ModalSuccess";
 import { ImageBuilderSlider } from "@/components/imageBuilder/slider/ImageBuilderSlider";
+import { EditStickerMenu } from "@/components/userSettings/editSticker/EditStickerMenu";
 import { Theme } from "@/contexts/theme/models/theme";
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
+import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { useValidation } from "@/contexts/validation/ValidationContextProvider";
-import BottomSheet from "@gorhom/bottom-sheet";
-import React, { useEffect, useMemo, useRef } from "react";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import React, { useMemo, useRef } from "react";
 import { StyleSheet, View } from "react-native";
 
 export default function App() {
@@ -19,15 +21,12 @@ export default function App() {
     closeValidationModal,
   } = useValidation();
 
+  const { showEditStickerMenu, closeEditStickerMenu } = useUserChoices();
+
   const { theme } = useTheme();
 
   const bottomSheetRef = useRef<BottomSheet>(null);
 
-  useEffect(() => {
-    bottomSheetRef.current?.close();
-  }, []);
-
-  // snap points represent the heights
   const snapPoints = useMemo(() => ["100%"], []);
 
   return (
@@ -44,18 +43,18 @@ export default function App() {
         message={successMessage}
         closeModal={closeValidationModal}
       />
-      {/* <BottomSheet ref={bottomSheetRef} snapPoints={snapPoints}>
+      <BottomSheet
+        ref={bottomSheetRef}
+        snapPoints={snapPoints}
+        backgroundStyle={{ backgroundColor: theme.secondaryBackground }}
+        enablePanDownToClose
+        onClose={closeEditStickerMenu}
+        index={showEditStickerMenu ? 1 : -1}
+      >
         <BottomSheetView style={styles(theme).contentContainer}>
-          <Text>Awesome 🎉</Text>
-          <TextInput
-            keyboardType="numeric"
-            onChangeText={() => {}}
-            returnKeyType="done"
-            onSubmitEditing={() => {}}
-            style={{ borderWidth: 1, width: 40, height: 40 }}
-          />
+          <EditStickerMenu />
         </BottomSheetView>
-      </BottomSheet> */}
+      </BottomSheet>
     </View>
   );
 }

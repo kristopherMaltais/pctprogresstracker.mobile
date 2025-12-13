@@ -72,7 +72,7 @@ const styles = (theme: Theme) =>
       backgroundColor: theme.secondaryBackground,
       height: 40,
       width: 40,
-      borderRadius: 20,
+      borderRadius: 10,
     },
     imageLeft: {
       width: 10,

@@ -1,38 +1,35 @@
-import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import React, { useState } from "react";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Setting } from "../Setting";
 import { ModalDistanceHikedInput } from "./ModalDistanceHikedInput";
 
-type DistanceHikedInputProps = {};
+type DistanceHikedInputProps = {
+  isMenuOpen: boolean;
+  setIsMenuOpen: (flag: boolean) => void;
+};
 
-export const DistanceHikedInput: React.FC<DistanceHikedInputProps> = () => {
+export const DistanceHikedInput: React.FC<DistanceHikedInputProps> = ({
+  isMenuOpen,
+  setIsMenuOpen,
+}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const { getIcon } = useTheme();
+  const onPress = () => {
+    setIsMenuOpen(false);
+    setIsModalVisible((prev) => !prev);
+  };
 
   return (
     <>
-      <View>
-        <TouchableOpacity
-          style={styles.container}
-          onPress={() => setIsModalVisible(true)}
-        >
-          <Image style={styles.image} source={getIcon("shoePrints")} />
-        </TouchableOpacity>
-      </View>
+      <Setting
+        icon="shoePrints"
+        label="Distances"
+        showLabel={isMenuOpen}
+        onPress={onPress}
+      />
       <ModalDistanceHikedInput
-        onClose={() => setIsModalVisible(false)}
         isVisible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
       />
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  image: { width: 24, height: 31 },
-});

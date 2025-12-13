@@ -49,4 +49,16 @@ export const iconsLightMode: Array<Image> = [
     name: "lock",
     image: require("../../../assets/images/lightMode/lock.png"),
   },
+  {
+    name: "edit",
+    image: require("../../../assets/images/lightMode/edit.png"),
+  },
+  {
+    name: "direction",
+    image: require("../../../assets/images/lightMode/direction.png"),
+  },
+  {
+    name: "position",
+    image: require("../../../assets/images/lightMode/position.png"),
+  },
 ];

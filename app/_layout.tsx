@@ -4,6 +4,7 @@ import { HikesContextProvider } from "@/contexts/hikes/HikesContextProvider";
 import { LocalizationContextProvider } from "@/contexts/localization/LocalizationContextProvider";
 import { PremiumContextProvider } from "@/contexts/premium/PremiumContextProvider";
 import { ServicesContextProvider } from "@/contexts/services/ServicesContextProvider";
+import { StickerContextProvider } from "@/contexts/sticker/StickerContextProvider";
 import { ThemeContextProvider } from "@/contexts/theme/ThemeContextProvider";
 import { UserChoicesContextProvider } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { ValidationContextProvider } from "@/contexts/validation/ValidationContextProvider";
@@ -43,37 +44,39 @@ export default function RootLayout() {
                 <HikesContextProvider>
                   <LocalizationContextProvider>
                     <UserChoicesContextProvider>
-                      <Drawer
-                        open={isOpen}
-                        onOpen={() => setIsOpen(true)}
-                        onClose={() => setIsOpen(false)}
-                        drawerPosition="right"
-                        renderDrawerContent={() => <Settings />}
-                        drawerStyle={{ width: "75%" }}
-                      >
-                        <ThemeProvider
-                          value={
-                            colorScheme === "dark" ? DarkTheme : DefaultTheme
-                          }
+                      <StickerContextProvider>
+                        <Drawer
+                          open={isOpen}
+                          onOpen={() => setIsOpen(true)}
+                          onClose={() => setIsOpen(false)}
+                          drawerPosition="right"
+                          renderDrawerContent={() => <Settings />}
+                          drawerStyle={{ width: "75%" }}
                         >
-                          <Stack>
-                            <Stack.Screen
-                              name="index"
-                              options={{
-                                header: () => (
-                                  <Header
-                                    pageTitle="Share my Hike"
-                                    toggleAppSettingsDrawer={() =>
-                                      setIsOpen((prev) => !prev)
-                                    }
-                                  />
-                                ),
-                              }}
-                            />
-                          </Stack>
-                          <StatusBar barStyle={statusBar} />
-                        </ThemeProvider>
-                      </Drawer>
+                          <ThemeProvider
+                            value={
+                              colorScheme === "dark" ? DarkTheme : DefaultTheme
+                            }
+                          >
+                            <Stack>
+                              <Stack.Screen
+                                name="index"
+                                options={{
+                                  header: () => (
+                                    <Header
+                                      pageTitle="Share my Hike"
+                                      toggleAppSettingsDrawer={() =>
+                                        setIsOpen((prev) => !prev)
+                                      }
+                                    />
+                                  ),
+                                }}
+                              />
+                            </Stack>
+                            <StatusBar barStyle={statusBar} />
+                          </ThemeProvider>
+                        </Drawer>
+                      </StickerContextProvider>
                     </UserChoicesContextProvider>
                   </LocalizationContextProvider>
                 </HikesContextProvider>

@@ -11,7 +11,6 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import Svg, { Path } from "react-native-svg";
-import { reverse } from "svg-path-reverse";
 
 export const StickerMapHorizontal: React.FC = () => {
   const {
@@ -123,7 +122,7 @@ export const StickerMapHorizontal: React.FC = () => {
             strokeLinecap="round"
           />
           <AnimatedPath
-            d={isReverse ? reverse(selectedHike?.path!) : selectedHike?.path}
+            d={selectedHike?.path!}
             stroke={theme.pathColored}
             strokeWidth={10}
             fill="none"
@@ -138,7 +137,10 @@ export const StickerMapHorizontal: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flexDirection: "row", alignItems: "center" },
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   statsContainer: {
     display: "flex",
     alignItems: "center",

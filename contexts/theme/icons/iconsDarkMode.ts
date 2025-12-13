@@ -49,4 +49,12 @@ export const iconsDarkMode: Array<Image> = [
     name: "lock",
     image: require("../../../assets/images/darkMode/lock.png"),
   },
+  {
+    name: "direction",
+    image: require("../../../assets/images/darkMode/direction.png"),
+  },
+  {
+    name: "position",
+    image: require("../../../assets/images/darkMode/position.png"),
+  },
 ];

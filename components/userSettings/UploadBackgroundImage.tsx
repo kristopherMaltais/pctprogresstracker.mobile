@@ -1,18 +1,21 @@
-import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import * as ImagePicker from "expo-image-picker";
 import React from "react";
-import { Image, StyleSheet, TouchableOpacity } from "react-native";
+import { Setting } from "./Setting";
 
-type UploadBackgroundImageProps = {};
+type UploadBackgroundImageProps = {
+  isMenuOpen: boolean;
+  setIsMenuOpen: (flag: boolean) => void;
+};
 
-export const UploadBackgroundImage: React.FC<
-  UploadBackgroundImageProps
-> = () => {
+export const UploadBackgroundImage: React.FC<UploadBackgroundImageProps> = ({
+  isMenuOpen,
+  setIsMenuOpen,
+}) => {
   const { setBackgroundImage } = useUserChoices();
-  const { getIcon } = useTheme();
 
   const pickImage = async () => {
+    setIsMenuOpen(false);
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
@@ -27,17 +30,11 @@ export const UploadBackgroundImage: React.FC<
   };
 
   return (
-    <TouchableOpacity style={styles.container} onPress={pickImage}>
-      <Image style={styles.image} source={getIcon("image")} />
-    </TouchableOpacity>
+    <Setting
+      icon={"image"}
+      showLabel={isMenuOpen}
+      label={"image"}
+      onPress={pickImage}
+    />
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  image: { width: 28, height: 28 },
-});

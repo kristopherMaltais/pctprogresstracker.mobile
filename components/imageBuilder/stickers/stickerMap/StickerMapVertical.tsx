@@ -1,4 +1,3 @@
-import { GestureWrapper } from "@/components/common/GestureWrapper";
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { getMeasurementUnit } from "@/helpers/getMeasurementUnit";
@@ -71,68 +70,66 @@ export const StickerMapVertical: React.FC = () => {
   ]);
 
   return (
-    <GestureWrapper>
-      <View style={styles.container}>
-        <Svg
-          width={selectedHike?.stickerMetadata.width}
-          height={selectedHike?.stickerMetadata.height}
-          viewBox={selectedHike?.stickerMetadata.viewbox}
+    <View style={styles.container}>
+      <Svg
+        width={selectedHike?.stickerMetadata.width}
+        height={selectedHike?.stickerMetadata.height}
+        viewBox={selectedHike?.stickerMetadata.viewbox}
+        fill="none"
+      >
+        {showBorders && (
+          <>
+            <Path
+              d={selectedHike?.border}
+              stroke={theme.borders}
+              strokeWidth={4}
+            />
+            {selectedHike?.regions.map((region: string, index: number) => {
+              return (
+                <Path
+                  key={index}
+                  d={region}
+                  stroke={theme.borders}
+                  strokeWidth={4}
+                />
+              );
+            })}
+          </>
+        )}
+        <Path
+          d={selectedHike?.path}
+          stroke={theme.path}
+          strokeWidth={10}
+          strokeLinecap="round"
+        />
+        <AnimatedPath
+          d={isReverse ? reverse(selectedHike?.path!) : selectedHike?.path}
+          stroke={theme.pathColored}
+          strokeWidth={10}
+          strokeLinecap="round"
           fill="none"
-        >
-          {showBorders && (
-            <>
-              <Path
-                d={selectedHike?.border}
-                stroke={theme.borders}
-                strokeWidth={4}
-              />
-              {selectedHike?.regions.map((region: string, index: number) => {
-                return (
-                  <Path
-                    key={index}
-                    d={region}
-                    stroke={theme.borders}
-                    strokeWidth={4}
-                  />
-                );
-              })}
-            </>
-          )}
-          <Path
-            d={selectedHike?.path}
-            stroke={theme.path}
-            strokeWidth={10}
-            strokeLinecap="round"
-          />
-          <AnimatedPath
-            d={isReverse ? reverse(selectedHike?.path!) : selectedHike?.path}
-            stroke={theme.pathColored}
-            strokeWidth={10}
-            strokeLinecap="round"
-            fill="none"
-            strokeDasharray={selectedHike?.stickerMetadata.pathLength}
-            animatedProps={animatedProps}
-          />
-        </Svg>
-        <View style={styles.statsContainer}>
-          <Image
-            source={getIcon("iconWithTextBackground")}
-            style={{ width: 100, height: 90 }}
-          />
-          <View>
-            <Text style={styles.name}>{selectedHike?.name}</Text>
-            <Text style={styles.label}>{t("index:sticker.total")}</Text>
-            <Text style={styles.value}>
-              {selectedHikeTotalDistance} {getMeasurementUnit(measurementUnit)}
-            </Text>
-            <Text style={styles.label}>{t("index:sticker.distanceHiked")}</Text>
-            <Text style={styles.value}>
-              {distanceHiked} {getMeasurementUnit(measurementUnit)}
-            </Text>
-          </View>
+          strokeDasharray={selectedHike?.stickerMetadata.pathLength}
+          animatedProps={animatedProps}
+        />
+      </Svg>
+      <View style={styles.statsContainer}>
+        <Image
+          source={getIcon("iconWithTextBackground")}
+          style={{ width: 100, height: 90 }}
+        />
+        <View>
+          <Text style={styles.name}>{selectedHike?.name}</Text>
+          <Text style={styles.label}>{t("index:sticker.total")}</Text>
+          <Text style={styles.value}>
+            {selectedHikeTotalDistance} {getMeasurementUnit(measurementUnit)}
+          </Text>
+          <Text style={styles.label}>{t("index:sticker.distanceHiked")}</Text>
+          <Text style={styles.value}>
+            {distanceHiked} {getMeasurementUnit(measurementUnit)}
+          </Text>
         </View>
       </View>
-    </GestureWrapper>
+    </View>
   );
 };
 

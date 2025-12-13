@@ -19,6 +19,9 @@ interface UserChoicesProps {
   selectedHikeTotalDistance: number;
   isStickerSelectedPremium: boolean;
   setIsStickerSelectedPremium: (flag: boolean) => void;
+  showEditStickerMenu: boolean;
+  openEditStickerMenu: () => void;
+  closeEditStickerMenu: () => void;
 }
 
 interface UserChoicesProviderProps {
@@ -41,6 +44,8 @@ export const UserChoicesContextProvider = ({
   children,
 }: UserChoicesProviderProps) => {
   const [selectedHike, setSelectedHike] = useState<Hike>();
+  const [showEditStickerMenu, setShowEditStickerMenu] =
+    useState<boolean>(false);
   const [isStickerSelectedPremium, setIsStickerSelectedPremium] =
     useState<boolean>(false);
   const [selectedProgressType, setSelectedProgressType] = useState<number>(0);
@@ -70,6 +75,9 @@ export const UserChoicesContextProvider = ({
     setMeasurementUnit(MeasurementUnit.KILOMETER);
   }, [selectedHike]);
 
+  const openEditStickerMenu = () => setShowEditStickerMenu(true);
+  const closeEditStickerMenu = () => setShowEditStickerMenu(false);
+
   const contextValue: UserChoicesProps = {
     selectedHike: selectedHike,
     setSelectedHike: setSelectedHike,
@@ -91,6 +99,9 @@ export const UserChoicesContextProvider = ({
     selectedHikeTotalDistance: selectedHikeTotalDistance,
     isStickerSelectedPremium: isStickerSelectedPremium,
     setIsStickerSelectedPremium: setIsStickerSelectedPremium,
+    showEditStickerMenu: showEditStickerMenu,
+    openEditStickerMenu: openEditStickerMenu,
+    closeEditStickerMenu: closeEditStickerMenu,
   };
 
   return (

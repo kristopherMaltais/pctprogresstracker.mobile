@@ -1,15 +1,15 @@
-import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useValidation } from "@/contexts/validation/ValidationContextProvider";
 import { useViewShot } from "@/contexts/viewShot/ViewShotContextProvider";
 import * as Sharing from "expo-sharing";
 import { t } from "i18next";
-import { Image, StyleSheet, TouchableOpacity } from "react-native";
+import { Setting } from "./Setting";
 
-type ShareProps = {};
+type ShareProps = {
+  isMenuOpen: boolean;
+};
 
-export const Share: React.FC<ShareProps> = () => {
+export const Share: React.FC<ShareProps> = ({ isMenuOpen }) => {
   const { viewShot } = useViewShot();
-  const { getIcon } = useTheme();
   const { showErrorModal } = useValidation();
 
   const share = async () => {
@@ -34,16 +34,11 @@ export const Share: React.FC<ShareProps> = () => {
     }
   };
   return (
-    <TouchableOpacity style={styles.container} onPress={share}>
-      <Image style={styles.image} source={getIcon("share")} />
-    </TouchableOpacity>
+    <Setting
+      icon="share"
+      label="share"
+      showLabel={isMenuOpen}
+      onPress={share}
+    />
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  image: { width: 30, height: 30 },
-});

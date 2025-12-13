@@ -1,21 +1,21 @@
-import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { MeasurementUnit } from "@/models/measurementUnit";
 import React from "react";
-import { Image, StyleSheet, TouchableOpacity } from "react-native";
+import { Setting } from "./Setting";
 
-type MeasurementUnitSwitchProps = {};
+type MeasurementUnitSwitchProps = {
+  isMenuOpen: boolean;
+};
 
-export const MeasurementUnitSwitch: React.FC<
-  MeasurementUnitSwitchProps
-> = () => {
+export const MeasurementUnitSwitch: React.FC<MeasurementUnitSwitchProps> = ({
+  isMenuOpen,
+}) => {
   const {
     measurementUnit,
     setMeasurementUnit,
     setDistanceHiked,
     distanceHiked,
   } = useUserChoices();
-  const { getIcon } = useTheme();
 
   const handleToggle = () => {
     const isMiles = measurementUnit === MeasurementUnit.MILE;
@@ -30,17 +30,11 @@ export const MeasurementUnitSwitch: React.FC<
   };
 
   return (
-    <TouchableOpacity style={styles.container} onPress={handleToggle}>
-      <Image style={styles.image} source={getIcon("measurementUnit")} />
-    </TouchableOpacity>
+    <Setting
+      icon="measurementUnit"
+      showLabel={isMenuOpen}
+      label="Unit"
+      onPress={handleToggle}
+    />
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  image: { width: 35, height: 35 },
-});

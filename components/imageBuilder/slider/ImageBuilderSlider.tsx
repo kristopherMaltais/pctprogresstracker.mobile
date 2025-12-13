@@ -1,22 +1,19 @@
 import { ModalPremium } from "@/components/premium/ModalPremium";
 import { UserSettings } from "@/components/userSettings/UserSettings";
 import { usePremium } from "@/contexts/premium/PremiumContextProvider";
+import { useSticker } from "@/contexts/sticker/StickerContextProvider";
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import React, { useEffect, useState } from "react";
-import { Dimensions, StyleSheet, View } from "react-native";
+import { Dimensions, Pressable, StyleSheet } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { runOnJS } from "react-native-reanimated";
 import { ImageBuilderPlaceholder } from "../ImageBuilderPlaceholder";
 import { ImageBuilderSticker } from "../ImageBuilderSticker";
-import { StickerMap } from "../stickers/stickerMap/StickerMap";
-import { StickerMapLarge } from "../stickers/stickerMapLarge";
-import { StickerStats } from "../stickers/stickerStats/StickerStats";
 import { IndexIndicator } from "./IndexIndicator";
 import { SliderButton } from "./SliderButton";
 
 export const ImageBuilderSlider: React.FC = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
   const [hideButtons, setHideButtons] = useState<boolean>(false);
   const { selectedHike, setIsStickerSelectedPremium } = useUserChoices();
   const { isDarkMode } = useTheme();
@@ -28,44 +25,33 @@ export const ImageBuilderSlider: React.FC = () => {
     isPremiumUnlocked,
   } = usePremium();
 
-  const { height } = Dimensions.get("window");
+  const { currentSticker, setCurrentSticker, stickerCount, currentIndex } =
+    useSticker();
 
-  const stickers = [
-    { isPremium: false, sticker: <StickerMap key="small" /> },
-    { isPremium: true, sticker: <StickerStats key="stats" /> },
-    { isPremium: true, sticker: <StickerMapLarge key="large" /> },
-  ];
+  const { height } = Dimensions.get("window");
+  const [closeMenu, setCloseMenu] = useState<boolean>(false);
 
   useEffect(() => {
-    setIsStickerSelectedPremium(stickers[activeIndex].isPremium);
-  }, [activeIndex]);
-
-  const changeIndex = (direction: "left" | "right") => {
-    setActiveIndex((prev) => {
-      if (direction === "right") {
-        return prev === stickers.length - 1 ? 0 : prev + 1;
-      } else {
-        return prev === 0 ? stickers.length - 1 : prev - 1;
-      }
-    });
-  };
+    setIsStickerSelectedPremium(currentSticker.isPremium);
+  }, [currentSticker]);
 
   // Pan gesture
   const longPress = Gesture.LongPress()
     .onStart(() => {
-      if (!stickers[activeIndex].isPremium || isPremiumUnlocked) {
+      if (!currentSticker.isPremium || isPremiumUnlocked) {
         runOnJS(setHideButtons)(true);
       }
     })
     .onEnd(() => {
-      if (!stickers[activeIndex].isPremium || isPremiumUnlocked) {
+      if (!currentSticker.isPremium || isPremiumUnlocked) {
         runOnJS(setHideButtons)(false);
       }
     });
 
   const composedGesture = Gesture.Simultaneous(Gesture.Simultaneous(longPress));
   return (
-    <View
+    <Pressable
+      onPress={() => setCloseMenu((prev) => !prev)}
       style={{
         ...styles.container,
         height: height * 0.8,
@@ -74,9 +60,7 @@ export const ImageBuilderSlider: React.FC = () => {
     >
       {selectedHike ? (
         <GestureDetector gesture={composedGesture}>
-          <ImageBuilderSticker>
-            {stickers[activeIndex].sticker}
-          </ImageBuilderSticker>
+          <ImageBuilderSticker>{currentSticker.sticker}</ImageBuilderSticker>
         </GestureDetector>
       ) : (
         <ImageBuilderPlaceholder />
@@ -84,34 +68,32 @@ export const ImageBuilderSlider: React.FC = () => {
       {selectedHike && (
         <>
           <UserSettings
-            disabled={stickers[activeIndex].isPremium && !isPremiumUnlocked}
+            disabled={currentSticker.isPremium && !isPremiumUnlocked}
             hide={hideButtons}
+            closeMenu={closeMenu}
           />
           <SliderButton
             direction="left"
-            onPress={changeIndex}
+            onPress={setCurrentSticker}
             hide={hideButtons}
           />
           <SliderButton
             direction="right"
-            onPress={changeIndex}
+            onPress={setCurrentSticker}
             hide={hideButtons}
           />
         </>
       )}
 
       {selectedHike && (
-        <IndexIndicator
-          indexCount={stickers.length}
-          activeIndex={activeIndex}
-        />
+        <IndexIndicator indexCount={stickerCount} activeIndex={currentIndex} />
       )}
       <ModalPremium
         onConfirm={unlockPremium}
         onCancel={() => setIsPremiumModalVisible(false)}
         isVisible={isPremiumModalVisible}
       />
-    </View>
+    </Pressable>
   );
 };
 
@@ -124,9 +106,5 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowRadius: 4,
     paddingHorizontal: 24,
-  },
-  contentContainer: {
-    flex: 1,
-    alignItems: "center",
   },
 });
