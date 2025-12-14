@@ -1,14 +1,15 @@
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
-import { getPath } from "@/helpers/getPath";
+import { getIsReverse, getPath } from "@/helpers/getPath";
 import { MeasurementUnit } from "@/models/measurementUnit";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import Animated, {
   useAnimatedProps,
   useSharedValue,
 } from "react-native-reanimated";
 import Svg, { Path } from "react-native-svg";
+import { reverse } from "svg-path-reverse";
 
 export const StickerMapLarge: React.FC = () => {
   const {
@@ -18,10 +19,11 @@ export const StickerMapLarge: React.FC = () => {
     showBorders,
     selectedHike,
     measurementUnit,
+    isReverse,
   } = useUserChoices();
 
   const { getIcon, theme } = useTheme();
-
+  const [isWayBack, setIsWayBack] = useState<boolean>(false);
   const AnimatedPath = Animated.createAnimatedComponent(Path);
   const progress = useSharedValue(0);
 
@@ -38,7 +40,9 @@ export const StickerMapLarge: React.FC = () => {
       selectedHike!
     );
 
-    if (newPath) progress.value = newPath;
+    progress.value = 0;
+    setIsWayBack(newPath?.isWayBack!);
+    if (newPath) progress.value = newPath.value;
   }, [
     pathDistanceHiked,
     selectedHikeTotalDistance,
@@ -56,23 +60,18 @@ export const StickerMapLarge: React.FC = () => {
       </View>
       <View>
         <Svg
-          width={
-            selectedHike?.stickerMetadata.width! *
-            selectedHike?.stickerMetadata.largeStickerRatio!
-          }
-          height={
-            selectedHike?.stickerMetadata.height! *
-            selectedHike?.stickerMetadata.largeStickerRatio!
-          }
-          viewBox={selectedHike?.stickerMetadata.viewbox}
+          width={150}
+          height={200}
+          viewBox={selectedHike?.stickerMetadata.stickerLargeViewBox}
           fill="none"
+          style={{ transform: [{ scale: 1.7 }] }}
         >
           {showBorders && (
             <>
               <Path
                 d={selectedHike?.border}
                 stroke={theme.borders}
-                strokeWidth={4}
+                strokeWidth={1}
               />
               {selectedHike?.regions.map((region: string, index: number) => {
                 return (
@@ -80,7 +79,7 @@ export const StickerMapLarge: React.FC = () => {
                     key={index}
                     d={region}
                     stroke={theme.borders}
-                    strokeWidth={4}
+                    strokeWidth={1}
                   />
                 );
               })}
@@ -89,12 +88,16 @@ export const StickerMapLarge: React.FC = () => {
           <Path
             d={selectedHike?.path}
             stroke={theme.path}
-            strokeWidth={16}
+            strokeWidth={3}
             strokeLinecap="round"
           />
           <AnimatedPath
             strokeLinecap="round"
-            d={selectedHike?.path}
+            d={
+              getIsReverse(isReverse, isWayBack)
+                ? reverse(selectedHike?.path!)
+                : selectedHike?.path!
+            }
             stroke={theme.pathColored}
             strokeWidth={10}
             fill="none"

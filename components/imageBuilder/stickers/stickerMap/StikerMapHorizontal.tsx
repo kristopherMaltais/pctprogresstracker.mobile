@@ -63,7 +63,7 @@ export const StickerMapHorizontal: React.FC = () => {
         <View style={styles.statsContainer}>
           <Image
             source={getIcon("iconWithTextBackground")}
-            style={{ width: 84, height: 75 }}
+            style={{ width: 60, height: 60 }}
           />
           <Text style={styles.name}>{selectedHike?.name}</Text>
           <Text style={styles.label}>{t("index:sticker.total")}</Text>
@@ -75,35 +75,23 @@ export const StickerMapHorizontal: React.FC = () => {
             {displayedDistanceHiked} {getMeasurementUnit(measurementUnit)}
           </Text>
         </View>
-        <Svg
-          width={selectedHike?.stickerMetadata.width}
-          height={selectedHike?.stickerMetadata.height}
-          viewBox={selectedHike?.stickerMetadata.viewbox}
-          fill="none"
-        >
-          {showBorders && (
+        <Svg width={150} height={200} viewBox="0 0 150 200" fill="none">
+          {true && (
             <>
               <Path
                 d={selectedHike?.border}
                 stroke={theme.borders}
-                strokeWidth={4}
+                strokeWidth={1}
               />
               {selectedHike?.regions.map((region: string, index: number) => {
-                return (
-                  <Path
-                    key={index}
-                    d={region}
-                    stroke={theme.borders}
-                    strokeWidth={4}
-                  />
-                );
+                return <Path key={index} d={region} stroke={theme.borders} />;
               })}
             </>
           )}
           <Path
             d={selectedHike?.path}
             stroke={theme.path}
-            strokeWidth={10}
+            strokeWidth={3}
             strokeLinecap="round"
           />
           <AnimatedPath
@@ -113,7 +101,7 @@ export const StickerMapHorizontal: React.FC = () => {
                 : selectedHike?.path!
             }
             stroke={theme.pathColored}
-            strokeWidth={10}
+            strokeWidth={3}
             fill="none"
             strokeDasharray={selectedHike?.stickerMetadata.pathLength}
             animatedProps={animatedProps}
@@ -133,22 +121,21 @@ const styles = StyleSheet.create({
   statsContainer: {
     display: "flex",
     alignItems: "center",
-    width: 160,
+    width: 120,
   },
   label: {
     color: "white",
     marginTop: 10,
-    fontSize: 18,
+    fontSize: 12,
   },
   value: {
-    fontSize: 24,
+    fontSize: 16,
     color: "white",
     fontWeight: "bold",
   },
 
   name: {
-    marginTop: 12,
-    fontSize: 24,
+    fontSize: 16,
     color: "white",
     fontWeight: "bold",
     textAlign: "center",

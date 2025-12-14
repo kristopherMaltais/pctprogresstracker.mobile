@@ -56,18 +56,13 @@ export const StickerMapVertical: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Svg
-        width={selectedHike?.stickerMetadata.width}
-        height={selectedHike?.stickerMetadata.height}
-        viewBox={selectedHike?.stickerMetadata.viewbox}
-        fill="none"
-      >
+      <Svg width={200} height={200} viewBox={"0 0 200 200"} fill="none">
         {showBorders && (
           <>
             <Path
               d={selectedHike?.border}
               stroke={theme.borders}
-              strokeWidth={4}
+              strokeWidth={1}
             />
             {selectedHike?.regions.map((region: string, index: number) => {
               return (
@@ -75,7 +70,7 @@ export const StickerMapVertical: React.FC = () => {
                   key={index}
                   d={region}
                   stroke={theme.borders}
-                  strokeWidth={4}
+                  strokeWidth={1}
                 />
               );
             })}
@@ -84,7 +79,7 @@ export const StickerMapVertical: React.FC = () => {
         <Path
           d={selectedHike?.path}
           stroke={theme.path}
-          strokeWidth={10}
+          strokeWidth={3}
           strokeLinecap="round"
         />
         <AnimatedPath
@@ -94,7 +89,7 @@ export const StickerMapVertical: React.FC = () => {
               : selectedHike?.path!
           }
           stroke={theme.pathColored}
-          strokeWidth={10}
+          strokeWidth={3}
           strokeLinecap="round"
           fill="none"
           strokeDasharray={selectedHike?.stickerMetadata.pathLength}
@@ -104,7 +99,7 @@ export const StickerMapVertical: React.FC = () => {
       <View style={styles.statsContainer}>
         <Image
           source={getIcon("iconWithTextBackground")}
-          style={{ width: 100, height: 90 }}
+          style={{ width: 60, height: 60 }}
         />
         <View>
           <Text style={styles.name}>{selectedHike?.name}</Text>
@@ -139,17 +134,17 @@ const styles = StyleSheet.create({
   label: {
     color: "white",
     marginTop: 10,
-    fontSize: 18,
+    fontSize: 12,
   },
   value: {
-    fontSize: 24,
+    fontSize: 16,
     color: "white",
     fontWeight: "bold",
   },
 
   name: {
     marginTop: 12,
-    fontSize: 24,
+    fontSize: 16,
     color: "white",
     fontWeight: "bold",
   },
