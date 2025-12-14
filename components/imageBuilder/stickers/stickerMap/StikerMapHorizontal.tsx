@@ -2,15 +2,16 @@ import { GestureWrapper } from "@/components/common/GestureWrapper";
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { getMeasurementUnit } from "@/helpers/getMeasurementUnit";
+import { getIsReverse, getPath } from "@/helpers/getPath";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, View } from "react-native";
 import Animated, {
   useAnimatedProps,
   useSharedValue,
-  withTiming,
 } from "react-native-reanimated";
 import Svg, { Path } from "react-native-svg";
+import { reverse } from "svg-path-reverse";
 
 export const StickerMapHorizontal: React.FC = () => {
   const {
@@ -20,10 +21,11 @@ export const StickerMapHorizontal: React.FC = () => {
     selectedHikeTotalDistance,
     measurementUnit,
     showBorders,
+    isReverse,
   } = useUserChoices();
 
   const { t } = useTranslation();
-  const [isReverse, setIsReverse] = useState<boolean>(true);
+  const [isWayBack, setIsWayBack] = useState<boolean>(false);
 
   const { getIcon, theme } = useTheme();
 
@@ -39,27 +41,18 @@ export const StickerMapHorizontal: React.FC = () => {
   });
 
   useEffect(() => {
-    if (!selectedHike?.stickerMetadata.pathLength) return;
-
-    const ratio = Math.max(
-      0,
-      Math.min(1, pathDistanceHiked / selectedHikeTotalDistance)
+    const newPath = getPath(
+      pathDistanceHiked,
+      selectedHikeTotalDistance,
+      displayedDistanceHiked,
+      selectedHike!
     );
 
     progress.value = 0;
-    if (pathDistanceHiked != displayedDistanceHiked) {
-      progress.value = ratio * selectedHike.stickerMetadata.pathLength;
-    } else {
-      progress.value = withTiming(
-        ratio * selectedHike.stickerMetadata.pathLength,
-        {
-          duration: 2000,
-        }
-      );
-    }
+    setIsWayBack(newPath?.isWayBack!);
+    if (newPath) progress.value = newPath.value;
   }, [
     pathDistanceHiked,
-    displayedDistanceHiked,
     selectedHikeTotalDistance,
     selectedHike?.stickerMetadata.pathLength,
   ]);
@@ -114,7 +107,11 @@ export const StickerMapHorizontal: React.FC = () => {
             strokeLinecap="round"
           />
           <AnimatedPath
-            d={selectedHike?.path!}
+            d={
+              getIsReverse(isReverse, isWayBack)
+                ? reverse(selectedHike?.path!)
+                : selectedHike?.path!
+            }
             stroke={theme.pathColored}
             strokeWidth={10}
             fill="none"

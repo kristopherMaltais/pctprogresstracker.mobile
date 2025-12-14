@@ -1,12 +1,12 @@
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
+import { getPath } from "@/helpers/getPath";
 import { MeasurementUnit } from "@/models/measurementUnit";
 import React, { useEffect } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import Animated, {
   useAnimatedProps,
   useSharedValue,
-  withTiming,
 } from "react-native-reanimated";
 import Svg, { Path } from "react-native-svg";
 
@@ -31,24 +31,14 @@ export const StickerMapLarge: React.FC = () => {
   }));
 
   useEffect(() => {
-    if (!selectedHike?.stickerMetadata.pathLength) return;
-
-    const ratio = Math.max(
-      0,
-      Math.min(1, pathDistanceHiked / selectedHikeTotalDistance)
+    const newPath = getPath(
+      pathDistanceHiked,
+      selectedHikeTotalDistance,
+      displayedDistanceHiked,
+      selectedHike!
     );
 
-    progress.value = 0;
-    if (pathDistanceHiked != displayedDistanceHiked) {
-      progress.value = ratio * selectedHike.stickerMetadata.pathLength;
-    } else {
-      progress.value = withTiming(
-        ratio * selectedHike.stickerMetadata.pathLength,
-        {
-          duration: 2000,
-        }
-      );
-    }
+    if (newPath) progress.value = newPath;
   }, [
     pathDistanceHiked,
     selectedHikeTotalDistance,

@@ -22,6 +22,8 @@ interface UserChoicesProps {
   isStickerSelectedPremium: boolean;
   setIsStickerSelectedPremium: (flag: boolean) => void;
   changeSelectedHikeTotalDistance: (newValue: number) => void;
+  isReverse: boolean;
+  setIsReverse: (flag: boolean) => void;
 }
 
 interface UserChoicesProviderProps {
@@ -50,6 +52,7 @@ export const UserChoicesContextProvider = ({
   const [backgroundImage, setBackgroundImage] = useState<string>();
   const [selectedHikeTotalDistance, setSelectecHikeTotalDistance] =
     useState<number>(0);
+  const [isReverse, setIsReverse] = useState<boolean>(false);
   const [displayedDistanceHiked, setDisplayedDistanceHiked] =
     useState<number>(0);
   const [pathDistanceHiked, setPathDistanceHiked] = useState<number>(0);
@@ -109,6 +112,8 @@ export const UserChoicesContextProvider = ({
     isStickerSelectedPremium: isStickerSelectedPremium,
     setIsStickerSelectedPremium: setIsStickerSelectedPremium,
     changeSelectedHikeTotalDistance: changeSelectedHikeTotalDistance,
+    isReverse: isReverse,
+    setIsReverse: setIsReverse,
   };
 
   return (
