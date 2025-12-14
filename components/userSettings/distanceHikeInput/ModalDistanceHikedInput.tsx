@@ -2,8 +2,7 @@ import { Theme } from "@/contexts/theme/models/theme";
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { getMeasurementUnit } from "@/helpers/getMeasurementUnit";
-import { MeasurementUnit } from "@/models/measurementUnit";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   Pressable,
@@ -25,33 +24,43 @@ export const ModalDistanceHikedInput: React.FC<
     displayedDistanceHiked,
     setDistanceHiked,
     measurementUnit,
-    selectedHike,
+    changeSelectedHikeTotalDistance,
+    selectedHikeTotalDistance,
   } = useUserChoices();
 
   const { theme } = useTheme();
 
-  const getMaximumValue = () => {
-    return measurementUnit == MeasurementUnit.KILOMETER
-      ? selectedHike?.totalDistanceKilometer
-      : selectedHike?.totalDistanceMile;
-  };
+  const [_distanceHiked, _setDistanceHiked] = useState<number>(0);
+  const [_selectedHikeTotalDistance, _setSelectedHikeTotalDistance] =
+    useState<number>(0);
 
-  const updateValue = (newValue: number) => {
-    const clamped = Math.max(0, Math.min(getMaximumValue()!, newValue));
-    setDistanceHiked(clamped);
-  };
+  useEffect(() => {
+    _setDistanceHiked(displayedDistanceHiked);
+    _setSelectedHikeTotalDistance(selectedHikeTotalDistance);
+  }, [displayedDistanceHiked, selectedHikeTotalDistance]);
 
-  const handleChangeText = (text: string) => {
+  const onChangeDistanceHiked = (text: string) => {
     const parsed = parseInt(text, 10);
     if (!isNaN(parsed)) {
-      updateValue(parsed);
+      const clamped = Math.max(0, Math.min(_selectedHikeTotalDistance, parsed));
+      _setDistanceHiked(clamped);
     } else {
-      updateValue(0);
+      _setDistanceHiked(0);
+    }
+  };
+
+  const onSelectedHikeChangeDistance = (text: string) => {
+    const parsed = parseInt(text, 10);
+    if (!isNaN(parsed)) {
+      _setSelectedHikeTotalDistance(parsed);
+    } else {
+      _setSelectedHikeTotalDistance(0);
     }
   };
 
   const updateDistanceHiked = () => {
-    setDistanceHiked(displayedDistanceHiked);
+    setDistanceHiked(_distanceHiked);
+    changeSelectedHikeTotalDistance(_selectedHikeTotalDistance);
     onClose();
   };
 
@@ -66,11 +75,28 @@ export const ModalDistanceHikedInput: React.FC<
             <TextInput
               style={styles(theme).input}
               keyboardType="numeric"
-              value={displayedDistanceHiked.toString()}
-              onChangeText={handleChangeText}
+              value={_distanceHiked.toString()}
+              onChangeText={onChangeDistanceHiked}
               returnKeyType="done"
               onSubmitEditing={updateDistanceHiked}
               autoFocus
+            />
+            <Text
+              style={{ color: theme.text, marginHorizontal: 8, fontSize: 20 }}
+            >
+              /
+            </Text>
+            <TextInput
+              style={styles(theme).input}
+              keyboardType="numeric"
+              value={
+                _selectedHikeTotalDistance
+                  ? _selectedHikeTotalDistance.toString()
+                  : "0"
+              }
+              onChangeText={onSelectedHikeChangeDistance}
+              returnKeyType="done"
+              onSubmitEditing={updateDistanceHiked}
             />
             <Text style={styles(theme).measurementUnit}>
               {getMeasurementUnit(measurementUnit)}
@@ -112,10 +138,9 @@ const styles = (theme: Theme) =>
       alignItems: "center",
     },
     input: {
-      fontSize: 30,
+      fontSize: 26,
       color: theme.text,
       height: 40,
-      minWidth: 20,
     },
     measurementUnit: { marginLeft: 4, color: theme.text },
   });

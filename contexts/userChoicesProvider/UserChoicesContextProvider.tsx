@@ -21,6 +21,7 @@ interface UserChoicesProps {
   selectedHikeTotalDistance: number;
   isStickerSelectedPremium: boolean;
   setIsStickerSelectedPremium: (flag: boolean) => void;
+  changeSelectedHikeTotalDistance: (newValue: number) => void;
 }
 
 interface UserChoicesProviderProps {
@@ -60,19 +61,12 @@ export const UserChoicesContextProvider = ({
   const { isPremiumUnlocked } = usePremium();
 
   useEffect(() => {
-    if (measurementUnit == MeasurementUnit.KILOMETER) {
-      setSelectecHikeTotalDistance(selectedHike?.totalDistanceKilometer!);
-    } else {
-      setSelectecHikeTotalDistance(selectedHike?.totalDistanceMile!);
-    }
-  }, [measurementUnit, selectedHike]);
-
-  useEffect(() => {
     setBackgroundImage(undefined);
     setDisplayedDistanceHiked(0);
     setPathDistanceHiked(0);
     setShowBorders(true);
     setMeasurementUnit(MeasurementUnit.KILOMETER);
+    setSelectecHikeTotalDistance(selectedHike?.totalDistanceKilometer!);
   }, [selectedHike]);
 
   const setDistanceHiked = (distance: number) => {
@@ -82,6 +76,10 @@ export const UserChoicesContextProvider = ({
 
   const calibratePathDistanceHiked = (adjustment: number) => {
     setPathDistanceHiked(adjustment);
+  };
+
+  const changeSelectedHikeTotalDistance = (newValue: number) => {
+    setSelectecHikeTotalDistance(newValue);
   };
 
   const contextValue: UserChoicesProps = {
@@ -110,6 +108,7 @@ export const UserChoicesContextProvider = ({
     selectedHikeTotalDistance: selectedHikeTotalDistance,
     isStickerSelectedPremium: isStickerSelectedPremium,
     setIsStickerSelectedPremium: setIsStickerSelectedPremium,
+    changeSelectedHikeTotalDistance: changeSelectedHikeTotalDistance,
   };
 
   return (

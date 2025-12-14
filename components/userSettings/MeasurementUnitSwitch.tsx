@@ -16,6 +16,8 @@ export const MeasurementUnitSwitch: React.FC<MeasurementUnitSwitchProps> = ({
     setMeasurementUnit,
     setDistanceHiked,
     pathDistanceHiked,
+    changeSelectedHikeTotalDistance,
+    selectedHikeTotalDistance,
   } = useUserChoices();
 
   const { t } = useTranslation();
@@ -27,8 +29,14 @@ export const MeasurementUnitSwitch: React.FC<MeasurementUnitSwitchProps> = ({
 
     if (newUnit == MeasurementUnit.MILE) {
       setDistanceHiked(Math.round(pathDistanceHiked * 0.621371));
+      changeSelectedHikeTotalDistance(
+        Math.round(selectedHikeTotalDistance * 0.621371)
+      );
     } else {
       setDistanceHiked(Math.round(pathDistanceHiked / 0.621371));
+      changeSelectedHikeTotalDistance(
+        Math.round(selectedHikeTotalDistance / 0.621371)
+      );
     }
   };
 
