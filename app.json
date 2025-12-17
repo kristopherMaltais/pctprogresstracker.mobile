@@ -4,7 +4,7 @@
     "slug": "sharemyhike",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/splashScreen.png",
     "scheme": "pctprogresstrackermobile",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -12,9 +12,9 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.kristopher.sharemyhike",
       "icon": {
-        "light": "./assets/images/icon.png",
-        "dark": "./assets/images/icon.png",
-        "tinted": "./assets/images/icon.png"
+        "light": "./assets/images/iconIos.png",
+        "dark": "./assets/images/iconIos.png",
+        "tinted": "./assets/images/iconIos.png"
       },
       "appleTeamId": "MQRH4DGV42",
       "infoPlist": {
@@ -23,8 +23,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/settings.png",
-        "backgroundColor": "#E6F4FE"
+        "foregroundImage": "./assets/images/adaptiveIcon.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
@@ -39,8 +38,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/icon.png",
-          "backgroundColor": "#ffffff",
+          "image": "./assets/images/splashScreen.png",
           "imageWidth": 400
         }
       ]

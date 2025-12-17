@@ -1,4 +1,3 @@
-import { GestureWrapper } from "@/components/common/GestureWrapper";
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { getMeasurementUnit } from "@/helpers/getMeasurementUnit";
@@ -58,58 +57,64 @@ export const StickerMapHorizontal: React.FC = () => {
   ]);
 
   return (
-    <GestureWrapper>
-      <View style={styles.container}>
-        <View style={styles.statsContainer}>
-          <Image
-            source={getIcon("iconWithTextBackground")}
-            style={{ width: 60, height: 60 }}
-          />
-          <Text style={styles.name}>{selectedHike?.name}</Text>
-          <Text style={styles.label}>{t("index:sticker.total")}</Text>
-          <Text style={styles.value}>
-            {selectedHikeTotalDistance} {getMeasurementUnit(measurementUnit)}
-          </Text>
-          <Text style={styles.label}>{t("index:sticker.distanceHiked")}</Text>
-          <Text style={styles.value}>
-            {displayedDistanceHiked} {getMeasurementUnit(measurementUnit)}
-          </Text>
-        </View>
-        <Svg width={150} height={200} viewBox="0 0 150 200" fill="none">
-          {true && (
-            <>
-              <Path
-                d={selectedHike?.border}
-                stroke={theme.borders}
-                strokeWidth={1}
-              />
-              {selectedHike?.regions.map((region: string, index: number) => {
-                return <Path key={index} d={region} stroke={theme.borders} />;
-              })}
-            </>
-          )}
-          <Path
-            d={selectedHike?.path}
-            stroke={theme.path}
-            strokeWidth={3}
-            strokeLinecap="round"
-          />
-          <AnimatedPath
-            d={
-              getIsReverse(isReverse, isWayBack)
-                ? reverse(selectedHike?.path!)
-                : selectedHike?.path!
-            }
-            stroke={theme.pathColored}
-            strokeWidth={3}
-            fill="none"
-            strokeDasharray={selectedHike?.stickerMetadata.pathLength}
-            animatedProps={animatedProps}
-            strokeLinecap="round"
-          />
-        </Svg>
+    <View style={styles.container}>
+      <View style={styles.statsContainer}>
+        <Image
+          source={getIcon("iconWithTextBackground")}
+          style={{ width: 60, height: 60 }}
+        />
+        <Text style={styles.name}>{selectedHike?.name}</Text>
+        <Text style={styles.label}>{t("index:sticker.total")}</Text>
+        <Text style={styles.value}>
+          {selectedHikeTotalDistance} {getMeasurementUnit(measurementUnit)}
+        </Text>
+        <Text style={styles.label}>{t("index:sticker.distanceHiked")}</Text>
+        <Text style={styles.value}>
+          {displayedDistanceHiked} {getMeasurementUnit(measurementUnit)}
+        </Text>
       </View>
-    </GestureWrapper>
+      <Svg width={150} height={200} viewBox="0 0 150 200" fill="none">
+        {true && (
+          <>
+            <Path
+              d={selectedHike?.border}
+              stroke={theme.borders}
+              strokeWidth={1}
+            />
+            {selectedHike?.regions.map((region: string, index: number) => {
+              return (
+                <Path
+                  key={index}
+                  d={region}
+                  stroke={theme.borders}
+                  strokeWidth={1}
+                  fill={theme.background}
+                />
+              );
+            })}
+          </>
+        )}
+        <Path
+          d={selectedHike?.path}
+          stroke={theme.path}
+          strokeWidth={3}
+          strokeLinecap="round"
+        />
+        <AnimatedPath
+          d={
+            getIsReverse(isReverse, isWayBack)
+              ? reverse(selectedHike?.path!)
+              : selectedHike?.path!
+          }
+          stroke={theme.pathColored}
+          strokeWidth={3}
+          fill="none"
+          strokeDasharray={selectedHike?.stickerMetadata.pathLength}
+          animatedProps={animatedProps}
+          strokeLinecap="round"
+        />
+      </Svg>
+    </View>
   );
 };
 

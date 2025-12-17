@@ -99,7 +99,7 @@ export const StickerMapLarge: React.FC = () => {
                 : selectedHike?.path!
             }
             stroke={theme.pathColored}
-            strokeWidth={10}
+            strokeWidth={3}
             fill="none"
             strokeDasharray={selectedHike?.stickerMetadata.pathLength!}
             animatedProps={animatedProps}
