@@ -69,8 +69,8 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
     const setup = async () => {
       Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
 
-      // const iosApiKey = "appl_UKeJQmzuWxMrqCWHCQznUmTJwXe";
-      const iosApiKey = "test_BhUMjJVhCzCqQYwysjvdZSiznmF";
+      const iosApiKey = "appl_UKeJQmzuWxMrqCWHCQznUmTJwXe";
+      // const iosApiKey = "test_BhUMjJVhCzCqQYwysjvdZSiznmF";
       const androidApiKey = "test_BhUMjJVhCzCqQYwysjvdZSiznmF";
 
       if (Platform.OS === "ios") {
