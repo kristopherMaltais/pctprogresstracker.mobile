@@ -2,13 +2,14 @@
   "expo": {
     "name": "Share my Hike",
     "slug": "sharemyhike",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/splashScreen.png",
     "scheme": "pctprogresstrackermobile",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
+      "buildNumber": "2",
       "supportsTablet": true,
       "bundleIdentifier": "com.kristopher.sharemyhike",
       "icon": {
@@ -18,7 +19,8 @@
       },
       "appleTeamId": "MQRH4DGV42",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "LSApplicationQueriesSchemes": ["instagram"]
       }
     },
     "android": {
@@ -39,7 +41,7 @@
         "expo-splash-screen",
         {
           "image": "./assets/images/splashScreen.png",
-          "imageWidth": 400
+          "imageWidth": 200
         }
       ]
     ],

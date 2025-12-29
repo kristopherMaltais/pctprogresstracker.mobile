@@ -1,3 +1,4 @@
+import * as SplashScreen from "expo-splash-screen";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Platform } from "react-native";
@@ -82,6 +83,7 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
       setCurrentOffering(offerings.current);
 
       const customerInfo = await Purchases.getCustomerInfo();
+      await SplashScreen.hideAsync();
       const premiumEntitlement = customerInfo.entitlements.active["premium"];
       setIsPremiumUnlocked(!!premiumEntitlement?.isActive);
     };

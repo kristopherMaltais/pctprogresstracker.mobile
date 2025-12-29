@@ -23,7 +23,7 @@ export const ItinarySelectModal: React.FC<ItinarySelectModalProps> = ({
 
   return (
     <Modal animationType="slide" transparent={true} visible={isVisible}>
-      <Pressable style={styles(theme).centeredView} onPress={onCancel}>
+      <Pressable style={styles(theme).centeredView} onPress={() => {}}>
         <View style={styles(theme).modalView}>
           <Text style={styles(theme).title}>{t("index:itinary")}</Text>
           {itinaries?.map((itinary: Itinary) => {
@@ -93,6 +93,8 @@ const styles = (theme: Theme) =>
     },
     optionText: {
       color: theme.text,
+      paddingVertical: 5,
+      width: 200,
     },
     buttonContainer: {
       flexDirection: "row",

@@ -1,5 +1,7 @@
+import { usePremium } from "@/contexts/premium/PremiumContextProvider";
 import { Theme } from "@/contexts/theme/models/theme";
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
+import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Direction } from "./Direction";
@@ -24,6 +26,8 @@ export const UserSettings: React.FC<userSettingsProps> = ({
   const [isPositionInputOpen, setIsPositionInputOpen] =
     useState<boolean>(false);
   const { getIcon, theme } = useTheme();
+  const { isPremiumUnlocked } = usePremium();
+  const { isStickerSelectedPremium } = useUserChoices();
 
   const position = useRef(new Animated.Value(35)).current;
 
@@ -44,6 +48,10 @@ export const UserSettings: React.FC<userSettingsProps> = ({
       setIsMenuOpen(false);
     }
   }, [disabled]);
+
+  if (!isPremiumUnlocked && isStickerSelectedPremium) {
+    return null;
+  }
 
   return (
     <>

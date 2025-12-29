@@ -38,8 +38,8 @@ const styles = (theme: Theme) =>
       justifyContent: "center",
     },
     dot: {
-      width: 10,
-      height: 10,
+      width: 12,
+      height: 12,
       borderRadius: 8,
       marginHorizontal: 4,
     },

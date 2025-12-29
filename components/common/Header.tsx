@@ -91,7 +91,7 @@ const styles = (theme: Theme) =>
     left: { display: "flex", flexDirection: "row", alignItems: "center" },
     premium: {
       paddingHorizontal: 16,
-      borderRadius: 15,
+      borderRadius: 8,
       paddingVertical: 8,
       fontWeight: "bold",
       shadowColor: "#000",
