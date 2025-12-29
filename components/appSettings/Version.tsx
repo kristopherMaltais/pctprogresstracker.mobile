@@ -4,6 +4,10 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, View } from "react-native";
 
+import Constants from "expo-constants";
+
+const appVersion = Constants.expoConfig?.version;
+
 type VersionProps = {};
 
 export const Version: React.FC<VersionProps> = ({}) => {
@@ -22,7 +26,9 @@ export const Version: React.FC<VersionProps> = ({}) => {
         </Text>
       </View>
       <View>
-        <Text style={styles(theme).text}>V.1.0</Text>
+        <Text style={styles(theme).text}>
+          V.{Constants.expoConfig?.version}
+        </Text>
       </View>
     </View>
   );
