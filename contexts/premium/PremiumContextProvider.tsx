@@ -1,4 +1,3 @@
-import Constants from "expo-constants";
 import * as SplashScreen from "expo-splash-screen";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -72,12 +71,12 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
     const setup = async () => {
       Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
 
+      const iosProd = "appl_UKeJQmzuWxMrqCWHCQznUmTJwXe";
+      const iosTest = "test_BhUMjJVhCzCqQYwysjvdZSiznmF";
+      const androidTest = "test_BhUMjJVhCzCqQYwysjvdZSiznmF";
+
       const apiKey =
-        Platform.OS === "ios"
-          ? isDev
-            ? Constants.expoConfig?.extra?.REVENUECAT_IOS_DEV
-            : process.env.REVENUECAT_IOS_PROD
-          : Constants.expoConfig?.extra?.REVENUECAT_ANDROID_DEV;
+        Platform.OS === "ios" ? (isDev ? iosTest : iosProd) : androidTest;
 
       if (apiKey) {
         Purchases.configure({ apiKey: apiKey });
