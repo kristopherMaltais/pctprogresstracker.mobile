@@ -1,3 +1,4 @@
+import Constants from "expo-constants";
 import * as SplashScreen from "expo-splash-screen";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -28,6 +29,8 @@ export enum PremiumState {
   ERROR = "error",
   PENDING = "pending",
 }
+
+const isDev = __DEV__;
 
 export const PremiumContext = createContext<PremiumProps | undefined>(
   undefined
@@ -69,14 +72,15 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
     const setup = async () => {
       Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
 
-      const iosApiKey = "appl_UKeJQmzuWxMrqCWHCQznUmTJwXe";
-      // const iosApiKey = "test_BhUMjJVhCzCqQYwysjvdZSiznmF";
-      const androidApiKey = "test_BhUMjJVhCzCqQYwysjvdZSiznmF";
+      const apiKey =
+        Platform.OS === "ios"
+          ? isDev
+            ? Constants.expoConfig?.extra?.REVENUECAT_IOS_DEV
+            : process.env.REVENUECAT_IOS_PROD
+          : Constants.expoConfig?.extra?.REVENUECAT_ANDROID_DEV;
 
-      if (Platform.OS === "ios") {
-        Purchases.configure({ apiKey: iosApiKey });
-      } else if (Platform.OS === "android") {
-        Purchases.configure({ apiKey: androidApiKey });
+      if (apiKey) {
+        Purchases.configure({ apiKey: apiKey });
       }
 
       const offerings = await Purchases.getOfferings();
