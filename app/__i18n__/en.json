@@ -59,7 +59,7 @@
       "unlock": "Unlock this sticker",
       "headerGoPremium": "Get Premium",
       "success": "Purchase completed successfully!",
-      "buy": "Lifetime Access for $4.99"
+      "buy": "Lifetime Access for {{price}}"
     }
   },
   "errors": {

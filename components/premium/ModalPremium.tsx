@@ -30,7 +30,7 @@ export const ModalPremium: React.FC<ModalPremiumProps> = ({
 }) => {
   const { t } = useTranslation();
   const { getIcon, theme } = useTheme();
-  const { premiumState } = usePremium();
+  const { premiumState, price } = usePremium();
 
   return (
     <Modal animationType="slide" transparent={true} visible={isVisible}>
@@ -50,7 +50,7 @@ export const ModalPremium: React.FC<ModalPremiumProps> = ({
               {(premiumState == PremiumState.PENDING ||
                 premiumState == PremiumState.ERROR) && (
                 <Text style={styles(theme).confirmButtonText}>
-                  {t("index:premium.button.buy")}
+                  {t("index:premium.button.buy", { price: price })}
                 </Text>
               )}
               {premiumState == PremiumState.PROCESSING && <ActivityIndicator />}

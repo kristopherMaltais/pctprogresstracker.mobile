@@ -11,6 +11,7 @@ import { useValidation } from "../validation/ValidationContextProvider";
 
 interface PremiumProps {
   isPremiumUnlocked: boolean;
+  price: string;
   unlockPremium: () => void;
   restorePremium: () => void;
   premiumState: PremiumState;
@@ -53,6 +54,7 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
   );
   const [isPremiumModalVisible, setIsPremiumModalVisible] =
     useState<boolean>(false);
+  const [price, setPrice] = useState<string>();
   const [isPremiumUnlocked, setIsPremiumUnlocked] = useState(false);
   const premiumStickerId = "premium_sticker";
   const { showSuccessModal, showErrorModal } = useValidation();
@@ -84,6 +86,8 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
       }
 
       const offerings = await Purchases.getOfferings();
+      const price = offerings.current?.availablePackages[0].product.price;
+      setPrice(`${price}$`);
       setCurrentOffering(offerings.current);
 
       const customerInfo = await Purchases.getCustomerInfo();
@@ -154,6 +158,7 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
     premiumState: premimumState,
     isPremiumModalVisible: isPremiumModalVisible,
     setIsPremiumModalVisible: setIsPremiumModalVisible,
+    price: price,
   };
 
   return (
