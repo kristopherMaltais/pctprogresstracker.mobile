@@ -56,6 +56,7 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
   const [isPremiumUnlocked, setIsPremiumUnlocked] = useState(false);
   const premiumStickerId = "premium_sticker";
   const { showSuccessModal, showErrorModal } = useValidation();
+  const [isAppReady, setIsAppReady] = useState(false);
 
   useEffect(() => {
     if (!isPremiumModalVisible) {
@@ -88,11 +89,17 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
       const customerInfo = await Purchases.getCustomerInfo();
       const premiumEntitlement = customerInfo.entitlements.active["premium"];
       setIsPremiumUnlocked(!!premiumEntitlement?.isActive);
-      await SplashScreen.hideAsync();
+      setIsAppReady(true);
     };
 
     setup().catch(console.log);
   }, []);
+
+  useEffect(() => {
+    if (isAppReady) {
+      SplashScreen.hideAsync();
+    }
+  }, [isAppReady]);
 
   const unlockPremium = async () => {
     setPremiumState(PremiumState.PROCESSING);
