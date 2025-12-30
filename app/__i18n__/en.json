@@ -14,7 +14,8 @@
     "direction": "Direction",
     "position": "Position",
     "mile": "Mile",
-    "kilometer": "Kilometer"
+    "kilometer": "Kilometer",
+    "logo": "App Logo"
   },
   "settings": {
     "title": "Settings",

@@ -8,8 +8,6 @@ interface UserChoicesProps {
   setSelectedHike: (hike: Hike) => void;
   selectedProgressType: number;
   setSelectedProgressType: (index: number) => void;
-  showBorders: boolean;
-  setShowBorders: (flag: boolean) => void;
   backgroundImage: string | undefined;
   setBackgroundImage: (image: string) => void;
   displayedDistanceHiked: number;
@@ -24,6 +22,8 @@ interface UserChoicesProps {
   changeSelectedHikeTotalDistance: (newValue: number) => void;
   isReverse: boolean;
   setIsReverse: (flag: boolean) => void;
+  showLogo: boolean;
+  setShowLogo: (flag: boolean) => void;
 }
 
 interface UserChoicesProviderProps {
@@ -46,6 +46,7 @@ export const UserChoicesContextProvider = ({
   children,
 }: UserChoicesProviderProps) => {
   const [selectedHike, setSelectedHike] = useState<Hike>();
+  const [showLogo, setShowLogo] = useState<boolean>(true);
   const [isStickerSelectedPremium, setIsStickerSelectedPremium] =
     useState<boolean>(false);
   const [selectedProgressType, setSelectedProgressType] = useState<number>(0);
@@ -56,7 +57,6 @@ export const UserChoicesContextProvider = ({
   const [displayedDistanceHiked, setDisplayedDistanceHiked] =
     useState<number>(0);
   const [pathDistanceHiked, setPathDistanceHiked] = useState<number>(0);
-  const [showBorders, setShowBorders] = useState<boolean>(true);
   const [measurementUnit, setMeasurementUnit] = useState<MeasurementUnit>(
     MeasurementUnit.KILOMETER
   );
@@ -67,7 +67,6 @@ export const UserChoicesContextProvider = ({
     setBackgroundImage(undefined);
     setDisplayedDistanceHiked(0);
     setPathDistanceHiked(0);
-    setShowBorders(true);
     setMeasurementUnit(MeasurementUnit.KILOMETER);
     setSelectecHikeTotalDistance(selectedHike?.totalDistanceKilometer!);
   }, [selectedHike]);
@@ -88,9 +87,6 @@ export const UserChoicesContextProvider = ({
   const contextValue: UserChoicesProps = {
     selectedHike: selectedHike,
     setSelectedHike: setSelectedHike,
-    showBorders:
-      !isPremiumUnlocked && isStickerSelectedPremium ? true : showBorders,
-    setShowBorders: setShowBorders,
     selectedProgressType: selectedProgressType,
     setSelectedProgressType: setSelectedProgressType,
     backgroundImage:
@@ -114,6 +110,8 @@ export const UserChoicesContextProvider = ({
     changeSelectedHikeTotalDistance: changeSelectedHikeTotalDistance,
     isReverse: isReverse,
     setIsReverse: setIsReverse,
+    showLogo: showLogo,
+    setShowLogo: setShowLogo,
   };
 
   return (

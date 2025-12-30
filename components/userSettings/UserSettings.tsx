@@ -10,6 +10,7 @@ import { MeasurementUnitSwitch } from "./MeasurementUnitSwitch";
 import { Position } from "./position/Position";
 import { PositionInput } from "./position/PositionInput";
 import { Share } from "./Share";
+import { ShowLogoSwitch } from "./ShowLogoSwitch";
 import { UploadBackgroundImage } from "./UploadBackgroundImage";
 
 type userSettingsProps = {
@@ -86,6 +87,7 @@ export const UserSettings: React.FC<userSettingsProps> = ({
               <>
                 <MeasurementUnitSwitch isMenuOpen={isMenuOpen} />
                 <Direction isMenuOpen={isMenuOpen} />
+                <ShowLogoSwitch />
                 <Position
                   isMenuOpen={isMenuOpen}
                   openPositionInput={() => setIsPositionInputOpen(true)}

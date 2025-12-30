@@ -7,6 +7,7 @@ type SettingProps = {
   showLabel: boolean;
   label: string;
   icon: string;
+  isDisabled?: boolean;
   onPress: () => void;
 };
 
@@ -15,14 +16,19 @@ export const Setting: React.FC<SettingProps> = ({
   icon,
   label,
   onPress,
+  isDisabled = false,
 }) => {
   const { getIcon, theme } = useTheme();
 
   return (
     <View style={styles(theme).container}>
       <TouchableOpacity
-        style={[styles(theme).button, showLabel && styles(theme).buttonOpen]}
-        onPress={onPress}
+        style={[
+          styles(theme).button,
+          showLabel && styles(theme).buttonOpen,
+          { opacity: isDisabled ? 0.5 : 1 },
+        ]}
+        onPress={() => !isDisabled && onPress()}
       >
         <Image style={styles(theme).image} source={getIcon(icon)} />
       </TouchableOpacity>

@@ -18,9 +18,9 @@ export const StickerMapVertical: React.FC = () => {
     pathDistanceHiked,
     selectedHikeTotalDistance,
     measurementUnit,
-    showBorders,
     displayedDistanceHiked,
     isReverse,
+    showLogo,
   } = useUserChoices();
 
   const [isWayBack, setIsWayBack] = useState<boolean>(false);
@@ -57,25 +57,23 @@ export const StickerMapVertical: React.FC = () => {
   return (
     <View style={styles.container}>
       <Svg width={200} height={200} viewBox={"0 0 200 200"} fill="none">
-        {showBorders && (
-          <>
-            <Path
-              d={selectedHike?.border}
-              stroke={theme.borders}
-              strokeWidth={1}
-            />
-            {selectedHike?.regions.map((region: string, index: number) => {
-              return (
-                <Path
-                  key={index}
-                  d={region}
-                  stroke={theme.borders}
-                  strokeWidth={1}
-                />
-              );
-            })}
-          </>
-        )}
+        <>
+          <Path
+            d={selectedHike?.border}
+            stroke={theme.borders}
+            strokeWidth={1}
+          />
+          {selectedHike?.regions.map((region: string, index: number) => {
+            return (
+              <Path
+                key={index}
+                d={region}
+                stroke={theme.borders}
+                strokeWidth={1}
+              />
+            );
+          })}
+        </>
         <Path
           d={selectedHike?.path}
           stroke={theme.path}
@@ -97,10 +95,12 @@ export const StickerMapVertical: React.FC = () => {
         />
       </Svg>
       <View style={styles.statsContainer}>
-        <Image
-          source={getIcon("iconWithTextBackground")}
-          style={{ width: 60, height: 60 }}
-        />
+        {showLogo && (
+          <Image
+            source={getIcon("iconWithTextBackground")}
+            style={{ width: 60, height: 60 }}
+          />
+        )}
         <View>
           <Text style={styles.name}>{selectedHike?.name}</Text>
           <Text style={styles.label}>{t("index:sticker.total")}</Text>

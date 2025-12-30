@@ -16,10 +16,10 @@ export const StickerMapLarge: React.FC = () => {
     displayedDistanceHiked,
     pathDistanceHiked,
     selectedHikeTotalDistance,
-    showBorders,
     selectedHike,
     measurementUnit,
     isReverse,
+    showLogo,
   } = useUserChoices();
 
   const { getIcon, theme } = useTheme();
@@ -66,25 +66,23 @@ export const StickerMapLarge: React.FC = () => {
           fill="none"
           style={{ transform: [{ scale: 1.7 }] }}
         >
-          {showBorders && (
-            <>
-              <Path
-                d={selectedHike?.border}
-                stroke={theme.borders}
-                strokeWidth={1}
-              />
-              {selectedHike?.regions.map((region: string, index: number) => {
-                return (
-                  <Path
-                    key={index}
-                    d={region}
-                    stroke={theme.borders}
-                    strokeWidth={1}
-                  />
-                );
-              })}
-            </>
-          )}
+          <>
+            <Path
+              d={selectedHike?.border}
+              stroke={theme.borders}
+              strokeWidth={1}
+            />
+            {selectedHike?.regions.map((region: string, index: number) => {
+              return (
+                <Path
+                  key={index}
+                  d={region}
+                  stroke={theme.borders}
+                  strokeWidth={1}
+                />
+              );
+            })}
+          </>
           <Path
             d={selectedHike?.path}
             stroke={theme.path}
@@ -106,7 +104,9 @@ export const StickerMapLarge: React.FC = () => {
           />
         </Svg>
       </View>
-      <Image style={styles.logo} source={getIcon("iconWithTextBackground")} />
+      {showLogo && (
+        <Image style={styles.logo} source={getIcon("iconWithTextBackground")} />
+      )}
     </View>
   );
 };

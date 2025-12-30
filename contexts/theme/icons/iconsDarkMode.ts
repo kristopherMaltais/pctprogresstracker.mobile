@@ -61,4 +61,12 @@ export const iconsDarkMode: Array<Image> = [
     name: "save",
     image: require("../../../assets/images/darkMode/save.png"),
   },
+  {
+    name: "showLogo",
+    image: require("../../../assets/images/darkMode/showLogo.png"),
+  },
+  {
+    name: "hideLogo",
+    image: require("../../../assets/images/darkMode/hideLogo.png"),
+  },
 ];

@@ -19,8 +19,8 @@ export const StickerMapHorizontal: React.FC = () => {
     pathDistanceHiked,
     selectedHikeTotalDistance,
     measurementUnit,
-    showBorders,
     isReverse,
+    showLogo,
   } = useUserChoices();
 
   const { t } = useTranslation();
@@ -59,10 +59,12 @@ export const StickerMapHorizontal: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.statsContainer}>
-        <Image
-          source={getIcon("iconWithTextBackground")}
-          style={{ width: 60, height: 60 }}
-        />
+        {showLogo && (
+          <Image
+            source={getIcon("iconWithTextBackground")}
+            style={{ width: 60, height: 60 }}
+          />
+        )}
         <Text style={styles.name}>{selectedHike?.name}</Text>
         <Text style={styles.label}>{t("index:sticker.total")}</Text>
         <Text style={styles.value}>

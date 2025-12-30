@@ -12,6 +12,7 @@ export const StickerStats: React.FC = () => {
     displayedDistanceHiked,
     selectedHikeTotalDistance,
     measurementUnit,
+    showLogo,
   } = useUserChoices();
 
   const { getIcon } = useTheme();
@@ -37,10 +38,12 @@ export const StickerStats: React.FC = () => {
               alignItems: "center",
             }}
           >
-            <Image
-              source={getIcon("iconWithTextBackground")}
-              style={styles.logo}
-            />
+            {showLogo && (
+              <Image
+                source={getIcon("iconWithTextBackground")}
+                style={styles.logo}
+              />
+            )}
           </View>
         </View>
 
@@ -81,6 +84,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    minHeight: 60,
   },
   hikeName: {
     color: "white",
