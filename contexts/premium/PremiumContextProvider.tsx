@@ -86,8 +86,7 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
       }
 
       const offerings = await Purchases.getOfferings();
-      const price = offerings.current?.availablePackages[0].product.price;
-      setPrice(`${price}$`);
+      setPrice(offerings.current?.availablePackages[0].product.priceString);
       setCurrentOffering(offerings.current);
 
       const customerInfo = await Purchases.getCustomerInfo();
