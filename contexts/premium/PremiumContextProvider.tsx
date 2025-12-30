@@ -86,9 +86,9 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
       setCurrentOffering(offerings.current);
 
       const customerInfo = await Purchases.getCustomerInfo();
-      await SplashScreen.hideAsync();
       const premiumEntitlement = customerInfo.entitlements.active["premium"];
       setIsPremiumUnlocked(!!premiumEntitlement?.isActive);
+      await SplashScreen.hideAsync();
     };
 
     setup().catch(console.log);
