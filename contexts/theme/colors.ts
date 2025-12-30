@@ -7,7 +7,6 @@ const PALETTE = {
   darkBlack: "#18191A",
   lightBlack: "#242526",
   white: "#F2F2F2",
-  // primary: "#FFCD3C",
   primary: "#d32f2f",
   darkWhite: "#E2E4E6",
   orange: "#FC5200",
