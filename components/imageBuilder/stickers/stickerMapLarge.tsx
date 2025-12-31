@@ -3,7 +3,7 @@ import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContex
 import { getIsReverse, getPath } from "@/helpers/getPath";
 import { MeasurementUnit } from "@/models/measurementUnit";
 import React, { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Platform, StyleSheet, Text, View } from "react-native";
 import Animated, {
   useAnimatedProps,
   useSharedValue,
@@ -26,10 +26,12 @@ export const StickerMapLarge: React.FC = () => {
   const [isWayBack, setIsWayBack] = useState<boolean>(false);
   const AnimatedPath = Animated.createAnimatedComponent(Path);
   const progress = useSharedValue(0);
+  const isIos = Platform.OS == "ios";
 
   const animatedProps = useAnimatedProps(() => ({
-    strokeDashoffset:
-      selectedHike?.stickerMetadata.pathLength! - progress.value,
+    strokeDashoffset: isIos
+      ? selectedHike?.stickerMetadata.iosPathLength! - progress.value
+      : selectedHike?.stickerMetadata.androidPathLength! - progress.value,
   }));
 
   useEffect(() => {
@@ -37,7 +39,8 @@ export const StickerMapLarge: React.FC = () => {
       pathDistanceHiked,
       selectedHikeTotalDistance,
       displayedDistanceHiked,
-      selectedHike!
+      selectedHike!,
+      isIos
     );
 
     progress.value = 0;
@@ -46,7 +49,8 @@ export const StickerMapLarge: React.FC = () => {
   }, [
     pathDistanceHiked,
     selectedHikeTotalDistance,
-    selectedHike?.stickerMetadata.pathLength,
+    selectedHike?.stickerMetadata.iosPathLength,
+    selectedHike?.stickerMetadata.androidPathLength,
   ]);
 
   return (
@@ -99,7 +103,11 @@ export const StickerMapLarge: React.FC = () => {
             stroke={theme.pathColored}
             strokeWidth={3}
             fill="none"
-            strokeDasharray={selectedHike?.stickerMetadata.pathLength!}
+            strokeDasharray={
+              isIos
+                ? selectedHike?.stickerMetadata.iosPathLength!
+                : selectedHike?.stickerMetadata.androidPathLength!
+            }
             animatedProps={animatedProps}
           />
         </Svg>

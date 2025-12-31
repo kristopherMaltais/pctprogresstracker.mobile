@@ -99,5 +99,6 @@ const styles = (theme: Theme) =>
       shadowOpacity: 0.2,
       shadowRadius: 4,
       backgroundColor: theme.primary,
+      elevation: 5,
     },
   });

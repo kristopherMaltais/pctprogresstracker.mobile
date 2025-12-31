@@ -2,7 +2,8 @@ import { Direction } from "./direction";
 
 export type StickerMetadata = {
   direction: Direction;
-  pathLength: number;
+  iosPathLength: number;
+  androidPathLength: number;
   isRoundTrip: boolean;
   stickerLargeViewBox: string;
 };

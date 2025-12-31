@@ -4,7 +4,7 @@ import { getMeasurementUnit } from "@/helpers/getMeasurementUnit";
 import { getIsReverse, getPath } from "@/helpers/getPath";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Platform, StyleSheet, Text, View } from "react-native";
 import Animated, {
   useAnimatedProps,
   useSharedValue,
@@ -27,15 +27,19 @@ export const StickerMapHorizontal: React.FC = () => {
   const [isWayBack, setIsWayBack] = useState<boolean>(false);
 
   const { getIcon, theme } = useTheme();
+  const isIos = Platform.OS == "ios";
 
   const AnimatedPath = Animated.createAnimatedComponent(Path);
 
   const progress = useSharedValue(0);
 
   const animatedProps = useAnimatedProps(() => {
-    const length = selectedHike?.stickerMetadata.pathLength ?? 0;
+    let length = isIos
+      ? selectedHike?.stickerMetadata.iosPathLength
+      : selectedHike?.stickerMetadata.androidPathLength;
+
     return {
-      strokeDashoffset: length - progress.value,
+      strokeDashoffset: length! - progress.value,
     } as any;
   });
 
@@ -44,7 +48,8 @@ export const StickerMapHorizontal: React.FC = () => {
       pathDistanceHiked,
       selectedHikeTotalDistance,
       displayedDistanceHiked,
-      selectedHike!
+      selectedHike!,
+      isIos
     );
 
     progress.value = 0;
@@ -53,7 +58,8 @@ export const StickerMapHorizontal: React.FC = () => {
   }, [
     pathDistanceHiked,
     selectedHikeTotalDistance,
-    selectedHike?.stickerMetadata.pathLength,
+    selectedHike?.stickerMetadata.iosPathLength,
+    selectedHike?.stickerMetadata.androidPathLength,
   ]);
 
   return (
@@ -111,7 +117,11 @@ export const StickerMapHorizontal: React.FC = () => {
           stroke={theme.pathColored}
           strokeWidth={3}
           fill="none"
-          strokeDasharray={selectedHike?.stickerMetadata.pathLength}
+          strokeDasharray={
+            isIos
+              ? selectedHike?.stickerMetadata.iosPathLength
+              : selectedHike?.stickerMetadata.androidPathLength
+          }
           animatedProps={animatedProps}
           strokeLinecap="round"
         />

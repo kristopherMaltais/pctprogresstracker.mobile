@@ -5,23 +5,32 @@ export const getPath = (
   pathDistanceHiked: number,
   selectedHikeTotalDistance: number,
   displayedDistanceHiked: number,
-  selectedHike: Hike
+  selectedHike: Hike,
+  isIos: boolean
 ) => {
-  if (!selectedHike?.stickerMetadata.pathLength) return;
+  if (
+    !selectedHike?.stickerMetadata.iosPathLength ||
+    !selectedHike?.stickerMetadata.androidPathLength
+  )
+    return;
+
+  const length = isIos
+    ? selectedHike.stickerMetadata.iosPathLength
+    : selectedHike.stickerMetadata.androidPathLength;
 
   if (!selectedHike.stickerMetadata.isRoundTrip) {
     return getOneWayPath(
       pathDistanceHiked,
       selectedHikeTotalDistance,
       displayedDistanceHiked,
-      selectedHike
+      length
     );
   } else {
     return getRoundTripPath(
       pathDistanceHiked,
       selectedHikeTotalDistance,
       displayedDistanceHiked,
-      selectedHike
+      length
     );
   }
 };
@@ -30,7 +39,7 @@ const getOneWayPath = (
   pathDistanceHiked: number,
   selectedHikeTotalDistance: number,
   displayedDistanceHiked: number,
-  selectedHike: Hike
+  pathLength: number
 ) => {
   const ratio = Math.max(
     0,
@@ -39,9 +48,9 @@ const getOneWayPath = (
 
   var value = 0;
   if (pathDistanceHiked != displayedDistanceHiked) {
-    value = ratio * selectedHike.stickerMetadata.pathLength;
+    value = ratio * pathLength;
   } else {
-    value = withTiming(ratio * selectedHike.stickerMetadata.pathLength, {
+    value = withTiming(ratio * pathLength, {
       duration: 2000,
     });
   }
@@ -53,7 +62,7 @@ const getRoundTripPath = (
   pathDistanceHiked: number,
   selectedHikeTotalDistance: number,
   displayedDistanceHiked: number,
-  selectedHike: Hike
+  pathLength: number
 ) => {
   const selectedHikeHalfDistance = selectedHikeTotalDistance / 2;
   let newPathDistanceHiked = 0;
@@ -73,9 +82,9 @@ const getRoundTripPath = (
 
   var value = 0;
   if (pathDistanceHiked != displayedDistanceHiked) {
-    value = ratio * selectedHike.stickerMetadata.pathLength;
+    value = ratio * pathLength;
   } else {
-    value = withTiming(ratio * selectedHike.stickerMetadata.pathLength, {
+    value = withTiming(ratio * pathLength, {
       duration: 2000,
     });
   }

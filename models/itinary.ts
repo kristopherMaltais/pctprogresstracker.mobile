@@ -3,7 +3,8 @@ import { StickerMetadata } from "./stickerMetaData";
 export type Itinary = {
   name: string;
   path: string;
-  pathLength: number;
+  iosPathLength: number;
+  androidPathLength: number;
   totalDistanceKilometer: number;
   totalDistanceMile: number;
   stickerMetadata: StickerMetadata;
