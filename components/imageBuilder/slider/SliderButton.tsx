@@ -73,6 +73,7 @@ const styles = (theme: Theme) =>
       height: 40,
       width: 40,
       borderRadius: 20,
+      elevation: 5,
     },
     imageLeft: {
       width: 10,
