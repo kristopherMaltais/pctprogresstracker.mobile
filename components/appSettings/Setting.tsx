@@ -33,6 +33,7 @@ export const Setting: React.FC<SettingProps> = ({
             value={isEnable}
             onChange={onSettingPress}
             trackColor={{ true: theme.primary, false: "grey" }}
+            thumbColor={"#f4f3f4"} // ANDROID
             ios_backgroundColor="grey"
           />
         ) : (

@@ -5,6 +5,7 @@ import { getMeasurementUnit } from "@/helpers/getMeasurementUnit";
 import React, { useEffect, useState } from "react";
 import {
   Modal,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -29,7 +30,7 @@ export const ModalDistanceHikedInput: React.FC<
   } = useUserChoices();
 
   const { theme } = useTheme();
-
+  const isIos = Platform.OS == "ios";
   const [_distanceHiked, _setDistanceHiked] = useState<number>(0);
   const [_selectedHikeTotalDistance, _setSelectedHikeTotalDistance] =
     useState<number>(0);
@@ -87,7 +88,7 @@ export const ModalDistanceHikedInput: React.FC<
               /
             </Text>
             <TextInput
-              style={styles(theme).input}
+              style={{ ...styles(theme).input, height: isIos ? 40 : 60 }}
               keyboardType="numeric"
               value={
                 _selectedHikeTotalDistance
@@ -140,7 +141,6 @@ const styles = (theme: Theme) =>
     input: {
       fontSize: 26,
       color: theme.text,
-      height: 40,
     },
     measurementUnit: { marginLeft: 4, color: theme.text },
   });
