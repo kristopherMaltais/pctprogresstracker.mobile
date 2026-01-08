@@ -2,7 +2,7 @@ import { Theme } from "@/contexts/theme/models/theme";
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { getMeasurementUnit } from "@/helpers/getMeasurementUnit";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Modal,
   Platform,
@@ -65,22 +65,34 @@ export const ModalDistanceHikedInput: React.FC<
     onClose();
   };
 
+  const inputRef = useRef<TextInput>(null);
+
   return (
-    <Modal animationType="slide" transparent={true} visible={isVisible}>
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={isVisible}
+      onShow={() => {
+        setTimeout(() => {
+          inputRef.current?.focus();
+        }, 100);
+      }}
+    >
       <Pressable
         style={styles(theme).centeredView}
         onPress={updateDistanceHiked}
+        accessible={false}
       >
         <View style={styles(theme).modalView}>
           <View style={styles(theme).container}>
             <TextInput
+              ref={inputRef}
               style={styles(theme).input}
               keyboardType="numeric"
               value={_distanceHiked.toString()}
               onChangeText={onChangeDistanceHiked}
               returnKeyType="done"
               onSubmitEditing={updateDistanceHiked}
-              autoFocus
             />
             <Text
               style={{ color: theme.text, marginHorizontal: 8, fontSize: 20 }}

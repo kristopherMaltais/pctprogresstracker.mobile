@@ -75,11 +75,17 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
       Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
 
       const iosProd = "appl_UKeJQmzuWxMrqCWHCQznUmTJwXe";
-      const iosTest = "test_BhUMjJVhCzCqQYwysjvdZSiznmF";
-      const androidTest = "test_BhUMjJVhCzCqQYwysjvdZSiznmF";
+      const test = "test_BhUMjJVhCzCqQYwysjvdZSiznmF";
+      const androidProd = "goog_KZgVeLKoHlIwAKYFkywbfWjdwyt";
 
       const apiKey =
-        Platform.OS === "ios" ? (isDev ? iosTest : iosProd) : androidTest;
+        Platform.OS === "ios"
+          ? isDev
+            ? test
+            : iosProd
+          : isDev
+          ? test
+          : androidProd;
 
       if (apiKey) {
         Purchases.configure({ apiKey: apiKey });
