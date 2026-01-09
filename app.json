@@ -2,7 +2,7 @@
   "expo": {
     "name": "Share my Hike",
     "slug": "sharemyhike",
-    "version": "1.5.4",
+    "version": "1.5.5",
     "orientation": "portrait",
     "icon": "./assets/images/splashScreen.png",
     "scheme": "pctprogresstrackermobile",
@@ -24,7 +24,7 @@
       }
     },
     "android": {
-      "versionCode": 2,
+      "versionCode": 4,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptiveIcon.png",
         "backgroundColor": "#F5F6F7"

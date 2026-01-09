@@ -56,7 +56,10 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
     useState<boolean>(false);
   const [price, setPrice] = useState<string>();
   const [isPremiumUnlocked, setIsPremiumUnlocked] = useState(false);
-  const premiumStickerId = "premium_sticker";
+  const premiumStickerId = Platform.select({
+    ios: "premium_sticker",
+    android: "sharemyhike_premium_lifetime",
+  })!;
   const { showSuccessModal, showErrorModal } = useValidation();
   const [isAppReady, setIsAppReady] = useState(false);
 
@@ -114,6 +117,7 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
     setPremiumState(PremiumState.PROCESSING);
     if (!currentOffering) {
       console.log("No offering available");
+      setPremiumState(PremiumState.ERROR);
       return;
     }
 
@@ -124,6 +128,7 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
 
     if (!premiumPackage) {
       console.log("Premium sticker package not found in offering");
+      setPremiumState(PremiumState.ERROR);
       return;
     }
 

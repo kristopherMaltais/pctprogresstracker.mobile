@@ -5,7 +5,7 @@ import { useSticker } from "@/contexts/sticker/StickerContextProvider";
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import React, { useEffect, useState } from "react";
-import { Dimensions, Pressable, StyleSheet } from "react-native";
+import { Dimensions, Platform, Pressable, StyleSheet } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { runOnJS } from "react-native-reanimated";
 import { ImageBuilderPlaceholder } from "../ImageBuilderPlaceholder";
@@ -85,7 +85,7 @@ export const ImageBuilderSlider: React.FC = () => {
         </>
       )}
 
-      {selectedHike && (
+      {selectedHike && Platform.OS !== "android" && (
         <IndexIndicator indexCount={stickerCount} activeIndex={currentIndex} />
       )}
       <ModalPremium
