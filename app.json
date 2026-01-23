@@ -2,14 +2,14 @@
   "expo": {
     "name": "Share my Hike",
     "slug": "sharemyhike",
-    "version": "1.5.5",
+    "version": "1.5.6",
     "orientation": "portrait",
     "icon": "./assets/images/splashScreen.png",
     "scheme": "pctprogresstrackermobile",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "buildNumber": "13",
+      "buildNumber": "14",
       "supportsTablet": false,
       "bundleIdentifier": "com.kristopher.sharemyhike",
       "icon": {
