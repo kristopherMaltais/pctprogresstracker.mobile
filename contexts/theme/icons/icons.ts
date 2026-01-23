@@ -50,10 +50,6 @@ export const icons: Array<Image> = [
     image: require("../../../assets/images/icon.png"),
   },
   {
-    name: "iconWithText",
-    image: require("../../../assets/images/iconWithText.png"),
-  },
-  {
     name: "iconWithTextBackground",
     image: require("../../../assets/images/iconWithTextBackground.png"),
   },

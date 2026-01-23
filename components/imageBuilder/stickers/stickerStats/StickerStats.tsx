@@ -61,7 +61,7 @@ export const StickerStats: React.FC = () => {
           </Text>
         </View>
         <Text style={styles.percentage}>
-          {Math.round(calculatePercentage())}%
+          {calculatePercentage().toFixed(1)}%
         </Text>
       </View>
     </View>
@@ -89,7 +89,10 @@ const styles = StyleSheet.create({
   hikeName: {
     color: "white",
     fontSize: 20,
-    textShadowColor: "black",
+
+    textShadowColor: "rgba(0, 0, 0, 0.50)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 1,
   },
   body: {
     display: "flex",
@@ -100,11 +103,19 @@ const styles = StyleSheet.create({
     color: "white",
     marginTop: 10,
     fontSize: 14,
+
+    textShadowColor: "rgba(0, 0, 0, 0.50)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 1,
   },
   value: {
     fontSize: 20,
     color: "white",
     fontWeight: "bold",
+
+    textShadowColor: "rgba(0, 0, 0, 0.50)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 1,
   },
   percentage: {
     marginTop: 60,
@@ -112,6 +123,11 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
+
+    textShadowColor: "rgba(0, 0, 0, 0.50)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 1,
   },
+
   logo: { width: 58, height: 50, marginBottom: 10 },
 });

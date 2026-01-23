@@ -81,9 +81,26 @@ export const StickerMapHorizontal: React.FC = () => {
           {displayedDistanceHiked} {getMeasurementUnit(measurementUnit)}
         </Text>
       </View>
-      <Svg width={150} height={200} viewBox="0 0 150 200" fill="none">
+      <Svg width={150} height={205} viewBox="0 0 150 200" fill="none">
         {true && (
           <>
+            {/* 1. Couche large et très pâle (Simule la fin du flou) */}
+            <Path
+              d={selectedHike?.border}
+              stroke="rgba(0,0,0,0.03)"
+              strokeWidth={5}
+              transform="translate(0, 1.5)"
+            />
+
+            {/* 2. Couche moyenne (Donne de la profondeur) */}
+            <Path
+              d={selectedHike?.border}
+              stroke="rgba(0,0,0,0.08)"
+              strokeWidth={3}
+              transform="translate(0, 1)"
+            />
+
+            {/* 3. Ton tracé principal */}
             <Path
               d={selectedHike?.border}
               stroke={theme.borders}
@@ -91,17 +108,55 @@ export const StickerMapHorizontal: React.FC = () => {
             />
             {selectedHike?.regions.map((region: string, index: number) => {
               return (
-                <Path
-                  key={index}
-                  d={region}
-                  stroke={theme.borders}
-                  strokeWidth={1}
-                  fill={theme.background}
-                />
+                <React.Fragment key={index}>
+                  {/* 1. Ombre lointaine (très diffuse) */}
+                  <Path
+                    d={region}
+                    stroke="rgba(0,0,0,0.03)"
+                    strokeWidth={5}
+                    transform="translate(0, 1.5)"
+                    fill="transparent"
+                  />
+
+                  {/* 2. Ombre rapprochée (plus définie) */}
+                  <Path
+                    d={region}
+                    stroke="rgba(0,0,0,0.07)"
+                    strokeWidth={2.5}
+                    transform="translate(0, 1)"
+                    fill="transparent"
+                  />
+
+                  {/* 3. Tracé principal avec ton fond et ta bordure */}
+                  <Path
+                    d={region}
+                    stroke={theme.borders}
+                    strokeWidth={1}
+                    fill={theme.background}
+                  />
+                </React.Fragment>
               );
             })}
           </>
         )}
+        <Path
+          d={selectedHike?.path}
+          stroke="rgba(0,0,0,0.04)"
+          strokeWidth={7}
+          strokeLinecap="round"
+          transform="translate(0, 1.5)"
+        />
+
+        {/* 2. Ombre de définition (un peu plus sombre et moins large) */}
+        <Path
+          d={selectedHike?.path}
+          stroke="rgba(0,0,0,0.08)"
+          strokeWidth={5}
+          strokeLinecap="round"
+          transform="translate(0, 1)"
+        />
+
+        {/* 3. Le tracé principal de la randonnée */}
         <Path
           d={selectedHike?.path}
           stroke={theme.path}
@@ -144,11 +199,19 @@ const styles = StyleSheet.create({
     color: "white",
     marginTop: 10,
     fontSize: 12,
+
+    textShadowColor: "rgba(0, 0, 0, 0.50)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 1,
   },
   value: {
     fontSize: 16,
     color: "white",
     fontWeight: "bold",
+
+    textShadowColor: "rgba(0, 0, 0, 0.50)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 1,
   },
 
   name: {
@@ -156,6 +219,10 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
-    flexShrink: 1,
+    flexShrink: 3,
+
+    textShadowColor: "rgba(0, 0, 0, 0.50)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 1,
   },
 });
