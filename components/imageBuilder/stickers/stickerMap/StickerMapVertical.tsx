@@ -61,7 +61,7 @@ export const StickerMapVertical: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Svg width={200} height={200} viewBox={"0 0 200 200"} fill="none">
+      <Svg width={203} height={205} viewBox={"0 0 200 205"} fill="none">
         <>
           <Path
             d={selectedHike?.border}
