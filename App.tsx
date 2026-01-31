@@ -1,0 +1,52 @@
+import { registerRootComponent } from "expo";
+import React, { useState } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { HikesContextProvider } from "./src/contexts/hikes/HikesContextProvider";
+import { LocalizationContextProvider } from "./src/contexts/localization/LocalizationContextProvider";
+import { PremiumContextProvider } from "./src/contexts/premium/PremiumContextProvider";
+import { ServicesContextProvider } from "./src/contexts/services/ServicesContextProvider";
+import { StickerContextProvider } from "./src/contexts/sticker/StickerContextProvider";
+import { ThemeContextProvider } from "./src/contexts/theme/ThemeContextProvider";
+import { UserChoicesContextProvider } from "./src/contexts/userChoicesProvider/UserChoicesContextProvider";
+import { ValidationContextProvider } from "./src/contexts/validation/ValidationContextProvider";
+import { ViewShotContextProvider } from "./src/contexts/viewShot/ViewShotContextProvider";
+import i18n from "./src/localization/i18n";
+import { Navigation } from "./src/navigation/Navigation";
+import { ScreenLayout } from "./src/screens/ScreenLayout";
+
+export default function App() {
+  i18n.init;
+
+  const [areSettingsOpen, setAreSettingsOpen] = useState(false);
+
+  return (
+    <SafeAreaProvider>
+      <GestureHandlerRootView>
+        <ValidationContextProvider>
+          <PremiumContextProvider>
+            <ViewShotContextProvider>
+              <ThemeContextProvider>
+                <ServicesContextProvider>
+                  <HikesContextProvider>
+                    <LocalizationContextProvider>
+                      <UserChoicesContextProvider>
+                        <StickerContextProvider>
+                          <ScreenLayout areSettingsOpen={areSettingsOpen} setAreSettingsOpen={setAreSettingsOpen}>
+                            <Navigation areSettingsOpen={areSettingsOpen} setAreSettingsOpen={setAreSettingsOpen} />
+                          </ScreenLayout>
+                        </StickerContextProvider>
+                      </UserChoicesContextProvider>
+                    </LocalizationContextProvider>
+                  </HikesContextProvider>
+                </ServicesContextProvider>
+              </ThemeContextProvider>
+            </ViewShotContextProvider>
+          </PremiumContextProvider>
+        </ValidationContextProvider>
+      </GestureHandlerRootView>
+    </SafeAreaProvider>
+  );
+}
+
+registerRootComponent(App);
