@@ -1,3 +1,4 @@
+import { PremiumButton } from "@/src/common/components/premium/PremiumButton";
 import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
@@ -7,18 +8,17 @@ import { StyleSheet, View } from "react-native";
 import { Gesture, GestureDetector, GestureType } from "react-native-gesture-handler";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import ViewShot from "react-native-view-shot";
-import { PremiumButton } from "../premium/PremiumButton";
 
-type ImageBuilderStickerProps = {
+type ImageBuilderProps = {
   children: React.ReactNode;
 };
 
-export const imageBuilderStickerPanRef = {
+export const imageBuilderPanRef = {
   current: undefined as GestureType | undefined,
 };
 
-export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({ children }) => {
-  const { backgroundImage, isStickerSelectedPremium } = useUserChoices();
+export const ImageBuilder: React.FC<ImageBuilderProps> = ({ children }) => {
+  const { backgroundImage, isStickerSelectedPremium, selectedHike } = useUserChoices();
   const { isPremiumUnlocked } = usePremium();
   const { setViewShot } = useViewShot();
   const { theme, isDarkMode } = useTheme();
@@ -79,32 +79,37 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({ childr
   return (
     <GestureDetector gesture={composedGesture}>
       <View style={{ height: "90%" }}>
-        {isStickerSelectedPremium && !isPremiumUnlocked && <PremiumButton />}
-        <ViewShot
-          options={{
-            format: "png",
-            quality: 1,
-            result: "tmpfile",
-            width: shotWidth * 3,
-            height: shotHeight * 3,
-          }}
-          ref={viewShotRef}
-          onLayout={(event) => {
-            const { width, height } = event.nativeEvent.layout;
-            setShotWidth(width);
-            setShotHeight(height);
-          }}
-        >
-          <Animated.View
-            style={{
-              ...styles().container,
-              backgroundColor: isDarkMode ? theme.background : "#E0E0E0",
-            }}
-          >
-            <Animated.Image source={{ uri: backgroundImage }} style={[styles().backgroundImage, animatedStyle]} />
-            {children}
-          </Animated.View>
-        </ViewShot>
+        {selectedHike && (
+          <>
+            {isStickerSelectedPremium && !isPremiumUnlocked && <PremiumButton />}
+
+            <ViewShot
+              options={{
+                format: "png",
+                quality: 1,
+                result: "tmpfile",
+                width: shotWidth * 3,
+                height: shotHeight * 3,
+              }}
+              ref={viewShotRef}
+              onLayout={(event) => {
+                const { width, height } = event.nativeEvent.layout;
+                setShotWidth(width);
+                setShotHeight(height);
+              }}
+            >
+              <Animated.View
+                style={{
+                  ...styles().container,
+                  backgroundColor: isDarkMode ? theme.background : "#E0E0E0",
+                }}
+              >
+                <Animated.Image source={{ uri: backgroundImage }} style={[styles().backgroundImage, animatedStyle]} />
+                {children}
+              </Animated.View>
+            </ViewShot>
+          </>
+        )}
       </View>
     </GestureDetector>
   );

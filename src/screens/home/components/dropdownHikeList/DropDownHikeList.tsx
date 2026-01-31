@@ -2,6 +2,7 @@ import { useHikes } from "@/src/contexts/hikes/HikesContextProvider";
 import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { Hike } from "@/src/models/hike";
 
+import { ItinarySelectModal } from "@/src/common/components/modals/ItinarySelectModal";
 import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
@@ -12,7 +13,6 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import { ItinarySelectModal } from "../ItinarySelectModal";
 import { Option } from "./Option";
 
 type DropDownHikeListProps = {};

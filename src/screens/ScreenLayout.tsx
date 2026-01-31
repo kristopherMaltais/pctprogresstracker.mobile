@@ -1,5 +1,5 @@
-import { ModalError } from "@/src/components/common/modals/ModalError";
-import { ModalSuccess } from "@/src/components/common/modals/ModalSuccess";
+import { ModalError } from "@/src/common/components/modals/ModalError";
+import { ModalSuccess } from "@/src/common/components/modals/ModalSuccess";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useValidation } from "@/src/contexts/validation/ValidationContextProvider";
@@ -7,7 +7,9 @@ import React from "react";
 import { StatusBar, StyleSheet } from "react-native";
 import { Drawer } from "react-native-drawer-layout";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Settings from "../components/appSettings/Settings";
+import Settings from "../common/components/appSettings/Settings";
+import { ModalPremium } from "../common/components/premium/ModalPremium";
+import { usePremium } from "../contexts/premium/PremiumContextProvider";
 
 type ScreenLayoutProps = {
   areSettingsOpen: boolean;
@@ -18,6 +20,8 @@ type ScreenLayoutProps = {
 export const ScreenLayout: React.FC<ScreenLayoutProps> = ({ children, areSettingsOpen, setAreSettingsOpen }) => {
   const { errorMessage, successMessage, isErrorModalVisisble, isSuccessModalVisible, closeValidationModal } =
     useValidation();
+
+  const { isPremiumModalVisible, setIsPremiumModalVisible, unlockPremium } = usePremium();
 
   const { theme } = useTheme();
   return (
@@ -36,6 +40,11 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({ children, areSetting
           {children}
           <ModalError isVisible={isErrorModalVisisble} message={errorMessage} closeModal={closeValidationModal} />
           <ModalSuccess isVisible={isSuccessModalVisible} message={successMessage} closeModal={closeValidationModal} />
+          <ModalPremium
+            onConfirm={unlockPremium}
+            onCancel={() => setIsPremiumModalVisible(false)}
+            isVisible={isPremiumModalVisible}
+          />
         </SafeAreaView>
       </Drawer>
     </>

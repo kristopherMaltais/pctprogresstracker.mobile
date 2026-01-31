@@ -1,6 +1,6 @@
-import { StickerMap } from "@/src/components/imageBuilder/stickers/stickerMap/StickerMap";
-import { StickerMapLarge } from "@/src/components/imageBuilder/stickers/stickerMapLarge";
-import { StickerStats } from "@/src/components/imageBuilder/stickers/stickerStats/StickerStats";
+import { StickerMap } from "@/src/screens/home/components/imageBuilder/stickers/stickerMap/StickerMap";
+import { StickerMapLarge } from "@/src/screens/home/components/imageBuilder/stickers/stickerMapLarge";
+import { StickerStats } from "@/src/screens/home/components/imageBuilder/stickers/stickerStats/StickerStats";
 import React, { createContext, useContext, useState } from "react";
 
 type Sticker = {

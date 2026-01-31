@@ -1,4 +1,4 @@
-import { GestureWrapper } from "@/src/components/common/GestureWrapper";
+import { GestureWrapper } from "@/src/common/components/GestureWrapper";
 import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { Direction } from "@/src/models/direction";
 import React from "react";

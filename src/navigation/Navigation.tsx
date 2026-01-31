@@ -1,8 +1,8 @@
-import { Header } from "@/src/components/common/Header";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import { Home } from "../screens/Home";
+import { Header } from "../common/components/Header";
+import { Home } from "../screens/home/Home";
 
 export type RootStackParamList = {
   home: undefined;
@@ -21,7 +21,7 @@ export const Navigation: React.FC<NavigationProps> = ({ setAreSettingsOpen, areS
       <Stack.Navigator
         screenOptions={{
           headerShown: true,
-          header: (props) => (
+          header: () => (
             <Header pageTitle="test" toggleAppSettingsDrawer={() => setAreSettingsOpen(!areSettingsOpen)} />
           ),
         }}

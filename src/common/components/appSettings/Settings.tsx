@@ -1,14 +1,14 @@
-import { Language } from "@/src/components/appSettings/language/Language";
-import { PrivacyPolicy } from "@/src/components/appSettings/PrivacyPolicy";
-import { Terms } from "@/src/components/appSettings/Terms";
-import { Version } from "@/src/components/appSettings/Version";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Linking, StyleSheet, TouchableOpacity, View } from "react-native";
 import { DarkMode } from "./DarkMode";
+import { Language } from "./language/Language";
+import { PrivacyPolicy } from "./PrivacyPolicy";
 import { RestorePremiumButton } from "./RestorePremiumButton";
+import { Terms } from "./Terms";
+import { Version } from "./Version";
 
 export default function Settings() {
   const { t } = useTranslation();

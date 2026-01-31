@@ -1,5 +1,3 @@
-import { ModalPremium } from "@/src/components/premium/ModalPremium";
-import { UserSettings } from "@/src/components/userSettings/UserSettings";
 import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { useSticker } from "@/src/contexts/sticker/StickerContextProvider";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
@@ -8,8 +6,8 @@ import React, { useEffect, useState } from "react";
 import { Dimensions, Platform, Pressable, StyleSheet } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { runOnJS } from "react-native-reanimated";
-import { ImageBuilderPlaceholder } from "../ImageBuilderPlaceholder";
-import { ImageBuilderSticker } from "../ImageBuilderSticker";
+import { UserSettings } from "../../userSettings/UserSettings";
+import { ImageBuilder } from "../ImageBuilder";
 import { IndexIndicator } from "./IndexIndicator";
 import { SliderButton } from "./SliderButton";
 
@@ -18,8 +16,7 @@ export const ImageBuilderSlider: React.FC = () => {
   const { selectedHike, setIsStickerSelectedPremium } = useUserChoices();
   const { isDarkMode } = useTheme();
 
-  const { isPremiumModalVisible, setIsPremiumModalVisible, unlockPremium, isPremiumUnlocked } = usePremium();
-
+  const { isPremiumUnlocked } = usePremium();
   const { currentSticker, setCurrentSticker, stickerCount, currentIndex } = useSticker();
 
   const { height } = Dimensions.get("window");
@@ -29,7 +26,6 @@ export const ImageBuilderSlider: React.FC = () => {
     setIsStickerSelectedPremium(currentSticker.isPremium);
   }, [currentSticker]);
 
-  // Pan gesture
   const longPress = Gesture.LongPress()
     .onStart(() => {
       if (!currentSticker.isPremium || isPremiumUnlocked) {
@@ -52,13 +48,9 @@ export const ImageBuilderSlider: React.FC = () => {
         shadowOpacity: isDarkMode ? 1 : 0.2,
       }}
     >
-      {selectedHike ? (
-        <GestureDetector gesture={composedGesture}>
-          <ImageBuilderSticker>{currentSticker.sticker}</ImageBuilderSticker>
-        </GestureDetector>
-      ) : (
-        <ImageBuilderPlaceholder />
-      )}
+      <GestureDetector gesture={composedGesture}>
+        <ImageBuilder>{currentSticker.sticker}</ImageBuilder>
+      </GestureDetector>
       {selectedHike && (
         <>
           <UserSettings
@@ -74,11 +66,6 @@ export const ImageBuilderSlider: React.FC = () => {
       {selectedHike && Platform.OS !== "android" && (
         <IndexIndicator indexCount={stickerCount} activeIndex={currentIndex} />
       )}
-      <ModalPremium
-        onConfirm={unlockPremium}
-        onCancel={() => setIsPremiumModalVisible(false)}
-        isVisible={isPremiumModalVisible}
-      />
     </Pressable>
   );
 };

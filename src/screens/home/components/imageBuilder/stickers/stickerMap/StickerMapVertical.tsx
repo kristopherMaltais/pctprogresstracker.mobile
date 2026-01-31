@@ -55,16 +55,12 @@ export const StickerMapVertical: React.FC = () => {
       <Svg width={203} height={205} viewBox={"0 0 200 205"} fill="none">
         <>
           <Path d={selectedHike?.border} stroke="rgba(0,0,0,0.03)" strokeWidth={5} transform="translate(0, 1.5)" />
-
-          {/* 2. Couche moyenne (Donne de la profondeur) */}
           <Path d={selectedHike?.border} stroke="rgba(0,0,0,0.08)" strokeWidth={3} transform="translate(0, 1)" />
 
-          {/* 3. Ton tracé principal */}
           <Path d={selectedHike?.border} stroke={theme.borders} strokeWidth={1} />
           {selectedHike?.regions.map((region: string, index: number) => {
             return (
               <React.Fragment key={index}>
-                {/* 1. Ombre lointaine (très diffuse) */}
                 <Path
                   d={region}
                   stroke="rgba(0,0,0,0.03)"
@@ -73,7 +69,6 @@ export const StickerMapVertical: React.FC = () => {
                   fill="transparent"
                 />
 
-                {/* 2. Ombre rapprochée (plus définie) */}
                 <Path
                   d={region}
                   stroke="rgba(0,0,0,0.07)"
@@ -82,7 +77,6 @@ export const StickerMapVertical: React.FC = () => {
                   fill="transparent"
                 />
 
-                {/* 3. Tracé principal avec ton fond et ta bordure */}
                 <Path d={region} stroke={theme.borders} strokeWidth={1} fill={theme.background} />
               </React.Fragment>
             );
@@ -95,8 +89,6 @@ export const StickerMapVertical: React.FC = () => {
           strokeLinecap="round"
           transform="translate(0, 1.5)"
         />
-
-        {/* 2. Ombre de définition (un peu plus sombre et moins large) */}
         <Path
           d={selectedHike?.path}
           stroke="rgba(0,0,0,0.08)"
