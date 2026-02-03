@@ -62,6 +62,9 @@
       "buy": "Lifetime Access for {{price}}"
     }
   },
+  "share": {
+    "title": "Share your adventure"
+  },
   "errors": {
     "share": "An error occurred while sharing the image.",
     "premium": "An error occurred during the purchase. Please try again."

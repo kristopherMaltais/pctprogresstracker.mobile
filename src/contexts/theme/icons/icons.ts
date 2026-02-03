@@ -26,10 +26,6 @@ export const icons: Array<Image> = [
     image: require("@/assets/images/usaFlagLanguagePicker.png"),
   },
   {
-    name: "imageBuilderPlaceholder",
-    image: require("@/assets/images/imageBuilderPlaceholder.gif"),
-  },
-  {
     name: "success",
     image: require("@/assets/images/success.png"),
   },
@@ -56,5 +52,9 @@ export const icons: Array<Image> = [
   {
     name: "iconText",
     image: require("@/assets/images/logoText.png"),
+  },
+  {
+    name: "instagram",
+    image: require("@/assets/images/instagram.png"),
   },
 ];

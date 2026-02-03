@@ -16,6 +16,8 @@ export const ImageBuilderSlider: React.FC = () => {
   const { selectedHike, setIsStickerSelectedPremium } = useUserChoices();
   const { isDarkMode } = useTheme();
 
+  console.log("ibs");
+
   const { isPremiumUnlocked } = usePremium();
   const { currentSticker, setCurrentSticker, stickerCount, currentIndex } = useSticker();
 
@@ -44,7 +46,7 @@ export const ImageBuilderSlider: React.FC = () => {
       onPress={() => setCloseMenu((prev) => !prev)}
       style={{
         ...styles.container,
-        height: height * 0.8,
+        height: height * 0.81,
         shadowOpacity: isDarkMode ? 1 : 0.2,
       }}
     >

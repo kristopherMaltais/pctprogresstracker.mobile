@@ -1,0 +1,120 @@
+// import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
+// import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+// import React, { useMemo } from "react";
+// import { Pressable, StyleSheet, Text } from "react-native";
+
+// type SharingMenuProps = {
+//   isOpen: boolean;
+//   onClose: () => void;
+// };
+
+// export const ShareMenu: React.FC<SharingMenuProps> = ({ isOpen, onClose }) => {
+//   const snapPoints = useMemo(() => ["50%"], []);
+//   const { viewShot } = useViewShot();
+
+//   if (!isOpen) return null;
+
+//   const shareOnInstagram = async () => {
+//     if (!viewShot) return;
+
+//     try {
+//       const uri = await captureRef(viewShot, {
+//         format: "jpg",
+//         quality: 0.9,
+//       });
+
+//       const shareOptions: any = {
+//         backgroundImage: uri, // Ton image générée par viewShot
+//         backgroundBottomColor: "#fefefe",
+//         backgroundTopColor: "#906df4",
+//         social: Share.Social.INSTAGRAM_STORIES,
+//         appId: "1385671166123591",
+//       };
+
+//       console.log("Capture réussie, ouverture d'Instagram...");
+//       await Share.shareSingle(shareOptions);
+//     } catch (err) {
+//       console.error("Erreur de capture ou de partage:", err);
+//     }
+//   };
+
+//   const shareOnlySticker = async () => {
+//     if (!viewShot) return;
+
+//     try {
+//       // 1. Capture du sticker (assure-toi que ta vue a un fond transparent si tu veux l'effet autocollant)
+//       const uri = await captureRef(viewShot, {
+//         format: "png", // PNG est obligatoire pour garder la transparence du sticker
+//         quality: 1.0,
+//       });
+
+//       const shareOptions = {
+//         social: Share.Social.INSTAGRAM_STORIES,
+//         appId: "1385671166123591",
+
+//         // ON NE MET PAS DE backgroundImage ICI
+
+//         // 2. On met l'image capturée dans stickerImage
+//         stickerImage: uri,
+
+//         // 3. OBLIGATOIRE: Définir les couleurs du dégradé de fond d'Instagram
+//         backgroundTopColor: "#906df4",
+//         backgroundBottomColor: "#fefefe",
+//       };
+
+//       console.log("Envoi du sticker seul...");
+//       await Share.shareSingle(shareOptions);
+//     } catch (err) {
+//       console.log("Erreur Sticker:", err);
+//     }
+//   };
+
+//   const saveStickerToGallery = async () => {
+//     if (!viewShot) {
+//       console.log("ViewShot non disponible");
+//       return;
+//     }
+
+//     try {
+//       // 1. Demander la permission d'écrire dans la galerie
+//       const { status } = await MediaLibrary.requestPermissionsAsync();
+
+//       if (status !== "granted") {
+//         alert("Permission refusée. Impossible de sauvegarder le sticker.");
+//         return;
+//       }
+
+//       // 2. Capturer le sticker en PNG (Transparence obligatoire)
+//       const uri = await captureRef(viewShot, {
+//         format: "png",
+//         quality: 1.0,
+//       });
+
+//       // 3. Sauvegarder dans l'album photo
+//       await MediaLibrary.createAssetAsync(uri);
+
+//       alert("Sticker sauvegardé dans tes photos ! 🏔️");
+//       onClose();
+//     } catch (err) {
+//       console.error("Erreur de sauvegarde:", err);
+//       alert("Une erreur est survenue lors de la sauvegarde.");
+//     }
+//   };
+
+//   return (
+//     <BottomSheet index={1} snapPoints={snapPoints} enablePanDownToClose={true} onClose={onClose}>
+//       <BottomSheetView style={styles.contentContainer}>
+//         <Pressable onPress={saveStickerToGallery}>
+//           <Text>Sharing on instagram</Text>
+//         </Pressable>
+//       </BottomSheetView>
+//     </BottomSheet>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   contentContainer: {
+//     padding: 20,
+//     alignItems: "center",
+//   },
+// });

@@ -10,6 +10,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Settings from "../common/components/appSettings/Settings";
 import { ModalPremium } from "../common/components/premium/ModalPremium";
 import { usePremium } from "../contexts/premium/PremiumContextProvider";
+import { useUserChoices } from "../contexts/userChoicesProvider/UserChoicesContextProvider";
+import { SharingMenu } from "./home/components/sharing/SharingMenu";
 
 type ScreenLayoutProps = {
   areSettingsOpen: boolean;
@@ -21,7 +23,10 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({ children, areSetting
   const { errorMessage, successMessage, isErrorModalVisisble, isSuccessModalVisible, closeValidationModal } =
     useValidation();
 
+  console.log("screenLayout");
+
   const { isPremiumModalVisible, setIsPremiumModalVisible, unlockPremium } = usePremium();
+  const { showShareMenu, setShowShareMenu } = useUserChoices();
 
   const { theme } = useTheme();
   return (
@@ -46,6 +51,12 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({ children, areSetting
             isVisible={isPremiumModalVisible}
           />
         </SafeAreaView>
+        <SharingMenu
+          isOpen={showShareMenu}
+          onClose={() => {
+            setShowShareMenu(false);
+          }}
+        />
       </Drawer>
     </>
   );

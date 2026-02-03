@@ -36,6 +36,7 @@ export const StickerMapVertical: React.FC = () => {
       strokeDashoffset: length! - progress.value,
     } as any;
   });
+  console.log("smv");
 
   useEffect(() => {
     const newPath = getPath(pathDistanceHiked, selectedHikeTotalDistance, displayedDistanceHiked, selectedHike!, isIos);

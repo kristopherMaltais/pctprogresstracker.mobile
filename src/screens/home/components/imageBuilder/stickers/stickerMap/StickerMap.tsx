@@ -8,6 +8,8 @@ import { StickerMapHorizontal } from "./StikerMapHorizontal";
 
 type StickerMapProps = {};
 export const StickerMap: React.FC<StickerMapProps> = () => {
+  console.log("sm");
+
   const { selectedHike } = useUserChoices();
   return (
     <View>

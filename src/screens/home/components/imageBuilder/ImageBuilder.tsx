@@ -3,7 +3,7 @@ import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Gesture, GestureDetector, GestureType } from "react-native-gesture-handler";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
@@ -18,18 +18,22 @@ export const imageBuilderPanRef = {
 };
 
 export const ImageBuilder: React.FC<ImageBuilderProps> = ({ children }) => {
+  console.log("ib");
+
   const { backgroundImage, isStickerSelectedPremium, selectedHike } = useUserChoices();
   const { isPremiumUnlocked } = usePremium();
   const { setViewShot } = useViewShot();
   const { theme, isDarkMode } = useTheme();
 
-  const viewShotRef = useRef<ViewShot>(null);
-
-  useEffect(() => {
-    if (viewShotRef.current) {
-      setViewShot(viewShotRef.current);
-    }
-  }, [viewShotRef]);
+  const viewShotCallbackRef = React.useCallback(
+    (node: ViewShot | null) => {
+      if (node !== null) {
+        console.log("ViewShot est prêt et enregistré dans le contexte !");
+        setViewShot(node);
+      }
+    },
+    [setViewShot]
+  );
 
   // Pan offsets
   const translateX = useSharedValue(0);
@@ -73,9 +77,6 @@ export const ImageBuilder: React.FC<ImageBuilderProps> = ({ children }) => {
 
   const composedGesture = Gesture.Simultaneous(Gesture.Simultaneous(panGesture, pinchGesture));
 
-  const [shotWidth, setShotWidth] = React.useState(0);
-  const [shotHeight, setShotHeight] = React.useState(0);
-
   return (
     <GestureDetector gesture={composedGesture}>
       <View style={{ height: "90%" }}>
@@ -87,16 +88,8 @@ export const ImageBuilder: React.FC<ImageBuilderProps> = ({ children }) => {
               options={{
                 format: "png",
                 quality: 1,
-                result: "tmpfile",
-                width: shotWidth * 3,
-                height: shotHeight * 3,
               }}
-              ref={viewShotRef}
-              onLayout={(event) => {
-                const { width, height } = event.nativeEvent.layout;
-                setShotWidth(width);
-                setShotHeight(height);
-              }}
+              ref={viewShotCallbackRef}
             >
               <Animated.View
                 style={{

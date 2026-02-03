@@ -73,4 +73,16 @@ export const iconsLightMode: Array<Image> = [
     name: "hideLogo",
     image: require("@/assets/images/lightMode/hideLogo.png"),
   },
+  {
+    name: "downloadImageLocked",
+    image: require("@/assets/images/lightMode/downloadImageLocked.png"),
+  },
+  {
+    name: "downloadImageUnlocked",
+    image: require("@/assets/images/lightMode/downloadImageUnlocked.png"),
+  },
+  {
+    name: "other",
+    image: require("@/assets/images/lightMode/other.png"),
+  },
 ];

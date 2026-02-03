@@ -20,6 +20,8 @@ export const StickerStats: React.FC = () => {
     return measurementUnit == MeasurementUnit.KILOMETER ? "km" : "mi";
   };
 
+  console.log("ss");
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>

@@ -18,6 +18,8 @@ import { Option } from "./Option";
 type DropDownHikeListProps = {};
 
 export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
+  console.log("ddhl");
+
   const [hikeList, setHikeList] = useState<DropDownOption[]>([]);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [_selectedHike, _setSelectedHike] = useState<Hike | HikeWithItinary>();

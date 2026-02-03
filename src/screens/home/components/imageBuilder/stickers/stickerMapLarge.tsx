@@ -19,6 +19,8 @@ export const StickerMapLarge: React.FC = () => {
     showLogo,
   } = useUserChoices();
 
+  console.log("sml");
+
   const { getIcon, theme } = useTheme();
   const [isWayBack, setIsWayBack] = useState<boolean>(false);
   const AnimatedPath = Animated.createAnimatedComponent(Path);

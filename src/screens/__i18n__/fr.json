@@ -62,6 +62,9 @@
       "buy": "Accès à vie pour 4,99$"
     }
   },
+  "share": {
+    "title": "Share your progression"
+  },
   "errors": {
     "share": "Un erreur est survenu lors du partage de l'image",
     "premium": "Une erreur est survenue lors de l'achat. Veuillez réessayer."

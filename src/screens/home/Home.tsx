@@ -9,6 +9,8 @@ import { ImageBuilderSlider } from "./components/imageBuilder/slider/ImageBuilde
 export const Home: React.FC = () => {
   const { theme } = useTheme();
 
+  console.log("home");
+
   return (
     <View style={styles(theme).scrollContainer}>
       <DropDownHikeList />

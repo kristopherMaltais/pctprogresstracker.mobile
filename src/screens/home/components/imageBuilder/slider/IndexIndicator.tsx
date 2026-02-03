@@ -9,6 +9,8 @@ type IndexIndicatorProps = {
 };
 
 export const IndexIndicator: React.FC<IndexIndicatorProps> = ({ indexCount, activeIndex }) => {
+  console.log("ii");
+
   const { theme } = useTheme();
   return (
     <View style={styles(theme).container}>

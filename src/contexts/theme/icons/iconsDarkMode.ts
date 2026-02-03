@@ -69,4 +69,16 @@ export const iconsDarkMode: Array<Image> = [
     name: "hideLogo",
     image: require("@/assets/images/darkMode/hideLogo.png"),
   },
+  {
+    name: "downloadImageLocked",
+    image: require("@/assets/images/darkMode/downloadImageLocked.png"),
+  },
+  {
+    name: "downloadImageUnlocked",
+    image: require("@/assets/images/darkMode/downloadImageUnlocked.png"),
+  },
+  {
+    name: "other",
+    image: require("@/assets/images/darkMode/other.png"),
+  },
 ];

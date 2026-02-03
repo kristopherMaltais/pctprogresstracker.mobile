@@ -24,6 +24,8 @@ interface UserChoicesProps {
   setIsReverse: (flag: boolean) => void;
   showLogo: boolean;
   setShowLogo: (flag: boolean) => void;
+  showShareMenu: boolean;
+  setShowShareMenu: (flag: boolean) => void;
 }
 
 interface UserChoicesProviderProps {
@@ -43,6 +45,7 @@ export const useUserChoices = (): UserChoicesProps => {
 export const UserChoicesContextProvider = ({ children }: UserChoicesProviderProps) => {
   const [selectedHike, setSelectedHike] = useState<Hike>();
   const [showLogo, setShowLogo] = useState<boolean>(true);
+  const [showShareMenu, setShowShareMenu] = useState<boolean>(false);
   const [isStickerSelectedPremium, setIsStickerSelectedPremium] = useState<boolean>(false);
   const [selectedProgressType, setSelectedProgressType] = useState<number>(0);
   const [backgroundImage, setBackgroundImage] = useState<string>();
@@ -96,6 +99,8 @@ export const UserChoicesContextProvider = ({ children }: UserChoicesProviderProp
     setIsReverse: setIsReverse,
     showLogo: showLogo,
     setShowLogo: setShowLogo,
+    showShareMenu: showShareMenu,
+    setShowShareMenu: setShowShareMenu,
   };
 
   return <UserChoicesContext.Provider value={contextValue}>{children}</UserChoicesContext.Provider>;

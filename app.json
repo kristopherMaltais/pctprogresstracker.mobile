@@ -20,7 +20,10 @@
       "appleTeamId": "MQRH4DGV42",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
-        "LSApplicationQueriesSchemes": ["instagram"]
+        "LSApplicationQueriesSchemes": [
+          "instagram-stories",
+          "instagram"
+        ]
       }
     },
     "android": {
@@ -40,6 +43,19 @@
     "plugins": [
       "expo-router",
       [
+        "react-native-share",
+        {
+          "ios": [
+            "instagram",
+            "instagram-stories"
+          ],
+          "android": [
+            "com.instagram.android"
+          ],
+          "enableBase64ShareAndroid": true
+        }
+      ],
+      [
         "expo-splash-screen",
         {
           "resizeMode": "contain",
@@ -51,7 +67,8 @@
             "backgroundColor": "#242526"
           }
         }
-      ]
+      ],
+      "expo-build-properties"
     ],
     "experiments": {
       "typedRoutes": true,
