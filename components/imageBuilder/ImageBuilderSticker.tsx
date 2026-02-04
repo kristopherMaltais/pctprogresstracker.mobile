@@ -2,19 +2,10 @@ import { usePremium } from "@/contexts/premium/PremiumContextProvider";
 import { useTheme } from "@/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { useViewShot } from "@/contexts/viewShot/ViewShotContextProvider";
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
-import {
-  Gesture,
-  GestureDetector,
-  GestureType,
-} from "react-native-gesture-handler";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from "react-native-reanimated";
-import ViewShot from "react-native-view-shot";
+import { Gesture, GestureDetector, GestureType } from "react-native-gesture-handler";
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { PremiumButton } from "../premium/PremiumButton";
 
 type ImageBuilderStickerProps = {
@@ -25,21 +16,19 @@ export const imageBuilderStickerPanRef = {
   current: undefined as GestureType | undefined,
 };
 
-export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
-  children,
-}) => {
+export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({ children }) => {
   const { backgroundImage, isStickerSelectedPremium } = useUserChoices();
   const { isPremiumUnlocked } = usePremium();
   const { setViewShot } = useViewShot();
   const { theme, isDarkMode } = useTheme();
 
-  const viewShotRef = useRef<ViewShot>(null);
+  // const viewShotRef = useRef<ViewShot>(null);
 
-  useEffect(() => {
-    if (viewShotRef.current) {
-      setViewShot(viewShotRef.current);
-    }
-  }, [viewShotRef]);
+  // useEffect(() => {
+  //   if (viewShotRef.current) {
+  //     setViewShot(viewShotRef.current);
+  //   }
+  // }, [viewShotRef]);
 
   // Pan offsets
   const translateX = useSharedValue(0);
@@ -53,11 +42,7 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
 
   // Animated style
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [
-      { translateX: translateX.value },
-      { translateY: translateY.value },
-      { scale: scale.value },
-    ],
+    transform: [{ translateX: translateX.value }, { translateY: translateY.value }, { scale: scale.value }],
   }));
 
   // Pan gesture
@@ -85,9 +70,7 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
       if (scale.value > 3) scale.value = withSpring(3);
     });
 
-  const composedGesture = Gesture.Simultaneous(
-    Gesture.Simultaneous(panGesture, pinchGesture)
-  );
+  const composedGesture = Gesture.Simultaneous(Gesture.Simultaneous(panGesture, pinchGesture));
 
   const [shotWidth, setShotWidth] = React.useState(0);
   const [shotHeight, setShotHeight] = React.useState(0);
@@ -96,7 +79,7 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
     <GestureDetector gesture={composedGesture}>
       <View style={{ height: "90%" }}>
         {isStickerSelectedPremium && !isPremiumUnlocked && <PremiumButton />}
-        <ViewShot
+        {/* <ViewShot
           options={{
             format: "png",
             quality: 1,
@@ -110,20 +93,17 @@ export const ImageBuilderSticker: React.FC<ImageBuilderStickerProps> = ({
             setShotWidth(width);
             setShotHeight(height);
           }}
+        > */}
+        <Animated.View
+          style={{
+            ...styles().container,
+            backgroundColor: isDarkMode ? theme.background : "#E0E0E0",
+          }}
         >
-          <Animated.View
-            style={{
-              ...styles().container,
-              backgroundColor: isDarkMode ? theme.background : "#E0E0E0",
-            }}
-          >
-            <Animated.Image
-              source={{ uri: backgroundImage }}
-              style={[styles().backgroundImage, animatedStyle]}
-            />
-            {children}
-          </Animated.View>
-        </ViewShot>
+          <Animated.Image source={{ uri: backgroundImage }} style={[styles().backgroundImage, animatedStyle]} />
+          {children}
+        </Animated.View>
+        {/* </ViewShot> */}
       </View>
     </GestureDetector>
   );
