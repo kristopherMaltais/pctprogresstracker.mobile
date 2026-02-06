@@ -32,8 +32,6 @@ export const ShareInstagramWithBackground: React.FC = () => {
     }
   };
 
-  console.log("siwb");
-
   return (
     <SharingButton
       onPress={shareOnInstagram}

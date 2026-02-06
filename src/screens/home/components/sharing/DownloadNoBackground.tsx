@@ -65,8 +65,6 @@ export const DownloadNoBackground: React.FC<DownloadNoBackgroundProps> = ({ onCl
     }
   }, [isPremiumUnlocked]);
 
-  console.log("dnb");
-
   return (
     <SharingButton
       onPress={saveToGallery}

@@ -23,8 +23,6 @@ export const ScreenLayout: React.FC<ScreenLayoutProps> = ({ children, areSetting
   const { errorMessage, successMessage, isErrorModalVisisble, isSuccessModalVisible, closeValidationModal } =
     useValidation();
 
-  console.log("screenLayout");
-
   const { isPremiumModalVisible, setIsPremiumModalVisible, unlockPremium } = usePremium();
   const { showShareMenu, setShowShareMenu } = useUserChoices();
 

@@ -32,8 +32,6 @@ export const SharingButton: React.FC<SharingButtonProps> = ({ onPress, image, ti
   );
 };
 
-console.log("sb");
-
 const styles = (theme: Theme) =>
   StyleSheet.create({
     container: {

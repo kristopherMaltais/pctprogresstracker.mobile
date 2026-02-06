@@ -18,8 +18,6 @@ export const imageBuilderPanRef = {
 };
 
 export const ImageBuilder: React.FC<ImageBuilderProps> = ({ children }) => {
-  console.log("ib");
-
   const { backgroundImage, isStickerSelectedPremium, selectedHike } = useUserChoices();
   const { isPremiumUnlocked } = usePremium();
   const { setViewShot } = useViewShot();

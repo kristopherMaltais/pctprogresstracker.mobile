@@ -1,4 +1,4 @@
-import { StickerMap } from "@/src/screens/home/components/imageBuilder/stickers/stickerMap/StickerMap";
+import { StickerMap } from "@/src/screens/home/components/imageBuilder/stickers/StickerMap";
 import { StickerMapLarge } from "@/src/screens/home/components/imageBuilder/stickers/stickerMapLarge";
 import { StickerStats } from "@/src/screens/home/components/imageBuilder/stickers/stickerStats/StickerStats";
 import React, { createContext, useContext, useState } from "react";

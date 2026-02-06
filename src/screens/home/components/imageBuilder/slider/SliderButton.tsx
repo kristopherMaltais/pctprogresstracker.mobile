@@ -12,8 +12,6 @@ type SliderButtonProps = {
 export const SliderButton: React.FC<SliderButtonProps> = ({ direction, hide, onPress }) => {
   const { getIcon, theme } = useTheme();
 
-  console.log("sb");
-
   const position = useRef(new Animated.Value(5)).current;
 
   const positionStyle = {} as any;

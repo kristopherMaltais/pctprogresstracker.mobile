@@ -26,8 +26,6 @@ export const SharingMenu: React.FC<SharingMenuProps> = ({ isOpen, onClose }) => 
 
   if (!isOpen) return null;
 
-  console.log("sb");
-
   return (
     <BottomSheet
       backgroundStyle={{ backgroundColor: theme.secondaryBackground }}

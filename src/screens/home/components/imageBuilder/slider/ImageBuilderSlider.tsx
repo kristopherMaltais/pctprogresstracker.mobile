@@ -16,8 +16,6 @@ export const ImageBuilderSlider: React.FC = () => {
   const { selectedHike, setIsStickerSelectedPremium } = useUserChoices();
   const { isDarkMode } = useTheme();
 
-  console.log("ibs");
-
   const { isPremiumUnlocked } = usePremium();
   const { currentSticker, setCurrentSticker, stickerCount, currentIndex } = useSticker();
 

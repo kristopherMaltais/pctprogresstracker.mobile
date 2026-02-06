@@ -8,7 +8,6 @@ type OptionProps = {
 };
 
 export const Option: React.FC<OptionProps> = ({ option }) => {
-  console.log("option");
   const { theme } = useTheme();
   return (
     <View

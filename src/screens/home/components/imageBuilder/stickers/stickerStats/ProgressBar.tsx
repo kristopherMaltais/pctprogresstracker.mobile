@@ -13,7 +13,6 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ percentage }) => {
   const { theme } = useTheme();
 
   const animatedWidth = useSharedValue(0);
-  console.log("progressbar");
 
   useEffect(() => {
     animatedWidth.value = withTiming(widthPercentage, {

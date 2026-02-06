@@ -19,7 +19,5 @@ export const OpenNativeSharing: React.FC<OpenNativeSharingProps> = ({ closeMenu 
     }, 1000);
   };
 
-  console.log("ons");
-
   return <SharingButton onPress={share} image="other" title="Other" />;
 };

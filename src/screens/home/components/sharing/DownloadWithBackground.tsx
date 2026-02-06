@@ -48,8 +48,6 @@ export const DownloadWithBackground: React.FC<DownloadWithBackgroundProps> = ({ 
     }, 2000);
   };
 
-  console.log("dwb");
-
   return (
     <SharingButton
       onPress={saveToGallery}
