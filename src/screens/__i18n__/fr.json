@@ -63,7 +63,23 @@
     }
   },
   "share": {
-    "title": "Share your progression"
+    "title": "Partager votre aventure",
+    "instagram": {
+      "title": "Stories Instagram",
+      "description": "Partagez votre rando avec votre communauté"
+    },
+    "gallery": {
+      "title": "Enregistrer l'image",
+      "description": "Téléchargez la photo complète dans votre galerie"
+    },
+    "galleryTransparent": {
+      "title": "Superposition Vidéo Pro",
+      "description": "PNG transparent, idéal pour Reels et YouTube"
+    },
+    "other": {
+      "title": "Partager via...",
+      "description": "Envoyez vers Messenger, Facebook et plus"
+    }
   },
   "errors": {
     "share": "Un erreur est survenu lors du partage de l'image",

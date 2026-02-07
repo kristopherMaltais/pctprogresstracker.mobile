@@ -5,6 +5,7 @@ import { requestAppReview } from "@/src/helpers/requestAppReview";
 import * as Haptics from "expo-haptics";
 import * as MediaLibrary from "expo-media-library";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { captureRef } from "react-native-view-shot";
 import { SharingButton } from "./SharingButton";
 
@@ -15,7 +16,7 @@ type DownloadNoBackgroundProps = {
 export const DownloadNoBackground: React.FC<DownloadNoBackgroundProps> = ({ onClose }) => {
   const { viewShotTransparentBackground } = useViewShot();
   const { isPremiumUnlocked, setIsPremiumModalVisible } = usePremium();
-
+  const { t } = useTranslation();
   const [iconDisplay, setIconDisplay] = useState<string>("downloadImageUnlocked");
 
   const saveToGallery = async () => {
@@ -62,8 +63,8 @@ export const DownloadNoBackground: React.FC<DownloadNoBackgroundProps> = ({ onCl
       onPress={saveToGallery}
       isLocked={!isPremiumUnlocked}
       image={!isPremiumUnlocked ? "downloadImageLocked" : iconDisplay}
-      title="Video Overlay Export"
-      description="Transparent background, perfect for Reels & Youtube"
+      title={t("index:share.galleryTransparent.title")}
+      description={t("index:share.galleryTransparent.description")}
     />
   );
 };

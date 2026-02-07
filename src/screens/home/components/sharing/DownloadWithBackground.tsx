@@ -55,8 +55,8 @@ export const DownloadWithBackground: React.FC<DownloadWithBackgroundProps> = ({ 
     <SharingButton
       onPress={saveToGallery}
       image={iconDisplay}
-      title="Save to Photos"
-      description="Save the full picture to your gallery."
+      title={t("index:share.gallery.title")}
+      description={t("index:share.gallery.description")}
     />
   );
 };

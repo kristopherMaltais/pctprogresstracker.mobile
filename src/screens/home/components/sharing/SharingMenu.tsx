@@ -1,6 +1,5 @@
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
-import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -18,7 +17,6 @@ type SharingMenuProps = {
 
 export const SharingMenu: React.FC<SharingMenuProps> = ({ isOpen, onClose }) => {
   const { t } = useTranslation();
-  const { viewShot } = useViewShot();
   const { theme, getIcon } = useTheme();
   const insets = useSafeAreaInsets();
 
@@ -30,6 +28,15 @@ export const SharingMenu: React.FC<SharingMenuProps> = ({ isOpen, onClose }) => 
     <BottomSheet
       backgroundStyle={{ backgroundColor: theme.secondaryBackground }}
       index={1}
+      style={{
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: -1, // On veut que l'ombre monte vers le haut
+        },
+        shadowOpacity: 0.1,
+        elevation: 20,
+      }}
       snapPoints={snapPoints}
       handleIndicatorStyle={{ backgroundColor: theme.text }}
       enablePanDownToClose={true}

@@ -35,23 +35,22 @@ export const SharingButton: React.FC<SharingButtonProps> = ({ onPress, image, ti
 const styles = (theme: Theme) =>
   StyleSheet.create({
     container: {
-      flexDirection: "row", // On aligne icône à gauche, texte à droite
+      flexDirection: "row",
       alignItems: "center",
-      width: "100%", // Prend toute la largeur
-      paddingVertical: 12, // Zone de clic confortable
+      width: "100%",
+      paddingVertical: 12,
       marginBottom: 8,
     },
     iconContainer: {
       width: 48,
       height: 48,
       borderRadius: 12,
-      backgroundColor: theme.secondaryBackground, // Ou une couleur légèrement différente du fond
+      backgroundColor: theme.secondaryBackground,
       justifyContent: "center",
       alignItems: "center",
-      marginRight: 16, // Espace entre icône et texte
-      // Optionnel: petite ombre ou bordure
+      marginRight: 16,
       borderWidth: 1,
-      borderColor: theme.text + "20", // 20% d'opacité
+      borderColor: theme.text + "20",
     },
     logo: {
       width: 28,
@@ -59,18 +58,18 @@ const styles = (theme: Theme) =>
       resizeMode: "contain",
     },
     textContainer: {
-      flex: 1, // Prend tout l'espace restant
+      flex: 1,
       justifyContent: "center",
     },
     title: {
       color: theme.text,
-      fontSize: 14, // Plus gros
-      fontWeight: "500", // Semi-bold
+      fontSize: 16,
+      fontWeight: "500",
       marginBottom: 4,
     },
     description: {
-      color: theme.text, // Ou theme.secondaryText si tu as ça
-      opacity: 0.6, // On rend la description plus discrète
-      fontSize: 10,
+      color: theme.text,
+      opacity: 0.6,
+      fontSize: 12,
     },
   });

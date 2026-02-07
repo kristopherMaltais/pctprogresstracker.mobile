@@ -35,8 +35,8 @@ export const ShareInstagramWithBackground: React.FC = () => {
     <SharingButton
       onPress={shareOnInstagram}
       image="instagramColored"
-      title="Inspire your followers"
-      description="Post your stats to your Story"
+      title={t("index:share.instagram.title")}
+      description={t("index:share.instagram.description")}
     />
   );
 };

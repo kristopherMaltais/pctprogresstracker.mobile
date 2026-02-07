@@ -63,7 +63,23 @@
     }
   },
   "share": {
-    "title": "Share your adventure"
+    "title": "Share your adventure",
+    "instagram": {
+      "title": "Instagram Stories",
+      "description": "Share your hike with your community"
+    },
+    "gallery": {
+      "title": "Save Image",
+      "description": "Download the full picture to your gallery"
+    },
+    "galleryTransparent": {
+      "title": "Pro Video Overlay",
+      "description": "Transparent PNG, perfect for Reels & YouTube"
+    },
+    "other": {
+      "title": "Share via...",
+      "description": "Send to Messenger, Facebook or more"
+    }
   },
   "errors": {
     "share": "An error occurred while sharing the image.",
