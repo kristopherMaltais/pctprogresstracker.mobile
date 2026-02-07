@@ -5,5 +5,6 @@ export type StickerMetadata = {
   iosPathLength: number;
   androidPathLength: number;
   isRoundTrip: boolean;
-  stickerLargeViewBox: string;
+  width: number;
+  height: number;
 };

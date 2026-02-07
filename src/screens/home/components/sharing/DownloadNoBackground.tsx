@@ -4,7 +4,7 @@ import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
 import { openNativeShare } from "@/src/helpers/openNativeSharing";
 import * as Haptics from "expo-haptics";
 import * as MediaLibrary from "expo-media-library";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { captureRef } from "react-native-view-shot";
 import { SharingButton } from "./SharingButton";
@@ -20,13 +20,12 @@ export const DownloadNoBackground: React.FC<DownloadNoBackgroundProps> = ({ onCl
   const { selectedHike } = useUserChoices();
 
   const [iconDisplay, setIconDisplay] = useState<string>("downloadImageUnlocked");
-  const [isLocked, setIsLocked] = useState<boolean>(true);
 
   const saveToGallery = async () => {
-    // if (isLocked) {
-    //   setIsPremiumModalVisible(true);
-    //   return;
-    // }
+    if (!isPremiumUnlocked) {
+      setIsPremiumModalVisible(true);
+      return;
+    }
 
     if (!viewShotTransparentBackground) {
       return;
@@ -59,17 +58,11 @@ export const DownloadNoBackground: React.FC<DownloadNoBackgroundProps> = ({ onCl
     }, 2000);
   };
 
-  useEffect(() => {
-    if (selectedHike) {
-      setIsLocked(!isPremiumUnlocked);
-    }
-  }, [isPremiumUnlocked]);
-
   return (
     <SharingButton
       onPress={saveToGallery}
-      isLocked={false}
-      image={isLocked ? "downloadImageLocked" : iconDisplay}
+      isLocked={!isPremiumUnlocked}
+      image={!isPremiumUnlocked ? "downloadImageLocked" : iconDisplay}
       title="Video Overlay Export"
       description="Transparent background, perfect for Reels & Youtube"
     />

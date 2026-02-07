@@ -3,20 +3,13 @@ import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesCo
 import { calculateStrokeGeometry } from "@/src/helpers/calculateStrokeGeometry";
 import { Canvas, Path, Shadow } from "@shopify/react-native-skia";
 import React, { useEffect } from "react";
-import { StyleSheet } from "react-native";
 import { useDerivedValue, useSharedValue, withTiming } from "react-native-reanimated";
 
 type HikeProgressAnimationProps = {
-  isHorizontal?: boolean;
   size?: number;
-  isCenter?: boolean;
 };
 
-export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({
-  isHorizontal,
-  size = 1,
-  isCenter = false,
-}) => {
+export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({ size = 1 }) => {
   const { selectedHike, pathDistanceHiked, selectedHikeTotalDistance, isReverse } = useUserChoices();
   const { theme } = useTheme();
 
@@ -50,7 +43,15 @@ export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({
   if (!selectedHike) return null;
 
   return (
-    <Canvas style={[isHorizontal ? styles.horizontal : styles.vertical, { transform: [{ scale: size }] }]}>
+    <Canvas
+      style={[
+        {
+          width: selectedHike.stickerMetadata.width,
+          height: selectedHike.stickerMetadata.height,
+        },
+        { transform: [{ scale: size }] },
+      ]}
+    >
       {selectedHike.regions?.map((region: string, index: number) => (
         <React.Fragment key={index}>
           <Path path={region} color={theme.borders} strokeWidth={1} style="stroke" />
@@ -77,14 +78,3 @@ export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({
     </Canvas>
   );
 };
-
-const styles = StyleSheet.create({
-  horizontal: {
-    width: 150,
-    height: 205,
-  },
-  vertical: {
-    width: 200,
-    height: 205,
-  },
-});

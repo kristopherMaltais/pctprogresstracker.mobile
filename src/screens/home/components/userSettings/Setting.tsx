@@ -18,7 +18,7 @@ export const Setting: React.FC<SettingProps> = ({ showLabel, icon, label, onPres
     <View style={styles(theme).container}>
       <TouchableOpacity
         style={[styles(theme).button, showLabel && styles(theme).buttonOpen, { opacity: isDisabled ? 0.5 : 1 }]}
-        onPress={() => !isDisabled && onPress()}
+        onPress={() => onPress()}
       >
         <Image style={styles(theme).image} source={getIcon(icon)} />
       </TouchableOpacity>

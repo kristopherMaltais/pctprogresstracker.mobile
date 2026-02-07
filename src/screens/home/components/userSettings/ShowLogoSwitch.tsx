@@ -10,7 +10,15 @@ type ShowLogoSwitchProps = {
 export const ShowLogoSwitch: React.FC<ShowLogoSwitchProps> = ({ isMenuOpen }) => {
   const { t } = useTranslation();
   const { showLogo, setShowLogo } = useUserChoices();
-  const { isPremiumUnlocked } = usePremium();
+  const { isPremiumUnlocked, setIsPremiumModalVisible } = usePremium();
+
+  const onPress = () => {
+    if (!isPremiumUnlocked) {
+      setIsPremiumModalVisible(true);
+    } else {
+      setShowLogo(!showLogo);
+    }
+  };
 
   return (
     <Setting
@@ -18,7 +26,7 @@ export const ShowLogoSwitch: React.FC<ShowLogoSwitchProps> = ({ isMenuOpen }) =>
       icon={showLogo ? "showLogo" : "hideLogo"}
       label={t("index:userSettings.logo")}
       showLabel={true}
-      onPress={() => setShowLogo(!showLogo)}
+      onPress={onPress}
     />
   );
 };

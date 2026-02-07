@@ -21,7 +21,7 @@ export const StickerMapLarge: React.FC = () => {
         </Text>
       </View>
       <View>
-        <HikeProgressAnimation size={1.5} isCenter />
+        <HikeProgressAnimation size={1.5} />
       </View>
       {showLogo && <Image style={styles.logo} source={getIcon("iconWithTextBackground")} />}
     </View>
