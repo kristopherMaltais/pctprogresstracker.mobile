@@ -1,5 +1,6 @@
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
+import { calculateStrokeGeometry } from "@/src/helpers/calculateStrokeGeometry";
 import { Canvas, Path, Shadow } from "@shopify/react-native-skia";
 import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
@@ -19,38 +20,53 @@ export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({
   const { selectedHike, pathDistanceHiked, selectedHikeTotalDistance, isReverse } = useUserChoices();
   const { theme } = useTheme();
 
-  const progress = useSharedValue(0);
+  const completionProgress = useSharedValue(0);
 
   useEffect(() => {
     if (selectedHikeTotalDistance > 0) {
       const percentage = Math.min(pathDistanceHiked / selectedHikeTotalDistance, 1);
-      progress.value = withTiming(percentage, { duration: 2000 });
+      completionProgress.value = withTiming(percentage, { duration: 2000 });
     }
   }, [pathDistanceHiked, selectedHikeTotalDistance]);
 
   const startPoint = useDerivedValue(() => {
-    return isReverse ? 1 - progress.value : 0;
+    const geometry = calculateStrokeGeometry(
+      completionProgress.value,
+      selectedHike?.stickerMetadata?.isRoundTrip,
+      isReverse
+    );
+    return geometry.start;
   });
 
   const endPoint = useDerivedValue(() => {
-    return isReverse ? 1 : progress.value;
+    const geometry = calculateStrokeGeometry(
+      completionProgress.value,
+      selectedHike?.stickerMetadata?.isRoundTrip,
+      isReverse
+    );
+    return geometry.end;
   });
 
   if (!selectedHike) return null;
 
   return (
     <Canvas style={[isHorizontal ? styles.horizontal : styles.vertical, { transform: [{ scale: size }] }]}>
-      {selectedHike.regions.map((region: string, index: number) => (
+      {selectedHike.regions?.map((region: string, index: number) => (
         <React.Fragment key={index}>
           <Path path={region} color={theme.borders} strokeWidth={1} style="stroke" />
         </React.Fragment>
       ))}
-      <Path path={selectedHike.border!} color={theme.borders} style="stroke" strokeWidth={1} />
-      <Path path={selectedHike.path!} color={theme.path} style="stroke" strokeWidth={3} strokeCap="round">
+
+      {selectedHike.border ? (
+        <Path path={selectedHike.border} color={theme.borders} style="stroke" strokeWidth={1} />
+      ) : null}
+
+      <Path path={selectedHike.path} color={theme.path} style="stroke" strokeWidth={3} strokeCap="round">
         <Shadow dx={0.5} dy={0.5} blur={1} color="rgba(0,0,0,0.5)" />
       </Path>
+
       <Path
-        path={selectedHike.path!}
+        path={selectedHike.path}
         color={theme.primary}
         style="stroke"
         strokeWidth={3}
@@ -68,8 +84,6 @@ const styles = StyleSheet.create({
     height: 205,
   },
   vertical: {
-    borderWidth: 1,
-    borderColor: "white",
     width: 200,
     height: 205,
   },
