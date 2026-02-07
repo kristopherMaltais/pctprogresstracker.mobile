@@ -41,11 +41,11 @@ export const StickerStats: React.FC = () => {
       </View>
       <View style={styles.body}>
         <View>
-          <Text style={styles.label}>{t("index:sticker.total")}</Text>
+          <Text style={styles.label}>{t("home:sticker.total")}</Text>
           <Text style={styles.value}>
             {selectedHikeTotalDistance} {getMeasurementUnit()}
           </Text>
-          <Text style={styles.label}>{t("index:sticker.distanceHiked")}</Text>
+          <Text style={styles.label}>{t("home:sticker.distanceHiked")}</Text>
           <Text style={styles.value}>
             {displayedDistanceHiked} {getMeasurementUnit()}
           </Text>

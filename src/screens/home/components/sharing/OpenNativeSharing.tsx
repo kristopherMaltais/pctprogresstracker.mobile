@@ -23,8 +23,8 @@ export const OpenNativeSharing: React.FC<OpenNativeSharingProps> = ({ closeMenu 
     <SharingButton
       onPress={share}
       image="other"
-      title={t("index:share.other.title")}
-      description={t("index:share.other.description")}
+      title={t("home:share.other.title")}
+      description={t("home:share.other.description")}
     />
   );
 };

@@ -123,12 +123,12 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
 
       if (premiumEntitlement?.isActive) {
         setIsPremiumUnlocked(true);
-        showSuccessModal(t("index:premium.restoreSuccess"));
+        showSuccessModal(t("common:premium.restoreSuccess"));
       } else {
-        showErrorModal(t("index:premium.restoreNoUserFound"));
+        showErrorModal(t("common:premium.restoreNoUserFound"));
       }
     } catch (e) {
-      showErrorModal(t("index:premium.restoreError"));
+      showErrorModal(t("common:premium.restoreError"));
     }
   };
 

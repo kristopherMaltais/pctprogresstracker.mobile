@@ -29,11 +29,6 @@ export const UploadBackgroundImage: React.FC<UploadBackgroundImageProps> = ({ is
   };
 
   return (
-    <Setting
-      icon={"image"}
-      showLabel={isMenuOpen}
-      label={t("index:userSettings.backgroundImage")}
-      onPress={pickImage}
-    />
+    <Setting icon={"image"} showLabel={isMenuOpen} label={t("home:userSettings.backgroundImage")} onPress={pickImage} />
   );
 };

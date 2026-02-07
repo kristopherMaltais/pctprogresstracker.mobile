@@ -8,18 +8,13 @@ export const Terms: React.FC = () => {
 
   const navigateToTerms = () => {
     Linking.openURL(
-      `https://kristophermaltais.github.io/share-my-hike-legal/terms-${
-        i18n.language == "fr" ? "fr" : "en"
-      }.html`
+      `https://kristophermaltais.github.io/share-my-hike-legal/terms-${i18n.language == "fr" ? "fr" : "en"}.html`
     );
   };
 
   return (
     <>
-      <Setting
-        name={t("index:settings.terms.title")}
-        onSettingPress={navigateToTerms}
-      />
+      <Setting name={t("common:settings.terms.title")} onSettingPress={navigateToTerms} />
     </>
   );
 };

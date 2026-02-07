@@ -8,18 +8,13 @@ export const PrivacyPolicy: React.FC = () => {
 
   const navigateToPrivacyPolicy = () => {
     Linking.openURL(
-      `https://kristophermaltais.github.io/share-my-hike-legal/privacy-${
-        i18n.language == "fr" ? "fr" : "en"
-      }.html`
+      `https://kristophermaltais.github.io/share-my-hike-legal/privacy-${i18n.language == "fr" ? "fr" : "en"}.html`
     );
   };
 
   return (
     <>
-      <Setting
-        name={t("index:settings.privacyPolicy.title")}
-        onSettingPress={navigateToPrivacyPolicy}
-      />
+      <Setting name={t("common:settings.privacyPolicy.title")} onSettingPress={navigateToPrivacyPolicy} />
     </>
   );
 };

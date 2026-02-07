@@ -15,7 +15,7 @@ export const RestorePremiumButton: React.FC = () => {
       {premiumState == PremiumState.PROCESSING ? (
         <ActivityIndicator />
       ) : (
-        <Text style={styles(theme).premiumText}>{t("index:settings.restorePurchase")}</Text>
+        <Text style={styles(theme).premiumText}>{t("common:settings.restorePurchase")}</Text>
       )}
     </TouchableOpacity>
   );

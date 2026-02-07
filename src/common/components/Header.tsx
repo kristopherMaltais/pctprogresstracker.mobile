@@ -30,12 +30,12 @@ export const Header: React.FC<HeaderProps> = ({ pageTitle, toggleAppSettingsDraw
               color: isDarkMode ? "#E2E4E6" : "white",
             }}
           >
-            <Image style={{ width: 150, height: 15 }} source={getIcon("iconText")} />
+            <Image style={{ width: 150, height: 15 }} source={getIcon("home")} />
           </Text>
         </View>
         {!isPremiumUnlocked && (
           <TouchableOpacity onPress={() => setIsPremiumModalVisible(true)} style={styles(theme).premium}>
-            <Text style={{ fontWeight: "bold", color: "white" }}>{t("index:premium.button.headerGoPremium")}</Text>
+            <Text style={{ fontWeight: "bold", color: "white" }}>{t("common:premium.button.headerGoPremium")}</Text>
           </TouchableOpacity>
         )}
         <TouchableOpacity onPress={toggleAppSettingsDrawer}>

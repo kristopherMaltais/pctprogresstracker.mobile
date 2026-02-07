@@ -44,7 +44,7 @@ export const SharingMenu: React.FC<SharingMenuProps> = ({ isOpen, onClose }) => 
     >
       <BottomSheetView style={{ ...styles(theme).contentContainer, paddingBottom: insets.bottom + 16 }}>
         <View style={styles(theme).header}>
-          <Text style={styles(theme).title}>{t("index:share.title")}</Text>
+          <Text style={styles(theme).title}>{t("home:share.title")}</Text>
           <Pressable style={styles(theme).closeButton} onPress={onClose} hitSlop={30}>
             <Image style={styles(theme).closeButtonImage} source={getIcon("close")} />
           </Pressable>

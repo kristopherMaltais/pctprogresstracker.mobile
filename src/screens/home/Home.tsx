@@ -10,7 +10,7 @@ export const Home: React.FC = () => {
   const { theme } = useTheme();
 
   return (
-    <View style={styles(theme).scrollContainer}>
+    <View style={styles(theme).container}>
       <DropDownHikeList />
       <ImageBuilderSlider />
     </View>
@@ -19,12 +19,8 @@ export const Home: React.FC = () => {
 
 const styles = (theme: Theme) =>
   StyleSheet.create({
-    scrollContainer: {
+    container: {
       flexGrow: 1,
       backgroundColor: theme.background,
-    },
-    contentContainer: {
-      alignItems: "center",
-      height: 400,
     },
   });

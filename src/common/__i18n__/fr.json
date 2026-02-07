@@ -1,23 +1,5 @@
 {
-  "dropDownHikeListPlaceHolder": "Choisir une randonnée",
-  "dropDownHikeSearchInputPlaceholder": "Trouver une randonnée...",
-  "itinary": "Quel est votre itinéraire?",
-  "sticker": {
-    "total": "Total",
-    "distanceHiked": "Dist. parcourue"
-  },
   "cancel": "Annuler",
-  "userSettings": {
-    "backgroundImage": "Image",
-    "share": "Share",
-    "distances": "Distances",
-    "direction": "Direction",
-    "position": "Position",
-    "mile": "Mile",
-    "kilometer": "kilomètre",
-    "logo": "App logo",
-    "advancedSettings": "Plus"
-  },
   "settings": {
     "title": "paramètres",
     "restorePurchase": "Restaurer l'achat",
@@ -61,25 +43,6 @@
       "headerGoPremium": "Obtenir Premium",
       "success": "Achat effectué avec succès!",
       "buy": "Accès à vie pour 4,99$"
-    }
-  },
-  "share": {
-    "title": "Partager votre aventure",
-    "instagram": {
-      "title": "Stories Instagram",
-      "description": "Partagez votre rando avec votre communauté"
-    },
-    "gallery": {
-      "title": "Enregistrer l'image",
-      "description": "Téléchargez la photo complète dans votre galerie"
-    },
-    "galleryTransparent": {
-      "title": "Superposition Vidéo Pro",
-      "description": "PNG transparent, idéal pour Reels et YouTube"
-    },
-    "other": {
-      "title": "Partager via...",
-      "description": "Envoyez vers Messenger, Facebook et plus"
     }
   },
   "errors": {

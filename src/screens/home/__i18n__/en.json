@@ -1,0 +1,39 @@
+{
+  "dropDownHikeListPlaceHolder": "Select a hike",
+  "dropDownHikeSearchInputPlaceholder": "Find a hike...",
+  "itinary": "What is your itinary?",
+  "sticker": {
+    "total": "Total",
+    "distanceHiked": "Distance hiked"
+  },
+  "userSettings": {
+    "backgroundImage": "Image",
+    "share": "Share",
+    "distances": "Distances",
+    "direction": "Direction",
+    "position": "Position",
+    "mile": "Mile",
+    "kilometer": "Kilometer",
+    "logo": "App Logo",
+    "advancedSettings": "More"
+  },
+  "share": {
+    "title": "Share your adventure",
+    "instagram": {
+      "title": "Instagram Stories",
+      "description": "Share your hike with your community"
+    },
+    "gallery": {
+      "title": "Save Image",
+      "description": "Download the full picture to your gallery"
+    },
+    "galleryTransparent": {
+      "title": "Pro Video Overlay",
+      "description": "Transparent PNG, perfect for Reels & YouTube"
+    },
+    "other": {
+      "title": "Share via...",
+      "description": "Send to Messenger, Facebook or more"
+    }
+  }
+}

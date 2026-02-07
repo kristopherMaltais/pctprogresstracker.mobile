@@ -18,7 +18,7 @@ export const Version: React.FC<VersionProps> = ({}) => {
     <View style={styles(theme).container}>
       <View style={styles(theme).madeInQuebec}>
         <Image style={styles(theme).flagImage} source={getIcon("madeInQuebec")} />
-        <Text style={styles(theme).text}>{t("index:settings.madeInQuebec")}</Text>
+        <Text style={styles(theme).text}>{t("common:settings.madeInQuebec")}</Text>
       </View>
       <View>
         <Text style={styles(theme).text}>V.{Constants.expoConfig?.version}</Text>

@@ -18,14 +18,14 @@ export const Language: React.FC = () => {
   return (
     <>
       <Setting
-        name={t("index:settings.language.title")}
+        name={t("common:settings.language.title")}
         icon={"language"}
         onSettingPress={() => setIsModalVisible(true)}
       />
       <ModalLanguagePicker
         onClose={() => setIsModalVisible(false)}
         isVisible={isModalVisible}
-        title={t("index:settings.language.title")}
+        title={t("common:settings.language.title")}
         onLanguageChange={(language) => onLanguageChange(language)}
       />
     </>

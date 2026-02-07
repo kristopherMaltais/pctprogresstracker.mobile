@@ -10,7 +10,7 @@ export const DarkMode: React.FC = () => {
   return (
     <>
       <Setting
-        name={t("index:settings.darkMode.title")}
+        name={t("common:settings.darkMode.title")}
         icon={"darkMode"}
         isToggle
         isEnable={isDarkMode}

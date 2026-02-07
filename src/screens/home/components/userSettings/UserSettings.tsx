@@ -2,8 +2,10 @@ import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
+import * as Haptics from "expo-haptics";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { AdvancedSettings } from "./AdvancedSettings";
 import { Direction } from "./Direction";
 import { DistanceHikedInput } from "./distanceHikeInput/DistanceHikedInput";
 import { MeasurementUnitSwitch } from "./MeasurementUnitSwitch";
@@ -49,6 +51,11 @@ export const UserSettings: React.FC<userSettingsProps> = ({ disabled = false, hi
     return null;
   }
 
+  const openMenu = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    setIsMenuOpen((prev) => !prev);
+  };
+
   return (
     <>
       <Animated.View
@@ -76,11 +83,12 @@ export const UserSettings: React.FC<userSettingsProps> = ({ disabled = false, hi
               <>
                 <MeasurementUnitSwitch isMenuOpen={isMenuOpen} />
                 <Direction isMenuOpen={isMenuOpen} />
-                <ShowLogoSwitch />
+                <ShowLogoSwitch isMenuOpen={isMenuOpen} />
                 <Position isMenuOpen={isMenuOpen} openPositionInput={() => setIsPositionInputOpen(true)} />
+                <AdvancedSettings isMenuOpen={isMenuOpen} />
               </>
             )}
-            <TouchableOpacity style={styles(theme).toggleMenu} onPress={() => setIsMenuOpen((prev) => !prev)}>
+            <TouchableOpacity style={styles(theme).toggleMenu} onPress={openMenu}>
               <Image
                 style={{
                   ...styles(theme).chevron,

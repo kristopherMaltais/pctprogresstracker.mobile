@@ -52,11 +52,11 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
             {showLogo && <Image source={getIcon("iconWithTextBackground")} style={styles.logo} />}
             <View>
               <Text style={styles.name}>{selectedHike?.name}</Text>
-              <Text style={styles.label}>{t("index:sticker.total")}</Text>
+              <Text style={styles.label}>{t("home:sticker.total")}</Text>
               <Text style={styles.value}>
                 {selectedHikeTotalDistance} {getMeasurementUnit(measurementUnit)}
               </Text>
-              <Text style={styles.label}>{t("index:sticker.distanceHiked")}</Text>
+              <Text style={styles.label}>{t("home:sticker.distanceHiked")}</Text>
               <Text style={styles.value}>
                 {displayedDistanceHiked} {getMeasurementUnit(measurementUnit)}
               </Text>

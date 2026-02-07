@@ -81,4 +81,8 @@ export const iconsDarkMode: Array<Image> = [
     name: "other",
     image: require("@/assets/images/darkMode/other.png"),
   },
+  {
+    name: "advancedSettings",
+    image: require("@/assets/images/darkMode/advancedSettings.png"),
+  },
 ];

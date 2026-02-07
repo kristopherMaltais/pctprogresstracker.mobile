@@ -24,7 +24,7 @@ export const ShowLogoSwitch: React.FC<ShowLogoSwitchProps> = ({ isMenuOpen }) =>
     <Setting
       isDisabled={!isPremiumUnlocked}
       icon={showLogo ? "showLogo" : "hideLogo"}
-      label={t("index:userSettings.logo")}
+      label={t("home:userSettings.logo")}
       showLabel={true}
       onPress={onPress}
     />

@@ -25,7 +25,7 @@ export const ItinarySelectModal: React.FC<ItinarySelectModalProps> = ({
     <Modal animationType="slide" transparent={true} visible={isVisible}>
       <Pressable style={styles(theme).centeredView} onPress={() => {}}>
         <View style={styles(theme).modalView}>
-          <Text style={styles(theme).title}>{t("index:itinary")}</Text>
+          <Text style={styles(theme).title}>{t("home:itinary")}</Text>
           {itinaries?.map((itinary: Itinary) => {
             return (
               <Pressable key={itinary.name} style={styles(theme).option} onPress={() => onItinarySelected(itinary)}>
@@ -36,7 +36,7 @@ export const ItinarySelectModal: React.FC<ItinarySelectModalProps> = ({
           })}
           <View style={styles(theme).buttonContainer}>
             <Pressable style={styles(theme).cancelButton} onPress={onCancel}>
-              <Text>{t("index:cancel")}</Text>
+              <Text>{t("common:cancel")}</Text>
             </Pressable>
           </View>
         </View>

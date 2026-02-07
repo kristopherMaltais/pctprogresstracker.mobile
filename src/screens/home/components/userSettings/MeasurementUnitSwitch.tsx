@@ -38,7 +38,7 @@ export const MeasurementUnitSwitch: React.FC<MeasurementUnitSwitchProps> = ({ is
     <Setting
       icon="measurementUnit"
       showLabel={isMenuOpen}
-      label={measurementUnit == MeasurementUnit.MILE ? t("index:userSettings.mile") : t("index:userSettings.kilometer")}
+      label={measurementUnit == MeasurementUnit.MILE ? t("home:userSettings.mile") : t("home:userSettings.kilometer")}
       onPress={handleToggle}
     />
   );

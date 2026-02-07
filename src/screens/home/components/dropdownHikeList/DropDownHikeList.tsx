@@ -86,7 +86,7 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
         labelField="label"
         valueField="value"
         renderItem={(option: DropDownOption, selected?: boolean) => <Option option={option} selected={selected} />}
-        placeholder={t("index:dropDownHikeListPlaceHolder")}
+        placeholder={t("home:dropDownHikeListPlaceHolder")}
         disable={hikes.length == 0}
         selectedTextStyle={{ color: theme.text }}
         containerStyle={{
@@ -99,7 +99,7 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
           backgroundColor: theme.secondaryBackground,
         }}
         placeholderStyle={{ color: theme.text }}
-        searchPlaceholder={t("index:dropDownHikeSearchInputPlaceholder")}
+        searchPlaceholder={t("home:dropDownHikeSearchInputPlaceholder")}
       />
       {_selectedHike && "itinaries" in _selectedHike && (
         <ItinarySelectModal

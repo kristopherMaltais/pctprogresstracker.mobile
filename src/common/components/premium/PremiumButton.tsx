@@ -14,7 +14,7 @@ export const PremiumButton: React.FC<PremiumButtonProps> = ({}) => {
   return (
     <>
       <TouchableOpacity style={styles(theme).container} onPress={() => setIsPremiumModalVisible(true)}>
-        <Text style={styles(theme).title}>{t("index:premium.button.unlock")}</Text>
+        <Text style={styles(theme).title}>{t("common:premium.button.unlock")}</Text>
       </TouchableOpacity>
     </>
   );

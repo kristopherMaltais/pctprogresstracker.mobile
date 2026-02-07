@@ -85,4 +85,8 @@ export const iconsLightMode: Array<Image> = [
     name: "other",
     image: require("@/assets/images/lightMode/other.png"),
   },
+  {
+    name: "advancedSettings",
+    image: require("@/assets/images/lightMode/advancedSettings.png"),
+  },
 ];

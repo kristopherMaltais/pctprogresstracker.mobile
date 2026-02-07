@@ -14,27 +14,27 @@ export const Offering: React.FC<OfferingProps> = ({}) => {
 
   return (
     <View>
-      <Text style={{ color: theme.text }}>{t("index:premium.description")}</Text>
-      <Text style={{ marginTop: 16, marginBottom: 8, color: theme.text }}>{t("index:premium.offeringTitle")}</Text>
+      <Text style={{ color: theme.text }}>{t("common:premium.description")}</Text>
+      <Text style={{ marginTop: 16, marginBottom: 8, color: theme.text }}>{t("common:premium.offeringTitle")}</Text>
       <View style={styles(theme).listItem}>
         <Text style={styles(theme).bullet}>{"\u2022"}</Text>
         <Text style={styles(theme).itemText}>
-          <Text style={{ fontWeight: "bold" }}>{t("index:premium.allTrails.title")}</Text>
-          {t("index:premium.allTrails.description")}
+          <Text style={{ fontWeight: "bold" }}>{t("common:premium.allTrails.title")}</Text>
+          {t("common:premium.allTrails.description")}
         </Text>
       </View>
       <View style={styles(theme).listItem}>
         <Text style={styles(theme).bullet}>{"\u2022"}</Text>
         <Text style={styles(theme).itemText}>
-          <Text style={{ fontWeight: "bold" }}>{t("index:premium.noLogo.title")}</Text>
-          {t("index:premium.noLogo.description")}
+          <Text style={{ fontWeight: "bold" }}>{t("common:premium.noLogo.title")}</Text>
+          {t("common:premium.noLogo.description")}
         </Text>
       </View>
       <View style={styles(theme).listItem}>
         <Text style={styles(theme).bullet}>{"\u2022"}</Text>
         <Text style={styles(theme).itemText}>
-          <Text style={{ fontWeight: "bold" }}>{t("index:premium.allStickers.title")}</Text>
-          {t("index:premium.allStickers.description")}
+          <Text style={{ fontWeight: "bold" }}>{t("common:premium.allStickers.title")}</Text>
+          {t("common:premium.allStickers.description")}
         </Text>
       </View>
     </View>
