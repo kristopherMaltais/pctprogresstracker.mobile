@@ -2,11 +2,13 @@ import { GestureWrapper } from "@/src/common/components/GestureWrapper";
 import { HikeProgressAnimation } from "@/src/common/components/HikeProgressAnimation";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
+import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
 import { getMeasurementUnit } from "@/src/helpers/getMeasurementUnit";
 import { Direction } from "@/src/models/direction";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, View } from "react-native";
+import ViewShot from "react-native-view-shot";
 
 type StickerMapProps = {};
 export const StickerMap: React.FC<StickerMapProps> = () => {
@@ -15,6 +17,7 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
 
   const { getIcon } = useTheme();
   const { t } = useTranslation();
+  const { setViewShotTransparentBackgroud } = useViewShot();
 
   const [isHorizontal, setIsHorizontal] = useState<boolean>(true);
 
@@ -22,29 +25,46 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
     setIsHorizontal(selectedHike?.stickerMetadata.direction == Direction.HORIZONTAL);
   }, [selectedHike]);
 
+  const viewShotCallbackRef = React.useCallback(
+    (node: ViewShot | null) => {
+      if (node !== null) {
+        setViewShotTransparentBackgroud(node);
+      }
+    },
+    [setViewShotTransparentBackgroud]
+  );
+
   if (!selectedHike) {
     return null;
   }
   return (
     <GestureWrapper>
-      <View style={isHorizontal ? styles.containerHorizontal : styles.containerVertical}>
-        {!isHorizontal && <HikeProgressAnimation isHorizontal={false} />}
-        <View style={isHorizontal ? styles.statsContainerHorizontal : styles.statsContainerVertical}>
-          {showLogo && <Image source={getIcon("iconWithTextBackground")} style={styles.logo} />}
-          <View>
-            <Text style={styles.name}>{selectedHike?.name}</Text>
-            <Text style={styles.label}>{t("index:sticker.total")}</Text>
-            <Text style={styles.value}>
-              {selectedHikeTotalDistance} {getMeasurementUnit(measurementUnit)}
-            </Text>
-            <Text style={styles.label}>{t("index:sticker.distanceHiked")}</Text>
-            <Text style={styles.value}>
-              {displayedDistanceHiked} {getMeasurementUnit(measurementUnit)}
-            </Text>
+      <ViewShot
+        options={{
+          format: "png",
+          quality: 1,
+        }}
+        ref={viewShotCallbackRef}
+      >
+        <View style={isHorizontal ? styles.containerHorizontal : styles.containerVertical}>
+          {!isHorizontal && <HikeProgressAnimation />}
+          <View style={isHorizontal ? styles.statsContainerHorizontal : styles.statsContainerVertical}>
+            {showLogo && <Image source={getIcon("iconWithTextBackground")} style={styles.logo} />}
+            <View>
+              <Text style={styles.name}>{selectedHike?.name}</Text>
+              <Text style={styles.label}>{t("index:sticker.total")}</Text>
+              <Text style={styles.value}>
+                {selectedHikeTotalDistance} {getMeasurementUnit(measurementUnit)}
+              </Text>
+              <Text style={styles.label}>{t("index:sticker.distanceHiked")}</Text>
+              <Text style={styles.value}>
+                {displayedDistanceHiked} {getMeasurementUnit(measurementUnit)}
+              </Text>
+            </View>
           </View>
+          {isHorizontal && <HikeProgressAnimation />}
         </View>
-        {isHorizontal && <HikeProgressAnimation isHorizontal />}
-      </View>
+      </ViewShot>
     </GestureWrapper>
   );
 };

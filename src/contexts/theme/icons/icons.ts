@@ -54,7 +54,7 @@ export const icons: Array<Image> = [
     image: require("@/assets/images/logoText.png"),
   },
   {
-    name: "instagram",
-    image: require("@/assets/images/instagram.png"),
+    name: "instagramColored",
+    image: require("@/assets/images/instagramColored.png"),
   },
 ];

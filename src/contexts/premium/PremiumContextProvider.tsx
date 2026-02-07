@@ -1,12 +1,7 @@
-import * as SplashScreen from "expo-splash-screen";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Platform } from "react-native";
-import Purchases, {
-  LOG_LEVEL,
-  PurchasesOffering,
-  PurchasesPackage,
-} from "react-native-purchases";
+import Purchases, { LOG_LEVEL, PurchasesOffering, PurchasesPackage } from "react-native-purchases";
 import { useValidation } from "../validation/ValidationContextProvider";
 
 interface PremiumProps {
@@ -32,9 +27,7 @@ export enum PremiumState {
 
 const isDev = __DEV__;
 
-export const PremiumContext = createContext<PremiumProps | undefined>(
-  undefined
-);
+export const PremiumContext = createContext<PremiumProps | undefined>(undefined);
 
 export const usePremium = (): PremiumProps => {
   const context = useContext(PremiumContext);
@@ -46,22 +39,17 @@ export const usePremium = (): PremiumProps => {
 
 export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
   const { t } = useTranslation();
-  const [currentOffering, setCurrentOffering] =
-    useState<PurchasesOffering | null>(null);
+  const [currentOffering, setCurrentOffering] = useState<PurchasesOffering | null>(null);
 
-  const [premimumState, setPremiumState] = useState<PremiumState>(
-    PremiumState.PENDING
-  );
-  const [isPremiumModalVisible, setIsPremiumModalVisible] =
-    useState<boolean>(false);
+  const [premimumState, setPremiumState] = useState<PremiumState>(PremiumState.PENDING);
+  const [isPremiumModalVisible, setIsPremiumModalVisible] = useState<boolean>(false);
   const [price, setPrice] = useState<string>();
-  const [isPremiumUnlocked, setIsPremiumUnlocked] = useState(false);
+  const [isPremiumUnlocked, setIsPremiumUnlocked] = useState<boolean>(false);
   const premiumStickerId = Platform.select({
     ios: "premium_sticker",
     android: "sharemyhike_premium_lifetime",
   })!;
   const { showSuccessModal, showErrorModal } = useValidation();
-  const [isAppReady, setIsAppReady] = useState(false);
 
   useEffect(() => {
     if (!isPremiumModalVisible) {
@@ -81,14 +69,7 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
       const test = "test_BhUMjJVhCzCqQYwysjvdZSiznmF";
       const androidProd = "goog_KZgVeLKoHlIwAKYFkywbfWjdwyt";
 
-      const apiKey =
-        Platform.OS === "ios"
-          ? isDev
-            ? test
-            : iosProd
-          : isDev
-          ? test
-          : androidProd;
+      const apiKey = Platform.OS === "ios" ? (isDev ? test : iosProd) : isDev ? test : androidProd;
 
       if (apiKey) {
         Purchases.configure({ apiKey: apiKey });
@@ -101,30 +82,21 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
       const customerInfo = await Purchases.getCustomerInfo();
       const premiumEntitlement = customerInfo.entitlements.active["premium"];
       setIsPremiumUnlocked(!!premiumEntitlement?.isActive);
-      setIsAppReady(true);
     };
 
     setup().catch(console.log);
   }, []);
 
-  useEffect(() => {
-    if (isAppReady) {
-      SplashScreen.hideAsync();
-    }
-  }, [isAppReady]);
-
   const unlockPremium = async () => {
     setPremiumState(PremiumState.PROCESSING);
     if (!currentOffering) {
-      console.log("No offering available");
       setPremiumState(PremiumState.ERROR);
       return;
     }
 
-    const premiumPackage: PurchasesPackage | undefined =
-      currentOffering.availablePackages.find(
-        (p) => p.product.identifier === premiumStickerId
-      );
+    const premiumPackage: PurchasesPackage | undefined = currentOffering.availablePackages.find(
+      (p) => p.product.identifier === premiumStickerId
+    );
 
     if (!premiumPackage) {
       console.log("Premium sticker package not found in offering");
@@ -171,9 +143,5 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
     price: price,
   };
 
-  return (
-    <PremiumContext.Provider value={contextValue}>
-      {children}
-    </PremiumContext.Provider>
-  );
+  return <PremiumContext.Provider value={contextValue}>{children}</PremiumContext.Provider>;
 };

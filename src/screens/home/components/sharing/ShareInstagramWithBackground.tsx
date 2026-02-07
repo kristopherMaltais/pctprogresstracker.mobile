@@ -28,14 +28,13 @@ export const ShareInstagramWithBackground: React.FC = () => {
       await Share.shareSingle(shareOptions);
     } catch (err) {
       openNativeShare(viewShot);
-      console.error("Erreur de capture ou de partage:", err);
     }
   };
 
   return (
     <SharingButton
       onPress={shareOnInstagram}
-      image="instagram"
+      image="instagramColored"
       title="Inspire your followers"
       description="Post your stats to your Story"
     />

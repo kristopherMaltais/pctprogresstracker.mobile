@@ -1,5 +1,6 @@
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
 import { openNativeShare } from "@/src/helpers/openNativeSharing";
+import { requestAppReview } from "@/src/helpers/requestAppReview";
 import * as Haptics from "expo-haptics";
 import * as MediaLibrary from "expo-media-library";
 import React, { useState } from "react";
@@ -42,7 +43,9 @@ export const DownloadWithBackground: React.FC<DownloadWithBackgroundProps> = ({ 
 
   const downloadSuccess = () => {
     setIconDisplay("success");
+    requestAppReview();
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+
     setTimeout(() => {
       onClose();
     }, 2000);

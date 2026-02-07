@@ -1,11 +1,10 @@
 import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
-import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
 import { openNativeShare } from "@/src/helpers/openNativeSharing";
+import { requestAppReview } from "@/src/helpers/requestAppReview";
 import * as Haptics from "expo-haptics";
 import * as MediaLibrary from "expo-media-library";
 import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
 import { captureRef } from "react-native-view-shot";
 import { SharingButton } from "./SharingButton";
 
@@ -14,10 +13,8 @@ type DownloadNoBackgroundProps = {
 };
 
 export const DownloadNoBackground: React.FC<DownloadNoBackgroundProps> = ({ onClose }) => {
-  const { t } = useTranslation();
   const { viewShotTransparentBackground } = useViewShot();
   const { isPremiumUnlocked, setIsPremiumModalVisible } = usePremium();
-  const { selectedHike } = useUserChoices();
 
   const [iconDisplay, setIconDisplay] = useState<string>("downloadImageUnlocked");
 
@@ -53,6 +50,8 @@ export const DownloadNoBackground: React.FC<DownloadNoBackgroundProps> = ({ onCl
   const downloadSuccess = () => {
     setIconDisplay("success");
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    requestAppReview();
+
     setTimeout(() => {
       onClose();
     }, 2000);

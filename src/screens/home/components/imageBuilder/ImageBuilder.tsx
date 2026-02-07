@@ -26,7 +26,6 @@ export const ImageBuilder: React.FC<ImageBuilderProps> = ({ children }) => {
   const viewShotCallbackRef = React.useCallback(
     (node: ViewShot | null) => {
       if (node !== null) {
-        console.log("ViewShot est prêt et enregistré dans le contexte !");
         setViewShot(node);
       }
     },

@@ -65,6 +65,7 @@ const styles = (theme: Theme) =>
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
+      minHeight: 35,
     },
     title: {
       fontSize: 22,
