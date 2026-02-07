@@ -6,7 +6,7 @@ import { useValidation } from "../validation/ValidationContextProvider";
 
 interface PremiumProps {
   isPremiumUnlocked: boolean;
-  price: string;
+  price: string | undefined;
   unlockPremium: () => void;
   restorePremium: () => void;
   premiumState: PremiumState;
@@ -66,8 +66,8 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
       Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
 
       const iosProd = "appl_UKeJQmzuWxMrqCWHCQznUmTJwXe";
-      const test = "test_BhUMjJVhCzCqQYwysjvdZSiznmF";
       const androidProd = "goog_KZgVeLKoHlIwAKYFkywbfWjdwyt";
+      const test = "test_BhUMjJVhCzCqQYwysjvdZSiznmF";
 
       const apiKey = Platform.OS === "ios" ? (isDev ? test : iosProd) : isDev ? test : androidProd;
 
@@ -99,7 +99,6 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
     );
 
     if (!premiumPackage) {
-      console.log("Premium sticker package not found in offering");
       setPremiumState(PremiumState.ERROR);
       return;
     }
