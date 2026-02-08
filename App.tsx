@@ -8,7 +8,6 @@ import { PremiumContextProvider } from "./src/contexts/premium/PremiumContextPro
 import { ServicesContextProvider } from "./src/contexts/services/ServicesContextProvider";
 import { StickerContextProvider } from "./src/contexts/sticker/StickerContextProvider";
 import { ThemeContextProvider } from "./src/contexts/theme/ThemeContextProvider";
-import { UserChoicesContextProvider } from "./src/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { ValidationContextProvider } from "./src/contexts/validation/ValidationContextProvider";
 import { ViewShotContextProvider } from "./src/contexts/viewShot/ViewShotContextProvider";
 import i18n from "./src/localization/i18n";
@@ -30,13 +29,11 @@ export default function App() {
                 <ServicesContextProvider>
                   <HikesContextProvider>
                     <LocalizationContextProvider>
-                      <UserChoicesContextProvider>
-                        <StickerContextProvider>
-                          <ScreenLayout areSettingsOpen={areSettingsOpen} setAreSettingsOpen={setAreSettingsOpen}>
-                            <Navigation areSettingsOpen={areSettingsOpen} setAreSettingsOpen={setAreSettingsOpen} />
-                          </ScreenLayout>
-                        </StickerContextProvider>
-                      </UserChoicesContextProvider>
+                      <StickerContextProvider>
+                        <ScreenLayout areSettingsOpen={areSettingsOpen} setAreSettingsOpen={setAreSettingsOpen}>
+                          <Navigation areSettingsOpen={areSettingsOpen} setAreSettingsOpen={setAreSettingsOpen} />
+                        </ScreenLayout>
+                      </StickerContextProvider>
                     </LocalizationContextProvider>
                   </HikesContextProvider>
                 </ServicesContextProvider>

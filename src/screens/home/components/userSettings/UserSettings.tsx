@@ -1,7 +1,7 @@
 import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
-import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
+import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import * as Haptics from "expo-haptics";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Image, StyleSheet, TouchableOpacity } from "react-native";
@@ -25,7 +25,7 @@ export const UserSettings: React.FC<userSettingsProps> = ({ disabled = false, hi
   const [isPositionInputOpen, setIsPositionInputOpen] = useState<boolean>(false);
   const { getIcon, theme } = useTheme();
   const { isPremiumUnlocked } = usePremium();
-  const { isStickerSelectedPremium } = useUserChoices();
+  const isStickerSelectedPremium = useUserSettingsStore((s) => s.isStickerSelectedPremium);
 
   const position = useRef(new Animated.Value(35)).current;
 

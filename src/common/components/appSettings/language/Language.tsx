@@ -1,7 +1,7 @@
 import { useLocalization } from "@/src/contexts/localization/LocalizationContextProvider";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Setting } from "../Setting";
+import { Setting } from "../../Setting";
 import { ModalLanguagePicker } from "./ModalLanguagePicker";
 
 export const Language: React.FC = () => {

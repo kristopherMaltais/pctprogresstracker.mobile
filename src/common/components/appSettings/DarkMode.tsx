@@ -1,7 +1,7 @@
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Setting } from "./Setting";
+import { Setting } from "../Setting";
 
 export const DarkMode: React.FC = () => {
   const { t } = useTranslation();

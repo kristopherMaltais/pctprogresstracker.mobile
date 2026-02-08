@@ -1,5 +1,5 @@
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
-import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
+import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { MeasurementUnit } from "@/src/models/measurementUnit";
 import { t } from "i18next";
 import React from "react";
@@ -7,13 +7,16 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import { ProgressBar } from "./ProgressBar";
 
 export const StickerStats: React.FC = () => {
-  const { selectedHike, displayedDistanceHiked, selectedHikeTotalDistance, measurementUnit, showLogo } =
-    useUserChoices();
+  const selectedHike = useUserSettingsStore((s) => s.selectedHike);
+  const displayLocation = useUserSettingsStore((s) => s.location.displayLocation);
+  const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
+  const measurementUnit = useUserSettingsStore((s) => s.measurementUnit);
+  const showLogo = useUserSettingsStore((s) => s.showLogo);
 
   const { getIcon } = useTheme();
 
   const calculatePercentage = () => {
-    return (displayedDistanceHiked * 100) / selectedHikeTotalDistance;
+    return (displayLocation * 100) / selectedHikeTotalDistance;
   };
 
   const getMeasurementUnit = () => {
@@ -47,7 +50,7 @@ export const StickerStats: React.FC = () => {
           </Text>
           <Text style={styles.label}>{t("home:sticker.distanceHiked")}</Text>
           <Text style={styles.value}>
-            {displayedDistanceHiked} {getMeasurementUnit()}
+            {displayLocation} {getMeasurementUnit()}
           </Text>
         </View>
         <Text style={styles.percentage}>{calculatePercentage().toFixed(1)}%</Text>

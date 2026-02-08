@@ -1,11 +1,11 @@
 import { useHikes } from "@/src/contexts/hikes/HikesContextProvider";
-import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { Hike } from "@/src/models/hike";
 
 import { ItinarySelectModal } from "@/src/common/components/modals/ItinarySelectModal";
 import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
+import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { DropDownOption } from "@/src/models/dropdownOption";
 import { HikeWithItinary } from "@/src/models/hikeWithItinary";
 import { Itinary } from "@/src/models/itinary";
@@ -23,7 +23,8 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
   const [_selectedHike, _setSelectedHike] = useState<Hike | HikeWithItinary>();
   const { hikes } = useHikes();
   const { isPremiumUnlocked } = usePremium();
-  const { selectedHike, setSelectedHike } = useUserChoices();
+  const selectedHike = useUserSettingsStore((s) => s.selectedHike);
+  const setSelectedHike = useUserSettingsStore((s) => s.setSelectedHike);
   const { t } = useTranslation();
   const { theme } = useTheme();
 

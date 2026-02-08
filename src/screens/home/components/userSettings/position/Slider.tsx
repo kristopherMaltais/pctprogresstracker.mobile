@@ -1,6 +1,6 @@
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
-import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
+import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { Dimensions, StyleSheet, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue } from "react-native-reanimated";
@@ -14,7 +14,8 @@ const CONTAINER_HEIGHT = Dimensions.get("window").height * 0.4;
 export const Slider: React.FC<SliderProps> = ({ onChange }) => {
   const { theme } = useTheme();
 
-  const { pathDistanceHiked, selectedHikeTotalDistance } = useUserChoices();
+  const pathDistanceHiked = useUserSettingsStore((s) => s.location.pathLocation);
+  const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
 
   const fillHeight = useSharedValue((pathDistanceHiked * CONTAINER_HEIGHT) / selectedHikeTotalDistance);
   const contextY = useSharedValue(0);

@@ -1,7 +1,7 @@
 import * as Linking from "expo-linking";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Setting } from "./Setting";
+import { Setting } from "../Setting";
 
 export const Terms: React.FC = () => {
   const { t, i18n } = useTranslation();

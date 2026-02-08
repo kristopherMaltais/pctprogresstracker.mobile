@@ -1,4 +1,4 @@
-import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
+import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { useTranslation } from "react-i18next";
 import { Setting } from "./Setting";
 
@@ -8,7 +8,8 @@ type ShareProps = {
 
 export const Share: React.FC<ShareProps> = ({ isMenuOpen }) => {
   const { t } = useTranslation();
-  const { setShowShareMenu, showShareMenu } = useUserChoices();
+  const showShareMenu = useUserSettingsStore((s) => s.showShareMenu);
+  const setShowShareMenu = useUserSettingsStore((s) => s.setShowShareMenu);
 
   const share = () => {
     setShowShareMenu(!showShareMenu);

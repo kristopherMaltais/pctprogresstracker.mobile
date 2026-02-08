@@ -1,13 +1,16 @@
 import { HikeProgressAnimation } from "@/src/common/components/HikeProgressAnimation";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
-import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
+import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { MeasurementUnit } from "@/src/models/measurementUnit";
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
 export const StickerMapLarge: React.FC = () => {
-  const { displayedDistanceHiked, selectedHikeTotalDistance, selectedHike, measurementUnit, showLogo } =
-    useUserChoices();
+  const selectedHike = useUserSettingsStore((s) => s.selectedHike);
+  const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
+  const measurementUnit = useUserSettingsStore((s) => s.measurementUnit);
+  const displayLocation = useUserSettingsStore((s) => s.location.displayLocation);
+  const showLogo = useUserSettingsStore((s) => s.showLogo);
 
   const { getIcon } = useTheme();
 
@@ -16,8 +19,7 @@ export const StickerMapLarge: React.FC = () => {
       <View style={styles.trailInformation}>
         <Text style={styles.trailName}>{selectedHike?.name}</Text>
         <Text style={styles.distanceHiked}>
-          {displayedDistanceHiked} / {selectedHikeTotalDistance}{" "}
-          {measurementUnit == MeasurementUnit.KILOMETER ? "km" : "mi"}
+          {displayLocation} / {selectedHikeTotalDistance} {measurementUnit == MeasurementUnit.KILOMETER ? "km" : "mi"}
         </Text>
       </View>
       <View>

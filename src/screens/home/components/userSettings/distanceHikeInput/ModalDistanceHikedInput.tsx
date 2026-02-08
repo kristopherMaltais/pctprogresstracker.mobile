@@ -1,6 +1,6 @@
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
-import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
+import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { getMeasurementUnit } from "@/src/helpers/getMeasurementUnit";
 import React, { useEffect, useRef, useState } from "react";
 import { Modal, Platform, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
@@ -11,31 +11,29 @@ type ModalDistanceHikedInputProps = {
 };
 
 export const ModalDistanceHikedInput: React.FC<ModalDistanceHikedInputProps> = ({ isVisible, onClose }) => {
-  const {
-    displayedDistanceHiked,
-    setDistanceHiked,
-    measurementUnit,
-    changeSelectedHikeTotalDistance,
-    selectedHikeTotalDistance,
-  } = useUserChoices();
+  const displayLocation = useUserSettingsStore((s) => s.location.displayLocation);
+  const setLocation = useUserSettingsStore((s) => s.setLocation);
+  const measurementUnit = useUserSettingsStore((s) => s.measurementUnit);
+  const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
+  const changeSelectedHikeTotalDistance = useUserSettingsStore((s) => s.changeSelectedHikeTotalDistance);
 
   const { theme } = useTheme();
   const isIos = Platform.OS == "ios";
-  const [_distanceHiked, _setDistanceHiked] = useState<number>(0);
+  const [_location, _setLocation] = useState<number>(0);
   const [_selectedHikeTotalDistance, _setSelectedHikeTotalDistance] = useState<number>(0);
 
   useEffect(() => {
-    _setDistanceHiked(displayedDistanceHiked);
+    _setLocation(displayLocation);
     _setSelectedHikeTotalDistance(selectedHikeTotalDistance);
-  }, [displayedDistanceHiked, selectedHikeTotalDistance]);
+  }, [displayLocation, selectedHikeTotalDistance]);
 
   const onChangeDistanceHiked = (text: string) => {
     const parsed = parseInt(text, 10);
     if (!isNaN(parsed)) {
       const clamped = Math.max(0, Math.min(_selectedHikeTotalDistance, parsed));
-      _setDistanceHiked(clamped);
+      _setLocation(clamped);
     } else {
-      _setDistanceHiked(0);
+      _setLocation(0);
     }
   };
 
@@ -49,7 +47,7 @@ export const ModalDistanceHikedInput: React.FC<ModalDistanceHikedInputProps> = (
   };
 
   const updateDistanceHiked = () => {
-    setDistanceHiked(_distanceHiked);
+    setLocation(_location);
     changeSelectedHikeTotalDistance(_selectedHikeTotalDistance);
     onClose();
   };
@@ -74,7 +72,7 @@ export const ModalDistanceHikedInput: React.FC<ModalDistanceHikedInputProps> = (
               ref={inputRef}
               style={styles(theme).input}
               keyboardType="numeric"
-              value={_distanceHiked.toString()}
+              value={_location.toString()}
               onChangeText={onChangeDistanceHiked}
               returnKeyType="done"
               onSubmitEditing={updateDistanceHiked}

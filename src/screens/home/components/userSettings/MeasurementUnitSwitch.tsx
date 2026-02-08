@@ -1,4 +1,4 @@
-import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
+import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { MeasurementUnit } from "@/src/models/measurementUnit";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -9,14 +9,12 @@ type MeasurementUnitSwitchProps = {
 };
 
 export const MeasurementUnitSwitch: React.FC<MeasurementUnitSwitchProps> = ({ isMenuOpen }) => {
-  const {
-    measurementUnit,
-    setMeasurementUnit,
-    setDistanceHiked,
-    pathDistanceHiked,
-    changeSelectedHikeTotalDistance,
-    selectedHikeTotalDistance,
-  } = useUserChoices();
+  const measurementUnit = useUserSettingsStore((s) => s.measurementUnit);
+  const setMeasurementUnit = useUserSettingsStore((s) => s.setMeasurementUnit);
+  const setLocation = useUserSettingsStore((s) => s.setLocation);
+  const pathLoaction = useUserSettingsStore((s) => s.location.pathLocation);
+  const changeSelectedHikeTotalDistance = useUserSettingsStore((s) => s.changeSelectedHikeTotalDistance);
+  const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
 
   const { t } = useTranslation();
 
@@ -26,10 +24,10 @@ export const MeasurementUnitSwitch: React.FC<MeasurementUnitSwitchProps> = ({ is
     setMeasurementUnit(newUnit);
 
     if (newUnit == MeasurementUnit.MILE) {
-      setDistanceHiked(Math.round(pathDistanceHiked * 0.621371));
+      setLocation(Math.round(pathLoaction * 0.621371));
       changeSelectedHikeTotalDistance(Math.round(selectedHikeTotalDistance * 0.621371));
     } else {
-      setDistanceHiked(Math.round(pathDistanceHiked / 0.621371));
+      setLocation(Math.round(pathLoaction / 0.621371));
       changeSelectedHikeTotalDistance(Math.round(selectedHikeTotalDistance / 0.621371));
     }
   };

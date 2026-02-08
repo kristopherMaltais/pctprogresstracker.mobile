@@ -1,5 +1,5 @@
 import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
-import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
+import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { useTranslation } from "react-i18next";
 import { Setting } from "./Setting";
 
@@ -9,7 +9,8 @@ type ShowLogoSwitchProps = {
 
 export const ShowLogoSwitch: React.FC<ShowLogoSwitchProps> = ({ isMenuOpen }) => {
   const { t } = useTranslation();
-  const { showLogo, setShowLogo } = useUserChoices();
+  const showLogo = useUserSettingsStore((s) => s.showLogo);
+  const setShowLogo = useUserSettingsStore((s) => s.setShowLogo);
   const { isPremiumUnlocked, setIsPremiumModalVisible } = usePremium();
 
   const onPress = () => {

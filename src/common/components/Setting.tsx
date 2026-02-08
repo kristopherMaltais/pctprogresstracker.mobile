@@ -8,15 +8,26 @@ type SettingProps = {
   name: string;
   isToggle?: boolean;
   isEnable?: boolean;
+  settingDisabled?: boolean;
   icon?: string;
   onSettingPress?: () => void;
 };
 
-export const Setting: React.FC<SettingProps> = ({ name, isToggle, isEnable, icon, onSettingPress }) => {
+export const Setting: React.FC<SettingProps> = ({
+  name,
+  isToggle,
+  isEnable,
+  icon,
+  settingDisabled,
+  onSettingPress,
+}) => {
   const { getIcon, theme } = useTheme();
 
   return (
-    <TouchableOpacity style={styles(theme).container} onPress={onSettingPress}>
+    <TouchableOpacity
+      style={{ ...styles(theme).container, opacity: settingDisabled ? 0.5 : 1 }}
+      onPress={onSettingPress}
+    >
       {icon && <Image source={getIcon(icon)} style={styles(theme).icon} />}
       <Text style={styles(theme).title}>{name}</Text>
       <View style={styles(theme).clickable}>

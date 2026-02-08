@@ -1,17 +1,25 @@
-// App.tsx
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import { EditStartAndEndLocation } from "./components/editStartAndEndLocation/EditStartAndEndLocation";
+import { SettingSection } from "./components/SettingSection";
 
 export const AdvancedSettings: React.FC = () => {
   const { theme, isDarkMode } = useTheme();
+  const { t } = useTranslation();
 
   return (
     <ScrollView style={styles(theme).container}>
       <View style={{ ...styles(theme).header, backgroundColor: isDarkMode ? theme.primary : theme.path }}>
-        <Text style={styles(theme).headerTitle}>Advanced settings</Text>
+        <Text style={styles(theme).headerTitle}>{t("advancedSettings:screenTitle")}</Text>
+      </View>
+      <View style={styles(theme).body}>
+        <SettingSection title="Path setting">
+          <EditStartAndEndLocation />
+        </SettingSection>
       </View>
     </ScrollView>
   );
@@ -22,6 +30,13 @@ const styles = (theme: Theme) =>
     container: {
       flex: 1,
       backgroundColor: theme.background,
+    },
+    body: {
+      display: "flex",
+      flex: 1,
+      gap: 16,
+      padding: 16,
+      paddingTop: 24,
     },
     header: {
       display: "flex",

@@ -1,7 +1,7 @@
 import { PremiumButton } from "@/src/common/components/premium/PremiumButton";
 import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
-import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
+import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
 import React from "react";
 import { StyleSheet, View } from "react-native";
@@ -18,7 +18,9 @@ export const imageBuilderPanRef = {
 };
 
 export const ImageBuilder: React.FC<ImageBuilderProps> = ({ children }) => {
-  const { backgroundImage, isStickerSelectedPremium, selectedHike } = useUserChoices();
+  const backgroundImage = useUserSettingsStore((s) => s.backgroundImage);
+  const isStickerSelectedPremium = useUserSettingsStore((s) => s.isStickerSelectedPremium);
+  const selectedHike = useUserSettingsStore((s) => s.selectedHike);
   const { isPremiumUnlocked } = usePremium();
   const { setViewShot } = useViewShot();
   const { theme, isDarkMode } = useTheme();
@@ -118,6 +120,6 @@ const styles = () =>
       width: "100%",
       height: "100%",
       position: "absolute",
-      resizeMode: "cover",
+      resizeMode: "contain",
     },
   });
