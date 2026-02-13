@@ -2,8 +2,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { Header } from "../common/components/Header";
-import { AdvancedSettings } from "../screens/advancedSettings/AdvancedSettings";
 import { Home } from "../screens/home/Home";
+import { AdvancedSettingsNavigation } from "./AdvancedSettingsNavigation";
 
 export type RootStackParamList = {
   home: undefined;
@@ -15,7 +15,7 @@ type NavigationProps = {
   areSettingsOpen: boolean;
 };
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const Navigation: React.FC<NavigationProps> = ({ setAreSettingsOpen, areSettingsOpen }) => {
   return (
@@ -29,7 +29,7 @@ export const Navigation: React.FC<NavigationProps> = ({ setAreSettingsOpen, areS
         }}
       >
         <Stack.Screen name="home" component={Home} />
-        <Stack.Screen name="advancedSettings" component={AdvancedSettings} />
+        <Stack.Screen name="advancedSettings" component={AdvancedSettingsNavigation} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -9,7 +9,7 @@ export const StickerMapLarge: React.FC = () => {
   const selectedHike = useUserSettingsStore((s) => s.selectedHike);
   const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
   const measurementUnit = useUserSettingsStore((s) => s.measurementUnit);
-  const displayLocation = useUserSettingsStore((s) => s.location.displayLocation);
+  const displayedLocation = useUserSettingsStore((s) => s.location.displayedLocation);
   const showLogo = useUserSettingsStore((s) => s.showLogo);
 
   const { getIcon } = useTheme();
@@ -19,7 +19,7 @@ export const StickerMapLarge: React.FC = () => {
       <View style={styles.trailInformation}>
         <Text style={styles.trailName}>{selectedHike?.name}</Text>
         <Text style={styles.distanceHiked}>
-          {displayLocation} / {selectedHikeTotalDistance} {measurementUnit == MeasurementUnit.KILOMETER ? "km" : "mi"}
+          {displayedLocation} / {selectedHikeTotalDistance} {measurementUnit == MeasurementUnit.KILOMETER ? "km" : "mi"}
         </Text>
       </View>
       <View>

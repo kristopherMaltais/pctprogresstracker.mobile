@@ -15,7 +15,7 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
   const selectedHike = useUserSettingsStore((s) => s.selectedHike);
   const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
   const measurementUnit = useUserSettingsStore((s) => s.measurementUnit);
-  const displayLocation = useUserSettingsStore((s) => s.location.displayLocation);
+  const displayedLocation = useUserSettingsStore((s) => s.location.displayedLocation);
   const showLogo = useUserSettingsStore((s) => s.showLogo);
 
   const { getIcon } = useTheme();
@@ -61,11 +61,11 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
               </Text>
               <Text style={styles.label}>{t("home:sticker.distanceHiked")}</Text>
               <Text style={styles.value}>
-                {displayLocation} {getMeasurementUnit(measurementUnit)}
+                {displayedLocation} {getMeasurementUnit(measurementUnit)}
               </Text>
             </View>
           </View>
-          {isHorizontal && <HikeProgressAnimation />}
+          {isHorizontal && <HikeProgressAnimation start={0.2} />}
         </View>
       </ViewShot>
     </GestureWrapper>

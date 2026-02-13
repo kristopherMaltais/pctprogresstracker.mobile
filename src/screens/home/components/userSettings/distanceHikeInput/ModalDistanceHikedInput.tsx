@@ -11,7 +11,7 @@ type ModalDistanceHikedInputProps = {
 };
 
 export const ModalDistanceHikedInput: React.FC<ModalDistanceHikedInputProps> = ({ isVisible, onClose }) => {
-  const displayLocation = useUserSettingsStore((s) => s.location.displayLocation);
+  const displayedLocation = useUserSettingsStore((s) => s.location.displayedLocation);
   const setLocation = useUserSettingsStore((s) => s.setLocation);
   const measurementUnit = useUserSettingsStore((s) => s.measurementUnit);
   const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
@@ -23,9 +23,9 @@ export const ModalDistanceHikedInput: React.FC<ModalDistanceHikedInputProps> = (
   const [_selectedHikeTotalDistance, _setSelectedHikeTotalDistance] = useState<number>(0);
 
   useEffect(() => {
-    _setLocation(displayLocation);
+    _setLocation(displayedLocation);
     _setSelectedHikeTotalDistance(selectedHikeTotalDistance);
-  }, [displayLocation, selectedHikeTotalDistance]);
+  }, [displayedLocation, selectedHikeTotalDistance]);
 
   const onChangeDistanceHiked = (text: string) => {
     const parsed = parseInt(text, 10);

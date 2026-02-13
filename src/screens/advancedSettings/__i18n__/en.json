@@ -1,3 +1,9 @@
 {
-  "screenTitle": "Advanced Settings"
+  "screenTitle": "Advanced Settings",
+  "editHikeBoundaries": {
+    "title": "Customize hike boundaries",
+    "notes": "Map Calibration: Use sliders to manually adjust your location if the map position doesn't accurately reflect your entered distance.",
+    "start": "Start",
+    "end": "End"
+  }
 }

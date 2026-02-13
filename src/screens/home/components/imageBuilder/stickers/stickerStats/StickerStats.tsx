@@ -8,7 +8,7 @@ import { ProgressBar } from "./ProgressBar";
 
 export const StickerStats: React.FC = () => {
   const selectedHike = useUserSettingsStore((s) => s.selectedHike);
-  const displayLocation = useUserSettingsStore((s) => s.location.displayLocation);
+  const displayedLocation = useUserSettingsStore((s) => s.location.displayedLocation);
   const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
   const measurementUnit = useUserSettingsStore((s) => s.measurementUnit);
   const showLogo = useUserSettingsStore((s) => s.showLogo);
@@ -16,7 +16,7 @@ export const StickerStats: React.FC = () => {
   const { getIcon } = useTheme();
 
   const calculatePercentage = () => {
-    return (displayLocation * 100) / selectedHikeTotalDistance;
+    return (displayedLocation * 100) / selectedHikeTotalDistance;
   };
 
   const getMeasurementUnit = () => {
@@ -50,7 +50,7 @@ export const StickerStats: React.FC = () => {
           </Text>
           <Text style={styles.label}>{t("home:sticker.distanceHiked")}</Text>
           <Text style={styles.value}>
-            {displayLocation} {getMeasurementUnit()}
+            {displayedLocation} {getMeasurementUnit()}
           </Text>
         </View>
         <Text style={styles.percentage}>{calculatePercentage().toFixed(1)}%</Text>

@@ -1,15 +1,21 @@
+import { Setting } from "@/src/common/components/Setting";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { EditStartAndEndLocation } from "./components/editStartAndEndLocation/EditStartAndEndLocation";
 import { SettingSection } from "./components/SettingSection";
 
 export const AdvancedSettings: React.FC = () => {
   const { theme, isDarkMode } = useTheme();
   const { t } = useTranslation();
+
+  const navigation = useNavigation<any>();
+
+  const openEditHikeBoundaries = () => navigation.navigate("editHikeBoundaries");
+  const openEditSkippedSection = () => navigation.navigate("editSkippedSections");
 
   return (
     <ScrollView style={styles(theme).container}>
@@ -18,7 +24,8 @@ export const AdvancedSettings: React.FC = () => {
       </View>
       <View style={styles(theme).body}>
         <SettingSection title="Path setting">
-          <EditStartAndEndLocation />
+          <Setting name="Edit hike boundaries" onSettingPress={openEditHikeBoundaries} />
+          <Setting name="Edit skipped sections" onSettingPress={openEditSkippedSection} />
         </SettingSection>
       </View>
     </ScrollView>

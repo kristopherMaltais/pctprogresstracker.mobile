@@ -1,50 +1,38 @@
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
-import { calculateStrokeGeometry } from "@/src/helpers/calculateStrokeGeometry";
+import { getHikedLocationIntervals } from "@/src/helpers/getHikedLocationIntervals";
+import { LocationInterval } from "@/src/models/locationInterval";
 import { Canvas, Path, Shadow } from "@shopify/react-native-skia";
-import React, { useEffect } from "react";
-import { useDerivedValue, useSharedValue, withTiming } from "react-native-reanimated";
+import React, { useEffect, useState } from "react";
+import { useSharedValue, withTiming } from "react-native-reanimated";
 
 type HikeProgressAnimationProps = {
   size?: number;
-  start?: number;
-  end?: number;
 };
 
-export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({ size = 1, start, end }) => {
+export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({ size = 1 }) => {
   const selectedHike = useUserSettingsStore((s) => s.selectedHike);
-  const pathLocation = useUserSettingsStore((s) => s.location.pathLocation);
-  const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
-  const isReverse = useUserSettingsStore((s) => s.isReverse);
+  const location = useUserSettingsStore((s) => s.location);
+  const skippedSections = useUserSettingsStore((s) => s.skippedSections);
+
+  const [hikedSections, setHikedSections] = useState<LocationInterval[]>([]);
 
   const { theme } = useTheme();
 
   const completionProgress = useSharedValue(0);
 
+  console.log(completionProgress);
+
   useEffect(() => {
-    if (selectedHikeTotalDistance > 0) {
-      const percentage = Math.min(pathLocation / selectedHikeTotalDistance, 1);
-      completionProgress.value = withTiming(percentage, { duration: 2000 });
-    }
-  }, [pathLocation, selectedHikeTotalDistance]);
+    const sections = getHikedLocationIntervals(skippedSections);
+    setHikedSections(sections);
+  }, [skippedSections]);
 
-  const startPoint = useDerivedValue(() => {
-    const geometry = calculateStrokeGeometry(
-      completionProgress.value,
-      selectedHike?.stickerMetadata?.isRoundTrip,
-      isReverse
-    );
-    return geometry.start;
-  });
-
-  const endPoint = useDerivedValue(() => {
-    const geometry = calculateStrokeGeometry(
-      completionProgress.value,
-      selectedHike?.stickerMetadata?.isRoundTrip,
-      isReverse
-    );
-    return geometry.end;
-  });
+  // Mettre à jour la progression globale (0 → 1)
+  useEffect(() => {
+    const progress = Math.min(location.pathLocation, 1); // déjà normalisé
+    completionProgress.value = withTiming(progress, { duration: 2000 });
+  }, [location]);
 
   if (!selectedHike) return null;
 
@@ -58,33 +46,45 @@ export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({ si
         { transform: [{ scale: size }] },
       ]}
     >
-      {selectedHike.regions?.map((region: string, index: number) => (
-        <React.Fragment key={index}>
-          <Path path={region} color={theme.borders} strokeWidth={1} style="stroke">
-            <Shadow dx={0.5} dy={0.5} blur={1} color="rgba(0,0,0,0.5)" />
-          </Path>
-        </React.Fragment>
+      {/* Régions et bordure */}
+      {selectedHike.regions?.map((region, index) => (
+        <Path key={index} path={region} color={theme.borders} strokeWidth={1} style="stroke">
+          <Shadow dx={0.5} dy={0.5} blur={1} color="rgba(0,0,0,0.5)" />
+        </Path>
       ))}
 
-      {selectedHike.border ? (
+      {selectedHike.border && (
         <Path path={selectedHike.border} color={theme.borders} style="stroke" strokeWidth={1}>
           <Shadow dx={0.5} dy={0.5} blur={1} color="rgba(0,0,0,0.5)" />
         </Path>
-      ) : null}
+      )}
 
+      {/* Path de fond */}
       <Path path={selectedHike.path} color={theme.path} style="stroke" strokeWidth={3} strokeCap="round">
         <Shadow dx={0.5} dy={0.5} blur={1} color="rgba(0,0,0,0.5)" />
       </Path>
 
-      <Path
-        path={selectedHike.path}
-        color={theme.primary}
-        style="stroke"
-        strokeWidth={3}
-        strokeCap="round"
-        start={start ? start : startPoint}
-        end={end ? end : endPoint}
-      />
+      {/* Path animé pour chaque intervalle hiked */}
+      {hikedSections.map((interval, index) => {
+        const start = interval.start.pathLocation; // déjà 0 → 1
+        const end = interval.end.pathLocation;
+
+        // On applique la progression globale pour chaque intervalle
+        const currentEnd = start + completionProgress.value * (end - start);
+
+        return (
+          <Path
+            key={`hiked-${index}`}
+            path={selectedHike.path}
+            color={theme.primary}
+            style="stroke"
+            strokeWidth={3}
+            strokeCap="round"
+            start={start}
+            end={currentEnd > end ? end : currentEnd} // clamp
+          />
+        );
+      })}
     </Canvas>
   );
 };

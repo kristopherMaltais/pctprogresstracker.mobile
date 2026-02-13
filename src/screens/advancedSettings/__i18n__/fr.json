@@ -1,3 +1,9 @@
 {
-  "screenTitle": "Paramètres avancés"
+  "screenTitle": "Paramètres avancés",
+  "editHikeBoundaries": {
+    "title": "Personnaliser les limites de votre randonnée",
+    "notes": "Calibration de la carte : Utilisez les curseurs pour ajuster manuellement votre position si l’emplacement sur la carte ne reflète pas correctement la distance que vous avez saisie.",
+    "start": "Début",
+    "end": "Fin"
+  }
 }

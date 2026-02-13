@@ -44,8 +44,11 @@ const styles = (theme: Theme) =>
       paddingTop: 4,
     },
     title: {
+      fontSize: 14,
+      fontWeight: "700",
       color: theme.text,
-      fontWeight: "500",
-      fontSize: 18,
+      textTransform: "uppercase",
+      letterSpacing: 1,
+      opacity: 0.5,
     },
   });

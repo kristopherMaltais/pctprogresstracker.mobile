@@ -11,11 +11,11 @@ type PositionInputProps = {
 
 export const PositionInput: React.FC<PositionInputProps> = ({ closePositionInput }) => {
   const { getIcon, theme } = useTheme();
-  const calibratePathDistanceHiked = useUserSettingsStore((s) => s.calibratePathDistanceHiked);
-  const displayLocation = useUserSettingsStore((s) => s.location.displayLocation);
+  const calibratePathDistanceHiked = useUserSettingsStore((s) => s.setPathLocation);
+  const displayedLocation = useUserSettingsStore((s) => s.location.displayedLocation);
 
   const unSaveChanges = () => {
-    calibratePathDistanceHiked(displayLocation);
+    calibratePathDistanceHiked(displayedLocation);
     closePositionInput();
   };
 
