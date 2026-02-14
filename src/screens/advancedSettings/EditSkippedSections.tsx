@@ -1,4 +1,4 @@
-import { HikeProgressAnimation } from "@/src/common/components/HikeProgressAnimation";
+import { HikeProgressAnimation } from "@/src/common/components/hikeProgressAnimation/HikeProgressAnimation";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import React from "react";

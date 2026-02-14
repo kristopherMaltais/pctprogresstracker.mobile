@@ -1,4 +1,4 @@
-import { HikeProgressAnimation } from "@/src/common/components/HikeProgressAnimation";
+import { HikeProgressAnimation } from "@/src/common/components/hikeProgressAnimation/HikeProgressAnimation";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { MeasurementUnit } from "@/src/models/measurementUnit";

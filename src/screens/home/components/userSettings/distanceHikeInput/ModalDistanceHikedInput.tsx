@@ -23,7 +23,7 @@ export const ModalDistanceHikedInput: React.FC<ModalDistanceHikedInputProps> = (
   const [_selectedHikeTotalDistance, _setSelectedHikeTotalDistance] = useState<number>(0);
 
   useEffect(() => {
-    _setLocation(displayedLocation);
+    _setLocation(displayedLocation * selectedHikeTotalDistance);
     _setSelectedHikeTotalDistance(selectedHikeTotalDistance);
   }, [displayedLocation, selectedHikeTotalDistance]);
 
@@ -47,7 +47,7 @@ export const ModalDistanceHikedInput: React.FC<ModalDistanceHikedInputProps> = (
   };
 
   const updateDistanceHiked = () => {
-    setLocation(_location);
+    setLocation(_location / _selectedHikeTotalDistance);
     changeSelectedHikeTotalDistance(_selectedHikeTotalDistance);
     onClose();
   };

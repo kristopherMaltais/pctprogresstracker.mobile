@@ -1,5 +1,5 @@
 import { GestureWrapper } from "@/src/common/components/GestureWrapper";
-import { HikeProgressAnimation } from "@/src/common/components/HikeProgressAnimation";
+import { HikeProgressAnimation } from "@/src/common/components/hikeProgressAnimation/HikeProgressAnimation";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
@@ -61,11 +61,11 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
               </Text>
               <Text style={styles.label}>{t("home:sticker.distanceHiked")}</Text>
               <Text style={styles.value}>
-                {displayedLocation} {getMeasurementUnit(measurementUnit)}
+                {displayedLocation * selectedHikeTotalDistance} {getMeasurementUnit(measurementUnit)}
               </Text>
             </View>
           </View>
-          {isHorizontal && <HikeProgressAnimation start={0.2} />}
+          {isHorizontal && <HikeProgressAnimation />}
         </View>
       </ViewShot>
     </GestureWrapper>

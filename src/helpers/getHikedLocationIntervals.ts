@@ -1,49 +1,38 @@
+import { Location } from "../models/location";
 import { LocationInterval } from "../models/locationInterval";
 
-export const getHikedLocationIntervals = (skippedSections: LocationInterval[]): LocationInterval[] => {
-  if (skippedSections.length === 0) {
-    return [{ start: { displayedLocation: 0, pathLocation: 0 }, end: { displayedLocation: 1, pathLocation: 1 } }];
-  }
+export const getHikedLocationIntervals = (
+  skippedSections: LocationInterval[],
+  currentLocation: Location
+): LocationInterval[] => {
+  const hiked: LocationInterval[] = [];
+  let cursor = 0;
+  const sortedSkips = [...skippedSections].sort((a, b) => a.start.pathLocation - b.start.pathLocation);
 
-  // 2️⃣ Tri des intervalles par start
-  const sorted = skippedSections
-    .map((s) => ({
-      start: s.start.pathLocation,
-      end: s.end.pathLocation,
-    }))
-    .sort((a, b) => a.start - b.start);
+  for (const skip of sortedSkips) {
+    const sStart = skip.start.pathLocation;
+    const sEnd = skip.end.pathLocation;
 
-  const result: LocationInterval[] = [];
+    if (sStart >= currentLocation.pathLocation) break;
 
-  // 3️⃣ Intervalle avant le premier skipped
-  if (sorted[0].start > 0) {
-    result.push({
-      start: { displayedLocation: 0, pathLocation: 0 },
-      end: { displayedLocation: sorted[0].start, pathLocation: sorted[0].start },
-    });
-  }
-
-  // 4️⃣ Intervalles entre les skipped
-  for (let i = 0; i < sorted.length - 1; i++) {
-    const currentEnd = sorted[i].end;
-    const nextStart = sorted[i + 1].start;
-
-    if (nextStart > currentEnd) {
-      result.push({
-        start: { displayedLocation: currentEnd, pathLocation: currentEnd },
-        end: { displayedLocation: nextStart, pathLocation: nextStart },
+    if (cursor < sStart) {
+      hiked.push({
+        start: { displayedLocation: cursor, pathLocation: cursor },
+        end: skip.start,
       });
     }
+
+    cursor = Math.max(cursor, sEnd);
   }
 
-  // 5️⃣ Intervalle après le dernier skipped
-  const lastEnd = sorted[sorted.length - 1].end;
-  if (lastEnd < 1) {
-    result.push({
-      start: { displayedLocation: lastEnd, pathLocation: lastEnd },
-      end: { displayedLocation: 1, pathLocation: 1 },
+  if (cursor < currentLocation.pathLocation) {
+    hiked.push({
+      start: { displayedLocation: cursor, pathLocation: cursor },
+      end: currentLocation,
     });
   }
 
-  return result;
+  console.log(hiked);
+
+  return hiked;
 };
