@@ -10,7 +10,8 @@
   "userSettings": {
     "backgroundImage": "Image",
     "share": "Share",
-    "distances": "Distances",
+    "distance": "Distances",
+    "distanceLabel": "Oú es-tu?",
     "direction": "Direction",
     "position": "Position",
     "mile": "Mile",

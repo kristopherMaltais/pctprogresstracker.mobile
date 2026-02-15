@@ -33,7 +33,7 @@ export const ConfirmationModal: React.FC<ModalErrorProps> = ({ isVisible, closeM
           </View>
           <View style={styles(theme).action}>
             <TouchableOpacity style={styles(theme).cancelButton} hitSlop={30} onPress={closeModal}>
-              <Text style={styles(theme).buttonText}>{t("common:cancel")}</Text>
+              <Text style={{ ...styles(theme).buttonText, color: theme.text }}>{t("common:cancel")}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles(theme).confirmButton} hitSlop={30} onPress={handleOnConfirm}>
               <Text style={styles(theme).buttonText}>{t("common:delete")}</Text>

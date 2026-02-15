@@ -3,7 +3,8 @@ import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { getMeasurementUnit } from "@/src/helpers/getMeasurementUnit";
 import React, { useEffect, useRef, useState } from "react";
-import { Modal, Platform, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { useTranslation } from "react-i18next";
+import { Modal, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 type ModalDistanceHikedInputProps = {
   isVisible: boolean;
@@ -17,8 +18,8 @@ export const ModalDistanceHikedInput: React.FC<ModalDistanceHikedInputProps> = (
   const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
   const changeSelectedHikeTotalDistance = useUserSettingsStore((s) => s.changeSelectedHikeTotalDistance);
 
+  const { t } = useTranslation();
   const { theme } = useTheme();
-  const isIos = Platform.OS == "ios";
   const [_location, _setLocation] = useState<number>(0);
   const [_selectedHikeTotalDistance, _setSelectedHikeTotalDistance] = useState<number>(0);
 
@@ -34,15 +35,6 @@ export const ModalDistanceHikedInput: React.FC<ModalDistanceHikedInputProps> = (
       _setLocation(clamped);
     } else {
       _setLocation(0);
-    }
-  };
-
-  const onSelectedHikeChangeDistance = (text: string) => {
-    const parsed = parseInt(text, 10);
-    if (!isNaN(parsed)) {
-      _setSelectedHikeTotalDistance(parsed);
-    } else {
-      _setSelectedHikeTotalDistance(0);
     }
   };
 
@@ -68,25 +60,21 @@ export const ModalDistanceHikedInput: React.FC<ModalDistanceHikedInputProps> = (
       <Pressable style={styles(theme).centeredView} onPress={updateDistanceHiked} accessible={false}>
         <View style={styles(theme).modalView}>
           <View style={styles(theme).container}>
-            <TextInput
-              ref={inputRef}
-              style={styles(theme).input}
-              keyboardType="numeric"
-              value={_location.toString()}
-              onChangeText={onChangeDistanceHiked}
-              returnKeyType="done"
-              onSubmitEditing={updateDistanceHiked}
-            />
-            <Text style={{ color: theme.text, marginHorizontal: 8, fontSize: 20 }}>/</Text>
-            <TextInput
-              style={{ ...styles(theme).input, height: isIos ? 40 : 60 }}
-              keyboardType="numeric"
-              value={_selectedHikeTotalDistance ? _selectedHikeTotalDistance.toString() : "0"}
-              onChangeText={onSelectedHikeChangeDistance}
-              returnKeyType="done"
-              onSubmitEditing={updateDistanceHiked}
-            />
-            <Text style={styles(theme).measurementUnit}>{getMeasurementUnit(measurementUnit)}</Text>
+            <View style={styles(theme).header}>
+              <Text style={styles(theme).title}>{t("home:userSettings.distanceLabel")}</Text>
+            </View>
+            <View style={styles(theme).inputContainer}>
+              <TextInput
+                ref={inputRef}
+                style={styles(theme).input}
+                keyboardType="numeric"
+                value={_location.toString()}
+                onChangeText={onChangeDistanceHiked}
+                returnKeyType="done"
+                onSubmitEditing={updateDistanceHiked}
+              />
+              <Text style={styles(theme).measurementUnit}>{getMeasurementUnit(measurementUnit)}</Text>
+            </View>
           </View>
         </View>
       </Pressable>
@@ -100,7 +88,6 @@ const styles = (theme: Theme) =>
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
-      marginTop: 16,
     },
     modalView: {
       margin: 20,
@@ -117,11 +104,29 @@ const styles = (theme: Theme) =>
       shadowRadius: 4,
       elevation: 5,
     },
-    container: {
+    header: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    title: {
+      color: theme.text,
+      fontWeight: "700",
+      letterSpacing: 1,
+      textTransform: "uppercase",
+      fontSize: 10,
+    },
+    inputContainer: {
       display: "flex",
       flexDirection: "row",
       justifyContent: "center",
       alignItems: "center",
+    },
+    container: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      paddingHorizontal: 12,
     },
     input: {
       fontSize: 26,

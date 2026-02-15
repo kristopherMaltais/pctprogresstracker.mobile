@@ -12,6 +12,7 @@ export type FullStoreState = LocationSlice & {
   isStickerSelectedPremium: boolean;
   showLogo: boolean;
   showShareMenu: boolean;
+  substractSkippedSections: boolean;
 
   setSelectedHike: (hike: Hike) => void;
   setBackgroundImage: (image: string | undefined) => void;
@@ -21,6 +22,7 @@ export type FullStoreState = LocationSlice & {
   setIsReverse: (flag: boolean) => void;
   setShowLogo: (flag: boolean) => void;
   setShowShareMenu: (flag: boolean) => void;
+  setSubstractSkippedSections: (flag: boolean) => void;
 };
 
 export const useUserSettingsStore = create<FullStoreState>((...a) => ({
@@ -33,6 +35,7 @@ export const useUserSettingsStore = create<FullStoreState>((...a) => ({
   isStickerSelectedPremium: false,
   showLogo: true,
   showShareMenu: false,
+  substractSkippedSections: true,
 
   setSelectedHike: (hike) =>
     a[0]({
@@ -51,4 +54,5 @@ export const useUserSettingsStore = create<FullStoreState>((...a) => ({
   setIsReverse: (flag) => a[0]({ isReverse: flag }),
   setShowLogo: (flag) => a[0]({ showLogo: flag }),
   setShowShareMenu: (flag) => a[0]({ showShareMenu: flag }),
+  setSubstractSkippedSections: (flag) => a[0]({ substractSkippedSections: flag }),
 }));

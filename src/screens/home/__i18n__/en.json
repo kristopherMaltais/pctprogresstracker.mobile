@@ -9,7 +9,8 @@
   "userSettings": {
     "backgroundImage": "Image",
     "share": "Share",
-    "distances": "Distances",
+    "distance": "Distance",
+    "distanceLabel": "Where are you?",
     "direction": "Direction",
     "position": "Position",
     "mile": "Mile",

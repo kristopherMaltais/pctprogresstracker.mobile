@@ -19,7 +19,7 @@ export const DistanceHikedInput: React.FC<DistanceHikedInputProps> = ({ isMenuOp
 
   return (
     <>
-      <Setting icon="shoePrints" label={t("home:userSettings.distances")} showLabel={isMenuOpen} onPress={onPress} />
+      <Setting icon="shoePrints" label={t("home:userSettings.distance")} showLabel={isMenuOpen} onPress={onPress} />
       <ModalDistanceHikedInput isVisible={isModalVisible} onClose={() => setIsModalVisible(false)} />
     </>
   );

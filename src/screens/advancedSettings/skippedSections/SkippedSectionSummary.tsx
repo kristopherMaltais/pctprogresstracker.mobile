@@ -8,14 +8,14 @@ import { AdvancedSettingsStackParamList } from "@/src/navigation/AdvancedSetting
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 type SkippedSectionSummaryProps = {
   skippedSection: LocationInterval;
 };
 
 export const SkippedSectionSummary: React.FC<SkippedSectionSummaryProps> = ({ skippedSection }) => {
-  const { theme, getIcon } = useTheme();
+  const { theme, getIcon, isDarkMode } = useTheme();
   const { t } = useTranslation();
 
   const navigation = useNavigation<NavigationProp<AdvancedSettingsStackParamList>>();
@@ -35,7 +35,11 @@ export const SkippedSectionSummary: React.FC<SkippedSectionSummaryProps> = ({ sk
 
   return (
     <>
-      <Pressable style={styles(theme).container} onLongPress={() => setIsConfirmModalVisible(true)}>
+      <Pressable
+        style={{ ...styles(theme).container, backgroundColor: isDarkMode ? theme.secondaryBackground : "#E0E0E0" }}
+        onLongPress={() => setIsConfirmModalVisible(true)}
+        onPress={openEditSkippedSection}
+      >
         <View style={styles(theme).summary}>
           <View style={styles(theme).location}>
             <Text style={styles(theme).label}>{t("advancedSettings:skippedSections.start")}</Text>
@@ -52,9 +56,7 @@ export const SkippedSectionSummary: React.FC<SkippedSectionSummaryProps> = ({ sk
             </Text>
           </View>
         </View>
-        <TouchableOpacity hitSlop={30} onPress={openEditSkippedSection}>
-          <Image style={styles(theme).editIcon} source={getIcon("edit")} />
-        </TouchableOpacity>
+        <Image style={styles(theme).editIcon} source={getIcon("advancedSettings")} />
       </Pressable>
       <ConfirmationModal
         message={t("advancedSettings:skippedSections.confirmDelete.message")}
