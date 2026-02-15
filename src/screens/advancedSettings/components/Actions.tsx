@@ -44,7 +44,7 @@ const styles = (theme: Theme) =>
     },
     saveButton: {
       padding: 16,
-      borderRadius: 12,
+      borderRadius: 8,
       flex: 2,
       alignItems: "center",
       shadowColor: "#000",

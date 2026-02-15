@@ -1,9 +1,36 @@
 {
   "screenTitle": "Paramètres avancés",
+  "hikeSettings": {
+    "title": "Paramètres de la randonnée"
+  },
   "editHikeBoundaries": {
     "title": "Personnaliser les limites de votre randonnée",
     "notes": "Calibration de la carte : Utilisez les curseurs pour ajuster manuellement votre position si l’emplacement sur la carte ne reflète pas correctement la distance que vous avez saisie.",
     "start": "Début",
     "end": "Fin"
+  },
+  "skippedSections": {
+    "title": "Section(s) sautée(s)",
+    "start": "Début",
+    "end": "Fin",
+    "addSkippedSection": "Ajouter une section sautée",
+    "confirmDelete": {
+      "title": "Supprimer une section sautée",
+      "message": "Êtes-vous sûr de vouloir supprimer cette section sautée ?"
+    }
+  },
+  "editSkippedSection": {
+    "titleAdd": "Ajouter une section sautée",
+    "titleEdit": "Modifier une section sautée",
+    "notes": "Calibration de la carte : Utilisez les curseurs pour ajuster manuellement votre position si l’emplacement sur la carte ne reflète pas correctement la distance que vous avez saisie.",
+    "start": "Début",
+    "end": "Fin",
+    "errors": {
+      "endBeforeStart": "La distance de fin doit être supérieure à la distance de départ",
+      "overlap": "Ce segment chevauche une section sautée existante"
+    }
+  },
+  "editHikeTotalDistance": {
+    "title": "Distance totale"
   }
 }

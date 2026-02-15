@@ -89,4 +89,12 @@ export const iconsLightMode: Array<Image> = [
     name: "advancedSettings",
     image: require("@/assets/images/lightMode/advancedSettings.png"),
   },
+  {
+    name: "edit",
+    image: require("@/assets/images/lightMode/edit.png"),
+  },
+  {
+    name: "backHeader",
+    image: require("@/assets/images/lightMode/backHeader.png"),
+  },
 ];

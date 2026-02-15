@@ -1,14 +1,19 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
+import { AdvancesSettingsHeader } from "../common/components/AdvancedSettingsHeader";
 import { useTheme } from "../contexts/theme/ThemeContextProvider";
+import { LocationInterval } from "../models/locationInterval";
 import { AdvancedSettings } from "../screens/advancedSettings/AdvancedSettings";
-import { EditHikeBoundaries } from "../screens/advancedSettings/editHikeBoundaries/EditHikeBoundaries";
-import { EditSkippedSections } from "../screens/advancedSettings/EditSkippedSections";
+import { EditHikeTotalDistance } from "../screens/advancedSettings/EditHikeTotalDistance";
+import { EditSkippedSection } from "../screens/advancedSettings/skippedSections/EditSkippedSection";
+import { SkippedSections } from "../screens/advancedSettings/skippedSections/SkippedSections";
 
 export type AdvancedSettingsStackParamList = {
   advancedSettings: undefined;
   editHikeBoundaries: undefined;
-  editSkippedSections: undefined;
+  skippedSections: undefined;
+  editSkippedSection: { isEditMode: boolean; skippedSection?: LocationInterval };
+  editHikeTotalDistance: undefined;
 };
 
 export const AdvancedSettingsNavigation: React.FC = () => {
@@ -18,12 +23,14 @@ export const AdvancedSettingsNavigation: React.FC = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
+        header: ({ route }) => <AdvancesSettingsHeader pageTitle={route.name} toggleAppSettingsDrawer={() => {}} />,
       }}
     >
       <Stack.Screen name="advancedSettings" component={AdvancedSettings} />
-      <Stack.Screen name="editHikeBoundaries" component={EditHikeBoundaries} />
-      <Stack.Screen name="editSkippedSections" component={EditSkippedSections} />
+      <Stack.Screen name="skippedSections" component={SkippedSections} />
+      <Stack.Screen name="editSkippedSection" component={EditSkippedSection} />
+      <Stack.Screen name="editHikeTotalDistance" component={EditHikeTotalDistance} />
     </Stack.Navigator>
   );
 };

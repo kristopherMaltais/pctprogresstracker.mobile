@@ -31,7 +31,7 @@ export const Slider: React.FC<SliderProps> = ({ onChange }) => {
       fillHeight.value = newHeight;
       const newValue = (newHeight * selectedHikeTotalDistance) / CONTAINER_HEIGHT;
 
-      runOnJS(onChange)(newValue);
+      runOnJS(onChange)(newValue / selectedHikeTotalDistance);
     });
 
   const animatedFillStyle = useAnimatedStyle(() => {

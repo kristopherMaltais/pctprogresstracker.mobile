@@ -3,7 +3,6 @@ import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { Location } from "@/src/models/location";
 import { MeasurementUnit } from "@/src/models/measurementUnit";
 import React from "react";
-import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import { Slider } from "../components/Slider";
 
@@ -27,15 +26,14 @@ export const BoundaryInput: React.FC<BoundaryInputProps> = ({
   unit,
 }) => {
   const { theme } = useTheme();
-  const { t } = useTranslation();
 
   return (
-    <View style={styles(theme).controlGroup}>
+    <View style={styles(theme).container}>
       <View style={styles(theme).textRow}>
-        <Text style={styles(theme).minimalLabel}>{label}</Text>
-        <View style={styles(theme).inputWrapper}>
+        <Text style={styles(theme).label}>{label}</Text>
+        <View style={styles(theme).inputContainer}>
           <TextInput
-            style={styles(theme).minimalInput}
+            style={styles(theme).input}
             keyboardType="numeric"
             value={Math.round(value.displayedLocation * max).toString()}
             onChangeText={(value: string) => onDisplayedLocationChange(Number(value) / max)}
@@ -55,7 +53,7 @@ export const BoundaryInput: React.FC<BoundaryInputProps> = ({
 
 const styles = (theme: Theme) =>
   StyleSheet.create({
-    controlGroup: {
+    container: {
       marginBottom: 20,
     },
     textRow: {
@@ -65,7 +63,7 @@ const styles = (theme: Theme) =>
       marginBottom: 10,
       paddingHorizontal: 4,
     },
-    minimalLabel: {
+    label: {
       fontSize: 14,
       fontWeight: "700",
       color: theme.text,
@@ -73,11 +71,11 @@ const styles = (theme: Theme) =>
       letterSpacing: 1,
       opacity: 0.5,
     },
-    inputWrapper: {
+    inputContainer: {
       flexDirection: "row",
-      alignItems: "center",
+      alignItems: "baseline",
     },
-    minimalInput: {
+    input: {
       fontSize: 24,
       fontWeight: "800",
       color: theme.text,

@@ -1,9 +1,30 @@
 {
   "screenTitle": "Advanced Settings",
-  "editHikeBoundaries": {
-    "title": "Customize hike boundaries",
+  "hikeSettings": {
+    "title": "Hike settings"
+  },
+  "skippedSections": {
+    "title": "Skipped section(s)",
+    "start": "Start",
+    "end": "End",
+    "addSkippedSection": "Add skipped section",
+    "confirmDelete": {
+      "title": "Delete skipped section",
+      "message": "Are you sure you want to delete this skipped section ?"
+    }
+  },
+  "editSkippedSection": {
+    "titleAdd": "Add skipped section",
+    "titleEdit": "Edit skipped section",
     "notes": "Map Calibration: Use sliders to manually adjust your location if the map position doesn't accurately reflect your entered distance.",
     "start": "Start",
-    "end": "End"
+    "end": "End",
+    "errors": {
+      "endBeforeStart": "End distance must be greater than start distance",
+      "overlap": "This segment overlaps with an existing skipped section."
+    }
+  },
+  "editHikeTotalDistance": {
+    "title": "Total distance"
   }
 }

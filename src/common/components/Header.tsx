@@ -1,6 +1,8 @@
 import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
+import { AdvancedSettingsStackParamList } from "@/src/navigation/AdvancedSettingsNavigation";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -15,6 +17,9 @@ export const Header: React.FC<HeaderProps> = ({ pageTitle, toggleAppSettingsDraw
   const { t } = useTranslation();
   const { setIsPremiumModalVisible, isPremiumUnlocked } = usePremium();
   const { height } = Dimensions.get("window");
+
+  const navigation = useNavigation<NavigationProp<AdvancedSettingsStackParamList>>();
+
   return (
     <View
       style={{
@@ -24,14 +29,9 @@ export const Header: React.FC<HeaderProps> = ({ pageTitle, toggleAppSettingsDraw
     >
       <View style={styles(theme).body}>
         <View style={styles(theme).left}>
-          <Text
-            style={{
-              ...styles(theme).title,
-              color: isDarkMode ? "#E2E4E6" : "white",
-            }}
-          >
+          <View style={styles(theme).title}>
             <Image style={{ width: 150, height: 15 }} source={getIcon("home")} />
-          </Text>
+          </View>
         </View>
         {!isPremiumUnlocked && (
           <TouchableOpacity onPress={() => setIsPremiumModalVisible(true)} style={styles(theme).premium}>
@@ -68,9 +68,12 @@ const styles = (theme: Theme) =>
       minHeight: 35,
     },
     title: {
+      display: "flex",
+      flexDirection: "row",
       fontSize: 22,
       fontWeight: "bold",
       marginLeft: 8,
+      gap: 8,
     },
     left: { display: "flex", flexDirection: "row", alignItems: "center" },
     premium: {

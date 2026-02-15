@@ -32,7 +32,5 @@ export const getHikedLocationIntervals = (
     });
   }
 
-  console.log(hiked);
-
   return hiked;
 };

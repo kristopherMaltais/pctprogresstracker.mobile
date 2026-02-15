@@ -7,16 +7,21 @@ import React, { useEffect, useMemo } from "react";
 import { useSharedValue, withTiming } from "react-native-reanimated";
 import { HikeInterval } from "./HikeInterval";
 
-type HikeProgressAnimationProps = { size?: number };
+type HikeProgressAnimationProps = { size?: number; skippedSectionsDisplay?: LocationInterval[] };
 
-export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({ size = 1 }) => {
+export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({ size = 1, skippedSectionsDisplay }) => {
+  console.log(skippedSectionsDisplay);
   const { theme } = useTheme();
   const selectedHike = useUserSettingsStore((s) => s.selectedHike);
+  const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
   const location = useUserSettingsStore((s) => s.location);
+  // const skippedSections = useUserSettingsStore((s) => s.skippedSections);
 
   const skippedSections: LocationInterval[] = [
-    { start: { pathLocation: 0, displayedLocation: 0 }, end: { pathLocation: 0.2, displayedLocation: 0.2 } },
-    { start: { pathLocation: 0.8, displayedLocation: 0.8 }, end: { pathLocation: 1, displayedLocation: 1 } },
+    {
+      start: { pathLocation: 2630 / selectedHikeTotalDistance, displayedLocation: 2722 / selectedHikeTotalDistance },
+      end: { pathLocation: 3520 / selectedHikeTotalDistance, displayedLocation: 3455 / selectedHikeTotalDistance },
+    },
   ];
 
   const hikedIntervals = useMemo(() => {
@@ -56,15 +61,28 @@ export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({ si
         <Shadow dx={0.5} dy={0.5} blur={1} color="rgba(0,0,0,0.5)" />
       </Path>
 
-      {hikedIntervals.map((interval, index) => (
-        <HikeInterval
-          key={`hike-interval-${index}`}
-          interval={interval}
-          globalProgress={globalProgress}
-          path={selectedHike.path}
-          color={theme.primary}
-        />
-      ))}
+      {skippedSectionsDisplay
+        ? skippedSectionsDisplay.map((interval, index) => (
+            <Path
+              key={index}
+              path={selectedHike?.path!}
+              color={theme.primary}
+              style="stroke"
+              strokeCap={"round"}
+              strokeWidth={3}
+              start={interval.start.pathLocation}
+              end={interval.end.pathLocation}
+            />
+          ))
+        : hikedIntervals.map((interval, index) => (
+            <HikeInterval
+              key={`hike-interval-${index}`}
+              interval={interval}
+              globalProgress={globalProgress}
+              path={selectedHike.path}
+              color={theme.primary}
+            />
+          ))}
     </Canvas>
   );
 };
