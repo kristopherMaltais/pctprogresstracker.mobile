@@ -1,4 +1,5 @@
 import { Setting } from "@/src/common/components/Setting";
+import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { AdvancedSettingsStackParamList } from "@/src/navigation/AdvancedSettingsNavigation";
@@ -10,8 +11,9 @@ import { ScrollView } from "react-native-gesture-handler";
 import { SettingSection } from "./components/SettingSection";
 
 export const AdvancedSettings: React.FC = () => {
-  const { theme, isDarkMode } = useTheme();
+  const { theme } = useTheme();
   const { t } = useTranslation();
+  const { isPremiumUnlocked } = usePremium();
 
   const navigation = useNavigation<NavigationProp<AdvancedSettingsStackParamList>>();
 
@@ -22,7 +24,11 @@ export const AdvancedSettings: React.FC = () => {
     <ScrollView style={styles(theme).container}>
       <View style={styles(theme).body}>
         <SettingSection title={t("advancedSettings:hikeSettings.title")}>
-          <Setting name={t("advancedSettings:skippedSections.title")} onSettingPress={openEditSkippedSection} />
+          <Setting
+            isLocked={!isPremiumUnlocked}
+            name={t("advancedSettings:skippedSections.title")}
+            onSettingPress={openEditSkippedSection}
+          />
           <Setting
             name={t("advancedSettings:editHikeTotalDistance.title")}
             onSettingPress={openEditHikeTotalDistance}
