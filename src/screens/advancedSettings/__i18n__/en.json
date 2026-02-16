@@ -25,6 +25,8 @@
     }
   },
   "editHikeTotalDistance": {
-    "title": "Total distance"
+    "title": "Total distance",
+    "totalDistance": "Hike total distance",
+    "substractSkippedSections": "Substract skipped sections"
   }
 }

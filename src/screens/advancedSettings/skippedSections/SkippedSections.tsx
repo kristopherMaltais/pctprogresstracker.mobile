@@ -2,6 +2,7 @@ import { HikeProgressAnimation } from "@/src/common/components/hikeProgressAnima
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { FullStoreState, useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
+import { getHikedLocationIntervals } from "@/src/helpers/getHikedLocationIntervals";
 import { LocationInterval } from "@/src/models/locationInterval";
 import { AdvancedSettingsStackParamList } from "@/src/navigation/AdvancedSettingsNavigation";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
@@ -12,10 +13,11 @@ import { ScrollView } from "react-native-gesture-handler";
 import { SkippedSectionSummary } from "./SkippedSectionSummary";
 
 export const SkippedSections: React.FC = () => {
-  const { theme, isDarkMode } = useTheme();
+  const { theme } = useTheme();
   const { t } = useTranslation();
   const navigation = useNavigation<NavigationProp<AdvancedSettingsStackParamList>>();
   const skippedSections = useUserSettingsStore((state: FullStoreState) => state.skippedSections);
+  const selectedHikeTotalDistance = useUserSettingsStore((state) => state.selectedHikeTotalDistance);
 
   const openAddSkippedSection = () => {
     navigation.navigate("editSkippedSection", { isEditMode: false });
@@ -25,10 +27,16 @@ export const SkippedSections: React.FC = () => {
     <ScrollView style={styles(theme).container}>
       <Text style={styles(theme).title}>{t("advancedSettings:skippedSections.title")}</Text>
 
-      <View
-        style={{ ...styles(theme).mapContainer, backgroundColor: isDarkMode ? theme.secondaryBackground : "#E0E0E0" }}
-      >
-        <HikeProgressAnimation size={1} skippedSectionsDisplay={skippedSections} />
+      <View style={{ ...styles(theme).mapContainer }}>
+        <HikeProgressAnimation
+          size={1}
+          skippedSectionsDisplay={[
+            ...getHikedLocationIntervals(skippedSections, {
+              pathLocation: selectedHikeTotalDistance,
+              displayedLocation: selectedHikeTotalDistance,
+            }),
+          ]}
+        />
       </View>
 
       {skippedSections
@@ -74,6 +82,13 @@ const styles = (theme: Theme) =>
       minHeight: 140,
       marginBottom: 20,
       padding: 10,
+      backgroundColor: theme.secondaryBackground,
+
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 3 },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
+      elevation: 5,
     },
     addSkippedSection: {
       display: "flex",

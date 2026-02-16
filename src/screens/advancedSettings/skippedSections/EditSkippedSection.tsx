@@ -3,6 +3,7 @@ import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { useValidation } from "@/src/contexts/validation/ValidationContextProvider";
+import { getHikedLocationIntervals } from "@/src/helpers/getHikedLocationIntervals";
 import { LocationInterval } from "@/src/models/locationInterval";
 import { AdvancedSettingsStackParamList } from "@/src/navigation/AdvancedSettingsNavigation";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
@@ -113,7 +114,17 @@ export const EditSkippedSection: React.FC = () => {
       </Text>
 
       <View style={styles(theme).mapContainer}>
-        {skippedSection && <HikeProgressAnimation size={1} skippedSectionsDisplay={[skippedSection]} />}
+        {skippedSection && (
+          <HikeProgressAnimation
+            size={1}
+            skippedSectionsDisplay={[
+              ...getHikedLocationIntervals([skippedSection], {
+                pathLocation: selectedHikeTotalDistance,
+                displayedLocation: selectedHikeTotalDistance,
+              }),
+            ]}
+          />
+        )}
       </View>
 
       <BoundaryInput

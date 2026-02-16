@@ -15,9 +15,9 @@ export const InputCheckbox: React.FC<InputNumberProps> = ({ checked, toggleCheck
 
   return (
     <Pressable style={styles(theme).container} onPress={() => toggleChecked(!checked)}>
-      <Text style={styles(theme).label}>Substract skipped sections</Text>
+      <Text style={styles(theme).label}>{label}</Text>
       <View style={[styles(theme).checkbox, checked && { backgroundColor: theme.primary, borderColor: theme.primary }]}>
-        {checked && <MaterialCommunityIcons name="check" size={14} color={theme.background} />}
+        {checked && <MaterialCommunityIcons name="check" size={14} color={"white"} />}
       </View>
     </Pressable>
   );
@@ -26,6 +26,7 @@ export const InputCheckbox: React.FC<InputNumberProps> = ({ checked, toggleCheck
 const styles = (theme: Theme) =>
   StyleSheet.create({
     container: {
+      display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
@@ -45,8 +46,7 @@ const styles = (theme: Theme) =>
       height: 20,
       borderRadius: 4,
       borderWidth: 2,
-      borderColor: theme.text,
-      opacity: 0.8,
+      borderColor: theme.primary,
       justifyContent: "center",
       alignItems: "center",
     },

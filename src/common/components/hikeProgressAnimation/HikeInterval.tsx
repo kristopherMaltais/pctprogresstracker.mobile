@@ -12,12 +12,14 @@ type HikeIntervalProps = {
 
 export const HikeInterval: React.FC<HikeIntervalProps> = ({ interval, globalProgress, color }) => {
   const selectedHike = useUserSettingsStore((s) => s.selectedHike);
+  const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
 
+  console.log(interval.end.pathLocation);
   const animatedEnd = useDerivedValue(() => {
-    if (globalProgress.value < interval.start.pathLocation) {
-      return interval.start.pathLocation;
-    }
-    return Math.min(globalProgress.value, interval.end.pathLocation);
+    return Math.min(
+      globalProgress.value / selectedHikeTotalDistance,
+      interval.end.pathLocation / selectedHikeTotalDistance
+    );
   });
 
   return (
@@ -25,9 +27,9 @@ export const HikeInterval: React.FC<HikeIntervalProps> = ({ interval, globalProg
       path={selectedHike?.path!}
       color={color}
       style="stroke"
-      strokeCap={"round"}
+      strokeCap={"square"}
       strokeWidth={3}
-      start={interval.start.pathLocation}
+      start={interval.start.pathLocation / selectedHikeTotalDistance}
       end={animatedEnd}
     />
   );

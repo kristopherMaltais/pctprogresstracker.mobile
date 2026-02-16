@@ -24,13 +24,11 @@ export const createLocationSlice: StateCreator<FullStoreState, [], [], LocationS
   },
   editSkippedSection: (oldSection: LocationInterval, newSection: LocationInterval) => {
     set((state) => ({
-      skippedSections: state.skippedSections.map(
-        (section) =>
-          // On cherche la section qui match exactement l'ancienne
-          section.start.displayedLocation === oldSection.start.displayedLocation &&
-          section.end.displayedLocation === oldSection.end.displayedLocation
-            ? newSection // On remplace par la nouvelle
-            : section // On garde l'originale
+      skippedSections: state.skippedSections.map((section) =>
+        section.start.displayedLocation === oldSection.start.displayedLocation &&
+        section.end.displayedLocation === oldSection.end.displayedLocation
+          ? newSection
+          : section
       ),
     }));
   },

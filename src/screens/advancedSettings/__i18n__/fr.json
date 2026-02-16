@@ -31,6 +31,8 @@
     }
   },
   "editHikeTotalDistance": {
-    "title": "Distance totale"
+    "title": "Distance totale",
+    "totalDistance": "Distance totale randonnée",
+    "substractSkippedSections": "Soustraire les sections sautées"
   }
 }

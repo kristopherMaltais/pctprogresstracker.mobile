@@ -1,5 +1,6 @@
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
+import { removeSkippedSection } from "@/src/helpers/removeSkippedSectionDistance";
 import { MeasurementUnit } from "@/src/models/measurementUnit";
 import { t } from "i18next";
 import React from "react";
@@ -9,14 +10,23 @@ import { ProgressBar } from "./ProgressBar";
 export const StickerStats: React.FC = () => {
   const selectedHike = useUserSettingsStore((s) => s.selectedHike);
   const displayedLocation = useUserSettingsStore((s) => s.location.displayedLocation);
+  const skippedSections = useUserSettingsStore((s) => s.skippedSections);
   const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
   const measurementUnit = useUserSettingsStore((s) => s.measurementUnit);
   const showLogo = useUserSettingsStore((s) => s.showLogo);
+  const substractSkippedSections = useUserSettingsStore((s) => s.substractSkippedSections);
 
   const { getIcon } = useTheme();
 
   const calculatePercentage = () => {
-    return (displayedLocation * 100) / selectedHikeTotalDistance;
+    if (substractSkippedSections) {
+      return (
+        (removeSkippedSection(displayedLocation, skippedSections) * 100) /
+        removeSkippedSection(selectedHikeTotalDistance, skippedSections)
+      );
+    } else {
+      return (removeSkippedSection(displayedLocation, skippedSections) * 100) / selectedHikeTotalDistance;
+    }
   };
 
   const getMeasurementUnit = () => {
@@ -46,11 +56,14 @@ export const StickerStats: React.FC = () => {
         <View>
           <Text style={styles.label}>{t("home:sticker.total")}</Text>
           <Text style={styles.value}>
-            {selectedHikeTotalDistance} {getMeasurementUnit()}
+            {substractSkippedSections
+              ? removeSkippedSection(selectedHikeTotalDistance, skippedSections)
+              : selectedHikeTotalDistance}{" "}
+            {getMeasurementUnit()}
           </Text>
           <Text style={styles.label}>{t("home:sticker.distanceHiked")}</Text>
           <Text style={styles.value}>
-            {displayedLocation} {getMeasurementUnit()}
+            {removeSkippedSection(displayedLocation, skippedSections)} {getMeasurementUnit()}
           </Text>
         </View>
         <Text style={styles.percentage}>{calculatePercentage().toFixed(1)}%</Text>

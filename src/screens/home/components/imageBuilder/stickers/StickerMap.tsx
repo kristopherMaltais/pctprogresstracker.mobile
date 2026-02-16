@@ -4,6 +4,7 @@ import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
 import { getMeasurementUnit } from "@/src/helpers/getMeasurementUnit";
+import { removeSkippedSection } from "@/src/helpers/removeSkippedSectionDistance";
 import { Direction } from "@/src/models/direction";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,6 +17,9 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
   const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
   const measurementUnit = useUserSettingsStore((s) => s.measurementUnit);
   const displayedLocation = useUserSettingsStore((s) => s.location.displayedLocation);
+  const skippedSections = useUserSettingsStore((s) => s.skippedSections);
+  const substractSkippedSections = useUserSettingsStore((s) => s.substractSkippedSections);
+
   const showLogo = useUserSettingsStore((s) => s.showLogo);
 
   const { getIcon } = useTheme();
@@ -57,11 +61,14 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
               <Text style={styles.name}>{selectedHike?.name}</Text>
               <Text style={styles.label}>{t("home:sticker.total")}</Text>
               <Text style={styles.value}>
-                {selectedHikeTotalDistance} {getMeasurementUnit(measurementUnit)}
+                {substractSkippedSections
+                  ? removeSkippedSection(selectedHikeTotalDistance, skippedSections)
+                  : selectedHikeTotalDistance}
+                {getMeasurementUnit(measurementUnit)}
               </Text>
               <Text style={styles.label}>{t("home:sticker.distanceHiked")}</Text>
               <Text style={styles.value}>
-                {displayedLocation * selectedHikeTotalDistance} {getMeasurementUnit(measurementUnit)}
+                {removeSkippedSection(displayedLocation, skippedSections)} {getMeasurementUnit(measurementUnit)}
               </Text>
             </View>
           </View>

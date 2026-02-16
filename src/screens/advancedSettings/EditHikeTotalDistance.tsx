@@ -35,7 +35,7 @@ export const EditHikeTotalDistance: React.FC = () => {
     <ScrollView style={styles(theme).container}>
       <Text style={styles(theme).title}>{t("advancedSettings:editHikeTotalDistance.title")}</Text>
       <InputNumber
-        label="Total distance"
+        label={t("advancedSettings:editHikeTotalDistance.totalDistance")}
         value={_hikeTotalDistance}
         onChange={_setHikeTotalDistance}
         unit={measurementUnit == MeasurementUnit.KILOMETER ? "km" : "mi"}
@@ -43,7 +43,7 @@ export const EditHikeTotalDistance: React.FC = () => {
       <InputCheckbox
         checked={_substractSkippedSections}
         toggleChecked={_setSubstractSkippedSections}
-        label="Include skipped section"
+        label={t("advancedSettings:editHikeTotalDistance.substractSkippedSections")}
       />
       <Actions onSave={saveSettings} />
     </ScrollView>

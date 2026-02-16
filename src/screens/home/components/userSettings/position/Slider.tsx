@@ -17,7 +17,7 @@ export const Slider: React.FC<SliderProps> = ({ onChange }) => {
   const pathDistanceHiked = useUserSettingsStore((s) => s.location.pathLocation);
   const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
 
-  const fillHeight = useSharedValue((pathDistanceHiked * CONTAINER_HEIGHT) / selectedHikeTotalDistance);
+  const fillHeight = useSharedValue(pathDistanceHiked * CONTAINER_HEIGHT);
   const contextY = useSharedValue(0);
 
   const panGesture = Gesture.Pan()
@@ -31,7 +31,7 @@ export const Slider: React.FC<SliderProps> = ({ onChange }) => {
       fillHeight.value = newHeight;
       const newValue = (newHeight * selectedHikeTotalDistance) / CONTAINER_HEIGHT;
 
-      runOnJS(onChange)(newValue / selectedHikeTotalDistance);
+      runOnJS(onChange)(newValue);
     });
 
   const animatedFillStyle = useAnimatedStyle(() => {

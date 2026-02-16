@@ -12,26 +12,24 @@ type ModalDistanceHikedInputProps = {
 };
 
 export const ModalDistanceHikedInput: React.FC<ModalDistanceHikedInputProps> = ({ isVisible, onClose }) => {
-  const displayedLocation = useUserSettingsStore((s) => s.location.displayedLocation);
+  const currentLocation = useUserSettingsStore((s) => s.location);
   const setLocation = useUserSettingsStore((s) => s.setLocation);
   const measurementUnit = useUserSettingsStore((s) => s.measurementUnit);
   const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
-  const changeSelectedHikeTotalDistance = useUserSettingsStore((s) => s.changeSelectedHikeTotalDistance);
+  const skippedSections = useUserSettingsStore((s) => s.skippedSections);
 
   const { t } = useTranslation();
   const { theme } = useTheme();
-  const [_location, _setLocation] = useState<number>(0);
-  const [_selectedHikeTotalDistance, _setSelectedHikeTotalDistance] = useState<number>(0);
+  const [_location, _setLocation] = useState<number>(currentLocation.displayedLocation);
 
   useEffect(() => {
-    _setLocation(displayedLocation * selectedHikeTotalDistance);
-    _setSelectedHikeTotalDistance(selectedHikeTotalDistance);
-  }, [displayedLocation, selectedHikeTotalDistance]);
+    _setLocation(currentLocation.displayedLocation);
+  }, [currentLocation]);
 
   const onChangeDistanceHiked = (text: string) => {
     const parsed = parseInt(text, 10);
     if (!isNaN(parsed)) {
-      const clamped = Math.max(0, Math.min(_selectedHikeTotalDistance, parsed));
+      const clamped = Math.max(0, Math.min(selectedHikeTotalDistance, parsed));
       _setLocation(clamped);
     } else {
       _setLocation(0);
@@ -39,8 +37,7 @@ export const ModalDistanceHikedInput: React.FC<ModalDistanceHikedInputProps> = (
   };
 
   const updateDistanceHiked = () => {
-    setLocation(_location / _selectedHikeTotalDistance);
-    changeSelectedHikeTotalDistance(_selectedHikeTotalDistance);
+    setLocation(_location);
     onClose();
   };
 

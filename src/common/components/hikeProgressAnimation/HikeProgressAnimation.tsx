@@ -10,29 +10,24 @@ import { HikeInterval } from "./HikeInterval";
 type HikeProgressAnimationProps = { size?: number; skippedSectionsDisplay?: LocationInterval[] };
 
 export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({ size = 1, skippedSectionsDisplay }) => {
-  console.log(skippedSectionsDisplay);
   const { theme } = useTheme();
   const selectedHike = useUserSettingsStore((s) => s.selectedHike);
   const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
   const location = useUserSettingsStore((s) => s.location);
-  // const skippedSections = useUserSettingsStore((s) => s.skippedSections);
-
-  const skippedSections: LocationInterval[] = [
-    {
-      start: { pathLocation: 2630 / selectedHikeTotalDistance, displayedLocation: 2722 / selectedHikeTotalDistance },
-      end: { pathLocation: 3520 / selectedHikeTotalDistance, displayedLocation: 3455 / selectedHikeTotalDistance },
-    },
-  ];
+  const skippedSections = useUserSettingsStore((s) => s.skippedSections);
 
   const hikedIntervals = useMemo(() => {
     return getHikedLocationIntervals(skippedSections, location);
   }, [skippedSections, location]);
 
+  // console.log(skippedSections);
+  console.log(hikedIntervals);
+
   const globalProgress = useSharedValue(0);
 
   useEffect(() => {
     globalProgress.value = withTiming(location.pathLocation, {
-      duration: 3000,
+      duration: 1500,
     });
   }, [location]);
 
@@ -68,10 +63,10 @@ export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({ si
               path={selectedHike?.path!}
               color={theme.primary}
               style="stroke"
-              strokeCap={"round"}
+              strokeCap={"square"}
               strokeWidth={3}
-              start={interval.start.pathLocation}
-              end={interval.end.pathLocation}
+              start={interval.start.pathLocation / selectedHikeTotalDistance}
+              end={interval.end.pathLocation / selectedHikeTotalDistance}
             />
           ))
         : hikedIntervals.map((interval, index) => (

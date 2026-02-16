@@ -36,7 +36,7 @@ export const SkippedSectionSummary: React.FC<SkippedSectionSummaryProps> = ({ sk
   return (
     <>
       <Pressable
-        style={{ ...styles(theme).container, backgroundColor: isDarkMode ? theme.secondaryBackground : "#E0E0E0" }}
+        style={{ ...styles(theme).container }}
         onLongPress={() => setIsConfirmModalVisible(true)}
         onPress={openEditSkippedSection}
       >
@@ -44,14 +44,14 @@ export const SkippedSectionSummary: React.FC<SkippedSectionSummaryProps> = ({ sk
           <View style={styles(theme).location}>
             <Text style={styles(theme).label}>{t("advancedSettings:skippedSections.start")}</Text>
             <Text style={styles(theme).value}>
-              {skippedSection.start.displayedLocation * selectedHikeTotalDistance}
+              {skippedSection.start.displayedLocation}
               {measurementUnit == MeasurementUnit.KILOMETER ? "km" : "mi"}
             </Text>
           </View>
           <View style={styles(theme).location}>
             <Text style={styles(theme).label}>{t("advancedSettings:skippedSections.end")}</Text>
             <Text style={styles(theme).value}>
-              {skippedSection.end.displayedLocation * selectedHikeTotalDistance}{" "}
+              {skippedSection.end.displayedLocation}
               {measurementUnit == MeasurementUnit.KILOMETER ? "km" : "mi"}
             </Text>
           </View>
@@ -81,6 +81,11 @@ const styles = (theme: Theme) =>
       borderRadius: 8,
       marginBottom: 16,
       backgroundColor: theme.secondaryBackground,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 3 },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
+      elevation: 5,
     },
     summary: {
       flex: 1,
