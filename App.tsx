@@ -1,4 +1,5 @@
 import { registerRootComponent } from "expo";
+import * as SplashScreen from "expo-splash-screen";
 import React, { useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -13,6 +14,13 @@ import { ViewShotContextProvider } from "./src/contexts/viewShot/ViewShotContext
 import i18n from "./src/localization/i18n";
 import { Navigation } from "./src/navigation/Navigation";
 import { ScreenLayout } from "./src/screens/ScreenLayout";
+
+SplashScreen.preventAutoHideAsync();
+
+SplashScreen.setOptions({
+  duration: 500,
+  fade: true,
+});
 
 export default function App() {
   i18n.init;

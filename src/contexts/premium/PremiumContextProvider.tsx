@@ -1,7 +1,8 @@
+import * as SplashScreen from "expo-splash-screen";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Platform } from "react-native";
-import Purchases, { LOG_LEVEL, PurchasesOffering, PurchasesPackage } from "react-native-purchases";
+import Purchases, { PurchasesOffering, PurchasesPackage } from "react-native-purchases";
 import { useValidation } from "../validation/ValidationContextProvider";
 
 interface PremiumProps {
@@ -63,8 +64,7 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
 
   useEffect(() => {
     const setup = async () => {
-      Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
-
+      setPremiumState(PremiumState.PROCESSING);
       const iosProd = "appl_UKeJQmzuWxMrqCWHCQznUmTJwXe";
       const androidProd = "goog_KZgVeLKoHlIwAKYFkywbfWjdwyt";
       const test = "test_BhUMjJVhCzCqQYwysjvdZSiznmF";
@@ -82,6 +82,10 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
       const customerInfo = await Purchases.getCustomerInfo();
       const premiumEntitlement = customerInfo.entitlements.active["premium"];
       setIsPremiumUnlocked(!!premiumEntitlement?.isActive);
+
+      setTimeout(() => {
+        SplashScreen.hideAsync();
+      }, 100);
     };
 
     setup().catch(console.log);

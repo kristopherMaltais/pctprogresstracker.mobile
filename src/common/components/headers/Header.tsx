@@ -1,8 +1,6 @@
 import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
-import { AdvancedSettingsStackParamList } from "@/src/navigation/AdvancedSettingsNavigation";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -12,13 +10,11 @@ type HeaderProps = {
   toggleAppSettingsDrawer: () => void;
 };
 
-export const Header: React.FC<HeaderProps> = ({ pageTitle, toggleAppSettingsDrawer }) => {
-  const { getIcon, theme, isDarkMode } = useTheme();
+export const Header: React.FC<HeaderProps> = ({ toggleAppSettingsDrawer }) => {
+  const { getIcon, theme } = useTheme();
   const { t } = useTranslation();
-  const { setIsPremiumModalVisible, isPremiumUnlocked } = usePremium();
+  const { setIsPremiumModalVisible, isPremiumUnlocked, premiumState } = usePremium();
   const { height } = Dimensions.get("window");
-
-  const navigation = useNavigation<NavigationProp<AdvancedSettingsStackParamList>>();
 
   return (
     <View
