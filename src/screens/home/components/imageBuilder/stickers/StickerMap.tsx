@@ -63,7 +63,7 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
               <Text style={styles.value}>
                 {substractSkippedSections
                   ? removeSkippedSection(selectedHikeTotalDistance, skippedSections)
-                  : selectedHikeTotalDistance}
+                  : selectedHikeTotalDistance}{" "}
                 {getMeasurementUnit(measurementUnit)}
               </Text>
               <Text style={styles.label}>{t("home:sticker.distanceHiked")}</Text>
@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 12,
     textAlign: "center",
+    fontWeight: "700",
 
     textShadowColor: "rgba(0, 0, 0, 0.50)",
     textShadowOffset: { width: 0, height: 1 },
@@ -132,7 +133,6 @@ const styles = StyleSheet.create({
   },
 
   name: {
-    marginTop: 12,
     fontSize: 16,
     color: "white",
     fontWeight: "bold",

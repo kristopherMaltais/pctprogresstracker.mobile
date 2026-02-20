@@ -22,7 +22,7 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [_selectedHike, _setSelectedHike] = useState<Hike | HikeWithItinary>();
   const { hikes } = useHikes();
-  const { isPremiumUnlocked } = usePremium();
+  const { isPremiumUnlocked, setIsPremiumModalVisible } = usePremium();
   const selectedHike = useUserSettingsStore((s) => s.selectedHike);
   const setSelectedHike = useUserSettingsStore((s) => s.setSelectedHike);
   const { t } = useTranslation();
@@ -52,14 +52,18 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
   }, [hikes, isPremiumUnlocked]);
 
   const updateSelectedHike = (option: DropDownOption) => {
-    const hikeFound = hikes.find((hike: Hike | HikeWithItinary) => hike.id === option.value);
+    if (option.disabled) {
+      setIsPremiumModalVisible(true);
+    } else {
+      const hikeFound = hikes.find((hike: Hike | HikeWithItinary) => hike.id === option.value);
 
-    if (hikeFound) {
-      if ("itinaries" in hikeFound) {
-        _setSelectedHike(hikeFound);
-        setIsModalVisible(true);
-      } else {
-        setSelectedHike(hikeFound);
+      if (hikeFound) {
+        if ("itinaries" in hikeFound) {
+          _setSelectedHike(hikeFound);
+          setIsModalVisible(true);
+        } else {
+          setSelectedHike(hikeFound);
+        }
       }
     }
   };

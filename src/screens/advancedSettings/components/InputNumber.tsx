@@ -14,11 +14,14 @@ type InputNumberProps = {
 export const InputNumber: React.FC<InputNumberProps> = ({ value, onChange, unit, label, autoFocus }) => {
   const { theme } = useTheme();
 
+  const stringValue = value.toString();
+
   return (
     <View style={styles(theme).container}>
       <Text style={styles(theme).label}>{label}</Text>
       <View style={styles(theme).inputContainer}>
         <TextInput
+          selection={{ start: stringValue.length, end: stringValue.length }}
           style={styles(theme).input}
           keyboardType="numeric"
           value={value.toString()}

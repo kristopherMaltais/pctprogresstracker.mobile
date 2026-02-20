@@ -22,10 +22,11 @@ type userSettingsProps = {
 };
 export const UserSettings: React.FC<userSettingsProps> = ({ disabled = false, hide, closeMenu }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isPositionInputOpen, setIsPositionInputOpen] = useState<boolean>(false);
   const { getIcon, theme } = useTheme();
   const { isPremiumUnlocked } = usePremium();
   const isStickerSelectedPremium = useUserSettingsStore((s) => s.isStickerSelectedPremium);
+  const setIsCalibratePositionOpen = useUserSettingsStore((s) => s.setIsCalibratePositionOpen);
+  const isCalibratePositionOpen = useUserSettingsStore((s) => s.isCalibratePositionOpen);
 
   const position = useRef(new Animated.Value(35)).current;
 
@@ -67,10 +68,10 @@ export const UserSettings: React.FC<userSettingsProps> = ({ disabled = false, hi
           },
         ]}
       >
-        {isPositionInputOpen ? (
+        {isCalibratePositionOpen ? (
           <PositionInput
             closePositionInput={() => {
-              setIsPositionInputOpen(false);
+              setIsCalibratePositionOpen(false);
               setIsMenuOpen(false);
             }}
           />
@@ -84,7 +85,7 @@ export const UserSettings: React.FC<userSettingsProps> = ({ disabled = false, hi
                 <MeasurementUnitSwitch isMenuOpen={isMenuOpen} />
                 <Direction isMenuOpen={isMenuOpen} />
                 <ShowLogoSwitch isMenuOpen={isMenuOpen} />
-                <Position isMenuOpen={isMenuOpen} openPositionInput={() => setIsPositionInputOpen(true)} />
+                <Position isMenuOpen={isMenuOpen} openPositionInput={() => setIsCalibratePositionOpen(true)} />
                 <AdvancedSettings isMenuOpen={isMenuOpen} />
               </>
             )}

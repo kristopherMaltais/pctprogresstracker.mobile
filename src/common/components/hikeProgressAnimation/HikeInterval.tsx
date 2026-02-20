@@ -14,7 +14,6 @@ export const HikeInterval: React.FC<HikeIntervalProps> = ({ interval, globalProg
   const selectedHike = useUserSettingsStore((s) => s.selectedHike);
   const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
 
-  console.log(interval.end.pathLocation);
   const animatedEnd = useDerivedValue(() => {
     return Math.min(
       globalProgress.value / selectedHikeTotalDistance,

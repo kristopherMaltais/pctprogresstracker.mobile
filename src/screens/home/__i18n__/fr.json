@@ -65,6 +65,7 @@
     }
   },
   "share": {
+    "mention": "#sharemyhike | @sharemyhike",
     "title": "Partager votre aventure",
     "instagram": {
       "title": "Stories Instagram",

@@ -8,13 +8,17 @@ type InputNumberProps = {
   checked: Boolean;
   toggleChecked: (value: boolean) => void;
   label: string;
+  isDisabled?: boolean;
 };
 
-export const InputCheckbox: React.FC<InputNumberProps> = ({ checked, toggleChecked, label }) => {
+export const InputCheckbox: React.FC<InputNumberProps> = ({ checked, toggleChecked, label, isDisabled }) => {
   const { theme } = useTheme();
 
   return (
-    <Pressable style={styles(theme).container} onPress={() => toggleChecked(!checked)}>
+    <Pressable
+      style={{ ...styles(theme).container, opacity: isDisabled ? 0.5 : 1 }}
+      onPress={() => !isDisabled && toggleChecked(!checked)}
+    >
       <Text style={styles(theme).label}>{label}</Text>
       <View style={[styles(theme).checkbox, checked && { backgroundColor: theme.primary, borderColor: theme.primary }]}>
         {checked && <MaterialCommunityIcons name="check" size={14} color={"white"} />}

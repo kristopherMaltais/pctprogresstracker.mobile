@@ -26,24 +26,19 @@
     "restoreNoUserFound": "Aucun achat à restaurer.",
     "restoreError": "Impossible de restaurer l'achat, veuillez réessayer.",
     "description": "Profitez pleinement de votre application de randonnée avec le Forfait Premium. Il vous offre plus de liberté et des outils supplémentaires pour partager vos moments préférés.",
-    "offeringTitle": "Ce que le Forfait Premium vous offre :",
-    "allTrails": {
-      "title": "Toutes les randonnées: ",
-      "description": "Accédez à l'intégralité de notre catalogue de randonnées. Aucune limite, pour ne rien manquer de vos explorations."
-    },
-    "noLogo": {
-      "title": "Photos sans filigrane: ",
-      "description": "Partagez vos photos de randonnée sans le logo de l'application. Vos souvenirs restent entièrement à vous."
-    },
-    "allStickers": {
-      "title": "Tous les autocollants: ",
-      "description": "Accès illimité à tous les autocollants exclusifs de l'application pour personnaliser vos partages et mettre en valeur votre progression sur les réseaux sociaux."
+    "features": {
+      "allTrails": "Accès illimité à tous les sentiers",
+      "noLogo": "Retrait du logo Share my Hike",
+      "allStickers": "Débloquez tous les stickers",
+      "transparent": "Exports avec arrière-plan transparent",
+      "skippedSections": "Gestion des sauts de section",
+      "sectionHiker": "Support du Section Hiking"
     },
     "button": {
       "unlock": "Débloquer cet autocollant",
       "headerGoPremium": "Obtenir Premium",
       "success": "Achat effectué avec succès!",
-      "buy": "Accès à vie pour 4,99$"
+      "buy": "Accès à vie pour {{price}}"
     }
   },
   "errors": {

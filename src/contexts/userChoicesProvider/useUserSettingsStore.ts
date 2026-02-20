@@ -10,6 +10,7 @@ export type FullStoreState = LocationSlice & {
   backgroundImage: string | undefined;
   measurementUnit: MeasurementUnit;
   isStickerSelectedPremium: boolean;
+  isCalibratePositionOpen: boolean;
   showLogo: boolean;
   showShareMenu: boolean;
   substractSkippedSections: boolean;
@@ -20,6 +21,7 @@ export type FullStoreState = LocationSlice & {
   setIsStickerSelectedPremium: (flag: boolean) => void;
   changeSelectedHikeTotalDistance: (newValue: number) => void;
   setIsReverse: (flag: boolean) => void;
+  setIsCalibratePositionOpen: (flag: boolean) => void;
   setShowLogo: (flag: boolean) => void;
   setShowShareMenu: (flag: boolean) => void;
   setSubstractSkippedSections: (flag: boolean) => void;
@@ -30,6 +32,7 @@ export const useUserSettingsStore = create<FullStoreState>((...a) => ({
   selectedHike: undefined,
   selectedHikeTotalDistance: 0,
   isReverse: false,
+  isCalibratePositionOpen: false,
   backgroundImage: undefined,
   measurementUnit: MeasurementUnit.KILOMETER,
   isStickerSelectedPremium: false,
@@ -53,6 +56,7 @@ export const useUserSettingsStore = create<FullStoreState>((...a) => ({
   changeSelectedHikeTotalDistance: (newValue) => a[0]({ selectedHikeTotalDistance: newValue }),
   setIsReverse: (flag) => a[0]({ isReverse: flag }),
   setShowLogo: (flag) => a[0]({ showLogo: flag }),
+  setIsCalibratePositionOpen: (flag) => a[0]({ isCalibratePositionOpen: flag }),
   setShowShareMenu: (flag) => a[0]({ showShareMenu: flag }),
   setSubstractSkippedSections: (flag) => a[0]({ substractSkippedSections: flag }),
 }));

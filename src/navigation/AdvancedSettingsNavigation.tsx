@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import { AdvancesSettingsHeader } from "../common/components/AdvancedSettingsHeader";
+import { AdvancesSettingsHeader } from "../common/components/headers/AdvancedSettingsHeader";
 import { useTheme } from "../contexts/theme/ThemeContextProvider";
 import { LocationInterval } from "../models/locationInterval";
 import { AdvancedSettings } from "../screens/advancedSettings/AdvancedSettings";

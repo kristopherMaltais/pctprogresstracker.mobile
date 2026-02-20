@@ -1,3 +1,4 @@
+import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
@@ -15,6 +16,7 @@ export const EditHikeTotalDistance: React.FC = () => {
   const { theme } = useTheme();
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { isPremiumUnlocked } = usePremium();
 
   const measurementUnit = useUserSettingsStore((state) => state.measurementUnit);
   const substractSkippedSections = useUserSettingsStore((state) => state.substractSkippedSections);
@@ -41,6 +43,7 @@ export const EditHikeTotalDistance: React.FC = () => {
         unit={measurementUnit == MeasurementUnit.KILOMETER ? "km" : "mi"}
       />
       <InputCheckbox
+        isDisabled={!isPremiumUnlocked}
         checked={_substractSkippedSections}
         toggleChecked={_setSubstractSkippedSections}
         label={t("advancedSettings:editHikeTotalDistance.substractSkippedSections")}

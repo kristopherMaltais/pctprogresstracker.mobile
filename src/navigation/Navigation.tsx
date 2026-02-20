@@ -1,7 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import { Header } from "../common/components/Header";
+import { Header } from "../common/components/headers/Header";
 import { useTheme } from "../contexts/theme/ThemeContextProvider";
 import { Home } from "../screens/home/Home";
 import { AdvancedSettingsNavigation } from "./AdvancedSettingsNavigation";

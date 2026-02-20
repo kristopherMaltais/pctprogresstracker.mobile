@@ -11,17 +11,17 @@ type PositionInputProps = {
 
 export const PositionInput: React.FC<PositionInputProps> = ({ closePositionInput }) => {
   const { getIcon, theme } = useTheme();
-  const calibratePathDistanceHiked = useUserSettingsStore((s) => s.setPathLocation);
+  const setPathLocation = useUserSettingsStore((s) => s.setPathLocation);
   const displayedLocation = useUserSettingsStore((s) => s.location.displayedLocation);
 
   const unSaveChanges = () => {
-    calibratePathDistanceHiked(displayedLocation);
+    setPathLocation(displayedLocation);
     closePositionInput();
   };
 
   return (
     <View style={styles(theme).container}>
-      <Slider onChange={calibratePathDistanceHiked} />
+      <Slider onChange={setPathLocation} />
       <View style={styles(theme).buttonContainer}>
         <TouchableOpacity style={styles(theme).button} onPress={closePositionInput}>
           <Image style={styles(theme).save} source={getIcon("save")} />

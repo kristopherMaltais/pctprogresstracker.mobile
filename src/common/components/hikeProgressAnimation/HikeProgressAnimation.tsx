@@ -15,26 +15,29 @@ export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({ si
   const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
   const location = useUserSettingsStore((s) => s.location);
   const skippedSections = useUserSettingsStore((s) => s.skippedSections);
+  const isCalibratePositionOpen = useUserSettingsStore((s) => s.isCalibratePositionOpen);
 
   const hikedIntervals = useMemo(() => {
     return getHikedLocationIntervals(skippedSections, location);
   }, [skippedSections, location]);
 
-  // console.log(skippedSections);
-  console.log(hikedIntervals);
-
   const globalProgress = useSharedValue(0);
 
   useEffect(() => {
-    globalProgress.value = withTiming(location.pathLocation, {
-      duration: 1500,
-    });
+    if (isCalibratePositionOpen) {
+      globalProgress.value = location.pathLocation;
+    } else {
+      globalProgress.value = withTiming(location.pathLocation, {
+        duration: 1500,
+      });
+    }
   }, [location]);
 
   if (!selectedHike) return null;
 
   return (
     <Canvas
+      key={selectedHike.id}
       style={[
         { width: selectedHike.stickerMetadata.width, height: selectedHike.stickerMetadata.height },
         { transform: [{ scale: size }] },

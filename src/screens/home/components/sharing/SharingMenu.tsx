@@ -32,7 +32,7 @@ export const SharingMenu: React.FC<SharingMenuProps> = ({ isOpen, onClose }) => 
         shadowColor: "#000",
         shadowOffset: {
           width: 0,
-          height: -1, // On veut que l'ombre monte vers le haut
+          height: -1,
         },
         shadowOpacity: 0.1,
         elevation: 20,
@@ -45,6 +45,7 @@ export const SharingMenu: React.FC<SharingMenuProps> = ({ isOpen, onClose }) => 
       <BottomSheetView style={{ ...styles(theme).contentContainer, paddingBottom: insets.bottom + 16 }}>
         <View style={styles(theme).header}>
           <Text style={styles(theme).title}>{t("home:share.title")}</Text>
+          <Text style={styles(theme).subtitle}>{t("home:share.mention")}</Text>
           <Pressable style={styles(theme).closeButton} onPress={onClose} hitSlop={30}>
             <Image style={styles(theme).closeButtonImage} source={getIcon("close")} />
           </Pressable>
@@ -78,7 +79,7 @@ const styles = (theme: Theme) =>
     header: {
       width: "100%",
       display: "flex",
-      flexDirection: "row",
+      flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
       position: "relative",
@@ -86,6 +87,11 @@ const styles = (theme: Theme) =>
     title: {
       color: theme.text,
       fontSize: 16,
+      fontWeight: "500",
+    },
+    subtitle: {
+      color: theme.text,
+      fontSize: 12,
       fontWeight: "500",
     },
     closeButtonImage: {

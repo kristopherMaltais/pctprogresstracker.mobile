@@ -27,6 +27,7 @@ export const ModalDistanceHikedInput: React.FC<ModalDistanceHikedInputProps> = (
   }, [currentLocation]);
 
   const onChangeDistanceHiked = (text: string) => {
+    console.log(text);
     const parsed = parseInt(text, 10);
     if (!isNaN(parsed)) {
       const clamped = Math.max(0, Math.min(selectedHikeTotalDistance, parsed));
@@ -37,6 +38,7 @@ export const ModalDistanceHikedInput: React.FC<ModalDistanceHikedInputProps> = (
   };
 
   const updateDistanceHiked = () => {
+    console.log(_location);
     setLocation(_location);
     onClose();
   };
