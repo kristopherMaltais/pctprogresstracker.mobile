@@ -2,6 +2,7 @@ import { ConfirmationModal } from "@/src/common/components/modals/ConfirmationMo
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { FullStoreState, useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
+import { kilometerToMile } from "@/src/helpers/computeDistances";
 import { LocationInterval } from "@/src/models/locationInterval";
 import { MeasurementUnit } from "@/src/models/measurementUnit";
 import { AdvancedSettingsStackParamList } from "@/src/navigation/AdvancedSettingsNavigation";
@@ -44,14 +45,18 @@ export const SkippedSectionSummary: React.FC<SkippedSectionSummaryProps> = ({ sk
           <View style={styles(theme).location}>
             <Text style={styles(theme).label}>{t("advancedSettings:skippedSections.start")}</Text>
             <Text style={styles(theme).value}>
-              {skippedSection.start.displayedLocation}
+              {measurementUnit == MeasurementUnit.KILOMETER
+                ? skippedSection.start.displayedLocation
+                : kilometerToMile(skippedSection.start.displayedLocation)}
               {measurementUnit == MeasurementUnit.KILOMETER ? "km" : "mi"}
             </Text>
           </View>
           <View style={styles(theme).location}>
             <Text style={styles(theme).label}>{t("advancedSettings:skippedSections.end")}</Text>
             <Text style={styles(theme).value}>
-              {skippedSection.end.displayedLocation}
+              {measurementUnit == MeasurementUnit.KILOMETER
+                ? skippedSection.end.displayedLocation
+                : kilometerToMile(skippedSection.end.displayedLocation)}
               {measurementUnit == MeasurementUnit.KILOMETER ? "km" : "mi"}
             </Text>
           </View>
@@ -59,6 +64,7 @@ export const SkippedSectionSummary: React.FC<SkippedSectionSummaryProps> = ({ sk
         <Image style={styles(theme).editIcon} source={getIcon("advancedSettings")} />
       </Pressable>
       <ConfirmationModal
+        confirmTitle={t("common:delete")}
         message={t("advancedSettings:skippedSections.confirmDelete.message")}
         title={t("advancedSettings:skippedSections.confirmDelete.title")}
         onConfirm={onDeleteSkippedSection}

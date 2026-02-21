@@ -16,11 +16,9 @@ export const Slider: React.FC<SliderProps> = ({ onChange, maximum, value }) => {
 
   const [layoutWidth, setLayoutWidth] = useState(0);
 
-  // Shared values
   const fillWidth = useSharedValue(0);
   const contextX = useSharedValue(0);
 
-  // Sync value -> pixel width
   useEffect(() => {
     if (layoutWidth === 0) return;
 
@@ -44,7 +42,6 @@ export const Slider: React.FC<SliderProps> = ({ onChange, maximum, value }) => {
       runOnJS(onChange)(newValue);
     });
 
-  // Cache color for Reanimated stability
   const primaryColor = theme.primary || "#FFD700";
 
   const animatedFillStyle = useAnimatedStyle(() => ({

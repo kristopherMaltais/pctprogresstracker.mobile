@@ -15,15 +15,12 @@ export const Setting: React.FC<SettingProps> = ({ showLabel, icon, label, onPres
   const { getIcon, theme } = useTheme();
 
   return (
-    <View style={styles(theme).container}>
-      <TouchableOpacity
-        style={[styles(theme).button, showLabel && styles(theme).buttonOpen, { opacity: isDisabled ? 0.5 : 1 }]}
-        onPress={() => onPress()}
-      >
+    <TouchableOpacity style={styles(theme).container} onPress={() => onPress()}>
+      <View style={[styles(theme).button, showLabel && styles(theme).buttonOpen, { opacity: isDisabled ? 0.5 : 1 }]}>
         <Image style={styles(theme).image} source={getIcon(icon)} />
-      </TouchableOpacity>
+      </View>
       {showLabel && <Text style={styles(theme).label}>{label}</Text>}
-    </View>
+    </TouchableOpacity>
   );
 };
 

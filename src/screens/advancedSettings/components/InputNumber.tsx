@@ -9,12 +9,21 @@ type InputNumberProps = {
   unit?: string;
   label: string;
   autoFocus?: boolean;
+  max?: number;
 };
 
-export const InputNumber: React.FC<InputNumberProps> = ({ value, onChange, unit, label, autoFocus }) => {
+export const InputNumber: React.FC<InputNumberProps> = ({ value, onChange, unit, label, autoFocus, max }) => {
   const { theme } = useTheme();
 
   const stringValue = value.toString();
+
+  const handleOnChange = (value: string) => {
+    if (max) {
+      onChange(Math.min(Math.max(0, Number(value)), max));
+    } else {
+      onChange(Number(value));
+    }
+  };
 
   return (
     <View style={styles(theme).container}>
@@ -25,7 +34,7 @@ export const InputNumber: React.FC<InputNumberProps> = ({ value, onChange, unit,
           style={styles(theme).input}
           keyboardType="numeric"
           value={value.toString()}
-          onChangeText={(value: string) => onChange(Number(value))}
+          onChangeText={handleOnChange}
           autoFocus={autoFocus}
         />
         {unit && <Text style={styles(theme).unitText}>{unit}</Text>}

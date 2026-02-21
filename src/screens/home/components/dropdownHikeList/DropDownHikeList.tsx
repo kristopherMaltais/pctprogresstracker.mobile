@@ -25,8 +25,22 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
   const { isPremiumUnlocked, setIsPremiumModalVisible } = usePremium();
   const selectedHike = useUserSettingsStore((s) => s.selectedHike);
   const setSelectedHike = useUserSettingsStore((s) => s.setSelectedHike);
+  const selectedHikeId = useUserSettingsStore((s) => s.selectedHikeId);
   const { t } = useTranslation();
   const { theme } = useTheme();
+
+  useEffect(() => {
+    if (selectedHikeId && !selectedHike && hikes.length > 0) {
+      const savedHike = hikes.find((hike: Hike | HikeWithItinary) => hike.id === selectedHikeId);
+
+      if (savedHike && "itinaries" in savedHike) {
+        _setSelectedHike(savedHike);
+        setIsModalVisible(true);
+      } else {
+        setSelectedHike(savedHike as Hike);
+      }
+    }
+  }, [hikes, selectedHikeId, selectedHike]);
 
   useEffect(() => {
     setHikeList(

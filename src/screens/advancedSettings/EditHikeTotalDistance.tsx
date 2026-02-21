@@ -2,6 +2,7 @@ import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
+import { kilometerToMile, mileToKilometer } from "@/src/helpers/computeDistances";
 import { MeasurementUnit } from "@/src/models/measurementUnit";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
@@ -22,13 +23,19 @@ export const EditHikeTotalDistance: React.FC = () => {
   const substractSkippedSections = useUserSettingsStore((state) => state.substractSkippedSections);
   const setSubstractSkippedSections = useUserSettingsStore((state) => state.setSubstractSkippedSections);
   const selectedHikeTotalDistance = useUserSettingsStore((state) => state.selectedHikeTotalDistance);
-  const changeSelectedHikeTotalDistance = useUserSettingsStore((state) => state.changeSelectedHikeTotalDistance);
+  const setSelectedHikeTotalDistance = useUserSettingsStore((state) => state.setSelectedHikeTotalDistance);
 
   const [_substractSkippedSections, _setSubstractSkippedSections] = useState<boolean>(substractSkippedSections);
-  const [_hikeTotalDistance, _setHikeTotalDistance] = useState<number>(selectedHikeTotalDistance);
+  const [_hikeTotalDistance, _setHikeTotalDistance] = useState<number>(
+    measurementUnit == MeasurementUnit.KILOMETER
+      ? selectedHikeTotalDistance
+      : kilometerToMile(selectedHikeTotalDistance)
+  );
 
   const saveSettings = () => {
-    changeSelectedHikeTotalDistance(_hikeTotalDistance);
+    setSelectedHikeTotalDistance(
+      measurementUnit == MeasurementUnit.MILE ? mileToKilometer(_hikeTotalDistance) : _hikeTotalDistance
+    );
     setSubstractSkippedSections(_substractSkippedSections);
     navigation.goBack();
   };

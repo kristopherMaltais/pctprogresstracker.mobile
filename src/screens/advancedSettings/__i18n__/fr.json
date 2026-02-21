@@ -1,5 +1,10 @@
 {
   "screenTitle": "Paramètres avancés",
+  "resetSettings": {
+    "title": "Réinitialiser les paramètres",
+    "message": "Réinitialise tous les paramètres. Cette action ne peut pas être annulée.",
+    "confirmButton": "Réinitialiser"
+  },
   "hikeSettings": {
     "title": "Paramètres de la randonnée"
   },

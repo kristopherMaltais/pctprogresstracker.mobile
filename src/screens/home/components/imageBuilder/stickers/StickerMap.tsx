@@ -3,9 +3,11 @@ import { HikeProgressAnimation } from "@/src/common/components/hikeProgressAnima
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
+import { kilometerToMile } from "@/src/helpers/computeDistances";
 import { getMeasurementUnit } from "@/src/helpers/getMeasurementUnit";
 import { removeSkippedSection } from "@/src/helpers/removeSkippedSectionDistance";
 import { Direction } from "@/src/models/direction";
+import { MeasurementUnit } from "@/src/models/measurementUnit";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, View } from "react-native";
@@ -41,6 +43,25 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
     [setViewShotTransparentBackgroud]
   );
 
+  const getTotalDistance = () => {
+    var distance = selectedHikeTotalDistance;
+
+    if (substractSkippedSections) {
+      distance = removeSkippedSection(selectedHikeTotalDistance, skippedSections);
+    }
+
+    if (measurementUnit == MeasurementUnit.MILE) {
+      distance = kilometerToMile(distance);
+    }
+
+    return distance;
+  };
+
+  const getDistanceHiked = () => {
+    var distance = removeSkippedSection(displayedLocation, skippedSections);
+    return measurementUnit == MeasurementUnit.KILOMETER ? distance : kilometerToMile(distance);
+  };
+
   if (!selectedHike) {
     return null;
   }
@@ -61,14 +82,11 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
               <Text style={styles.name}>{selectedHike?.name}</Text>
               <Text style={styles.label}>{t("home:sticker.total")}</Text>
               <Text style={styles.value}>
-                {substractSkippedSections
-                  ? removeSkippedSection(selectedHikeTotalDistance, skippedSections)
-                  : selectedHikeTotalDistance}{" "}
-                {getMeasurementUnit(measurementUnit)}
+                {getTotalDistance()} {getMeasurementUnit(measurementUnit)}
               </Text>
               <Text style={styles.label}>{t("home:sticker.distanceHiked")}</Text>
               <Text style={styles.value}>
-                {removeSkippedSection(displayedLocation, skippedSections)} {getMeasurementUnit(measurementUnit)}
+                {getDistanceHiked()} {getMeasurementUnit(measurementUnit)}
               </Text>
             </View>
           </View>

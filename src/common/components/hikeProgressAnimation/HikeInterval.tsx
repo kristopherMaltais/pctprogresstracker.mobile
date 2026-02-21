@@ -6,12 +6,11 @@ import { SharedValue, useDerivedValue } from "react-native-reanimated";
 type HikeIntervalProps = {
   interval: LocationInterval;
   globalProgress: SharedValue<number>;
-  path: string;
   color: string;
+  path: string;
 };
 
-export const HikeInterval: React.FC<HikeIntervalProps> = ({ interval, globalProgress, color }) => {
-  const selectedHike = useUserSettingsStore((s) => s.selectedHike);
+export const HikeInterval: React.FC<HikeIntervalProps> = ({ interval, globalProgress, color, path }) => {
   const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
 
   const animatedEnd = useDerivedValue(() => {
@@ -23,7 +22,7 @@ export const HikeInterval: React.FC<HikeIntervalProps> = ({ interval, globalProg
 
   return (
     <Path
-      path={selectedHike?.path!}
+      path={path}
       color={color}
       style="stroke"
       strokeCap={"square"}

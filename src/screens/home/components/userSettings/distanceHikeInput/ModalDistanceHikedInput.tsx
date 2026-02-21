@@ -1,7 +1,9 @@
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
+import { kilometerToMile, mileToKilometer } from "@/src/helpers/computeDistances";
 import { getMeasurementUnit } from "@/src/helpers/getMeasurementUnit";
+import { MeasurementUnit } from "@/src/models/measurementUnit";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Modal, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
@@ -16,18 +18,24 @@ export const ModalDistanceHikedInput: React.FC<ModalDistanceHikedInputProps> = (
   const setLocation = useUserSettingsStore((s) => s.setLocation);
   const measurementUnit = useUserSettingsStore((s) => s.measurementUnit);
   const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
-  const skippedSections = useUserSettingsStore((s) => s.skippedSections);
 
   const { t } = useTranslation();
   const { theme } = useTheme();
-  const [_location, _setLocation] = useState<number>(currentLocation.displayedLocation);
+  const [_location, _setLocation] = useState<number>(
+    measurementUnit == MeasurementUnit.KILOMETER
+      ? currentLocation.displayedLocation
+      : kilometerToMile(currentLocation.displayedLocation)
+  );
 
   useEffect(() => {
-    _setLocation(currentLocation.displayedLocation);
-  }, [currentLocation]);
+    _setLocation(
+      measurementUnit == MeasurementUnit.KILOMETER
+        ? currentLocation.displayedLocation
+        : kilometerToMile(currentLocation.displayedLocation)
+    );
+  }, [currentLocation, measurementUnit]);
 
   const onChangeDistanceHiked = (text: string) => {
-    console.log(text);
     const parsed = parseInt(text, 10);
     if (!isNaN(parsed)) {
       const clamped = Math.max(0, Math.min(selectedHikeTotalDistance, parsed));
@@ -38,8 +46,7 @@ export const ModalDistanceHikedInput: React.FC<ModalDistanceHikedInputProps> = (
   };
 
   const updateDistanceHiked = () => {
-    console.log(_location);
-    setLocation(_location);
+    setLocation(measurementUnit == MeasurementUnit.MILE ? mileToKilometer(_location) : _location);
     onClose();
   };
 

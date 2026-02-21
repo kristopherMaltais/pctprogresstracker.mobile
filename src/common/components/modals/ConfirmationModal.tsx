@@ -10,9 +10,17 @@ type ModalErrorProps = {
   isVisible: boolean;
   closeModal: () => void;
   onConfirm: () => void;
+  confirmTitle: string;
 };
 
-export const ConfirmationModal: React.FC<ModalErrorProps> = ({ isVisible, closeModal, message, title, onConfirm }) => {
+export const ConfirmationModal: React.FC<ModalErrorProps> = ({
+  isVisible,
+  closeModal,
+  message,
+  title,
+  onConfirm,
+  confirmTitle,
+}) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
 
@@ -36,7 +44,7 @@ export const ConfirmationModal: React.FC<ModalErrorProps> = ({ isVisible, closeM
               <Text style={{ ...styles(theme).buttonText, color: theme.text }}>{t("common:cancel")}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles(theme).confirmButton} hitSlop={30} onPress={handleOnConfirm}>
-              <Text style={styles(theme).buttonText}>{t("common:delete")}</Text>
+              <Text style={styles(theme).buttonText}>{confirmTitle}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -94,9 +102,10 @@ const styles = (theme: Theme) =>
       justifyContent: "center",
       alignItems: "center",
       paddingVertical: 8,
+      paddingHorizontal: 8,
       borderRadius: 8,
       marginBottom: 16,
-      width: 100,
+
       backgroundColor: theme.primary,
     },
     buttonText: {

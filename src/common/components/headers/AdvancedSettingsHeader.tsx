@@ -27,7 +27,7 @@ export const AdvancesSettingsHeader: React.FC<HeaderProps> = ({ pageTitle, toggl
     >
       <View style={styles(theme).body}>
         <View style={styles(theme).titleContainer}>
-          <Pressable onPress={() => navigation.goBack()}>
+          <Pressable onPress={() => navigation.goBack()} hitSlop={100}>
             <Image
               style={{ width: 18, height: 18, transform: [{ rotate: "180deg" }] }}
               source={getIcon("backHeader")}

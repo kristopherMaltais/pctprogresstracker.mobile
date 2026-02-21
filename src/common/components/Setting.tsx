@@ -72,7 +72,7 @@ const styles = (theme: Theme) =>
     title: {
       fontWeight: "500",
       color: theme.text,
-      fontSize: 14,
+      fontSize: 16,
     },
     chevron: {
       width: 10,

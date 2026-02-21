@@ -12,7 +12,7 @@ export const Direction: React.FC<DirectionProps> = ({ isMenuOpen }) => {
   const setIsReverse = useUserSettingsStore((s) => s.setIsReverse);
   return (
     <Setting
-      icon="direction"
+      icon={isReverse ? "directionDown" : "directionUp"}
       label={t("home:userSettings.direction")}
       showLabel={isMenuOpen}
       onPress={() => setIsReverse(!isReverse)}

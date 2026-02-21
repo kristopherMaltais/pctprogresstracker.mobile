@@ -8,6 +8,5 @@ export type Hike = {
   stickerMetadata: StickerMetadata;
   regions: string[];
   border: string;
-  totalDistanceKilometer: number;
-  totalDistanceMile: number;
+  totalDistance: number;
 };

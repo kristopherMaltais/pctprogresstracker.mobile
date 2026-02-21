@@ -19,9 +19,9 @@ export const ModalPremium: React.FC<ModalPremiumProps> = ({ isVisible, onCancel,
 
   return (
     <Modal animationType="slide" transparent={true} visible={isVisible}>
-      <View style={styles(theme).centeredView}>
+      <Pressable style={styles(theme).centeredView} onPress={onCancel}>
         <View style={styles(theme).modalView}>
-          <Pressable style={styles(theme).header} onPress={onCancel}>
+          <Pressable style={styles(theme).header} onPress={() => onCancel}>
             <Text style={styles(theme).title}>{t("common:premium.title")}</Text>
             <Image style={styles(theme).close} source={getIcon("close")} />
           </Pressable>
@@ -47,7 +47,7 @@ export const ModalPremium: React.FC<ModalPremiumProps> = ({ isVisible, onCancel,
             )}
           </View>
         </View>
-      </View>
+      </Pressable>
     </Modal>
   );
 };

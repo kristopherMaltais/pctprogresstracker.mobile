@@ -1,5 +1,10 @@
 {
   "screenTitle": "Advanced Settings",
+  "resetSettings": {
+    "title": "reset Settings",
+    "message": "This will restore all settings to their default values. This action cannot be undone.",
+    "confirmButton": "reset"
+  },
   "hikeSettings": {
     "title": "Hike settings"
   },
