@@ -9,7 +9,7 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "buildNumber": "14",
+      "buildNumber": "15",
       "supportsTablet": false,
       "bundleIdentifier": "com.kristopher.sharemyhike",
       "icon": {
@@ -20,10 +20,7 @@
       "appleTeamId": "MQRH4DGV42",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
-        "LSApplicationQueriesSchemes": [
-          "instagram-stories",
-          "instagram"
-        ]
+        "LSApplicationQueriesSchemes": ["instagram-stories", "instagram"]
       }
     },
     "android": {
@@ -45,13 +42,8 @@
       [
         "react-native-share",
         {
-          "ios": [
-            "instagram",
-            "instagram-stories"
-          ],
-          "android": [
-            "com.instagram.android"
-          ],
+          "ios": ["instagram", "instagram-stories"],
+          "android": ["com.instagram.android"],
           "enableBase64ShareAndroid": true
         }
       ],
