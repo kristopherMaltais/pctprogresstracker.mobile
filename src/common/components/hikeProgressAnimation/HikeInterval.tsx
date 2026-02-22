@@ -1,18 +1,22 @@
-import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { LocationInterval } from "@/src/models/locationInterval";
 import { Path } from "@shopify/react-native-skia";
 import { SharedValue, useDerivedValue } from "react-native-reanimated";
 
 type HikeIntervalProps = {
+  selectedHikeTotalDistance: number;
   interval: LocationInterval;
   globalProgress: SharedValue<number>;
   color: string;
   path: string;
 };
 
-export const HikeInterval: React.FC<HikeIntervalProps> = ({ interval, globalProgress, color, path }) => {
-  const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
-
+export const HikeInterval: React.FC<HikeIntervalProps> = ({
+  interval,
+  globalProgress,
+  color,
+  path,
+  selectedHikeTotalDistance,
+}) => {
   const animatedEnd = useDerivedValue(() => {
     return Math.min(
       globalProgress.value / selectedHikeTotalDistance,

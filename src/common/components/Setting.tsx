@@ -12,7 +12,8 @@ type SettingProps = {
   settingDisabled?: boolean;
   icon?: string;
   onSettingPress?: () => void;
-  isLocked?: boolean;
+  isPremium?: boolean;
+  isDisabled?: boolean;
 };
 
 export const Setting: React.FC<SettingProps> = ({
@@ -22,15 +23,16 @@ export const Setting: React.FC<SettingProps> = ({
   icon,
   settingDisabled,
   onSettingPress,
-  isLocked,
+  isDisabled,
+  isPremium,
 }) => {
   const { getIcon, theme } = useTheme();
-  const { setIsPremiumModalVisible, isPremiumUnlocked } = usePremium();
+  const { setIsPremiumModalVisible } = usePremium();
 
   const handlePress = () => {
-    if (isLocked) {
+    if (isPremium) {
       setIsPremiumModalVisible(true);
-    } else {
+    } else if (!isDisabled) {
       onSettingPress && onSettingPress();
     }
   };
@@ -38,7 +40,7 @@ export const Setting: React.FC<SettingProps> = ({
   return (
     <TouchableOpacity style={{ ...styles(theme).container, opacity: settingDisabled ? 0.5 : 1 }} onPress={handlePress}>
       {icon && <Image source={getIcon(icon)} style={styles(theme).icon} />}
-      <Text style={{ ...styles(theme).title, opacity: isLocked ? 0.5 : 1 }}>{name}</Text>
+      <Text style={{ ...styles(theme).title, opacity: isPremium || isDisabled ? 0.5 : 1 }}>{name}</Text>
       <View style={styles(theme).clickable}>
         {isToggle ? (
           <Switch
@@ -54,7 +56,7 @@ export const Setting: React.FC<SettingProps> = ({
           <Image
             accessibilityRole="image"
             source={getIcon("rightChevron")}
-            style={{ ...styles(theme).chevron, opacity: isLocked ? 0.5 : 1 }}
+            style={{ ...styles(theme).chevron, opacity: isPremium || isDisabled ? 0.5 : 1 }}
           />
         )}
       </View>

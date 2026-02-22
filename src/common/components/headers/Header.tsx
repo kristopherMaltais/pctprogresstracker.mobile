@@ -3,7 +3,7 @@ import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, Image, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 type HeaderProps = {
   pageTitle: string;
@@ -20,7 +20,7 @@ export const Header: React.FC<HeaderProps> = ({ toggleAppSettingsDrawer }) => {
     <View
       style={{
         ...styles(theme).container,
-        height: height * 0.06,
+        height: Platform.OS == "android" ? height * 0.08 : height * 0.06,
       }}
     >
       <View style={styles(theme).body}>

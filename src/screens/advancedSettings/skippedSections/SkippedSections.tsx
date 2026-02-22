@@ -66,6 +66,7 @@ const styles = (theme: Theme) =>
       backgroundColor: theme.background,
       paddingTop: 24,
       paddingHorizontal: 16,
+      paddingBottom: 100,
     },
     title: {
       fontSize: 16,

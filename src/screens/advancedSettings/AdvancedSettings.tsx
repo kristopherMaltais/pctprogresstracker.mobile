@@ -20,6 +20,7 @@ export const AdvancedSettings: React.FC = () => {
   const openEditSkippedSection = () => navigation.navigate("skippedSections");
   const openEditHikeTotalDistance = () => navigation.navigate("editHikeTotalDistance");
   const resetStore = useUserSettingsStore((s) => s.resetStore);
+  const selectedHike = useUserSettingsStore((s) => s.selectedHike);
 
   const [isConfirmModalVisible, setIsConfirmModalVisible] = useState<boolean>(false);
 
@@ -28,7 +29,8 @@ export const AdvancedSettings: React.FC = () => {
       <View style={styles(theme).body}>
         <SettingSection title={t("advancedSettings:hikeSettings.title")}>
           <Setting
-            isLocked={!isPremiumUnlocked}
+            isDisabled={selectedHike?.stickerMetadata.isRoundTrip}
+            isPremium={!isPremiumUnlocked}
             name={t("advancedSettings:skippedSections.title")}
             onSettingPress={openEditSkippedSection}
           />

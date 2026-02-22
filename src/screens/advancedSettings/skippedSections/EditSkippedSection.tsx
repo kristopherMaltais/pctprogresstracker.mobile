@@ -114,7 +114,7 @@ export const EditSkippedSection: React.FC = () => {
   };
 
   return (
-    <ScrollView style={styles(theme).container}>
+    <ScrollView style={styles(theme).container} contentContainerStyle={{ paddingBottom: 100 }}>
       <Text style={styles(theme).title}>
         {t(`advancedSettings:editSkippedSection.${params.isEditMode ? "titleEdit" : "titleAdd"}`)}
       </Text>
@@ -182,6 +182,13 @@ const styles = (theme: Theme) =>
       minHeight: 140,
       marginBottom: 20,
       padding: 10,
+      backgroundColor: theme.secondaryBackground,
+
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 3 },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
+      elevation: 5,
     },
     note: {
       color: theme.text,

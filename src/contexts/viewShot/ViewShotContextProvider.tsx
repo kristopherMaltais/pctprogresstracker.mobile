@@ -26,7 +26,6 @@ export const ViewShotContextProvider = ({ children }: ViewShotProviderProps) => 
   const [viewShot, setViewShotState] = useState<ViewShot>();
   const [viewShotTransparentBackground, setViewShotTransparentBackgroundState] = useState<ViewShot>();
 
-  // On stabilise les fonctions de mise à jour avec useCallback
   const setViewShot = useCallback((ref: ViewShot) => {
     setViewShotState(ref);
   }, []);
@@ -35,8 +34,6 @@ export const ViewShotContextProvider = ({ children }: ViewShotProviderProps) => 
     setViewShotTransparentBackgroundState(ref);
   }, []);
 
-  // On stabilise l'objet de contexte avec useMemo.
-  // Il ne changera que si une des deux références d'image change réellement.
   const contextValue: ViewShotProps = useMemo(
     () => ({
       setViewShot,

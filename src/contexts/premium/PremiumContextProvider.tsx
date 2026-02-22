@@ -67,9 +67,9 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
       setPremiumState(PremiumState.PROCESSING);
       const iosProd = "appl_UKeJQmzuWxMrqCWHCQznUmTJwXe";
       const androidProd = "goog_KZgVeLKoHlIwAKYFkywbfWjdwyt";
-      const test = "test_BhUMjJVhCzCqQYwysjvdZSiznmF";
+      const test = "goog_KZgVeLKoHlIwAKYFkywbfWjdwyt";
 
-      const apiKey = Platform.OS === "ios" ? (isDev ? test : iosProd) : isDev ? test : androidProd;
+      const apiKey = Platform.OS === "ios" ? iosProd : androidProd;
 
       if (apiKey) {
         Purchases.configure({ apiKey: apiKey });
