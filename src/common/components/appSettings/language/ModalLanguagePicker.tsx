@@ -37,7 +37,7 @@ export const ModalLanguagePicker: React.FC<ModalLanguagePickerProps> = ({
               onPress={() => onLanguageChange("fr")}
             >
               <Image source={getIcon("quebecFlag")} style={styles(theme).image} />
-              <Text style={styles(theme).language}>{t("index:settings.language.french")}</Text>
+              <Text style={styles(theme).language}>{t("common:settings.language.french")}</Text>
             </Pressable>
             <Pressable
               testID="en-pressable"
@@ -49,7 +49,7 @@ export const ModalLanguagePicker: React.FC<ModalLanguagePickerProps> = ({
               onPress={() => onLanguageChange("en")}
             >
               <Image source={getIcon("usaFlag")} style={styles(theme).image} />
-              <Text style={styles(theme).language}>{t("index:settings.language.english")}</Text>
+              <Text style={styles(theme).language}>{t("common:settings.language.english")}</Text>
             </Pressable>
           </View>
         </View>

@@ -7,6 +7,7 @@
     "distanceHiked": "Distance hiked"
   },
   "cancel": "Cancel",
+  "delete": "Delete",
   "userSettings": {
     "backgroundImage": "Image",
     "share": "Share",
@@ -15,7 +16,8 @@
     "position": "Position",
     "mile": "Mile",
     "kilometer": "Kilometer",
-    "logo": "App Logo"
+    "logo": "App Logo",
+    "advancedSettings": "More"
   },
   "settings": {
     "title": "Settings",
@@ -42,18 +44,13 @@
     "restoreNoUserFound": "No purchases to restore.",
     "restoreError": "Unable to restore purchase, please try again.",
     "description": "Fully enjoy your hiking app with the Premium plan. It offers you more freedom and extra tools to share your favorite moments.",
-    "offeringTitle": "What the Premium Plan offers you:",
-    "allTrails": {
-      "title": "All Trails: ",
-      "description": "Access our entire catalog of hikes. No limits, so you don't miss any of your explorations."
-    },
-    "noLogo": {
-      "title": "Photos without Watermark: ",
-      "description": "Share your hiking photos without the app's logo. Your memories remain entirely yours."
-    },
-    "allStickers": {
-      "title": "All Stickers: ",
-      "description": "Get unlimited access to all the app's exclusive stickers to customize your shares and highlight your progress on social media."
+    "features": {
+      "allTrails": "Unlimited access to all trails",
+      "noLogo": "Remove Share my Hike watermark",
+      "allStickers": "Unlock all sticker styles",
+      "transparent": "Transparent background exports",
+      "skippedSections": "Track skipped sections",
+      "sectionHiker": "Track Section Hiking"
     },
     "button": {
       "unlock": "Unlock this sticker",

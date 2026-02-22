@@ -1,11 +1,11 @@
 import { useHikes } from "@/src/contexts/hikes/HikesContextProvider";
-import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { Hike } from "@/src/models/hike";
 
 import { ItinarySelectModal } from "@/src/common/components/modals/ItinarySelectModal";
 import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
+import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { DropDownOption } from "@/src/models/dropdownOption";
 import { HikeWithItinary } from "@/src/models/hikeWithItinary";
 import { Itinary } from "@/src/models/itinary";
@@ -22,10 +22,25 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [_selectedHike, _setSelectedHike] = useState<Hike | HikeWithItinary>();
   const { hikes } = useHikes();
-  const { isPremiumUnlocked } = usePremium();
-  const { selectedHike, setSelectedHike } = useUserChoices();
+  const { isPremiumUnlocked, setIsPremiumModalVisible } = usePremium();
+  const selectedHike = useUserSettingsStore((s) => s.selectedHike);
+  const setSelectedHike = useUserSettingsStore((s) => s.setSelectedHike);
+  const selectedHikeId = useUserSettingsStore((s) => s.selectedHikeId);
   const { t } = useTranslation();
   const { theme } = useTheme();
+
+  useEffect(() => {
+    if (selectedHikeId && !selectedHike && hikes.length > 0) {
+      const savedHike = hikes.find((hike: Hike | HikeWithItinary) => hike.id === selectedHikeId);
+
+      if (savedHike && "itinaries" in savedHike) {
+        _setSelectedHike(savedHike);
+        setIsModalVisible(true);
+      } else {
+        setSelectedHike(savedHike as Hike);
+      }
+    }
+  }, [hikes, selectedHikeId, selectedHike]);
 
   useEffect(() => {
     setHikeList(
@@ -51,14 +66,18 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
   }, [hikes, isPremiumUnlocked]);
 
   const updateSelectedHike = (option: DropDownOption) => {
-    const hikeFound = hikes.find((hike: Hike | HikeWithItinary) => hike.id === option.value);
+    if (option.disabled) {
+      setIsPremiumModalVisible(true);
+    } else {
+      const hikeFound = hikes.find((hike: Hike | HikeWithItinary) => hike.id === option.value);
 
-    if (hikeFound) {
-      if ("itinaries" in hikeFound) {
-        _setSelectedHike(hikeFound);
-        setIsModalVisible(true);
-      } else {
-        setSelectedHike(hikeFound);
+      if (hikeFound) {
+        if ("itinaries" in hikeFound) {
+          _setSelectedHike(hikeFound);
+          setIsModalVisible(true);
+        } else {
+          setSelectedHike(hikeFound);
+        }
       }
     }
   };
@@ -86,7 +105,7 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
         labelField="label"
         valueField="value"
         renderItem={(option: DropDownOption, selected?: boolean) => <Option option={option} selected={selected} />}
-        placeholder={t("index:dropDownHikeListPlaceHolder")}
+        placeholder={t("home:dropDownHikeListPlaceHolder")}
         disable={hikes.length == 0}
         selectedTextStyle={{ color: theme.text }}
         containerStyle={{
@@ -99,7 +118,7 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
           backgroundColor: theme.secondaryBackground,
         }}
         placeholderStyle={{ color: theme.text }}
-        searchPlaceholder={t("index:dropDownHikeSearchInputPlaceholder")}
+        searchPlaceholder={t("home:dropDownHikeSearchInputPlaceholder")}
       />
       {_selectedHike && "itinaries" in _selectedHike && (
         <ItinarySelectModal

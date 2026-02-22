@@ -1,10 +1,13 @@
 import { GestureWrapper } from "@/src/common/components/GestureWrapper";
-import { HikeProgressAnimation } from "@/src/common/components/HikeProgressAnimation";
+import { HikeProgressAnimation } from "@/src/common/components/hikeProgressAnimation/HikeProgressAnimation";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
-import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
+import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
+import { kilometerToMile } from "@/src/helpers/computeDistances";
 import { getMeasurementUnit } from "@/src/helpers/getMeasurementUnit";
+import { removeSkippedSection } from "@/src/helpers/removeSkippedSectionDistance";
 import { Direction } from "@/src/models/direction";
+import { MeasurementUnit } from "@/src/models/measurementUnit";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, View } from "react-native";
@@ -12,8 +15,14 @@ import ViewShot from "react-native-view-shot";
 
 type StickerMapProps = {};
 export const StickerMap: React.FC<StickerMapProps> = () => {
-  const { selectedHike, selectedHikeTotalDistance, measurementUnit, displayedDistanceHiked, showLogo } =
-    useUserChoices();
+  const selectedHike = useUserSettingsStore((s) => s.selectedHike);
+  const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
+  const measurementUnit = useUserSettingsStore((s) => s.measurementUnit);
+  const displayedLocation = useUserSettingsStore((s) => s.location.displayedLocation);
+  const skippedSections = useUserSettingsStore((s) => s.skippedSections);
+  const substractSkippedSections = useUserSettingsStore((s) => s.substractSkippedSections);
+
+  const showLogo = useUserSettingsStore((s) => s.showLogo);
 
   const { getIcon } = useTheme();
   const { t } = useTranslation();
@@ -34,6 +43,25 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
     [setViewShotTransparentBackgroud]
   );
 
+  const getTotalDistance = () => {
+    var distance = selectedHikeTotalDistance;
+
+    if (substractSkippedSections) {
+      distance = removeSkippedSection(selectedHikeTotalDistance, skippedSections);
+    }
+
+    if (measurementUnit == MeasurementUnit.MILE) {
+      distance = kilometerToMile(distance);
+    }
+
+    return distance;
+  };
+
+  const getDistanceHiked = () => {
+    var distance = removeSkippedSection(displayedLocation, skippedSections);
+    return measurementUnit == MeasurementUnit.KILOMETER ? distance : kilometerToMile(distance);
+  };
+
   if (!selectedHike) {
     return null;
   }
@@ -52,13 +80,13 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
             {showLogo && <Image source={getIcon("iconWithTextBackground")} style={styles.logo} />}
             <View>
               <Text style={styles.name}>{selectedHike?.name}</Text>
-              <Text style={styles.label}>{t("index:sticker.total")}</Text>
+              <Text style={styles.label}>{t("home:sticker.total")}</Text>
               <Text style={styles.value}>
-                {selectedHikeTotalDistance} {getMeasurementUnit(measurementUnit)}
+                {getTotalDistance()} {getMeasurementUnit(measurementUnit)}
               </Text>
-              <Text style={styles.label}>{t("index:sticker.distanceHiked")}</Text>
+              <Text style={styles.label}>{t("home:sticker.distanceHiked")}</Text>
               <Text style={styles.value}>
-                {displayedDistanceHiked} {getMeasurementUnit(measurementUnit)}
+                {getDistanceHiked()} {getMeasurementUnit(measurementUnit)}
               </Text>
             </View>
           </View>
@@ -105,6 +133,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 12,
     textAlign: "center",
+    fontWeight: "700",
 
     textShadowColor: "rgba(0, 0, 0, 0.50)",
     textShadowOffset: { width: 0, height: 1 },
@@ -122,7 +151,6 @@ const styles = StyleSheet.create({
   },
 
   name: {
-    marginTop: 12,
     fontSize: 16,
     color: "white",
     fontWeight: "bold",

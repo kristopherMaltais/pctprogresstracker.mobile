@@ -19,10 +19,10 @@ export const ModalPremium: React.FC<ModalPremiumProps> = ({ isVisible, onCancel,
 
   return (
     <Modal animationType="slide" transparent={true} visible={isVisible}>
-      <View style={styles(theme).centeredView}>
+      <Pressable style={styles(theme).centeredView} onPress={onCancel}>
         <View style={styles(theme).modalView}>
-          <Pressable style={styles(theme).header} onPress={onCancel}>
-            <Text style={styles(theme).title}>{t("index:premium.title")}</Text>
+          <Pressable style={styles(theme).header} onPress={() => onCancel}>
+            <Text style={styles(theme).title}>{t("common:premium.title")}</Text>
             <Image style={styles(theme).close} source={getIcon("close")} />
           </Pressable>
           <Offering />
@@ -33,19 +33,21 @@ export const ModalPremium: React.FC<ModalPremiumProps> = ({ isVisible, onCancel,
               onPress={onConfirm}
             >
               {(premiumState == PremiumState.PENDING || premiumState == PremiumState.ERROR) && (
-                <Text style={styles(theme).confirmButtonText}>{t("index:premium.button.buy", { price: price })}</Text>
+                <Text style={styles(theme).confirmButtonText}>{t("common:premium.button.buy", { price: price })}</Text>
               )}
               {premiumState == PremiumState.PROCESSING && <ActivityIndicator />}
               {premiumState == PremiumState.SUCCESS && (
                 <>
-                  <Text style={styles(theme).confirmButtonText}>{t("index:premium.button.success")}</Text>
+                  <Text style={styles(theme).confirmButtonText}>{t("common:premium.button.success")}</Text>
                 </>
               )}
             </Pressable>
-            {premiumState == PremiumState.ERROR && <Text style={styles(theme).error}>{t("index:errors.premium")}</Text>}
+            {premiumState == PremiumState.ERROR && (
+              <Text style={styles(theme).error}>{t("common:errors.premium")}</Text>
+            )}
           </View>
         </View>
-      </View>
+      </Pressable>
     </Modal>
   );
 };

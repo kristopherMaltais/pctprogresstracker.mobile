@@ -1,4 +1,4 @@
-import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
+import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { MeasurementUnit } from "@/src/models/measurementUnit";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -9,14 +9,8 @@ type MeasurementUnitSwitchProps = {
 };
 
 export const MeasurementUnitSwitch: React.FC<MeasurementUnitSwitchProps> = ({ isMenuOpen }) => {
-  const {
-    measurementUnit,
-    setMeasurementUnit,
-    setDistanceHiked,
-    pathDistanceHiked,
-    changeSelectedHikeTotalDistance,
-    selectedHikeTotalDistance,
-  } = useUserChoices();
+  const measurementUnit = useUserSettingsStore((s) => s.measurementUnit);
+  const setMeasurementUnit = useUserSettingsStore((s) => s.setMeasurementUnit);
 
   const { t } = useTranslation();
 
@@ -24,21 +18,13 @@ export const MeasurementUnitSwitch: React.FC<MeasurementUnitSwitchProps> = ({ is
     const isMiles = measurementUnit === MeasurementUnit.MILE;
     const newUnit = isMiles ? MeasurementUnit.KILOMETER : MeasurementUnit.MILE;
     setMeasurementUnit(newUnit);
-
-    if (newUnit == MeasurementUnit.MILE) {
-      setDistanceHiked(Math.round(pathDistanceHiked * 0.621371));
-      changeSelectedHikeTotalDistance(Math.round(selectedHikeTotalDistance * 0.621371));
-    } else {
-      setDistanceHiked(Math.round(pathDistanceHiked / 0.621371));
-      changeSelectedHikeTotalDistance(Math.round(selectedHikeTotalDistance / 0.621371));
-    }
   };
 
   return (
     <Setting
       icon="measurementUnit"
       showLabel={isMenuOpen}
-      label={measurementUnit == MeasurementUnit.MILE ? t("index:userSettings.mile") : t("index:userSettings.kilometer")}
+      label={measurementUnit == MeasurementUnit.MILE ? t("home:userSettings.mile") : t("home:userSettings.kilometer")}
       onPress={handleToggle}
     />
   );

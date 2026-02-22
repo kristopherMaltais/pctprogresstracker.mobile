@@ -16,13 +16,12 @@ export const Option: React.FC<OptionProps> = ({ option }) => {
         ...styles.container,
         backgroundColor: theme.secondaryBackground,
       }}
-      onStartShouldSetResponder={() => (option.disabled ? true : false)}
     >
       <Text
         style={{
           ...styles.text,
           color: theme.text,
-          opacity: option.disabled ? 0.2 : 1,
+          opacity: option.disabled ? 0.5 : 1,
         }}
       >
         {option.label}

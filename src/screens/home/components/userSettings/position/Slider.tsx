@@ -1,9 +1,10 @@
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
-import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
+import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
+import React, { useEffect } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import Animated, { runOnJS, useAnimatedStyle, useSharedValue } from "react-native-reanimated";
+import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
 type SliderProps = {
   onChange: (newValue: number) => void;
@@ -14,10 +15,18 @@ const CONTAINER_HEIGHT = Dimensions.get("window").height * 0.4;
 export const Slider: React.FC<SliderProps> = ({ onChange }) => {
   const { theme } = useTheme();
 
-  const { pathDistanceHiked, selectedHikeTotalDistance } = useUserChoices();
+  const pathDistanceHiked = useUserSettingsStore((s) => s.location.pathLocation);
+  const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
 
-  const fillHeight = useSharedValue((pathDistanceHiked * CONTAINER_HEIGHT) / selectedHikeTotalDistance);
+  const fillHeight = useSharedValue(0);
   const contextY = useSharedValue(0);
+
+  useEffect(() => {
+    if (selectedHikeTotalDistance > 0) {
+      const percentage = pathDistanceHiked / selectedHikeTotalDistance;
+      fillHeight.value = withTiming(percentage * CONTAINER_HEIGHT);
+    }
+  }, [pathDistanceHiked, selectedHikeTotalDistance]);
 
   const panGesture = Gesture.Pan()
     .onStart(() => {
@@ -28,9 +37,11 @@ export const Slider: React.FC<SliderProps> = ({ onChange }) => {
 
       newHeight = Math.max(0, Math.min(newHeight, CONTAINER_HEIGHT));
       fillHeight.value = newHeight;
-      const newValue = (newHeight * selectedHikeTotalDistance) / CONTAINER_HEIGHT;
 
-      runOnJS(onChange)(newValue);
+      if (selectedHikeTotalDistance > 0) {
+        const newValue = (newHeight * selectedHikeTotalDistance) / CONTAINER_HEIGHT;
+        runOnJS(onChange)(newValue);
+      }
     });
 
   const animatedFillStyle = useAnimatedStyle(() => {
@@ -43,6 +54,7 @@ export const Slider: React.FC<SliderProps> = ({ onChange }) => {
   return (
     <GestureDetector gesture={panGesture}>
       <View style={styles(theme).container}>
+        {/* Le fond du slider */}
         <Animated.View style={[styles(theme).filler, animatedFillStyle]} />
       </View>
     </GestureDetector>
@@ -53,13 +65,14 @@ const styles = (theme: Theme) =>
   StyleSheet.create({
     container: {
       height: CONTAINER_HEIGHT,
-      borderRadius: 8,
+      width: 40,
+      borderRadius: 12,
       backgroundColor: theme.secondaryBackground,
-      borderWidth: 1,
+      borderWidth: 2,
       borderColor: theme.primary,
-      margin: 6,
+      margin: 10,
       overflow: "hidden",
-      position: "relative",
+      alignSelf: "center",
     },
     filler: {
       position: "absolute",

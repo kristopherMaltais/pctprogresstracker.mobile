@@ -10,12 +10,14 @@
   "userSettings": {
     "backgroundImage": "Image",
     "share": "Share",
-    "distances": "Distances",
+    "distance": "Distances",
+    "distanceLabel": "Oú es-tu?",
     "direction": "Direction",
     "position": "Position",
     "mile": "Mile",
     "kilometer": "kilomètre",
-    "logo": "App logo"
+    "logo": "App logo",
+    "advancedSettings": "Plus"
   },
   "settings": {
     "title": "paramètres",
@@ -63,6 +65,7 @@
     }
   },
   "share": {
+    "mention": "#sharemyhike | @sharemyhike",
     "title": "Partager votre aventure",
     "instagram": {
       "title": "Stories Instagram",

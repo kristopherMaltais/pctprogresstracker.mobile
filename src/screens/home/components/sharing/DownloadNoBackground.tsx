@@ -63,8 +63,8 @@ export const DownloadNoBackground: React.FC<DownloadNoBackgroundProps> = ({ onCl
       onPress={saveToGallery}
       isLocked={!isPremiumUnlocked}
       image={!isPremiumUnlocked ? "downloadImageLocked" : iconDisplay}
-      title={t("index:share.galleryTransparent.title")}
-      description={t("index:share.galleryTransparent.description")}
+      title={t("home:share.galleryTransparent.title")}
+      description={t("home:share.galleryTransparent.description")}
     />
   );
 };

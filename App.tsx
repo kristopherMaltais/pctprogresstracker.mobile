@@ -1,4 +1,5 @@
 import { registerRootComponent } from "expo";
+import * as SplashScreen from "expo-splash-screen";
 import React, { useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -8,12 +9,18 @@ import { PremiumContextProvider } from "./src/contexts/premium/PremiumContextPro
 import { ServicesContextProvider } from "./src/contexts/services/ServicesContextProvider";
 import { StickerContextProvider } from "./src/contexts/sticker/StickerContextProvider";
 import { ThemeContextProvider } from "./src/contexts/theme/ThemeContextProvider";
-import { UserChoicesContextProvider } from "./src/contexts/userChoicesProvider/UserChoicesContextProvider";
 import { ValidationContextProvider } from "./src/contexts/validation/ValidationContextProvider";
 import { ViewShotContextProvider } from "./src/contexts/viewShot/ViewShotContextProvider";
 import i18n from "./src/localization/i18n";
 import { Navigation } from "./src/navigation/Navigation";
 import { ScreenLayout } from "./src/screens/ScreenLayout";
+
+SplashScreen.preventAutoHideAsync();
+
+SplashScreen.setOptions({
+  duration: 500,
+  fade: true,
+});
 
 export default function App() {
   i18n.init;
@@ -30,13 +37,11 @@ export default function App() {
                 <ServicesContextProvider>
                   <HikesContextProvider>
                     <LocalizationContextProvider>
-                      <UserChoicesContextProvider>
-                        <StickerContextProvider>
-                          <ScreenLayout areSettingsOpen={areSettingsOpen} setAreSettingsOpen={setAreSettingsOpen}>
-                            <Navigation areSettingsOpen={areSettingsOpen} setAreSettingsOpen={setAreSettingsOpen} />
-                          </ScreenLayout>
-                        </StickerContextProvider>
-                      </UserChoicesContextProvider>
+                      <StickerContextProvider>
+                        <ScreenLayout areSettingsOpen={areSettingsOpen} setAreSettingsOpen={setAreSettingsOpen}>
+                          <Navigation areSettingsOpen={areSettingsOpen} setAreSettingsOpen={setAreSettingsOpen} />
+                        </ScreenLayout>
+                      </StickerContextProvider>
                     </LocalizationContextProvider>
                   </HikesContextProvider>
                 </ServicesContextProvider>

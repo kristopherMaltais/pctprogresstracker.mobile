@@ -1,0 +1,48 @@
+{
+  "cancel": "Annuler",
+  "delete": "Supprimer",
+  "settings": {
+    "title": "paramètres",
+    "restorePurchase": "Restaurer l'achat",
+    "madeInQuebec": "Fait au Québec!",
+    "language": {
+      "title": "Changer la langue",
+      "french": "Français",
+      "english": "Anglais"
+    },
+    "terms": {
+      "title": "Conditions d’utilisation"
+    },
+    "privacyPolicy": {
+      "title": "Politique de confidentialité"
+    },
+    "darkMode": {
+      "title": "Mode sombre"
+    }
+  },
+  "premium": {
+    "title": "Passez à Premium",
+    "restoreSuccess": "Achat restauré avec succès!",
+    "restoreNoUserFound": "Aucun achat à restaurer.",
+    "restoreError": "Impossible de restaurer l'achat, veuillez réessayer.",
+    "description": "Profitez pleinement de votre application de randonnée avec le Forfait Premium. Il vous offre plus de liberté et des outils supplémentaires pour partager vos moments préférés.",
+    "features": {
+      "allTrails": "Accès illimité à tous les sentiers",
+      "noLogo": "Retrait du logo Share my Hike",
+      "allStickers": "Débloquez tous les stickers",
+      "transparent": "Exports avec arrière-plan transparent",
+      "skippedSections": "Gestion des sauts de section",
+      "sectionHiker": "Support du Section Hiking"
+    },
+    "button": {
+      "unlock": "Débloquer cet autocollant",
+      "headerGoPremium": "Obtenir Premium",
+      "success": "Achat effectué avec succès!",
+      "buy": "Accès à vie pour {{price}}"
+    }
+  },
+  "errors": {
+    "share": "Un erreur est survenu lors du partage de l'image",
+    "premium": "Une erreur est survenue lors de l'achat. Veuillez réessayer."
+  }
+}

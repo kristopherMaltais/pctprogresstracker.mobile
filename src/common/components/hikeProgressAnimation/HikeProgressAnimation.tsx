@@ -1,0 +1,94 @@
+import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
+import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
+import { getHikedLocationIntervals } from "@/src/helpers/getHikedLocationIntervals";
+import { LocationInterval } from "@/src/models/locationInterval";
+import { Canvas, Path, Shadow } from "@shopify/react-native-skia";
+import React, { useEffect, useMemo } from "react";
+import { useSharedValue, withTiming } from "react-native-reanimated";
+import { reverse } from "svg-path-reverse";
+import { HikeInterval } from "./HikeInterval";
+
+type HikeProgressAnimationProps = { size?: number; skippedSectionsDisplay?: LocationInterval[] };
+
+export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({ size = 1, skippedSectionsDisplay }) => {
+  const { theme } = useTheme();
+  const selectedHike = useUserSettingsStore((s) => s.selectedHike);
+  const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
+  const location = useUserSettingsStore((s) => s.location);
+  const skippedSections = useUserSettingsStore((s) => s.skippedSections);
+  const isCalibratePositionOpen = useUserSettingsStore((s) => s.isCalibratePositionOpen);
+  const isReverse = useUserSettingsStore((s) => s.isReverse);
+
+  const hikedIntervals = useMemo(() => {
+    var hikedLocationIntervals = getHikedLocationIntervals(skippedSections, location);
+
+    return hikedLocationIntervals;
+  }, [skippedSections, location, isReverse]);
+
+  const globalProgress = useSharedValue(0);
+
+  useEffect(() => {
+    if (isCalibratePositionOpen) {
+      globalProgress.value = location.pathLocation;
+    } else {
+      globalProgress.value = withTiming(location.pathLocation, {
+        duration: 1500,
+      });
+    }
+  }, [location]);
+
+  if (!selectedHike) return null;
+
+  const path = useMemo(() => {
+    return isReverse ? reverse(selectedHike.path) : selectedHike.path;
+  }, [selectedHike?.path, isReverse]);
+
+  return (
+    <Canvas
+      key={selectedHike.id}
+      style={[
+        { width: selectedHike.stickerMetadata.width, height: selectedHike.stickerMetadata.height },
+        { transform: [{ scale: size }] },
+      ]}
+    >
+      {selectedHike.regions?.map((region, index) => (
+        <Path key={`region-${index}`} path={region} color={theme.borders} strokeWidth={1} style="stroke">
+          <Shadow dx={0.5} dy={0.5} blur={1} color="rgba(0,0,0,0.5)" />
+        </Path>
+      ))}
+
+      {selectedHike.border && (
+        <Path path={selectedHike.border} color={theme.borders} style="stroke" strokeWidth={1}>
+          <Shadow dx={0.5} dy={0.5} blur={1} color="rgba(0,0,0,0.5)" />
+        </Path>
+      )}
+
+      <Path path={selectedHike.path} color={theme.path} style="stroke" strokeWidth={3} strokeCap="round">
+        <Shadow dx={0.5} dy={0.5} blur={1} color="rgba(0,0,0,0.5)" />
+      </Path>
+
+      {skippedSectionsDisplay
+        ? skippedSectionsDisplay.map((interval, index) => (
+            <Path
+              key={index}
+              path={path}
+              color={theme.primary}
+              style="stroke"
+              strokeCap={"square"}
+              strokeWidth={3}
+              start={interval.start.pathLocation / selectedHikeTotalDistance}
+              end={interval.end.pathLocation / selectedHikeTotalDistance}
+            />
+          ))
+        : hikedIntervals.map((interval, index) => (
+            <HikeInterval
+              path={path}
+              key={`hike-interval-${index}`}
+              interval={interval}
+              globalProgress={globalProgress}
+              color={theme.primary}
+            />
+          ))}
+    </Canvas>
+  );
+};

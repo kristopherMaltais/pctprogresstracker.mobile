@@ -10,11 +10,12 @@ type HeaderProps = {
   toggleAppSettingsDrawer: () => void;
 };
 
-export const Header: React.FC<HeaderProps> = ({ pageTitle, toggleAppSettingsDrawer }) => {
-  const { getIcon, theme, isDarkMode } = useTheme();
+export const Header: React.FC<HeaderProps> = ({ toggleAppSettingsDrawer }) => {
+  const { getIcon, theme } = useTheme();
   const { t } = useTranslation();
-  const { setIsPremiumModalVisible, isPremiumUnlocked } = usePremium();
+  const { setIsPremiumModalVisible, isPremiumUnlocked, premiumState } = usePremium();
   const { height } = Dimensions.get("window");
+
   return (
     <View
       style={{
@@ -24,18 +25,13 @@ export const Header: React.FC<HeaderProps> = ({ pageTitle, toggleAppSettingsDraw
     >
       <View style={styles(theme).body}>
         <View style={styles(theme).left}>
-          <Text
-            style={{
-              ...styles(theme).title,
-              color: isDarkMode ? "#E2E4E6" : "white",
-            }}
-          >
-            <Image style={{ width: 150, height: 15 }} source={getIcon("iconText")} />
-          </Text>
+          <View style={styles(theme).title}>
+            <Image style={{ width: 150, height: 15 }} source={getIcon("home")} />
+          </View>
         </View>
         {!isPremiumUnlocked && (
           <TouchableOpacity onPress={() => setIsPremiumModalVisible(true)} style={styles(theme).premium}>
-            <Text style={{ fontWeight: "bold", color: "white" }}>{t("index:premium.button.headerGoPremium")}</Text>
+            <Text style={{ fontWeight: "bold", color: "white" }}>{t("common:premium.button.headerGoPremium")}</Text>
           </TouchableOpacity>
         )}
         <TouchableOpacity onPress={toggleAppSettingsDrawer}>
@@ -68,9 +64,12 @@ const styles = (theme: Theme) =>
       minHeight: 35,
     },
     title: {
+      display: "flex",
+      flexDirection: "row",
       fontSize: 22,
       fontWeight: "bold",
       marginLeft: 8,
+      gap: 8,
     },
     left: { display: "flex", flexDirection: "row", alignItems: "center" },
     premium: {

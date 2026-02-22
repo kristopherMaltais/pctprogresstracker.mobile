@@ -5,8 +5,7 @@ export type Itinary = {
   path: string;
   iosPathLength: number;
   androidPathLength: number;
-  totalDistanceKilometer: number;
-  totalDistanceMile: number;
+  totalDistance: number;
   stickerMetadata: StickerMetadata;
   regions: string[];
   border: string;

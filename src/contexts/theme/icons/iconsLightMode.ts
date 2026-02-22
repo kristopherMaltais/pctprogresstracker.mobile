@@ -54,8 +54,12 @@ export const iconsLightMode: Array<Image> = [
     image: require("@/assets/images/lightMode/edit.png"),
   },
   {
-    name: "direction",
-    image: require("@/assets/images/lightMode/direction.png"),
+    name: "directionUp",
+    image: require("@/assets/images/lightMode/directionUp.png"),
+  },
+  {
+    name: "directionDown",
+    image: require("@/assets/images/lightMode/directionDown.png"),
   },
   {
     name: "position",
@@ -84,5 +88,17 @@ export const iconsLightMode: Array<Image> = [
   {
     name: "other",
     image: require("@/assets/images/lightMode/other.png"),
+  },
+  {
+    name: "advancedSettings",
+    image: require("@/assets/images/lightMode/advancedSettings.png"),
+  },
+  {
+    name: "edit",
+    image: require("@/assets/images/lightMode/edit.png"),
+  },
+  {
+    name: "backHeader",
+    image: require("@/assets/images/lightMode/backHeader.png"),
   },
 ];

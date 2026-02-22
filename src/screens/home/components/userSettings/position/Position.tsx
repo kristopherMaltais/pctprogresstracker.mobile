@@ -6,16 +6,13 @@ type PositionProps = {
   openPositionInput: () => void;
 };
 
-export const Position: React.FC<PositionProps> = ({
-  isMenuOpen,
-  openPositionInput,
-}) => {
+export const Position: React.FC<PositionProps> = ({ isMenuOpen, openPositionInput }) => {
   const { t } = useTranslation();
   return (
     <>
       <Setting
         icon="position"
-        label={t("index:userSettings.position")}
+        label={t("home:userSettings.position")}
         showLabel={isMenuOpen}
         onPress={openPositionInput}
       />

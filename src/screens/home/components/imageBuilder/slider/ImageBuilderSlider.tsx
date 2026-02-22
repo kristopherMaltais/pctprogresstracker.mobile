@@ -1,7 +1,7 @@
 import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { useSticker } from "@/src/contexts/sticker/StickerContextProvider";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
-import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
+import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import React, { useEffect, useState } from "react";
 import { Dimensions, Platform, Pressable, StyleSheet } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
@@ -13,7 +13,8 @@ import { SliderButton } from "./SliderButton";
 
 export const ImageBuilderSlider: React.FC = () => {
   const [hideButtons, setHideButtons] = useState<boolean>(false);
-  const { selectedHike, setIsStickerSelectedPremium } = useUserChoices();
+  const selectedHike = useUserSettingsStore((s) => s.selectedHike);
+  const setIsStickerSelectedPremium = useUserSettingsStore((s) => s.setIsStickerSelectedPremium);
   const { isDarkMode } = useTheme();
 
   const { isPremiumUnlocked } = usePremium();

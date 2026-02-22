@@ -1,6 +1,6 @@
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
-import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
+import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import React from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Slider } from "./Slider";
@@ -11,16 +11,17 @@ type PositionInputProps = {
 
 export const PositionInput: React.FC<PositionInputProps> = ({ closePositionInput }) => {
   const { getIcon, theme } = useTheme();
-  const { calibratePathDistanceHiked, displayedDistanceHiked } = useUserChoices();
+  const setPathLocation = useUserSettingsStore((s) => s.setPathLocation);
+  const displayedLocation = useUserSettingsStore((s) => s.location.displayedLocation);
 
   const unSaveChanges = () => {
-    calibratePathDistanceHiked(displayedDistanceHiked);
+    setPathLocation(displayedLocation);
     closePositionInput();
   };
 
   return (
     <View style={styles(theme).container}>
-      <Slider onChange={calibratePathDistanceHiked} />
+      <Slider onChange={setPathLocation} />
       <View style={styles(theme).buttonContainer}>
         <TouchableOpacity style={styles(theme).button} onPress={closePositionInput}>
           <Image style={styles(theme).save} source={getIcon("save")} />

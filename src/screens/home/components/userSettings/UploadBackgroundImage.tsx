@@ -1,4 +1,4 @@
-import { useUserChoices } from "@/src/contexts/userChoicesProvider/UserChoicesContextProvider";
+import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import * as ImagePicker from "expo-image-picker";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -11,7 +11,7 @@ type UploadBackgroundImageProps = {
 
 export const UploadBackgroundImage: React.FC<UploadBackgroundImageProps> = ({ isMenuOpen, setIsMenuOpen }) => {
   const { t } = useTranslation();
-  const { setBackgroundImage } = useUserChoices();
+  const setBackgroundImage = useUserSettingsStore((s) => s.setBackgroundImage);
 
   const pickImage = async () => {
     setIsMenuOpen(false);
@@ -29,11 +29,6 @@ export const UploadBackgroundImage: React.FC<UploadBackgroundImageProps> = ({ is
   };
 
   return (
-    <Setting
-      icon={"image"}
-      showLabel={isMenuOpen}
-      label={t("index:userSettings.backgroundImage")}
-      onPress={pickImage}
-    />
+    <Setting icon={"image"} showLabel={isMenuOpen} label={t("home:userSettings.backgroundImage")} onPress={pickImage} />
   );
 };
