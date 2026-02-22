@@ -1,5 +1,7 @@
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
+import { kilometerToMile } from "@/src/helpers/computeDistances";
+import { getMeasurementUnit } from "@/src/helpers/getMeasurementUnit";
 import { removeSkippedSection } from "@/src/helpers/removeSkippedSectionDistance";
 import { MeasurementUnit } from "@/src/models/measurementUnit";
 import { t } from "i18next";
@@ -29,8 +31,23 @@ export const StickerStats: React.FC = () => {
     }
   };
 
-  const getMeasurementUnit = () => {
-    return measurementUnit == MeasurementUnit.KILOMETER ? "km" : "mi";
+  const getTotalDistance = () => {
+    var distance = selectedHikeTotalDistance;
+
+    if (substractSkippedSections) {
+      distance = removeSkippedSection(selectedHikeTotalDistance, skippedSections);
+    }
+
+    if (measurementUnit == MeasurementUnit.MILE) {
+      distance = kilometerToMile(distance);
+    }
+
+    return distance;
+  };
+
+  const getDistanceHiked = () => {
+    var distance = removeSkippedSection(displayedLocation, skippedSections);
+    return measurementUnit == MeasurementUnit.KILOMETER ? distance : kilometerToMile(distance);
   };
 
   return (
@@ -56,14 +73,11 @@ export const StickerStats: React.FC = () => {
         <View>
           <Text style={styles.label}>{t("home:sticker.total")}</Text>
           <Text style={styles.value}>
-            {substractSkippedSections
-              ? removeSkippedSection(selectedHikeTotalDistance, skippedSections)
-              : selectedHikeTotalDistance}{" "}
-            {getMeasurementUnit()}
+            {getTotalDistance()} {getMeasurementUnit(measurementUnit)}
           </Text>
           <Text style={styles.label}>{t("home:sticker.distanceHiked")}</Text>
           <Text style={styles.value}>
-            {removeSkippedSection(displayedLocation, skippedSections)} {getMeasurementUnit()}
+            {getDistanceHiked()} {getMeasurementUnit(measurementUnit)}
           </Text>
         </View>
         <Text style={styles.percentage}>{calculatePercentage().toFixed(1)}%</Text>

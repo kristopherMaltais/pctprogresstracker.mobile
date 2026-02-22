@@ -25,14 +25,14 @@
     "restoreSuccess": "Achat restauré avec succès!",
     "restoreNoUserFound": "Aucun achat à restaurer.",
     "restoreError": "Impossible de restaurer l'achat, veuillez réessayer.",
-    "description": "Profitez pleinement de votre application de randonnée avec le Forfait Premium. Il vous offre plus de liberté et des outils supplémentaires pour partager vos moments préférés.",
+    "description": "Profitez pleinement de votre application de randonnée avec le forfait Premium. Il vous offre plus de liberté et des outils supplémentaires pour partager vos moments préférés.",
     "features": {
       "allTrails": "Accès illimité à tous les sentiers",
       "noLogo": "Retrait du logo Share my Hike",
       "allStickers": "Débloquez tous les stickers",
       "transparent": "Exports avec arrière-plan transparent",
       "skippedSections": "Gestion des sauts de section",
-      "sectionHiker": "Support du Section Hiking"
+      "sectionHiker": "Support du section Hiking"
     },
     "button": {
       "unlock": "Débloquer cet autocollant",

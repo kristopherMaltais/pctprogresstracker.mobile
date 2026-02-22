@@ -1,8 +1,10 @@
 import { HikeProgressAnimation } from "@/src/common/components/hikeProgressAnimation/HikeProgressAnimation";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
+import { kilometerToMile } from "@/src/helpers/computeDistances";
 import { getMeasurementUnit } from "@/src/helpers/getMeasurementUnit";
 import { removeSkippedSection } from "@/src/helpers/removeSkippedSectionDistance";
+import { MeasurementUnit } from "@/src/models/measurementUnit";
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
@@ -17,15 +19,31 @@ export const StickerMapLarge: React.FC = () => {
 
   const { getIcon } = useTheme();
 
+  const getTotalDistance = () => {
+    var distance = selectedHikeTotalDistance;
+
+    if (substractSkippedSections) {
+      distance = removeSkippedSection(selectedHikeTotalDistance, skippedSections);
+    }
+
+    if (measurementUnit == MeasurementUnit.MILE) {
+      distance = kilometerToMile(distance);
+    }
+
+    return distance;
+  };
+
+  const getDistanceHiked = () => {
+    var distance = removeSkippedSection(displayedLocation, skippedSections);
+    return measurementUnit == MeasurementUnit.KILOMETER ? distance : kilometerToMile(distance);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.trailInformation}>
         <Text style={styles.trailName}>{selectedHike?.name}</Text>
         <Text style={styles.distanceHiked}>
-          {removeSkippedSection(displayedLocation, skippedSections)} /{" "}
-          {substractSkippedSections
-            ? removeSkippedSection(selectedHikeTotalDistance, skippedSections)
-            : selectedHikeTotalDistance}
+          {getDistanceHiked()} / {getTotalDistance()}
           {getMeasurementUnit(measurementUnit)}
         </Text>
       </View>
