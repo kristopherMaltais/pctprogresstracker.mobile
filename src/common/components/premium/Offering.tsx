@@ -9,7 +9,6 @@ export const Offering: React.FC = () => {
   const { t } = useTranslation();
   const { theme } = useTheme();
 
-  // On définit les items pour garder le JSX propre
   const premiumFeatures = [
     { title: "common:premium.features.allTrails", icon: "map-outline" },
     { title: "common:premium.features.noLogo", icon: "label-off-outline" },
@@ -22,8 +21,7 @@ export const Offering: React.FC = () => {
   return (
     <View style={styles(theme).container}>
       <Text style={styles(theme).description}>{t("common:premium.description")}</Text>
-
-      <View style={styles(theme).grid}>
+      <View>
         {premiumFeatures.map((item, index) => (
           <View key={index} style={styles(theme).listItem}>
             <MaterialCommunityIcons
