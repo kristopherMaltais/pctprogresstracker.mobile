@@ -4,6 +4,7 @@ import { AdvancesSettingsHeader } from "../common/components/headers/AdvancedSet
 import { useTheme } from "../contexts/theme/ThemeContextProvider";
 import { LocationInterval } from "../models/locationInterval";
 import { AdvancedSettings } from "../screens/advancedSettings/AdvancedSettings";
+import { DistanceHikedInputModes } from "../screens/advancedSettings/DistanceHikedInputModes";
 import { EditHikeTotalDistance } from "../screens/advancedSettings/EditHikeTotalDistance";
 import { EditSkippedSection } from "../screens/advancedSettings/skippedSections/EditSkippedSection";
 import { SkippedSections } from "../screens/advancedSettings/skippedSections/SkippedSections";
@@ -14,6 +15,7 @@ export type AdvancedSettingsStackParamList = {
   skippedSections: undefined;
   editSkippedSection: { isEditMode: boolean; skippedSection?: LocationInterval };
   editHikeTotalDistance: undefined;
+  distanceHikedInputModes: undefined;
 };
 
 export const AdvancedSettingsNavigation: React.FC = () => {
@@ -31,6 +33,7 @@ export const AdvancedSettingsNavigation: React.FC = () => {
       <Stack.Screen name="skippedSections" component={SkippedSections} />
       <Stack.Screen name="editSkippedSection" component={EditSkippedSection} />
       <Stack.Screen name="editHikeTotalDistance" component={EditHikeTotalDistance} />
+      <Stack.Screen name="distanceHikedInputModes" component={DistanceHikedInputModes} />
     </Stack.Navigator>
   );
 };

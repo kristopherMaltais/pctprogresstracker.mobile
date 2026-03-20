@@ -7,7 +7,6 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Gesture, GestureDetector, GestureType } from "react-native-gesture-handler";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
-import ViewShot from "react-native-view-shot";
 
 type ImageBuilderProps = {
   children: React.ReactNode;
@@ -22,17 +21,16 @@ export const ImageBuilder: React.FC<ImageBuilderProps> = ({ children }) => {
   const isStickerSelectedPremium = useUserSettingsStore((s) => s.isStickerSelectedPremium);
   const selectedHike = useUserSettingsStore((s) => s.selectedHike);
   const { isPremiumUnlocked } = usePremium();
-  const { setViewShot } = useViewShot();
+  const { setSkiaViewRef } = useViewShot();
   const { theme, isDarkMode } = useTheme();
 
-  const viewShotCallbackRef = React.useCallback(
-    (node: ViewShot | null) => {
-      if (node !== null) {
-        setViewShot(node);
-      }
-    },
-    [setViewShot]
-  );
+  const viewRef = React.useRef<View>(undefined);
+
+  React.useEffect(() => {
+    if (viewRef && viewRef.current) {
+      setSkiaViewRef(viewRef);
+    }
+  }, [setSkiaViewRef]);
 
   // Pan offsets
   const translateX = useSharedValue(0);
@@ -78,28 +76,19 @@ export const ImageBuilder: React.FC<ImageBuilderProps> = ({ children }) => {
 
   return (
     <GestureDetector gesture={composedGesture}>
-      <View style={{ height: "90%" }}>
+      <View ref={viewRef} style={{ height: "90%" }}>
         {selectedHike && (
           <>
             {isStickerSelectedPremium && !isPremiumUnlocked && <PremiumButton />}
-
-            <ViewShot
-              options={{
-                format: "png",
-                quality: 1,
+            <Animated.View
+              style={{
+                ...styles().container,
+                backgroundColor: isDarkMode ? theme.background : "#E0E0E0",
               }}
-              ref={viewShotCallbackRef}
             >
-              <Animated.View
-                style={{
-                  ...styles().container,
-                  backgroundColor: isDarkMode ? theme.background : "#E0E0E0",
-                }}
-              >
-                <Animated.Image source={{ uri: backgroundImage }} style={[styles().backgroundImage, animatedStyle]} />
-                {children}
-              </Animated.View>
-            </ViewShot>
+              <Animated.Image source={{ uri: backgroundImage }} style={[styles().backgroundImage, animatedStyle]} />
+              {children}
+            </Animated.View>
           </>
         )}
       </View>

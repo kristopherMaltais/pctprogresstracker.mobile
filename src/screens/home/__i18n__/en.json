@@ -10,7 +10,26 @@
     "backgroundImage": "Image",
     "share": "Share",
     "distance": "Distance",
-    "distanceLabel": "Where are you?",
+    "distanceInput": {
+      "markerMode": {
+        "label": "What is your current {{unitMeasurement}} marker?",
+        "information": {
+          "title": "{{unitMeasurement}} marker mode",
+          "description": "Enter your approximate {{unitMeasurement}} marker as shown in your navigation app or on the trail"
+        }
+      },
+      "manualDistanceMode": {
+        "label": "How much {{unitMeasurement}} have you hiked?",
+        "information": {
+          "title": "Manuel mode",
+          "description": "Enter the total distance you hiked based on your GPS watch or estimation"
+        }
+      },
+      "infoButton": {
+        "back": "Back",
+        "changeMode": "Change mode"
+      }
+    },
     "direction": "Direction",
     "position": "Position",
     "mile": "Mile",
@@ -19,7 +38,7 @@
     "advancedSettings": "More"
   },
   "share": {
-    "mention": "#sharemyhike | @sharemyhike",
+    "mention": "Tag @sharemyhike to get featured on Instagram",
     "title": "Share your adventure",
     "instagram": {
       "title": "Instagram Stories",
@@ -30,7 +49,7 @@
       "description": "Download the full picture to your gallery"
     },
     "galleryTransparent": {
-      "title": "Video Overlay",
+      "title": "Without background",
       "description": "Transparent PNG, perfect for Reels & YouTube"
     },
     "other": {

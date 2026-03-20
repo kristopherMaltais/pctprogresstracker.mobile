@@ -4,9 +4,11 @@ import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUser
 import { kilometerToMile, mileToKilometer } from "@/src/helpers/computeDistances";
 import { getMeasurementUnit } from "@/src/helpers/getMeasurementUnit";
 import { MeasurementUnit } from "@/src/models/measurementUnit";
+import { useNavigation } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Modal, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Image, Modal, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { DistanceHikedModeInfo } from "./DistanceHikedModeInfo";
 
 type ModalDistanceHikedInputProps = {
   isVisible: boolean;
@@ -14,13 +16,16 @@ type ModalDistanceHikedInputProps = {
 };
 
 export const ModalDistanceHikedInput: React.FC<ModalDistanceHikedInputProps> = ({ isVisible, onClose }) => {
+  const [isInfoModeActivated, setIsActivatedModeActivated] = useState<boolean>(false);
+
   const currentLocation = useUserSettingsStore((s) => s.location);
   const setLocation = useUserSettingsStore((s) => s.setLocation);
   const measurementUnit = useUserSettingsStore((s) => s.measurementUnit);
   const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
 
+  const navigation = useNavigation<any>();
   const { t } = useTranslation();
-  const { theme } = useTheme();
+  const { theme, getIcon } = useTheme();
   const [_location, _setLocation] = useState<number>(
     measurementUnit == MeasurementUnit.KILOMETER
       ? currentLocation.displayedLocation
@@ -47,7 +52,16 @@ export const ModalDistanceHikedInput: React.FC<ModalDistanceHikedInputProps> = (
 
   const updateDistanceHiked = () => {
     setLocation(measurementUnit == MeasurementUnit.MILE ? mileToKilometer(_location) : _location);
+    setIsActivatedModeActivated(false);
     onClose();
+  };
+
+  const openDistanceHikedInputModes = () => {
+    setIsActivatedModeActivated(false);
+    onClose();
+    navigation.navigate("advancedSettings", {
+      screen: "distanceHikedInputModes",
+    });
   };
 
   const inputRef = useRef<TextInput>(null);
@@ -65,23 +79,41 @@ export const ModalDistanceHikedInput: React.FC<ModalDistanceHikedInputProps> = (
     >
       <Pressable style={styles(theme).centeredView} onPress={updateDistanceHiked} accessible={false}>
         <View style={styles(theme).modalView}>
-          <View style={styles(theme).container}>
-            <View style={styles(theme).header}>
-              <Text style={styles(theme).title}>{t("home:userSettings.distanceLabel")}</Text>
+          {isInfoModeActivated ? (
+            <DistanceHikedModeInfo
+              onCloseInfo={() => setIsActivatedModeActivated(false)}
+              navigateToDistanceHikedInputModes={openDistanceHikedInputModes}
+            />
+          ) : (
+            <View style={styles(theme).container}>
+              <View style={styles(theme).header}>
+                <Text style={styles(theme).title}>
+                  {t("home:userSettings.distanceInput.markerMode.label", {
+                    unitMeasurement: getMeasurementUnit(measurementUnit),
+                  })}
+                </Text>
+                <Pressable
+                  style={styles(theme).iconContainer}
+                  onPress={() => setIsActivatedModeActivated(true)}
+                  hitSlop={20}
+                >
+                  <Image style={styles(theme).icon} source={getIcon("info")} />
+                </Pressable>
+              </View>
+              <View style={styles(theme).inputContainer}>
+                <TextInput
+                  ref={inputRef}
+                  style={styles(theme).input}
+                  keyboardType="numeric"
+                  value={_location.toString()}
+                  onChangeText={onChangeDistanceHiked}
+                  returnKeyType="done"
+                  onSubmitEditing={updateDistanceHiked}
+                />
+                <Text style={styles(theme).measurementUnit}>{getMeasurementUnit(measurementUnit)}</Text>
+              </View>
             </View>
-            <View style={styles(theme).inputContainer}>
-              <TextInput
-                ref={inputRef}
-                style={styles(theme).input}
-                keyboardType="numeric"
-                value={_location.toString()}
-                onChangeText={onChangeDistanceHiked}
-                returnKeyType="done"
-                onSubmitEditing={updateDistanceHiked}
-              />
-              <Text style={styles(theme).measurementUnit}>{getMeasurementUnit(measurementUnit)}</Text>
-            </View>
-          </View>
+          )}
         </View>
       </Pressable>
     </Modal>
@@ -97,7 +129,7 @@ const styles = (theme: Theme) =>
     },
     modalView: {
       margin: 20,
-      width: "75%",
+      width: "90%",
       backgroundColor: theme.secondaryBackground,
       borderRadius: 20,
       padding: 16,
@@ -111,7 +143,10 @@ const styles = (theme: Theme) =>
       elevation: 5,
     },
     header: {
+      position: "relative",
       display: "flex",
+      flexDirection: "row",
+      gap: 8,
       alignItems: "center",
       justifyContent: "center",
     },
@@ -130,13 +165,23 @@ const styles = (theme: Theme) =>
     },
     container: {
       display: "flex",
-      flexDirection: "row",
+      flexDirection: "column",
       justifyContent: "space-between",
+      gap: 8,
       paddingHorizontal: 12,
     },
     input: {
       fontSize: 26,
       color: theme.text,
+    },
+    iconContainer: {
+      position: "absolute",
+      top: -4,
+      right: -14,
+    },
+    icon: {
+      width: 20,
+      height: 20,
     },
     measurementUnit: { marginLeft: 4, color: theme.text },
   });
