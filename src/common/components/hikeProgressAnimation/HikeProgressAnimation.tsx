@@ -75,18 +75,18 @@ export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({ si
     >
       {selectedHike.regions?.map((region, index) => (
         <Path key={`region-${index}`} path={region} color={theme.borders} strokeWidth={1} style="stroke">
-          <Shadow dx={0.5} dy={0.5} blur={1} color="rgba(0,0,0,0.5)" />
+          <Shadow dx={0.2} dy={0.2} blur={1} color="rgba(0,0,0,0.5)" />
         </Path>
       ))}
 
       {selectedHike.border && (
         <Path path={selectedHike.border} color={theme.borders} style="stroke" strokeWidth={1}>
-          <Shadow dx={0.5} dy={0.5} blur={1} color="rgba(0,0,0,0.5)" />
+          <Shadow dx={0.2} dy={0.2} blur={1} color="rgba(0,0,0,0.5)" />
         </Path>
       )}
 
       <Path path={selectedHike.path} color={theme.path} style="stroke" strokeWidth={3} strokeCap="round">
-        <Shadow dx={0.5} dy={0.5} blur={1} color="rgba(0,0,0,0.5)" />
+        <Shadow dx={0.2} dy={0.2} blur={1} color="rgba(0,0,0,0.5)" />
       </Path>
 
       {skippedSectionsDisplay

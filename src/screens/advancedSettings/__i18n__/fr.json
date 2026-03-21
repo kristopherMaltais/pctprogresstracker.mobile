@@ -42,7 +42,7 @@
   },
   "progressInputModes": {
     "title": "Modes de saisie de progression",
-    "bestForLabel": "Parfait pour:",
+    "bestForLabel": "Idéal pour:",
     "marker": {
       "title": "Mode indicateur de sentier",
       "bestFor": [

@@ -1,15 +1,15 @@
 {
   "screenTitle": "Advanced Settings",
   "resetSettings": {
-    "title": "reset Settings",
+    "title": "Reset Settings",
     "message": "This will restore all settings to their default values. This action cannot be undone.",
     "confirmButton": "reset"
   },
   "hikeSettings": {
-    "title": "Hike settings"
+    "title": "Hike Settings"
   },
   "skippedSections": {
-    "title": "Skipped section(s)",
+    "title": "Skipped Section(s)",
     "start": "Start",
     "end": "End",
     "addSkippedSection": "Add skipped section",
@@ -30,13 +30,13 @@
     }
   },
   "editHikeTotalDistance": {
-    "title": "Total distance",
+    "title": "Total Distance",
     "totalDistance": "Hike total distance",
     "substractSkippedSections": "Substract skipped sections"
   },
   "progressInputModes": {
     "bestForLabel": "Best for:",
-    "title": "Progress input modes",
+    "title": "Progress Input Modes",
     "marker": {
       "title": "Trail marker mode",
       "bestFor": [
