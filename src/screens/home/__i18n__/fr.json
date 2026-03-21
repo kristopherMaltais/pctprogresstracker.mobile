@@ -11,16 +11,16 @@
     "backgroundImage": "Image",
     "share": "Share",
     "distance": "Distances",
-    "distanceInput": {
-      "markerMode": {
+    "progressInput": {
+      "marker": {
         "label": "À quel {{unitMeasurement}} vous situez-vous?",
         "information": {
           "title": "Mode point de repère ({{unitMeasurement}})",
           "description": "Indiquez votre position approximative selon votre application de navigation ou les panneaux sur le sentier"
         }
       },
-      "manualDistanceMode": {
-        "label": "Quelle distance ({{unitMeasurement}}) avez-vous parcourue?",
+      "manual": {
+        "label": "Quelle distance avez-vous parcourue?",
         "information": {
           "title": "Mode manuel",
           "description": "Entrez la distance totale parcourue selon votre montre GPS ou votre estimation"
@@ -28,7 +28,7 @@
       },
       "infoButton": {
         "back": "Retour",
-        "changeMode": "Changer le mode"
+        "changeMode": "Voir tous les modes"
       }
     },
     "direction": "Direction",

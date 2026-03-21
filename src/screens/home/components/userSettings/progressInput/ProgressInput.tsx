@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Setting } from "../Setting";
-import { ModalDistanceHikedInput } from "./ModalDistanceHikedInput";
+import { ModalProgressInput } from "./ModalProgressInput";
 
-type DistanceHikedInputProps = {
+type ProgressInputProps = {
   isMenuOpen: boolean;
   setIsMenuOpen: (flag: boolean) => void;
 };
 
-export const DistanceHikedInput: React.FC<DistanceHikedInputProps> = ({ isMenuOpen, setIsMenuOpen }) => {
+export const ProgressInput: React.FC<ProgressInputProps> = ({ isMenuOpen, setIsMenuOpen }) => {
   const { t } = useTranslation();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -20,7 +20,7 @@ export const DistanceHikedInput: React.FC<DistanceHikedInputProps> = ({ isMenuOp
   return (
     <>
       <Setting icon="shoePrints" label={t("home:userSettings.distance")} showLabel={isMenuOpen} onPress={onPress} />
-      <ModalDistanceHikedInput isVisible={isModalVisible} onClose={() => setIsModalVisible(false)} />
+      <ModalProgressInput isVisible={isModalVisible} onClose={() => setIsModalVisible(false)} />
     </>
   );
 };

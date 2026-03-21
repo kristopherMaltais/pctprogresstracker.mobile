@@ -20,6 +20,7 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
   const measurementUnit = useUserSettingsStore((s) => s.measurementUnit);
   const displayedLocation = useUserSettingsStore((s) => s.location.displayedLocation);
   const skippedSections = useUserSettingsStore((s) => s.skippedSections);
+  const progressMode = useUserSettingsStore((s) => s.progressMode);
   const substractSkippedSections = useUserSettingsStore((s) => s.substractSkippedSections);
 
   const showLogo = useUserSettingsStore((s) => s.showLogo);
@@ -75,7 +76,7 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
         ref={viewShotCallbackRef}
       >
         <View style={isHorizontal ? styles.containerHorizontal : styles.containerVertical}>
-          {!isHorizontal && <HikeProgressAnimation />}
+          {!isHorizontal && <HikeProgressAnimation key={`${progressMode}-${skippedSections}`} />}
           <View style={isHorizontal ? styles.statsContainerHorizontal : styles.statsContainerVertical}>
             {showLogo && <Image source={getIcon("iconWithTextBackground")} style={styles.logo} />}
             <View>
@@ -90,7 +91,7 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
               </Text>
             </View>
           </View>
-          {isHorizontal && <HikeProgressAnimation />}
+          {isHorizontal && <HikeProgressAnimation key={`${progressMode}-${skippedSections}`} />}
         </View>
       </ViewShot>
     </GestureWrapper>

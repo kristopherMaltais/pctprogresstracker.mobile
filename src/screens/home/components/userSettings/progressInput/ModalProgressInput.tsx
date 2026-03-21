@@ -4,67 +4,101 @@ import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUser
 import { kilometerToMile, mileToKilometer } from "@/src/helpers/computeDistances";
 import { getMeasurementUnit } from "@/src/helpers/getMeasurementUnit";
 import { MeasurementUnit } from "@/src/models/measurementUnit";
+import { ProgressModes } from "@/src/models/progressModes";
 import { useNavigation } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Modal, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
-import { DistanceHikedModeInfo } from "./DistanceHikedModeInfo";
+import { ProgressInputInfo } from "./ProgressInputInfo";
 
-type ModalDistanceHikedInputProps = {
+type ModalProgressInputProps = {
   isVisible: boolean;
   onClose: () => void;
 };
 
-export const ModalDistanceHikedInput: React.FC<ModalDistanceHikedInputProps> = ({ isVisible, onClose }) => {
-  const [isInfoModeActivated, setIsActivatedModeActivated] = useState<boolean>(false);
-
+export const ModalProgressInput: React.FC<ModalProgressInputProps> = ({ isVisible, onClose }) => {
+  const inputRef = useRef<TextInput>(null);
+  const [isInfoModeActivated, setIsInfoModeActivated] = useState<boolean>(false);
   const currentLocation = useUserSettingsStore((s) => s.location);
   const setLocation = useUserSettingsStore((s) => s.setLocation);
   const measurementUnit = useUserSettingsStore((s) => s.measurementUnit);
   const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
-
+  const progressMode = useUserSettingsStore((s) => s.progressMode);
+  const distanceHiked = useUserSettingsStore((s) => s.distanceHiked);
+  const setDistanceHiked = useUserSettingsStore((s) => s.setDistanceHiked);
+  const skippedSections = useUserSettingsStore((s) => s.skippedSections);
   const navigation = useNavigation<any>();
   const { t } = useTranslation();
   const { theme, getIcon } = useTheme();
-  const [_location, _setLocation] = useState<number>(
-    measurementUnit == MeasurementUnit.KILOMETER
-      ? currentLocation.displayedLocation
-      : kilometerToMile(currentLocation.displayedLocation)
-  );
+
+  const getTest = () => {
+    if (progressMode == ProgressModes.MANUAL) {
+      return measurementUnit == MeasurementUnit.MILE ? kilometerToMile(distanceHiked) : distanceHiked;
+    } else {
+      return measurementUnit == MeasurementUnit.MILE
+        ? kilometerToMile(currentLocation.displayedLocation)
+        : currentLocation.displayedLocation;
+    }
+  };
+
+  const [_location, _setLocation] = useState<number>(getTest());
 
   useEffect(() => {
-    _setLocation(
-      measurementUnit == MeasurementUnit.KILOMETER
-        ? currentLocation.displayedLocation
-        : kilometerToMile(currentLocation.displayedLocation)
-    );
+    _setLocation(getTest());
   }, [currentLocation, measurementUnit]);
 
-  const onChangeDistanceHiked = (text: string) => {
+  const onProgressionChange = (text: string) => {
     const parsed = parseInt(text, 10);
+    const max = selectedHikeTotalDistance;
+
     if (!isNaN(parsed)) {
-      const clamped = Math.max(0, Math.min(selectedHikeTotalDistance, parsed));
+      const clamped = Math.max(0, Math.min(max, parsed));
       _setLocation(clamped);
     } else {
       _setLocation(0);
     }
   };
 
-  const updateDistanceHiked = () => {
-    setLocation(measurementUnit == MeasurementUnit.MILE ? mileToKilometer(_location) : _location);
-    setIsActivatedModeActivated(false);
+  const updateProgression = () => {
+    if (progressMode == ProgressModes.MANUAL) {
+      const convertedDistance = measurementUnit == MeasurementUnit.MILE ? mileToKilometer(_location) : _location;
+      setDistanceHiked(convertedDistance);
+      setLocation(calculateManualDistance(convertedDistance));
+    } else {
+      setLocation(measurementUnit == MeasurementUnit.MILE ? mileToKilometer(_location) : _location);
+    }
+    setIsInfoModeActivated(false);
     onClose();
   };
 
-  const openDistanceHikedInputModes = () => {
-    setIsActivatedModeActivated(false);
+  const calculateManualDistance = (progress: number): number => {
+    const sortedSkippedSections = [...skippedSections].sort(
+      (a, b) => a.start.displayedLocation - b.start.displayedLocation
+    );
+    let currentPathLocation = 0;
+    let remainingBudget = progress;
+
+    for (const skippedSection of sortedSkippedSections) {
+      const distanceUntilNextSkip = skippedSection.start.displayedLocation - currentPathLocation;
+
+      if (remainingBudget <= distanceUntilNextSkip) {
+        break;
+      }
+
+      remainingBudget -= distanceUntilNextSkip;
+      currentPathLocation = skippedSection.end.displayedLocation;
+    }
+
+    return currentPathLocation + remainingBudget;
+  };
+
+  const openProgressInputModes = () => {
+    setIsInfoModeActivated(false);
     onClose();
     navigation.navigate("advancedSettings", {
-      screen: "distanceHikedInputModes",
+      screen: "progressInputModes",
     });
   };
-
-  const inputRef = useRef<TextInput>(null);
 
   return (
     <Modal
@@ -77,24 +111,22 @@ export const ModalDistanceHikedInput: React.FC<ModalDistanceHikedInputProps> = (
         }, 100);
       }}
     >
-      <Pressable style={styles(theme).centeredView} onPress={updateDistanceHiked} accessible={false}>
+      <Pressable style={styles(theme).centeredView} onPress={updateProgression} accessible={false}>
         <View style={styles(theme).modalView}>
           {isInfoModeActivated ? (
-            <DistanceHikedModeInfo
-              onCloseInfo={() => setIsActivatedModeActivated(false)}
-              navigateToDistanceHikedInputModes={openDistanceHikedInputModes}
+            <ProgressInputInfo
+              onCloseInfo={() => setIsInfoModeActivated(false)}
+              navigateToProgressInputModes={openProgressInputModes}
             />
           ) : (
             <View style={styles(theme).container}>
               <View style={styles(theme).header}>
                 <Text style={styles(theme).title}>
-                  {t("home:userSettings.distanceInput.markerMode.label", {
-                    unitMeasurement: getMeasurementUnit(measurementUnit),
-                  })}
+                  {t(`home:userSettings.progressInput.${progressMode}.label`, { unitMeasurement: measurementUnit })}
                 </Text>
                 <Pressable
                   style={styles(theme).iconContainer}
-                  onPress={() => setIsActivatedModeActivated(true)}
+                  onPress={() => setIsInfoModeActivated(true)}
                   hitSlop={20}
                 >
                   <Image style={styles(theme).icon} source={getIcon("info")} />
@@ -106,9 +138,9 @@ export const ModalDistanceHikedInput: React.FC<ModalDistanceHikedInputProps> = (
                   style={styles(theme).input}
                   keyboardType="numeric"
                   value={_location.toString()}
-                  onChangeText={onChangeDistanceHiked}
+                  onChangeText={onProgressionChange}
                   returnKeyType="done"
-                  onSubmitEditing={updateDistanceHiked}
+                  onSubmitEditing={updateProgression}
                 />
                 <Text style={styles(theme).measurementUnit}>{getMeasurementUnit(measurementUnit)}</Text>
               </View>

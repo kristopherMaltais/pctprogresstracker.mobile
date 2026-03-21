@@ -33,5 +33,27 @@
     "title": "Total distance",
     "totalDistance": "Hike total distance",
     "substractSkippedSections": "Substract skipped sections"
+  },
+  "progressInputModes": {
+    "bestForLabel": "Best for:",
+    "title": "Progress input modes",
+    "marker": {
+      "title": "Trail marker mode",
+      "bestFor": [
+        "Thru-hikers (PCT, Hexatrek, Te Araroa, etc.)",
+        "Hikers with navigation apps (e.g., FarOut)",
+        "When trail markers are available"
+      ],
+      "description": "Enter the mile or km marker from the trail to update your position. The app will automatically account for any skipped sections."
+    },
+    "manual": {
+      "title": "Manual distance mode",
+      "bestFor": [
+        "Section hikers & short hikes",
+        "GPS watch users (e.g. Garmin)",
+        "When no trail markers are available"
+      ],
+      "description": "Enter the total distance you hiked based on your watch or personal estimation. The app will automatically account for any skipped sections."
+    }
   }
 }

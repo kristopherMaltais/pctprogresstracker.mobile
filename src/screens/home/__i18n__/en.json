@@ -10,24 +10,24 @@
     "backgroundImage": "Image",
     "share": "Share",
     "distance": "Distance",
-    "distanceInput": {
-      "markerMode": {
-        "label": "What is your current {{unitMeasurement}} marker?",
+    "progressInput": {
+      "marker": {
+        "label": "What is your {{unitMeasurement}} marker?",
         "information": {
           "title": "{{unitMeasurement}} marker mode",
-          "description": "Enter your approximate {{unitMeasurement}} marker as shown in your navigation app or on the trail"
+          "description": "Enter your approximate {{unitMeasurement}} marker as shown in your navigation app or on the trail."
         }
       },
-      "manualDistanceMode": {
-        "label": "How much {{unitMeasurement}} have you hiked?",
+      "manual": {
+        "label": "How many {{unitMeasurement}} have you hiked?",
         "information": {
           "title": "Manuel mode",
-          "description": "Enter the total distance you hiked based on your GPS watch or estimation"
+          "description": "Enter the total distance you hiked based on your GPS watch or estimation."
         }
       },
       "infoButton": {
         "back": "Back",
-        "changeMode": "Change mode"
+        "changeMode": "See all modes"
       }
     },
     "direction": "Direction",

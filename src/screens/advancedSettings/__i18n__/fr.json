@@ -39,5 +39,27 @@
     "title": "Distance totale",
     "totalDistance": "Distance totale randonnée",
     "substractSkippedSections": "Soustraire les sections sautées"
+  },
+  "progressInputModes": {
+    "title": "Modes de saisie de progression",
+    "bestForLabel": "Parfait pour:",
+    "marker": {
+      "title": "Mode indicateur de sentier",
+      "bestFor": [
+        "Thru-hikers (PCT, AT, CDT, etc.)",
+        "Randonneurs avec applis de navigation (ex : FarOut)",
+        "Présence d'indicateur sur le sentier"
+      ],
+      "description": "Entrez l'indicateur (mile ou km) du sentier pour mettre à jour votre position. L'application déduira automatiquement vos sections sautées."
+    },
+    "manual": {
+      "title": "Mode distance manuelle",
+      "bestFor": [
+        "Randonneurs qui font une section ou petites randonnées",
+        "Utilisateurs de montres GPS (ex : Garmin)",
+        "Absence d'indicateur sur le sentier"
+      ],
+      "description": "Entrez la distance totale parcourue selon votre montre ou votre estimation. L'application déduira automatiquement vos sections sautées."
+    }
   }
 }
