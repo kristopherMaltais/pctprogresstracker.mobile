@@ -1,6 +1,6 @@
 import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
-import { openNativeShare } from "@/src/helpers/openNativeSharing";
+import { openNativeShareUri } from "@/src/helpers/openNativeSharing";
 import { requestAppReview } from "@/src/helpers/requestAppReview";
 import * as Haptics from "expo-haptics";
 import * as MediaLibrary from "expo-media-library";
@@ -25,26 +25,27 @@ export const DownloadNoBackground: React.FC<DownloadNoBackgroundProps> = ({ onCl
       return;
     }
 
-    if (!viewShotTransparentBackground) {
-      return;
-    }
+    if (!viewShotTransparentBackground) return;
+
+    let uri = "";
 
     try {
-      const { status } = await MediaLibrary.requestPermissionsAsync();
-
-      if (status !== "granted") {
-        return;
-      }
-
-      const uri = await captureRef(viewShotTransparentBackground, {
+      uri = await captureRef(viewShotTransparentBackground, {
         format: "png",
         quality: 1.0,
       });
 
-      await MediaLibrary.createAssetAsync(uri);
+      const { status } = await MediaLibrary.requestPermissionsAsync();
+
+      if (status == "granted") {
+        await MediaLibrary.saveToLibraryAsync(uri);
+      }
+
       downloadSuccess();
     } catch (err) {
-      openNativeShare(viewShotTransparentBackground);
+      if (uri) {
+        openNativeShareUri(uri);
+      }
     }
   };
 

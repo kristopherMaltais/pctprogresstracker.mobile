@@ -1,16 +1,35 @@
 {
-  "dropDownHikeListPlaceHolder": "Select a hike",
-  "dropDownHikeSearchInputPlaceholder": "Find a hike...",
-  "itinary": "What is your itinary?",
+  "dropDownHikeListPlaceHolder": "Select a Hike",
+  "dropDownHikeSearchInputPlaceholder": "Find a Hike...",
+  "itinary": "What is your itinerary?",
   "sticker": {
     "total": "Total",
-    "distanceHiked": "Distance hiked"
+    "distanceHiked": "Distance Hiked"
   },
   "userSettings": {
     "backgroundImage": "Image",
     "share": "Share",
     "distance": "Distance",
-    "distanceLabel": "Where are you?",
+    "progressInput": {
+      "marker": {
+        "label": "What is your {{unitMeasurement}} marker?",
+        "information": {
+          "title": "{{unitMeasurement}} marker mode",
+          "description": "Enter your approximate {{unitMeasurement}} marker as shown in your navigation app or on the trail."
+        }
+      },
+      "manual": {
+        "label": "How many {{unitMeasurement}} have you hiked?",
+        "information": {
+          "title": "Manual Mode",
+          "description": "Enter the total distance you hiked based on your GPS watch or estimation."
+        }
+      },
+      "infoButton": {
+        "back": "Back",
+        "changeMode": "See all modes"
+      }
+    },
     "direction": "Direction",
     "position": "Position",
     "mile": "Mile",
@@ -19,23 +38,23 @@
     "advancedSettings": "More"
   },
   "share": {
-    "mention": "#sharemyhike | @sharemyhike",
-    "title": "Share your adventure",
+    "mention": "Tag @sharemyhike to get featured on Instagram",
+    "title": "Share Your Adventure",
     "instagram": {
       "title": "Instagram Stories",
       "description": "Share your hike with your community"
     },
     "gallery": {
-      "title": "Save Image",
+      "title": "Photo Gallery",
       "description": "Download the full picture to your gallery"
     },
     "galleryTransparent": {
-      "title": "Video Overlay",
-      "description": "Transparent PNG, perfect for Reels & YouTube"
+      "title": "Photo Gallery no Background",
+      "description": "Transparent background, perfect for Reels & YouTube"
     },
     "other": {
       "title": "Share via...",
-      "description": "Send to Messenger, Facebook or more"
+      "description": "Send to Messenger, Facebook or other apps"
     }
   }
 }

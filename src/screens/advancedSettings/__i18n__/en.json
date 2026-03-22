@@ -1,15 +1,15 @@
 {
   "screenTitle": "Advanced Settings",
   "resetSettings": {
-    "title": "reset Settings",
+    "title": "Reset Settings",
     "message": "This will restore all settings to their default values. This action cannot be undone.",
     "confirmButton": "reset"
   },
   "hikeSettings": {
-    "title": "Hike settings"
+    "title": "Hike Settings"
   },
   "skippedSections": {
-    "title": "Skipped section(s)",
+    "title": "Skipped Section(s)",
     "start": "Start",
     "end": "End",
     "addSkippedSection": "Add skipped section",
@@ -30,8 +30,30 @@
     }
   },
   "editHikeTotalDistance": {
-    "title": "Total distance",
+    "title": "Total Distance",
     "totalDistance": "Hike total distance",
     "substractSkippedSections": "Substract skipped sections"
+  },
+  "progressInputModes": {
+    "bestForLabel": "Best for:",
+    "title": "Progress Input Modes",
+    "marker": {
+      "title": "Trail marker mode",
+      "bestFor": [
+        "Thru-hikers (PCT, Hexatrek, Te Araroa, etc.)",
+        "Hikers with navigation apps (e.g., FarOut)",
+        "When trail markers are available"
+      ],
+      "description": "Enter the mile or km marker from the trail to update your position. The app will automatically account for any skipped sections."
+    },
+    "manual": {
+      "title": "Manual distance mode",
+      "bestFor": [
+        "Section hikers & short hikes",
+        "GPS watch users (e.g. Garmin)",
+        "When no trail markers are available"
+      ],
+      "description": "Enter the total distance you hiked based on your watch or personal estimation. The app will automatically account for any skipped sections."
+    }
   }
 }

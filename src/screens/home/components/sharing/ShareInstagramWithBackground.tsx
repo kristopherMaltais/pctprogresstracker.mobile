@@ -1,33 +1,37 @@
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
-import { openNativeShare } from "@/src/helpers/openNativeSharing";
+import { makeImageFromView } from "@shopify/react-native-skia";
+import { File, Paths } from "expo-file-system";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import Share from "react-native-share";
-import { captureRef } from "react-native-view-shot";
 import { SharingButton } from "./SharingButton";
 
 export const ShareInstagramWithBackground: React.FC = () => {
   const { t } = useTranslation();
-  const { viewShot } = useViewShot();
+  const { skiaViewRef } = useViewShot();
 
   const shareOnInstagram = async () => {
-    if (!viewShot) return;
+    if (!skiaViewRef?.current) return;
 
     try {
-      var uri = await captureRef(viewShot, {
-        format: "png",
-        quality: 1,
-      });
+      const image = await makeImageFromView(skiaViewRef);
+      const base64 = image?.encodeToBase64();
+
+      if (!base64) return;
+
+      const file = new File(Paths.cache, `instagram-${Date.now()}.png`);
+      file.write(base64, { encoding: "base64" });
 
       const shareOptions: any = {
-        backgroundImage: uri,
+        backgroundImage: file.uri,
         social: Share.Social.INSTAGRAM_STORIES,
         appId: "1385671166123591",
       };
 
       await Share.shareSingle(shareOptions);
     } catch (err) {
-      openNativeShare(viewShot);
+      console.error("Erreur partage Instagram:", err);
+      // Ici tu pourrais ajouter ton fallback vers openNativeShare(file.uri)
     }
   };
 

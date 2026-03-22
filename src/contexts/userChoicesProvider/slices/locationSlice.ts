@@ -5,9 +5,11 @@ import { FullStoreState } from "../useUserSettingsStore";
 
 export type LocationSlice = {
   location: Location;
+  distanceHiked: number;
   skippedSections: LocationInterval[];
 
   setLocation: (distance: number) => void;
+  setDistanceHiked: (distance: number) => void;
   setPathLocation: (location: number) => void;
   addSkippedSection: (skippedSection: LocationInterval) => void;
   editSkippedSection: (oldSection: LocationInterval, newSection: LocationInterval) => void;
@@ -16,12 +18,17 @@ export type LocationSlice = {
 
 export const createLocationSlice: StateCreator<FullStoreState, [], [], LocationSlice> = (set) => ({
   location: { displayedLocation: 0, pathLocation: 0 },
+  distanceHiked: 0,
   skippedSections: [],
+
   addSkippedSection(skippedSection: LocationInterval) {
     set((state) => ({
       skippedSections: [...state.skippedSections, skippedSection],
+      location: { displayedLocation: 0, pathLocation: 0 },
+      distanceHiked: 0,
     }));
   },
+
   editSkippedSection: (oldSection: LocationInterval, newSection: LocationInterval) => {
     set((state) => ({
       skippedSections: state.skippedSections.map((section) =>
@@ -30,8 +37,11 @@ export const createLocationSlice: StateCreator<FullStoreState, [], [], LocationS
           ? newSection
           : section
       ),
+      location: { displayedLocation: 0, pathLocation: 0 },
+      distanceHiked: 0,
     }));
   },
+
   deleteSkippedSection: (skippedSection: LocationInterval) => {
     set((state) => ({
       skippedSections: state.skippedSections.filter(
@@ -39,8 +49,11 @@ export const createLocationSlice: StateCreator<FullStoreState, [], [], LocationS
           section.start.displayedLocation !== skippedSection.start.displayedLocation ||
           section.end.displayedLocation !== skippedSection.end.displayedLocation
       ),
+      location: { displayedLocation: 0, pathLocation: 0 },
+      distanceHiked: 0,
     }));
   },
+
   setLocation: (location: number) =>
     set((state) => ({
       location: { ...state.location, displayedLocation: location, pathLocation: location },
@@ -48,5 +61,9 @@ export const createLocationSlice: StateCreator<FullStoreState, [], [], LocationS
   setPathLocation: (location: number) =>
     set((state) => ({
       location: { ...state.location, pathLocation: location },
+    })),
+  setDistanceHiked: (distance: number) =>
+    set(() => ({
+      distanceHiked: distance,
     })),
 });

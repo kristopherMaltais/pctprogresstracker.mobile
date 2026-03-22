@@ -7,10 +7,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { Animated, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { AdvancedSettings } from "./AdvancedSettings";
 import { Direction } from "./Direction";
-import { DistanceHikedInput } from "./distanceHikeInput/DistanceHikedInput";
 import { MeasurementUnitSwitch } from "./MeasurementUnitSwitch";
 import { Position } from "./position/Position";
 import { PositionInput } from "./position/PositionInput";
+import { ProgressInput } from "./progressInput/ProgressInput";
 import { Share } from "./Share";
 import { ShowLogoSwitch } from "./ShowLogoSwitch";
 import { UploadBackgroundImage } from "./UploadBackgroundImage";
@@ -79,7 +79,7 @@ export const UserSettings: React.FC<userSettingsProps> = ({ disabled = false, hi
           <>
             <UploadBackgroundImage isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
             <Share isMenuOpen={isMenuOpen} />
-            <DistanceHikedInput isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+            <ProgressInput isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
             {isMenuOpen && (
               <>
                 <MeasurementUnitSwitch isMenuOpen={isMenuOpen} />

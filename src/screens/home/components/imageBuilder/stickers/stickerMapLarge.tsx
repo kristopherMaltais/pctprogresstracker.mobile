@@ -15,6 +15,7 @@ export const StickerMapLarge: React.FC = () => {
   const displayedLocation = useUserSettingsStore((s) => s.location.displayedLocation);
   const showLogo = useUserSettingsStore((s) => s.showLogo);
   const skippedSections = useUserSettingsStore((s) => s.skippedSections);
+  const progressMode = useUserSettingsStore((s) => s.progressMode);
   const substractSkippedSections = useUserSettingsStore((s) => s.substractSkippedSections);
 
   const { getIcon } = useTheme();
@@ -48,7 +49,7 @@ export const StickerMapLarge: React.FC = () => {
         </Text>
       </View>
       <View>
-        <HikeProgressAnimation size={1.5} />
+        <HikeProgressAnimation size={1.5} key={`animation-${progressMode}`} />
       </View>
       {showLogo && <Image style={styles.logo} source={getIcon("iconWithTextBackground")} />}
     </View>

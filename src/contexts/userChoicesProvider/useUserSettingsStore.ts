@@ -1,5 +1,6 @@
 import { Hike } from "@/src/models/hike";
 import { MeasurementUnit } from "@/src/models/measurementUnit";
+import { ProgressModes } from "@/src/models/progressModes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
@@ -17,6 +18,7 @@ const initialState = {
   showLogo: true,
   showShareMenu: false,
   substractSkippedSections: true,
+  progressMode: ProgressModes.MARKER,
 };
 
 export type FullStoreState = LocationSlice & {
@@ -31,6 +33,7 @@ export type FullStoreState = LocationSlice & {
   showLogo: boolean;
   showShareMenu: boolean;
   substractSkippedSections: boolean;
+  progressMode: ProgressModes;
 
   // Actions
   setSelectedHike: (hike: Hike) => void;
@@ -44,6 +47,7 @@ export type FullStoreState = LocationSlice & {
   setShowShareMenu: (flag: boolean) => void;
   setSubstractSkippedSections: (flag: boolean) => void;
   resetStore: () => void;
+  setProgressMode: (mode: ProgressModes) => void;
 };
 
 export const useUserSettingsStore = create<FullStoreState>()(
@@ -74,9 +78,15 @@ export const useUserSettingsStore = create<FullStoreState>()(
           backgroundImage: undefined,
           isReverse: false,
           location: { displayedLocation: 0, pathLocation: 0 },
+          distanceHiked: 0,
         });
       },
 
+      setProgressMode: (mode) =>
+        set({
+          progressMode: mode,
+          location: { displayedLocation: 0, pathLocation: 0 },
+        }),
       setBackgroundImage: (image) => set({ backgroundImage: image }),
       setMeasurementUnit: (unit) => set({ measurementUnit: unit }),
       setIsStickerSelectedPremium: (flag) => set({ isStickerSelectedPremium: flag }),
@@ -98,6 +108,8 @@ export const useUserSettingsStore = create<FullStoreState>()(
         skippedSections: state.skippedSections,
         location: state.location,
         isReverse: state.isReverse,
+        progressMode: state.progressMode,
+        distanceHiked: state.distanceHiked,
       }),
     }
   )

@@ -1,50 +1,54 @@
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
-import { openNativeShare } from "@/src/helpers/openNativeSharing";
+import { openNativeShareUri } from "@/src/helpers/openNativeSharing";
 import { requestAppReview } from "@/src/helpers/requestAppReview";
+import { makeImageFromView } from "@shopify/react-native-skia";
+import { File, Paths } from "expo-file-system";
 import * as Haptics from "expo-haptics";
 import * as MediaLibrary from "expo-media-library";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { captureRef } from "react-native-view-shot";
 import { SharingButton } from "./SharingButton";
 
-type DownloadWithBackgroundProps = {
+type DownloadNoBackgroundProps = {
   onClose: () => void;
 };
 
-export const DownloadWithBackground: React.FC<DownloadWithBackgroundProps> = ({ onClose }) => {
-  const { t } = useTranslation();
-  const { viewShot } = useViewShot();
+export const DownloadWithBackground: React.FC<DownloadNoBackgroundProps> = ({ onClose }) => {
+  const { skiaViewRef } = useViewShot();
   const [iconDisplay, setIconDisplay] = useState<string>("downloadImageUnlocked");
+  const { t } = useTranslation();
 
   const saveToGallery = async () => {
-    if (!viewShot) {
-      return;
-    }
+    if (!skiaViewRef?.current) return;
+
+    const fileName = `download-${Date.now()}.png`;
+    const file = new File(Paths.cache, fileName);
+    const fileUri = file.uri;
 
     try {
-      const { status } = await MediaLibrary.requestPermissionsAsync();
+      const image = await makeImageFromView(skiaViewRef);
+      const base64 = image?.encodeToBase64();
+      if (!base64) return;
 
+      file.write(base64, { encoding: "base64" });
+
+      const { status } = await MediaLibrary.requestPermissionsAsync();
       if (status !== "granted") {
-        return;
+        return openNativeShareUri(fileUri); // Utilise la variable fixe
       }
 
-      const uri = await captureRef(viewShot, {
-        format: "jpg",
-        quality: 1.0,
-      });
+      await MediaLibrary.saveToLibraryAsync(fileUri);
 
-      await MediaLibrary.saveToLibraryAsync(uri);
       downloadSuccess();
-    } catch (err) {
-      openNativeShare(viewShot);
+    } catch {
+      openNativeShareUri(fileUri);
     }
   };
 
   const downloadSuccess = () => {
     setIconDisplay("success");
-    requestAppReview();
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    requestAppReview();
 
     setTimeout(() => {
       onClose();

@@ -1,30 +1,12 @@
 {
-  "dropDownHikeListPlaceHolder": "Select a hike",
-  "dropDownHikeSearchInputPlaceholder": "Find a hike...",
-  "itinary": "What is your itinary?",
-  "sticker": {
-    "total": "Total",
-    "distanceHiked": "Distance hiked"
-  },
   "cancel": "Cancel",
   "delete": "Delete",
-  "userSettings": {
-    "backgroundImage": "Image",
-    "share": "Share",
-    "distances": "Distances",
-    "direction": "Direction",
-    "position": "Position",
-    "mile": "Mile",
-    "kilometer": "Kilometer",
-    "logo": "App Logo",
-    "advancedSettings": "More"
-  },
+  "save": "Save",
   "settings": {
-    "title": "Settings",
     "restorePurchase": "Restore Purchase",
     "madeInQuebec": "Fait au Québec!",
     "language": {
-      "title": "Change language",
+      "title": "Change Language",
       "french": "French",
       "english": "English"
     },
@@ -50,7 +32,7 @@
       "allStickers": "Unlock all sticker styles",
       "transparent": "Transparent background exports",
       "skippedSections": "Track skipped sections",
-      "sectionHiker": "Track Section Hiking"
+      "sectionHiker": "Track section hiking"
     },
     "button": {
       "unlock": "Unlock this sticker",
@@ -59,27 +41,7 @@
       "buy": "Lifetime access for {{price}}"
     }
   },
-  "share": {
-    "title": "Share your adventure",
-    "instagram": {
-      "title": "Instagram Stories",
-      "description": "Share your hike with your community"
-    },
-    "gallery": {
-      "title": "Save Image",
-      "description": "Download the full picture to your gallery"
-    },
-    "galleryTransparent": {
-      "title": "Video Overlay",
-      "description": "Transparent PNG, perfect for Reels & YouTube"
-    },
-    "other": {
-      "title": "Share via...",
-      "description": "Send to Messenger, Facebook or more"
-    }
-  },
   "errors": {
-    "share": "An error occurred while sharing the image.",
     "premium": "An error occurred during the purchase. Please try again."
   }
 }

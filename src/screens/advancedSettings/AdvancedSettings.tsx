@@ -19,6 +19,7 @@ export const AdvancedSettings: React.FC = () => {
   const navigation = useNavigation<NavigationProp<AdvancedSettingsStackParamList>>();
   const openEditSkippedSection = () => navigation.navigate("skippedSections");
   const openEditHikeTotalDistance = () => navigation.navigate("editHikeTotalDistance");
+  const openProgressInputModes = () => navigation.navigate("progressInputModes");
   const resetStore = useUserSettingsStore((s) => s.resetStore);
   const selectedHike = useUserSettingsStore((s) => s.selectedHike);
 
@@ -38,6 +39,7 @@ export const AdvancedSettings: React.FC = () => {
             name={t("advancedSettings:editHikeTotalDistance.title")}
             onSettingPress={openEditHikeTotalDistance}
           />
+          <Setting name={t("advancedSettings:progressInputModes.title")} onSettingPress={openProgressInputModes} />
         </SettingSection>
         <TouchableOpacity style={styles(theme).addSkippedSection} onPress={() => setIsConfirmModalVisible(true)}>
           <Text style={styles(theme).addSkippedSectionText}>{t("advancedSettings:resetSettings.title")}</Text>
