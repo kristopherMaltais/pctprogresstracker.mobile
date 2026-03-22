@@ -2,14 +2,14 @@
   "expo": {
     "name": "Share my Hike",
     "slug": "sharemyhike",
-    "version": "1.5.8",
+    "version": "1.6.0",
     "orientation": "portrait",
     "icon": "./assets/images/splashScreen.png",
     "scheme": "pctprogresstrackermobile",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "buildNumber": "17",
+      "buildNumber": "18",
       "supportsTablet": false,
       "bundleIdentifier": "com.kristopher.sharemyhike",
       "icon": {
@@ -24,7 +24,7 @@
       }
     },
     "android": {
-      "versionCode": 6,
+      "versionCode": 9,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptiveIcon.png",
         "backgroundColor": "#F5F6F7"
