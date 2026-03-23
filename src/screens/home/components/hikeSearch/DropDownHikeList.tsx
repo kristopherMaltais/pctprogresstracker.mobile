@@ -1,4 +1,3 @@
-import { useHikes } from "@/src/contexts/hikes/HikesContextProvider";
 import { Hike } from "@/src/models/hike";
 
 import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
@@ -7,7 +6,7 @@ import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { DropDownOption } from "@/src/models/dropdownOption";
 import { HikeWithItinary } from "@/src/models/hikeWithItinary";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
@@ -18,15 +17,12 @@ type DropDownHikeListProps = {};
 export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
   const [hikeList, setHikeList] = useState<DropDownOption[]>([]);
   const [_selectedHike, _setSelectedHike] = useState<Hike | HikeWithItinary>();
-  const { hikes } = useHikes();
   const { isPremiumUnlocked, setIsPremiumModalVisible } = usePremium();
   const selectedHike = useUserSettingsStore((s) => s.selectedHike);
   const setSelectedHike = useUserSettingsStore((s) => s.setSelectedHike);
   const selectedHikeId = useUserSettingsStore((s) => s.selectedHikeId);
   const { t } = useTranslation();
   const { theme } = useTheme();
-
-  useEffect(() => {}, [hikes, isPremiumUnlocked]);
 
   const updateSelectedHike = () => {};
 
@@ -43,7 +39,7 @@ export const DropDownHikeList: React.FC<DropDownHikeListProps> = ({}) => {
         valueField="value"
         renderItem={(option: DropDownOption, selected?: boolean) => <Option option={option} selected={selected} />}
         placeholder={t("home:dropDownHikeListPlaceHolder")}
-        disable={hikes.length == 0}
+        disable={true}
         selectedTextStyle={{ color: theme.text }}
         containerStyle={{
           backgroundColor: theme.secondaryBackground,

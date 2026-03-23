@@ -1,3 +1,4 @@
+import { Hike } from "@/src/models/hike";
 import { HikeRepository } from "../hikeRepository";
 import { supabase } from "./supabaseClient";
 
@@ -22,7 +23,7 @@ export class HikeSupabaseRepository implements HikeRepository {
     return data || [];
   }
 
-  async getHikeById(id: string): Promise<any> {
+  async getHikeById(id: string): Promise<Hike> {
     try {
       const { data, error } = await supabase
         .from("trails")
@@ -47,12 +48,16 @@ export class HikeSupabaseRepository implements HikeRepository {
         .eq("id", id)
         .single();
 
-      if (error) {
-        console.error("Erreur lors de la récupération du hike:", error.message);
-        throw error;
-      }
+      if (error) throw error;
 
-      return data;
+      // Transformation chirurgicale pour matcher ton type Hike
+      return {
+        ...data,
+        stickers: data.stickers.map((s: any) => ({
+          ...s,
+          decorations: s.decorations.map((d: any) => d.decoration), // On extrait la string ici
+        })),
+      } as Hike;
     } catch (error) {
       console.error("Erreur technique:", error);
       throw error;

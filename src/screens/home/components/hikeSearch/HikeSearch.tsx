@@ -29,7 +29,7 @@ const styles = (theme: Theme) =>
     container: {
       display: "flex",
       flexDirection: "row",
-      alignItems: "center",
+      alignItems: "flex-start",
       gap: 10,
       backgroundColor: theme.header,
       height: 80,

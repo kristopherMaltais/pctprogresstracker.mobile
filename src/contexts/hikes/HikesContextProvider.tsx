@@ -1,12 +1,9 @@
-import { useService } from "@/src/hooks/useService";
 import { Hike } from "@/src/models/hike";
-import { HikeWithItinary } from "@/src/models/hikeWithItinary";
-import { HikeService } from "@/src/services/hikeService/services/hikeService";
-import React, { createContext, useContext, useEffect, useState } from "react";
-import hikesData from "../../../hikes.json";
+import React, { createContext, useContext, useState } from "react";
 
 interface HikesProps {
-  hikes: Hike[] | HikeWithItinary[];
+  hike: Hike | undefined;
+  setHike: (hike: Hike | undefined) => void;
 }
 
 interface HikesProviderProps {
@@ -24,24 +21,11 @@ export const useHikes = (): HikesProps => {
 };
 
 export const HikesContextProvider = ({ children }: HikesProviderProps) => {
-  const [hikes, setHikes] = useState<Hike[] | HikeWithItinary[]>([]);
-
-  const hikeService: HikeService = useService("Hike.HikeService");
-
-  useEffect(() => {
-    hikeService
-      .getHikes()
-      .then((hikes: any[]) => {
-        console.log(hikes);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    setHikes(hikesData as unknown as Hike[]);
-  }, []);
+  const [hike, setHike] = useState<Hike>();
 
   const contextValue: HikesProps = {
-    hikes: hikes,
+    hike: hike,
+    setHike: setHike,
   };
 
   return <HikesContext.Provider value={contextValue}>{children}</HikesContext.Provider>;

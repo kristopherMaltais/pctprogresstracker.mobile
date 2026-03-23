@@ -60,26 +60,26 @@ export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({ si
       _path = reverse(_path);
     }
     return _path;
-  }, [selectedHike?.path, isReverse, location.pathLocation]);
+  }, [selectedHike?.stickers[0].path, isReverse, location.pathLocation]);
 
   return (
     <Canvas
       key={selectedHike.id}
       style={[
         {
-          width: selectedHike.sticker.width,
-          height: selectedHike.sticker.height,
+          width: selectedHike?.stickers[0].width,
+          height: selectedHike?.stickers[0].height,
         },
         { transform: [{ scale: size }] },
       ]}
     >
-      {selectedHike.decorations?.map((decoration: string, index) => (
+      {selectedHike.stickers[0].decorations?.map((decoration: string, index) => (
         <Path key={`decoration-${index}`} path={decoration} color={theme.decorations} strokeWidth={1} style="stroke">
           <Shadow dx={0.2} dy={0.2} blur={1} color="rgba(0,0,0,0.5)" />
         </Path>
       ))}
 
-      <Path path={selectedHike.path} color={theme.path} style="stroke" strokeWidth={3} strokeCap="round">
+      <Path path={selectedHike.stickers[0].path} color={theme.path} style="stroke" strokeWidth={3} strokeCap="round">
         <Shadow dx={0.2} dy={0.2} blur={1} color="rgba(0,0,0,0.5)" />
       </Path>
 

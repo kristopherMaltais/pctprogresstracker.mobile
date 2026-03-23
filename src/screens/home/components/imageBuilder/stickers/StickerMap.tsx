@@ -1,4 +1,5 @@
 import { GestureWrapper } from "@/src/common/components/GestureWrapper";
+import { HikeProgressAnimation } from "@/src/common/components/hikeProgressAnimation/HikeProgressAnimation";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
@@ -6,7 +7,8 @@ import { kilometerToMile } from "@/src/helpers/computeDistances";
 import { getMeasurementUnit } from "@/src/helpers/getMeasurementUnit";
 import { removeSkippedSection } from "@/src/helpers/removeSkippedSectionDistance";
 import { MeasurementUnit } from "@/src/models/measurementUnit";
-import React, { useState } from "react";
+import { Orientation } from "@/src/models/orientation";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, View } from "react-native";
 import ViewShot from "react-native-view-shot";
@@ -23,15 +25,17 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
 
   const showLogo = useUserSettingsStore((s) => s.showLogo);
 
+  console.log(selectedHike?.stickers[0].decorations);
+
   const { getIcon } = useTheme();
   const { t } = useTranslation();
   const { setViewShotTransparentBackgroud } = useViewShot();
 
   const [isHorizontal, setIsHorizontal] = useState<boolean>(true);
 
-  // useEffect(() => {
-  //   setIsHorizontal(selectedHike?.sticker.orientation == Orientation.HORIZONTAL);
-  // }, [selectedHike]);
+  useEffect(() => {
+    setIsHorizontal(selectedHike?.stickers[0].orientation == Orientation.HORIZONTAL);
+  }, [selectedHike]);
 
   const viewShotCallbackRef = React.useCallback(
     (node: ViewShot | null) => {
@@ -74,7 +78,7 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
         ref={viewShotCallbackRef}
       >
         <View style={isHorizontal ? styles.containerHorizontal : styles.containerVertical}>
-          {/* {!isHorizontal && <HikeProgressAnimation key={`${progressMode}-${skippedSections}`} />} */}
+          {!isHorizontal && <HikeProgressAnimation key={`${progressMode}-${skippedSections}`} />}
           <View style={isHorizontal ? styles.statsContainerHorizontal : styles.statsContainerVertical}>
             {showLogo && <Image source={getIcon("iconWithTextBackground")} style={styles.logo} />}
             <View>
@@ -89,7 +93,7 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
               </Text>
             </View>
           </View>
-          {/* {isHorizontal && <HikeProgressAnimation key={`${progressMode}-${skippedSections}`} />} */}
+          {isHorizontal && <HikeProgressAnimation key={`${progressMode}-${skippedSections}`} />}
         </View>
       </ViewShot>
     </GestureWrapper>

@@ -3,8 +3,8 @@ import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import React from "react";
 import { StyleSheet, View } from "react-native";
+import { HikeSearch } from "./components/hikeSearch/HikeSearch";
 import { ImageBuilderSlider } from "./components/imageBuilder/slider/ImageBuilderSlider";
-import { HikeSearch } from "./components/map/HikeSearch";
 
 export const Home: React.FC = () => {
   const { theme } = useTheme();

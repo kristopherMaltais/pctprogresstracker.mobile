@@ -7,4 +7,5 @@ export type Hike = {
   isPremium: boolean;
   isRoundtrip: boolean;
   stickers: Sticker[];
+  selectedStickerId: string;
 };
