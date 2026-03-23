@@ -5,10 +5,12 @@ import { Header } from "../common/components/headers/Header";
 import { useTheme } from "../contexts/theme/ThemeContextProvider";
 import { Home } from "../screens/home/Home";
 import { AdvancedSettingsNavigation } from "./AdvancedSettingsNavigation";
+import { HikeSearchNavigation } from "./HikeSearchNavigation";
 
 export type RootStackParamList = {
   home: undefined;
   advancedSettings: undefined;
+  hikeSearch: undefined;
 };
 
 type NavigationProps = {
@@ -33,6 +35,7 @@ export const Navigation: React.FC<NavigationProps> = ({ setAreSettingsOpen, areS
       >
         <Stack.Screen name="home" component={Home} />
         <Stack.Screen options={{ headerShown: false }} name="advancedSettings" component={AdvancedSettingsNavigation} />
+        <Stack.Screen options={{ headerShown: false }} name="hikeSearch" component={HikeSearchNavigation} />
       </Stack.Navigator>
     </NavigationContainer>
   );

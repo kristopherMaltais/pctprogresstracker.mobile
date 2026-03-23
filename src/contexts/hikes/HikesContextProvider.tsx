@@ -29,14 +29,14 @@ export const HikesContextProvider = ({ children }: HikesProviderProps) => {
   const hikeService: HikeService = useService("Hike.HikeService");
 
   useEffect(() => {
-    // hikeService
-    //   .getHikes()
-    //   .then((hikes: Hike[]) => {
-    //     setHikes(hikes);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+    hikeService
+      .getHikes()
+      .then((hikes: any[]) => {
+        console.log(hikes);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     setHikes(hikesData as unknown as Hike[]);
   }, []);
 

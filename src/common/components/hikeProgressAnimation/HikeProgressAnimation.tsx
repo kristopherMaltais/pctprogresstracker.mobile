@@ -23,7 +23,7 @@ export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({ si
 
   useEffect(() => {
     _setSelectedHikeTotalDistance(
-      selectedHike?.stickerMetadata.isRoundTrip ? selectedHikeTotalDistance / 2 : selectedHikeTotalDistance
+      selectedHike?.isRoundtrip ? selectedHikeTotalDistance / 2 : selectedHikeTotalDistance
     );
   }, [selectedHike, selectedHikeTotalDistance]);
 
@@ -36,7 +36,7 @@ export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({ si
   useEffect(() => {
     var _location = location.pathLocation;
 
-    if (selectedHike?.stickerMetadata.isRoundTrip && _location > selectedHikeTotalDistance / 2) {
+    if (selectedHike?.isRoundtrip && _location > selectedHikeTotalDistance / 2) {
       _location = _location - selectedHikeTotalDistance / 2;
     }
 
@@ -54,7 +54,7 @@ export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({ si
   const path = useMemo(() => {
     var _path = selectedHike.path;
 
-    if (selectedHike.stickerMetadata.isRoundTrip && location.pathLocation > selectedHikeTotalDistance / 2) {
+    if (selectedHike.isRoundtrip && location.pathLocation > selectedHikeTotalDistance / 2) {
       _path = reverse(_path);
     } else if (isReverse) {
       _path = reverse(_path);
@@ -67,23 +67,17 @@ export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({ si
       key={selectedHike.id}
       style={[
         {
-          width: selectedHike.stickerMetadata.width,
-          height: selectedHike.stickerMetadata.height,
+          width: selectedHike.sticker.width,
+          height: selectedHike.sticker.height,
         },
         { transform: [{ scale: size }] },
       ]}
     >
-      {selectedHike.regions?.map((region, index) => (
-        <Path key={`region-${index}`} path={region} color={theme.borders} strokeWidth={1} style="stroke">
+      {selectedHike.decorations?.map((decoration: string, index) => (
+        <Path key={`decoration-${index}`} path={decoration} color={theme.decorations} strokeWidth={1} style="stroke">
           <Shadow dx={0.2} dy={0.2} blur={1} color="rgba(0,0,0,0.5)" />
         </Path>
       ))}
-
-      {selectedHike.border && (
-        <Path path={selectedHike.border} color={theme.borders} style="stroke" strokeWidth={1}>
-          <Shadow dx={0.2} dy={0.2} blur={1} color="rgba(0,0,0,0.5)" />
-        </Path>
-      )}
 
       <Path path={selectedHike.path} color={theme.path} style="stroke" strokeWidth={3} strokeCap="round">
         <Shadow dx={0.2} dy={0.2} blur={1} color="rgba(0,0,0,0.5)" />

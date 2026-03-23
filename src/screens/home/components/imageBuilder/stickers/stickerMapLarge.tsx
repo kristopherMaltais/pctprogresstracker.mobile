@@ -1,4 +1,3 @@
-import { HikeProgressAnimation } from "@/src/common/components/hikeProgressAnimation/HikeProgressAnimation";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { kilometerToMile } from "@/src/helpers/computeDistances";
@@ -48,9 +47,7 @@ export const StickerMapLarge: React.FC = () => {
           {getMeasurementUnit(measurementUnit)}
         </Text>
       </View>
-      <View>
-        <HikeProgressAnimation size={1.5} key={`animation-${progressMode}`} />
-      </View>
+      <View>{/* <HikeProgressAnimation size={1.5} key={`animation-${progressMode}`} /> */}</View>
       {showLogo && <Image style={styles.logo} source={getIcon("iconWithTextBackground")} />}
     </View>
   );

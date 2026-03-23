@@ -1,8 +1,6 @@
-import { HikeProgressAnimation } from "@/src/common/components/hikeProgressAnimation/HikeProgressAnimation";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { FullStoreState, useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
-import { getHikedLocationIntervals } from "@/src/helpers/getHikedLocationIntervals";
 import { LocationInterval } from "@/src/models/locationInterval";
 import { AdvancedSettingsStackParamList } from "@/src/navigation/AdvancedSettingsNavigation";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
@@ -28,7 +26,7 @@ export const SkippedSections: React.FC = () => {
       <Text style={styles(theme).title}>{t("advancedSettings:skippedSections.title")}</Text>
 
       <View style={{ ...styles(theme).mapContainer }}>
-        <HikeProgressAnimation
+        {/* <HikeProgressAnimation
           size={1}
           skippedSectionsDisplay={[
             ...getHikedLocationIntervals(skippedSections, {
@@ -36,7 +34,7 @@ export const SkippedSections: React.FC = () => {
               displayedLocation: selectedHikeTotalDistance,
             }),
           ]}
-        />
+        /> */}
       </View>
 
       {skippedSections

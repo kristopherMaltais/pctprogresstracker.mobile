@@ -1,17 +1,17 @@
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
-import { AdvancedSettingsStackParamList } from "@/src/navigation/AdvancedSettingsNavigation";
+import { HikeSearchStackParamList } from "@/src/navigation/HikeSearchNavigation";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, Image, Pressable, StyleSheet, Text, View } from "react-native";
 
-export const AdvancesSettingsHeader: React.FC = () => {
+export const HikeSearchHeader: React.FC = () => {
   const { getIcon, theme } = useTheme();
   const { t } = useTranslation();
   const { height } = Dimensions.get("window");
 
-  const navigation = useNavigation<NavigationProp<AdvancedSettingsStackParamList>>();
+  const navigation = useNavigation<NavigationProp<HikeSearchStackParamList>>();
 
   return (
     <View
@@ -28,7 +28,7 @@ export const AdvancesSettingsHeader: React.FC = () => {
               source={getIcon("backHeader")}
             />
           </Pressable>
-          <Text style={styles(theme).title}>{t("advancedSettings:screenTitle")}</Text>
+          <Text style={styles(theme).title}>{t("hikeSearch:screenTitle")}</Text>
         </View>
       </View>
     </View>

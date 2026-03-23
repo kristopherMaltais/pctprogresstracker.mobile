@@ -30,7 +30,7 @@ export const AdvancedSettings: React.FC = () => {
       <View style={styles(theme).body}>
         <SettingSection title={t("advancedSettings:hikeSettings.title")}>
           <Setting
-            isDisabled={selectedHike?.stickerMetadata.isRoundTrip}
+            isDisabled={selectedHike?.isRoundtrip}
             isPremium={!isPremiumUnlocked}
             name={t("advancedSettings:skippedSections.title")}
             onSettingPress={openEditSkippedSection}

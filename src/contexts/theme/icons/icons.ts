@@ -61,4 +61,8 @@ export const icons: Array<Image> = [
     name: "info",
     image: require("@/assets/images/info.png"),
   },
+  {
+    name: "map",
+    image: require("@/assets/images/map.png"),
+  },
 ];

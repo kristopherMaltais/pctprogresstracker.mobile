@@ -26,7 +26,7 @@ export const AdvancedSettingsNavigation: React.FC = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: true,
-        header: ({ route }) => <AdvancesSettingsHeader pageTitle={route.name} toggleAppSettingsDrawer={() => {}} />,
+        header: ({ route }) => <AdvancesSettingsHeader />,
       }}
     >
       <Stack.Screen name="advancedSettings" component={AdvancedSettings} />
