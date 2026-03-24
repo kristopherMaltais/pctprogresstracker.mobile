@@ -22,7 +22,7 @@ export const HikeSearchHeader: React.FC = () => {
     >
       <View style={styles(theme).body}>
         <View style={styles(theme).titleContainer}>
-          <Pressable onPress={() => navigation.goBack()} hitSlop={100}>
+          <Pressable onPress={() => navigation.goBack()} hitSlop={20}>
             <Image
               style={{ width: 18, height: 18, transform: [{ rotate: "180deg" }] }}
               source={getIcon("backHeader")}

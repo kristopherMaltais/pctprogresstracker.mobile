@@ -3,10 +3,10 @@ import React from "react";
 import { HikeSearchHeader } from "../common/components/headers/HikeSearchHeader";
 import { useTheme } from "../contexts/theme/ThemeContextProvider";
 import { Hike } from "../screens/hikeSearch/Hike";
-import { HikeList } from "../screens/hikeSearch/HikeList";
+import { Hikes } from "../screens/hikeSearch/hikes/Hikes";
 
 export type HikeSearchStackParamList = {
-  hikeList: undefined;
+  hikes: undefined;
   hike: { id: string };
 };
 
@@ -21,7 +21,7 @@ export const HikeSearchNavigation: React.FC = () => {
         header: ({ route }) => <HikeSearchHeader />,
       }}
     >
-      <Stack.Screen name="hikeList" component={HikeList} />
+      <Stack.Screen name="hikes" component={Hikes} />
       <Stack.Screen name="hike" component={Hike} />
     </Stack.Navigator>
   );

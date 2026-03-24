@@ -35,10 +35,11 @@ const styles = (theme: Theme) =>
       height: 80,
       paddingHorizontal: 18,
     },
-    mapIcon: { width: 30, height: 30 },
+    mapIcon: { width: 24, height: 24 },
     mapIconContainer: {
       padding: 6,
       borderWidth: 2,
       borderRadius: 30,
+      marginTop: 6,
     },
   });
