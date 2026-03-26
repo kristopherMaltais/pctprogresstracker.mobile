@@ -17,6 +17,7 @@
   "detail": {
     "distance": "Distance",
     "roundtrip": "Roundtrip",
+    "skippedSections": "Skipped Sections",
     "selectSticker": "Choose your sticker",
     "stickerAvailable": "sticker available",
     "stickersAvailable": "stickers available",

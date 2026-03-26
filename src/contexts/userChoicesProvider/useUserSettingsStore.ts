@@ -8,7 +8,6 @@ import { createLocationSlice, LocationSlice } from "./slices/locationSlice";
 
 const initialState = {
   selectedHike: undefined,
-  selectedHikeId: undefined,
   selectedHikeTotalDistance: 0,
   isReverse: false,
   isCalibratePositionOpen: false,
@@ -23,7 +22,6 @@ const initialState = {
 
 export type FullStoreState = LocationSlice & {
   selectedHike: Hike | undefined;
-  selectedHikeId: string | undefined;
   selectedHikeTotalDistance: number;
   isReverse: boolean;
   backgroundImage: string | undefined;
@@ -65,18 +63,10 @@ export const useUserSettingsStore = create<FullStoreState>()(
       },
 
       setSelectedHike: (hike) => {
-        const currentId = get().selectedHikeId;
-        if (currentId === hike.id) {
-          set({ selectedHike: hike });
-          return;
-        }
-
         set({
           selectedHike: hike,
-          selectedHikeId: hike.id,
           selectedHikeTotalDistance: hike.totalDistance,
           backgroundImage: undefined,
-          isReverse: false,
           location: { displayedLocation: 0, pathLocation: 0 },
           distanceHiked: 0,
         });
@@ -102,7 +92,7 @@ export const useUserSettingsStore = create<FullStoreState>()(
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({
         measurementUnit: state.measurementUnit,
-        selectedHikeId: state.selectedHikeId,
+        selectedHike: state.selectedHike,
         selectedHikeTotalDistance: state.selectedHikeTotalDistance,
         substractSkippedSections: state.substractSkippedSections,
         skippedSections: state.skippedSections,

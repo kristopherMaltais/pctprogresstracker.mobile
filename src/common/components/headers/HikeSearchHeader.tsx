@@ -6,12 +6,18 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, Image, Pressable, StyleSheet, Text, View } from "react-native";
 
-export const HikeSearchHeader: React.FC = () => {
+type HikeSearchHeaderProps = {
+  title?: string;
+};
+
+export const HikeSearchHeader: React.FC<HikeSearchHeaderProps> = ({ title }) => {
   const { getIcon, theme } = useTheme();
   const { t } = useTranslation();
   const { height } = Dimensions.get("window");
 
   const navigation = useNavigation<NavigationProp<HikeSearchStackParamList>>();
+
+  const displayTitle = title || t("hikeSearch:screenTitle");
 
   return (
     <View
@@ -28,7 +34,7 @@ export const HikeSearchHeader: React.FC = () => {
               source={getIcon("backHeader")}
             />
           </Pressable>
-          <Text style={styles(theme).title}>{t("hikeSearch:screenTitle")}</Text>
+          <Text style={styles(theme).title}>{displayTitle}</Text>
         </View>
       </View>
     </View>

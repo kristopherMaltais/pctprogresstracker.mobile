@@ -2,6 +2,8 @@
   "cancel": "Annuler",
   "delete": "Supprimer",
   "save": "Enregistrer",
+  "yes": "Oui",
+  "no": "Non",
   "settings": {
     "restorePurchase": "Restaurer l'achat",
     "madeInQuebec": "Fait au Québec!",

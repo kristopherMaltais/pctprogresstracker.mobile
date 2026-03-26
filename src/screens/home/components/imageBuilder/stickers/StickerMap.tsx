@@ -25,8 +25,6 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
 
   const showLogo = useUserSettingsStore((s) => s.showLogo);
 
-  console.log(selectedHike?.stickers[0].decorations);
-
   const { getIcon } = useTheme();
   const { t } = useTranslation();
   const { setViewShotTransparentBackgroud } = useViewShot();

@@ -52,7 +52,7 @@ export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({ si
   if (!selectedHike) return null;
 
   const path = useMemo(() => {
-    var _path = selectedHike.path;
+    var _path = selectedHike.stickers[0].path;
 
     if (selectedHike.isRoundtrip && location.pathLocation > selectedHikeTotalDistance / 2) {
       _path = reverse(_path);

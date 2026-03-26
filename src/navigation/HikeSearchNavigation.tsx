@@ -2,12 +2,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { HikeSearchHeader } from "../common/components/headers/HikeSearchHeader";
 import { useTheme } from "../contexts/theme/ThemeContextProvider";
-import { Hike } from "../screens/hikeSearch/Hike";
+import { Hike } from "../screens/hikeSearch/hike/Hike";
 import { Hikes } from "../screens/hikeSearch/hikes/Hikes";
 
 export type HikeSearchStackParamList = {
   hikes: undefined;
-  hike: { id: string };
+  hike: { id: string; name?: string };
 };
 
 export const HikeSearchNavigation: React.FC = () => {
@@ -18,7 +18,10 @@ export const HikeSearchNavigation: React.FC = () => {
     <Stack.Navigator
       screenOptions={{
         headerShown: true,
-        header: ({ route }) => <HikeSearchHeader />,
+        header: ({ route }) => {
+          const params = route.params as { name?: string } | undefined;
+          return <HikeSearchHeader title={params?.name} />;
+        },
       }}
     >
       <Stack.Screen name="hikes" component={Hikes} />

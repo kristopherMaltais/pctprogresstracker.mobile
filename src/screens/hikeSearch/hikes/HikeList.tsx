@@ -1,3 +1,4 @@
+import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { HikeList as HikeListModel } from "@/src/models/hikeList";
@@ -15,6 +16,7 @@ type HikeListProps = {
 export const HikeList: React.FC<HikeListProps> = ({ hikes, onSelectHike, isSearching, isLoading }) => {
   const { theme, getIcon } = useTheme();
   const { t } = useTranslation();
+  const { isPremiumUnlocked } = usePremium();
 
   return (
     <View style={styles(theme).container}>
@@ -41,7 +43,7 @@ export const HikeList: React.FC<HikeListProps> = ({ hikes, onSelectHike, isSearc
                   <Text style={styles(theme).hikeName} numberOfLines={1}>
                     {hike.name}
                   </Text>
-                  {hike.isPremium && (
+                  {hike.isPremium && !isPremiumUnlocked && (
                     <View style={styles(theme).premiumBadge}>
                       <Text style={styles(theme).premiumText}>{t("hikeSearch:list.premium")}</Text>
                     </View>

@@ -113,7 +113,7 @@ export const Hikes: React.FC = () => {
       <HikeList
         hikes={displayedHikes}
         onSelectHike={(hike) => {
-          navigation.navigate("hike", { id: hike.id });
+          navigation.navigate("hike", { id: hike.id, name: hike.name });
         }}
         isSearching={isSearching}
         isLoading={isInitialLoading || isSearchLoading}
