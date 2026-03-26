@@ -3,7 +3,6 @@ import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { HikeSearch } from "./components/hikeSearch/HikeSearch";
 import { ImageBuilderSlider } from "./components/imageBuilder/slider/ImageBuilderSlider";
 
 export const Home: React.FC = () => {
@@ -11,7 +10,7 @@ export const Home: React.FC = () => {
 
   return (
     <View style={styles(theme).container}>
-      <HikeSearch />
+      <View style={styles(theme).headerBackground} />
       <ImageBuilderSlider />
     </View>
   );
@@ -22,5 +21,10 @@ const styles = (theme: Theme) =>
     container: {
       flexGrow: 1,
       backgroundColor: theme.background,
+    },
+    headerBackground: {
+      backgroundColor: theme.header,
+      height: 20,
+      width: "100%",
     },
   });

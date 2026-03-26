@@ -9,7 +9,7 @@ export type DebouncedSearchProps = {
 };
 
 export const DebouncedSearch: React.FC<DebouncedSearchProps> = ({ onSearch, placeholder }) => {
-  const { theme, getIcon } = useTheme(); // On récupère getIcon pour la loupe
+  const { theme, getIcon } = useTheme();
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
@@ -48,7 +48,6 @@ const styles = (theme: Theme) =>
       borderRadius: 8,
       height: 60,
 
-      // On déplace l'ombre sur le container
       shadowColor: "#000",
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.25,
@@ -59,10 +58,10 @@ const styles = (theme: Theme) =>
       width: 20,
       height: 20,
       marginRight: 12,
-      tintColor: theme.text + "80", // Donne la même couleur que le placeholder
+      tintColor: theme.text + "80",
     },
     input: {
-      flex: 1, // Prend toute la place restante
+      flex: 1,
       color: theme.text,
       fontSize: 16,
       height: "100%",

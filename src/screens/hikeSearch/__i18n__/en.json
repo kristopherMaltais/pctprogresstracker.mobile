@@ -1,1 +1,26 @@
-{ "screenTitle": "Hikes Search" }
+{
+  "screenTitle": "Hikes Search",
+  "search": {
+    "placeholder": "Find my hike..."
+  },
+  "favorites": {
+    "title": "Favorites",
+    "empty": "No favorites yet. Long press on a hike to add it."
+  },
+  "list": {
+    "allHikes": "All Hikes",
+    "searchResults": "Search Results",
+    "noResults": "No results found",
+    "noHikes": "No hikes available",
+    "premium": "Premium"
+  },
+  "detail": {
+    "distance": "Distance",
+    "roundtrip": "Roundtrip",
+    "selectSticker": "Choose your sticker",
+    "stickerAvailable": "sticker available",
+    "stickersAvailable": "stickers available",
+    "startHike": "Start the hike!",
+    "error": "Unable to load hike details"
+  }
+}

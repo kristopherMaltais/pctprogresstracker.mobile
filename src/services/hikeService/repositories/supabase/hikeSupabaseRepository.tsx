@@ -10,9 +10,10 @@ export class HikeSupabaseRepository implements HikeRepository {
     const to = from + pageSize - 1;
 
     const { data, error } = await supabase
-      .from("trails")
-      .select("id, name, totalDistance")
+      .from("hikes")
+      .select("id, name, totalDistance, isPremium, stickers(count)")
       .range(from, to)
+      .order("isPremium", { ascending: true })
       .order("name", { ascending: true });
 
     if (error) {
@@ -20,13 +21,21 @@ export class HikeSupabaseRepository implements HikeRepository {
       throw error;
     }
 
-    return data || [];
+    return (
+      data?.map((hike: any) => ({
+        id: hike.id,
+        name: hike.name,
+        totalDistance: hike.totalDistance,
+        isPremium: hike.isPremium,
+        stickerCount: hike.stickers[0].count,
+      })) || []
+    );
   }
 
   async getHikeById(id: string): Promise<Hike> {
     try {
       const { data, error } = await supabase
-        .from("trails")
+        .from("hikes")
         .select(
           `
           id, 
@@ -41,7 +50,11 @@ export class HikeSupabaseRepository implements HikeRepository {
             height,
             distance,
             path,
-            decorations ( decoration )
+            sticker_decorations (
+              decorations (
+                decoration
+              )
+            )
           )
         `
         )
@@ -50,12 +63,16 @@ export class HikeSupabaseRepository implements HikeRepository {
 
       if (error) throw error;
 
-      // Transformation chirurgicale pour matcher ton type Hike
       return {
         ...data,
         stickers: data.stickers.map((s: any) => ({
-          ...s,
-          decorations: s.decorations.map((d: any) => d.decoration), // On extrait la string ici
+          id: s.id,
+          orientation: s.orientation,
+          width: s.width,
+          height: s.height,
+          distance: s.distance,
+          path: s.path,
+          decorations: s.sticker_decorations.map((sd: any) => sd.decorations.decoration),
         })),
       } as Hike;
     } catch (error) {
@@ -67,15 +84,24 @@ export class HikeSupabaseRepository implements HikeRepository {
   async searchHikes(keyword: string): Promise<any[]> {
     try {
       const { data, error } = await supabase
-        .from("trails")
-        .select("id, name, totalDistance, isPremium")
+        .from("hikes")
+        .select("id, name, totalDistance, isPremium, stickers(count)")
         .ilike("name", `%${keyword}%`)
+        .order("isPremium", { ascending: true })
         .order("name", { ascending: true })
         .limit(10);
 
       if (error) throw error;
 
-      return data || [];
+      return (
+        data?.map((hike: any) => ({
+          id: hike.id,
+          name: hike.name,
+          totalDistance: hike.totalDistance,
+          isPremium: hike.isPremium,
+          stickerCount: hike.stickers?.length || 0,
+        })) || []
+      );
     } catch (error) {
       console.error("Erreur de recherche:", error);
       throw error;

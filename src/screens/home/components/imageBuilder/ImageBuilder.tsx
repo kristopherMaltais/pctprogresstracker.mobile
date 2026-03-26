@@ -77,20 +77,16 @@ export const ImageBuilder: React.FC<ImageBuilderProps> = ({ children }) => {
   return (
     <GestureDetector gesture={composedGesture}>
       <View ref={viewRef} style={{ height: "90%" }}>
-        {selectedHike && (
-          <>
-            {isStickerSelectedPremium && !isPremiumUnlocked && <PremiumButton />}
-            <Animated.View
-              style={{
-                ...styles().container,
-                backgroundColor: isDarkMode ? theme.background : "#E0E0E0",
-              }}
-            >
-              <Animated.Image source={{ uri: backgroundImage }} style={[styles().backgroundImage, animatedStyle]} />
-              {children}
-            </Animated.View>
-          </>
-        )}
+        {isStickerSelectedPremium && !isPremiumUnlocked && <PremiumButton />}
+        <Animated.View
+          style={{
+            ...styles().container,
+            backgroundColor: isDarkMode ? theme.background : "#E0E0E0",
+          }}
+        >
+          <Animated.Image source={{ uri: backgroundImage }} style={[styles().backgroundImage, animatedStyle]} />
+          {children}
+        </Animated.View>
       </View>
     </GestureDetector>
   );

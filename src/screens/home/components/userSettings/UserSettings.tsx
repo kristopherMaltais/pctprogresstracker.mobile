@@ -7,6 +7,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Animated, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { AdvancedSettings } from "./AdvancedSettings";
 import { Direction } from "./Direction";
+import { FindHike } from "./FindHike";
 import { MeasurementUnitSwitch } from "./MeasurementUnitSwitch";
 import { Position } from "./position/Position";
 import { PositionInput } from "./position/PositionInput";
@@ -82,6 +83,7 @@ export const UserSettings: React.FC<userSettingsProps> = ({ disabled = false, hi
             <ProgressInput isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
             {isMenuOpen && (
               <>
+                <FindHike isMenuOpen={isMenuOpen} />
                 <MeasurementUnitSwitch isMenuOpen={isMenuOpen} />
                 <Direction isMenuOpen={isMenuOpen} />
                 <ShowLogoSwitch isMenuOpen={isMenuOpen} />
