@@ -1,5 +1,6 @@
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
+import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { HikeSearchStackParamList } from "@/src/navigation/HikeSearchNavigation";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React from "react";
@@ -8,16 +9,19 @@ import { Dimensions, Image, Pressable, StyleSheet, Text, View } from "react-nati
 
 type HikeSearchHeaderProps = {
   title?: string;
+  hikeId?: string;
 };
 
-export const HikeSearchHeader: React.FC<HikeSearchHeaderProps> = ({ title }) => {
+export const HikeSearchHeader: React.FC<HikeSearchHeaderProps> = ({ title, hikeId }) => {
   const { getIcon, theme } = useTheme();
   const { t } = useTranslation();
   const { height } = Dimensions.get("window");
+  const { selectedHike } = useUserSettingsStore();
 
   const navigation = useNavigation<NavigationProp<HikeSearchStackParamList>>();
 
   const displayTitle = title || t("hikeSearch:screenTitle");
+  const isSelected = hikeId && selectedHike?.id === hikeId;
 
   return (
     <View
@@ -36,6 +40,7 @@ export const HikeSearchHeader: React.FC<HikeSearchHeaderProps> = ({ title }) => 
           </Pressable>
           <Text style={styles(theme).title}>{displayTitle}</Text>
         </View>
+        {isSelected && <Image source={require("@/assets/images/success.png")} style={styles(theme).successIcon} />}
       </View>
     </View>
   );
@@ -71,5 +76,10 @@ const styles = (theme: Theme) =>
       fontWeight: "700",
       fontSize: 16,
       letterSpacing: 1,
+    },
+    successIcon: {
+      width: 24,
+      height: 24,
+      marginRight: 8,
     },
   });

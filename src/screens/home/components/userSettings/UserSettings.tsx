@@ -6,9 +6,7 @@ import * as Haptics from "expo-haptics";
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { AdvancedSettings } from "./AdvancedSettings";
-import { Direction } from "./Direction";
 import { FindHike } from "./FindHike";
-import { MeasurementUnitSwitch } from "./MeasurementUnitSwitch";
 import { Position } from "./position/Position";
 import { PositionInput } from "./position/PositionInput";
 import { ProgressInput } from "./progressInput/ProgressInput";
@@ -84,8 +82,6 @@ export const UserSettings: React.FC<userSettingsProps> = ({ disabled = false, hi
             {isMenuOpen && (
               <>
                 <FindHike isMenuOpen={isMenuOpen} />
-                <MeasurementUnitSwitch isMenuOpen={isMenuOpen} />
-                <Direction isMenuOpen={isMenuOpen} />
                 <ShowLogoSwitch isMenuOpen={isMenuOpen} />
                 <Position isMenuOpen={isMenuOpen} openPositionInput={() => setIsCalibratePositionOpen(true)} />
                 <AdvancedSettings isMenuOpen={isMenuOpen} />

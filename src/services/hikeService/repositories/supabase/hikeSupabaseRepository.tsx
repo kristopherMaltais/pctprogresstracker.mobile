@@ -12,6 +12,7 @@ export class HikeSupabaseRepository implements HikeRepository {
     const { data, error } = await supabase
       .from("hikes")
       .select("id, name, totalDistance, isPremium, stickers(count)")
+      .eq("isActive", true)
       .range(from, to)
       .order("isPremium", { ascending: true })
       .order("name", { ascending: true });
@@ -86,6 +87,7 @@ export class HikeSupabaseRepository implements HikeRepository {
       const { data, error } = await supabase
         .from("hikes")
         .select("id, name, totalDistance, isPremium, stickers(count)")
+        .eq("isActive", true)
         .ilike("name", `%${keyword}%`)
         .order("isPremium", { ascending: true })
         .order("name", { ascending: true })

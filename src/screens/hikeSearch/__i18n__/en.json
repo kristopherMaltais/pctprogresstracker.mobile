@@ -18,10 +18,9 @@
     "distance": "Distance",
     "roundtrip": "Roundtrip",
     "skippedSections": "Skipped Sections",
-    "selectSticker": "Choose your sticker",
     "stickerAvailable": "sticker available",
     "stickersAvailable": "stickers available",
-    "startHike": "Start the hike!",
+    "startHike": "Select this hike",
     "error": "Unable to load hike details"
   }
 }

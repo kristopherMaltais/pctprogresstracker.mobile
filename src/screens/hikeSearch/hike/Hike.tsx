@@ -11,7 +11,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { HikeBadges } from "./components/HikeBadges";
+import { HikeBadges } from "./HikeBadges";
 import { StickerCarousel } from "./StickerCarousel";
 
 export const Hike: React.FC = () => {
@@ -70,7 +70,7 @@ export const Hike: React.FC = () => {
         <View
           style={{
             ...styles(theme).premiumBanner,
-            backgroundColor: isDarkMode ? theme.primary : theme.tertiaryBackground,
+            backgroundColor: isDarkMode ? theme.primary : theme.pathColored,
           }}
         >
           <Text style={{ ...styles(theme).premiumBannerText, color: isDarkMode ? "#FFFFFF" : theme.primary }}>

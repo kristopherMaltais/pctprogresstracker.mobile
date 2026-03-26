@@ -1,8 +1,10 @@
+import { HikeProgressAnimation } from "@/src/common/components/hikeProgressAnimation/HikeProgressAnimation";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { useValidation } from "@/src/contexts/validation/ValidationContextProvider";
 import { mileToKilometer } from "@/src/helpers/computeDistances";
+import { getHikedLocationIntervals } from "@/src/helpers/getHikedLocationIntervals";
 import { LocationInterval } from "@/src/models/locationInterval";
 import { MeasurementUnit } from "@/src/models/measurementUnit";
 import { AdvancedSettingsStackParamList } from "@/src/navigation/AdvancedSettingsNavigation";
@@ -117,7 +119,7 @@ export const EditSkippedSection: React.FC = () => {
         {t(`advancedSettings:editSkippedSection.${params.isEditMode ? "titleEdit" : "titleAdd"}`)}
       </Text>
 
-      {/* <View style={styles(theme).mapContainer}>
+      <View style={styles(theme).mapContainer}>
         {skippedSection && (
           <HikeProgressAnimation
             size={1}
@@ -129,7 +131,7 @@ export const EditSkippedSection: React.FC = () => {
             ]}
           />
         )}
-      </View> */}
+      </View>
 
       <BoundaryInput
         value={skippedSection.start}

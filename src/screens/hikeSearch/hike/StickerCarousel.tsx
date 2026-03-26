@@ -9,7 +9,6 @@ import { SNAP_INTERVAL, StickerCard } from "./StickerCard";
 
 type StickerCarouselProps = {
   stickers: Sticker[];
-  onChangeSticker: (index: number) => void;
 };
 
 type ViewableItemsChangedInfo = {
@@ -17,7 +16,7 @@ type ViewableItemsChangedInfo = {
   changed: ViewToken[];
 };
 
-export const StickerCarousel: React.FC<StickerCarouselProps> = ({ stickers, onChangeSticker }) => {
+export const StickerCarousel: React.FC<StickerCarouselProps> = ({ stickers }) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
   const scrollX = useRef(new Animated.Value(0)).current;
@@ -33,7 +32,6 @@ export const StickerCarousel: React.FC<StickerCarouselProps> = ({ stickers, onCh
     if (viewableItems.length > 0 && viewableItems[0].index !== null) {
       const index = viewableItems[0].index;
       setActiveIndex(index);
-      onChangeSticker(index);
     }
   }).current;
 

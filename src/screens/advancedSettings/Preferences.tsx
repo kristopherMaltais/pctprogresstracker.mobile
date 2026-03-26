@@ -12,19 +12,26 @@ import { ScrollView } from "react-native-gesture-handler";
 import { Actions } from "./components/Actions";
 import { InputCheckbox } from "./components/InputCheckbox";
 import { InputNumber } from "./components/InputNumber";
+import { InputSwitch } from "./components/InputSwitch";
+import { InputToggleText } from "./components/InputToggleText";
 
-export const EditHikeTotalDistance: React.FC = () => {
+export const Preferences: React.FC = () => {
   const { theme } = useTheme();
   const { t } = useTranslation();
   const navigation = useNavigation();
   const { isPremiumUnlocked } = usePremium();
 
   const measurementUnit = useUserSettingsStore((state) => state.measurementUnit);
+  const setMeasurementUnit = useUserSettingsStore((state) => state.setMeasurementUnit);
+  const isReverse = useUserSettingsStore((state) => state.isReverse);
+  const setIsReverse = useUserSettingsStore((state) => state.setIsReverse);
   const substractSkippedSections = useUserSettingsStore((state) => state.substractSkippedSections);
   const setSubstractSkippedSections = useUserSettingsStore((state) => state.setSubstractSkippedSections);
   const selectedHikeTotalDistance = useUserSettingsStore((state) => state.selectedHikeTotalDistance);
   const setSelectedHikeTotalDistance = useUserSettingsStore((state) => state.setSelectedHikeTotalDistance);
 
+  const [_measurementUnit, _setMeasurementUnit] = useState<MeasurementUnit>(measurementUnit);
+  const [_isReverse, _setIsReverse] = useState<boolean>(isReverse);
   const [_substractSkippedSections, _setSubstractSkippedSections] = useState<boolean>(substractSkippedSections);
   const [_hikeTotalDistance, _setHikeTotalDistance] = useState<number>(
     measurementUnit == MeasurementUnit.KILOMETER
@@ -32,22 +39,39 @@ export const EditHikeTotalDistance: React.FC = () => {
       : kilometerToMile(selectedHikeTotalDistance)
   );
 
+  const handleMeasurementUnitToggle = () => {
+    const newUnit = _measurementUnit === MeasurementUnit.KILOMETER ? MeasurementUnit.MILE : MeasurementUnit.KILOMETER;
+    _setMeasurementUnit(newUnit);
+
+    if (newUnit === MeasurementUnit.MILE) {
+      _setHikeTotalDistance(kilometerToMile(_hikeTotalDistance));
+    } else {
+      _setHikeTotalDistance(mileToKilometer(_hikeTotalDistance));
+    }
+  };
+
   const saveSettings = () => {
     setSelectedHikeTotalDistance(
-      measurementUnit == MeasurementUnit.MILE ? mileToKilometer(_hikeTotalDistance) : _hikeTotalDistance
+      _measurementUnit == MeasurementUnit.MILE ? mileToKilometer(_hikeTotalDistance) : _hikeTotalDistance
     );
+    setMeasurementUnit(_measurementUnit);
+    setIsReverse(_isReverse);
     setSubstractSkippedSections(_substractSkippedSections);
     navigation.goBack();
   };
 
+  const getMeasurementUnitText = () => {
+    return _measurementUnit === MeasurementUnit.KILOMETER ? "km" : "mile";
+  };
+
   return (
     <ScrollView style={styles(theme).container}>
-      <Text style={styles(theme).title}>{t("advancedSettings:editHikeTotalDistance.title")}</Text>
+      <Text style={styles(theme).title}>{t("advancedSettings:preferences.title")}</Text>
       <InputNumber
         label={t("advancedSettings:editHikeTotalDistance.totalDistance")}
         value={_hikeTotalDistance}
         onChange={_setHikeTotalDistance}
-        unit={measurementUnit == MeasurementUnit.KILOMETER ? "km" : "mi"}
+        unit={_measurementUnit == MeasurementUnit.KILOMETER ? "km" : "mi"}
       />
       <InputCheckbox
         isDisabled={!isPremiumUnlocked}
@@ -55,6 +79,12 @@ export const EditHikeTotalDistance: React.FC = () => {
         toggleChecked={_setSubstractSkippedSections}
         label={t("advancedSettings:editHikeTotalDistance.substractSkippedSections")}
       />
+      <InputToggleText
+        value={getMeasurementUnitText()}
+        onToggle={handleMeasurementUnitToggle}
+        label={t("advancedSettings:preferences.measurementUnit")}
+      />
+      <InputSwitch value={_isReverse} onToggle={_setIsReverse} label={t("advancedSettings:preferences.direction")} />
       <Actions onSave={saveSettings} />
     </ScrollView>
   );

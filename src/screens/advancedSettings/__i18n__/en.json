@@ -30,9 +30,13 @@
     }
   },
   "editHikeTotalDistance": {
-    "title": "Total Distance",
     "totalDistance": "Hike total distance",
     "substractSkippedSections": "Substract skipped sections"
+  },
+  "preferences": {
+    "title": "Preferences",
+    "measurementUnit": "Measurement Unit",
+    "direction": "Reverse Direction"
   },
   "progressInputModes": {
     "bestForLabel": "Best for:",

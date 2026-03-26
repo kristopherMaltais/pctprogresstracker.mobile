@@ -33,7 +33,7 @@ export const StickerCard: React.FC<StickerCardProps> = ({ item, index, scrollX }
       <View
         style={{
           ...styles(theme).card,
-          backgroundColor: isDarkMode ? theme.secondaryBackground : theme.tertiaryBackground,
+          backgroundColor: theme.secondaryBackground,
         }}
       >
         <HikeProgressStatic sticker={item} size={1} />
@@ -56,7 +56,6 @@ const styles = (theme: Theme) =>
       padding: 20,
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: theme.secondaryBackground,
       shadowColor: "#000",
       shadowOffset: { width: 0, height: 3 },
       shadowOpacity: 0.2,

@@ -19,8 +19,8 @@ export const HikeSearchNavigation: React.FC = () => {
       screenOptions={{
         headerShown: true,
         header: ({ route }) => {
-          const params = route.params as { name?: string } | undefined;
-          return <HikeSearchHeader title={params?.name} />;
+          const params = route.params as { id?: string; name?: string } | undefined;
+          return <HikeSearchHeader title={params?.name} hikeId={params?.id} />;
         },
       }}
     >

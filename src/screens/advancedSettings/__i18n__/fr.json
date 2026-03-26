@@ -36,9 +36,13 @@
     }
   },
   "editHikeTotalDistance": {
-    "title": "Distance totale",
     "totalDistance": "Distance totale randonnée",
     "substractSkippedSections": "Soustraire les sections sautées"
+  },
+  "preferences": {
+    "title": "Préférences",
+    "measurementUnit": "Unité de mesure",
+    "direction": "Inverser la direction"
   },
   "progressInputModes": {
     "title": "Modes de saisie de progression",

@@ -4,7 +4,7 @@ import { AdvancesSettingsHeader } from "../common/components/headers/AdvancedSet
 import { useTheme } from "../contexts/theme/ThemeContextProvider";
 import { LocationInterval } from "../models/locationInterval";
 import { AdvancedSettings } from "../screens/advancedSettings/AdvancedSettings";
-import { EditHikeTotalDistance } from "../screens/advancedSettings/EditHikeTotalDistance";
+import { Preferences } from "../screens/advancedSettings/Preferences";
 import { ProgressInputModes } from "../screens/advancedSettings/progressInputModes/ProgressInputModes";
 import { EditSkippedSection } from "../screens/advancedSettings/skippedSections/EditSkippedSection";
 import { SkippedSections } from "../screens/advancedSettings/skippedSections/SkippedSections";
@@ -14,7 +14,7 @@ export type AdvancedSettingsStackParamList = {
   editHikeBoundaries: undefined;
   skippedSections: undefined;
   editSkippedSection: { isEditMode: boolean; skippedSection?: LocationInterval };
-  editHikeTotalDistance: undefined;
+  preferences: undefined;
   progressInputModes: undefined;
 };
 
@@ -32,7 +32,7 @@ export const AdvancedSettingsNavigation: React.FC = () => {
       <Stack.Screen name="advancedSettings" component={AdvancedSettings} />
       <Stack.Screen name="skippedSections" component={SkippedSections} />
       <Stack.Screen name="editSkippedSection" component={EditSkippedSection} />
-      <Stack.Screen name="editHikeTotalDistance" component={EditHikeTotalDistance} />
+      <Stack.Screen name="preferences" component={Preferences} />
       <Stack.Screen name="progressInputModes" component={ProgressInputModes} />
     </Stack.Navigator>
   );

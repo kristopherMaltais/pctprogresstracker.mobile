@@ -1,6 +1,7 @@
 import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
+import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { HikeList as HikeListModel } from "@/src/models/hikeList";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -17,6 +18,7 @@ export const HikeList: React.FC<HikeListProps> = ({ hikes, onSelectHike, isSearc
   const { theme, getIcon } = useTheme();
   const { t } = useTranslation();
   const { isPremiumUnlocked } = usePremium();
+  const { selectedHike } = useUserSettingsStore();
 
   return (
     <View style={styles(theme).container}>
@@ -36,35 +38,43 @@ export const HikeList: React.FC<HikeListProps> = ({ hikes, onSelectHike, isSearc
         </View>
       ) : (
         <View style={styles(theme).listContainer}>
-          {hikes.map((hike) => (
-            <Pressable key={hike.id} style={styles(theme).card} onPress={() => onSelectHike(hike)}>
-              <View style={styles(theme).textContent}>
-                <View style={styles(theme).nameRow}>
-                  <Text style={styles(theme).hikeName} numberOfLines={1}>
-                    {hike.name}
-                  </Text>
-                  {hike.isPremium && !isPremiumUnlocked && (
-                    <View style={styles(theme).premiumBadge}>
-                      <Text style={styles(theme).premiumText}>{t("hikeSearch:list.premium")}</Text>
-                    </View>
-                  )}
-                </View>
-                <View style={styles(theme).infoRow}>
-                  <Text style={styles(theme).distance}>{hike.totalDistance} km</Text>
-                  {hike.stickerCount !== undefined && (
-                    <>
-                      <Text style={styles(theme).separator}>•</Text>
-                      <Text style={styles(theme).stickerCount}>
-                        {hike.stickerCount} {hike.stickerCount > 1 ? "stickers" : "sticker"}
-                      </Text>
-                    </>
-                  )}
-                </View>
-              </View>
+          {hikes.map((hike) => {
+            const isSelected = selectedHike?.id === hike.id;
 
-              <Image source={getIcon("rightChevron")} style={styles(theme).chevron} />
-            </Pressable>
-          ))}
+            return (
+              <Pressable key={hike.id} style={styles(theme).card} onPress={() => onSelectHike(hike)}>
+                <View style={styles(theme).textContent}>
+                  <View style={styles(theme).nameRow}>
+                    <Text style={styles(theme).hikeName} numberOfLines={1}>
+                      {hike.name}
+                    </Text>
+                    {hike.isPremium && !isPremiumUnlocked && (
+                      <View style={styles(theme).premiumBadge}>
+                        <Text style={styles(theme).premiumText}>{t("hikeSearch:list.premium")}</Text>
+                      </View>
+                    )}
+                  </View>
+                  <View style={styles(theme).infoRow}>
+                    <Text style={styles(theme).distance}>{hike.totalDistance} km</Text>
+                    {hike.stickerCount !== undefined && (
+                      <>
+                        <Text style={styles(theme).separator}>•</Text>
+                        <Text style={styles(theme).stickerCount}>
+                          {hike.stickerCount} {hike.stickerCount > 1 ? "stickers" : "sticker"}
+                        </Text>
+                      </>
+                    )}
+                  </View>
+                </View>
+
+                {isSelected ? (
+                  <Image source={require("@/assets/images/success.png")} style={styles(theme).successIcon} />
+                ) : (
+                  <Image source={getIcon("rightChevron")} style={styles(theme).chevron} />
+                )}
+              </Pressable>
+            );
+          })}
         </View>
       )}
     </View>
@@ -162,6 +172,11 @@ const styles = (theme: Theme) =>
       height: 20,
       tintColor: theme.text,
       opacity: 0.4,
+      marginLeft: 8,
+    },
+    successIcon: {
+      width: 24,
+      height: 24,
       marginLeft: 8,
     },
     loadingContainer: {

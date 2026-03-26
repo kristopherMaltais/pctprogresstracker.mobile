@@ -19,7 +19,6 @@ export const imageBuilderPanRef = {
 export const ImageBuilder: React.FC<ImageBuilderProps> = ({ children }) => {
   const backgroundImage = useUserSettingsStore((s) => s.backgroundImage);
   const isStickerSelectedPremium = useUserSettingsStore((s) => s.isStickerSelectedPremium);
-  const selectedHike = useUserSettingsStore((s) => s.selectedHike);
   const { isPremiumUnlocked } = usePremium();
   const { setSkiaViewRef } = useViewShot();
   const { theme, isDarkMode } = useTheme();
