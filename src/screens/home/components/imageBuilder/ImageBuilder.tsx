@@ -99,6 +99,7 @@ const styles = () =>
       alignItems: "center",
       overflow: "hidden",
       elevation: 5,
+      borderRadius: 8,
     },
     backgroundImage: {
       width: "100%",

@@ -1,11 +1,13 @@
 import { Orientation } from "./orientation";
 
-export type Sticker = {
+export type Map = {
   id: string;
   path: string;
-  distance: number;
+  totalDistance: number;
+  name: string;
   width: number;
   height: number;
   orientation: Orientation;
   decorations: string[];
+  description: string;
 };

@@ -11,7 +11,7 @@ export class HikeSupabaseRepository implements HikeRepository {
 
     const { data, error } = await supabase
       .from("hikes")
-      .select("id, name, totalDistance, isPremium, stickers(count)")
+      .select("id, name, isPremium, maps(count)")
       .eq("isActive", true)
       .range(from, to)
       .order("isPremium", { ascending: true })
@@ -26,14 +26,13 @@ export class HikeSupabaseRepository implements HikeRepository {
       data?.map((hike: any) => ({
         id: hike.id,
         name: hike.name,
-        totalDistance: hike.totalDistance,
         isPremium: hike.isPremium,
-        stickerCount: hike.stickers[0].count,
+        mapCount: hike.maps[0].count,
       })) || []
     );
   }
 
-  async getHikeById(id: string): Promise<Hike> {
+  async getHikeById(id: string): Promise<any> {
     try {
       const { data, error } = await supabase
         .from("hikes")
@@ -41,17 +40,18 @@ export class HikeSupabaseRepository implements HikeRepository {
           `
           id, 
           name, 
-          totalDistance,
           isPremium,
           isRoundtrip,
-          stickers (
+          maps (
             id,
             orientation,
             width,
             height,
-            distance,
+            totalDistance,
             path,
-            sticker_decorations (
+            description,
+            name,
+            map_decoration (
               decorations (
                 decoration
               )
@@ -66,27 +66,29 @@ export class HikeSupabaseRepository implements HikeRepository {
 
       return {
         ...data,
-        stickers: data.stickers.map((s: any) => ({
+        maps: data.maps.map((s: any) => ({
           id: s.id,
           orientation: s.orientation,
           width: s.width,
           height: s.height,
-          distance: s.distance,
+          totalDistance: s.totalDistance,
           path: s.path,
-          decorations: s.sticker_decorations.map((sd: any) => sd.decorations.decoration),
+          name: s.name,
+          description: s.description,
+          decorations: s.map_decoration.map((sd: any) => sd.decorations.decoration),
         })),
-      } as Hike;
+      };
     } catch (error) {
       console.error("Erreur technique:", error);
       throw error;
     }
   }
 
-  async searchHikes(keyword: string): Promise<any[]> {
+  async searchHikes(keyword: string): Promise<Hike[]> {
     try {
       const { data, error } = await supabase
         .from("hikes")
-        .select("id, name, totalDistance, isPremium, stickers(count)")
+        .select("id, name, isPremium, maps(count)")
         .eq("isActive", true)
         .ilike("name", `%${keyword}%`)
         .order("isPremium", { ascending: true })
@@ -99,9 +101,8 @@ export class HikeSupabaseRepository implements HikeRepository {
         data?.map((hike: any) => ({
           id: hike.id,
           name: hike.name,
-          totalDistance: hike.totalDistance,
           isPremium: hike.isPremium,
-          stickerCount: hike.stickers?.length || 0,
+          isRoundtrip: false,
         })) || []
       );
     } catch (error) {

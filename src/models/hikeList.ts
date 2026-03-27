@@ -1,7 +1,6 @@
 export type HikeList = {
   id: string;
   name: string;
-  totalDistance: number;
-  stickerCount?: number;
+  mapCount: number;
   isPremium: boolean;
 };

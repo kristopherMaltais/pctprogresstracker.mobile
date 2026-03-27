@@ -18,8 +18,8 @@
     "distance": "Distance",
     "roundtrip": "Roundtrip",
     "skippedSections": "Skipped Sections",
-    "stickerAvailable": "sticker available",
-    "stickersAvailable": "stickers available",
+    "mapAvailable": "map available",
+    "mapsAvailable": "maps available",
     "startHike": "Select this hike",
     "error": "Unable to load hike details"
   }

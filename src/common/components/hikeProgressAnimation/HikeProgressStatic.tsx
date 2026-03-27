@@ -1,5 +1,5 @@
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
-import { Sticker } from "@/src/models/sticker";
+import { Sticker } from "@/src/models/map";
 import { Canvas, Path, Shadow } from "@shopify/react-native-skia";
 import React from "react";
 

@@ -1,14 +1,16 @@
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { Theme } from "@/src/contexts/theme/models/theme";
-import { Sticker } from "@/src/models/sticker";
+import { Map } from "@/src/models/map";
 import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Animated, ListRenderItem, StyleSheet, Text, View, ViewToken } from "react-native";
 import { IndexIndicator } from "../../home/components/imageBuilder/slider/IndexIndicator";
-import { SNAP_INTERVAL, StickerCard } from "./StickerCard";
+import { MapCard, SNAP_INTERVAL } from "./MapCard";
 
-type StickerCarouselProps = {
-  stickers: Sticker[];
+type MapCarouselProps = {
+  maps: Map[];
+  onMapChange?: (index: number) => void;
+  currentMap: Map;
 };
 
 type ViewableItemsChangedInfo = {
@@ -16,40 +18,46 @@ type ViewableItemsChangedInfo = {
   changed: ViewToken[];
 };
 
-export const StickerCarousel: React.FC<StickerCarouselProps> = ({ stickers }) => {
+export const MapCarousel: React.FC<MapCarouselProps> = ({ maps, onMapChange, currentMap }) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
   const scrollX = useRef(new Animated.Value(0)).current;
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const stickerCount = stickers.length;
-  const stickerCountText =
-    stickerCount === 1
-      ? `${stickerCount} ${t("hikeSearch:detail.stickerAvailable")}`
-      : `${stickerCount} ${t("hikeSearch:detail.stickersAvailable")}`;
+  const mapCount = maps.length;
+  const mapCountText =
+    mapCount === 1
+      ? `${mapCount} ${t("hikeSearch:detail.mapAvailable")}`
+      : `${mapCount} ${t("hikeSearch:detail.mapsAvailable")}`;
 
-  const onViewableItemsChanged = useRef(({ viewableItems }: ViewableItemsChangedInfo) => {
+  const onViewableItemsChangedRef = useRef(({ viewableItems }: ViewableItemsChangedInfo) => {
     if (viewableItems.length > 0 && viewableItems[0].index !== null) {
       const index = viewableItems[0].index;
       setActiveIndex(index);
+      if (onMapChange) {
+        onMapChange(index);
+      }
     }
-  }).current;
+  });
 
   const viewabilityConfig = useRef({
     viewAreaCoveragePercentThreshold: 50,
   }).current;
 
-  const renderItem: ListRenderItem<Sticker> = ({ item, index }) => {
-    return <StickerCard item={item} index={index} scrollX={scrollX} />;
+  const renderItem: ListRenderItem<Map> = ({ item, index }) => {
+    return <MapCard item={item} index={index} scrollX={scrollX} />;
   };
 
   return (
     <View style={styles(theme).container}>
-      <Text style={styles(theme).stickerCount}>{stickerCountText}</Text>
+      <View style={styles(theme).mapInfoContainer}>
+        <Text style={styles(theme).mapName}>{currentMap.name}</Text>
+        {currentMap.description && <Text style={styles(theme).mapDescription}>{currentMap.description}</Text>}
+      </View>
       <Animated.FlatList
-        data={stickers}
+        data={maps}
         renderItem={renderItem}
-        keyExtractor={(_, index) => `sticker-${index}`}
+        keyExtractor={(_, index) => `map-${index}`}
         horizontal
         showsHorizontalScrollIndicator={false}
         snapToInterval={SNAP_INTERVAL}
@@ -57,11 +65,11 @@ export const StickerCarousel: React.FC<StickerCarouselProps> = ({ stickers }) =>
         bounces={false}
         onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], { useNativeDriver: true })}
         scrollEventThrottle={16}
-        onViewableItemsChanged={onViewableItemsChanged}
+        onViewableItemsChanged={onViewableItemsChangedRef.current}
         viewabilityConfig={viewabilityConfig}
         contentContainerStyle={{ alignItems: "center" }}
       />
-      {stickerCount > 1 && <IndexIndicator indexCount={stickerCount} activeIndex={activeIndex} />}
+      {mapCount > 1 && <IndexIndicator indexCount={mapCount} activeIndex={activeIndex} />}
     </View>
   );
 };
@@ -71,15 +79,25 @@ const styles = (theme: Theme) =>
     container: {
       marginBottom: 24,
       marginTop: 16,
-      height: 300,
     },
-    stickerCount: {
-      fontSize: 14,
+    mapInfoContainer: {
+      paddingHorizontal: 16,
+      marginBottom: 16,
+      minHeight: 40,
+    },
+    mapName: {
+      fontSize: 16,
       fontWeight: "700",
       color: theme.text,
       textTransform: "uppercase",
       letterSpacing: 1,
       opacity: 0.5,
-      paddingHorizontal: 16,
+    },
+    mapDescription: {
+      fontSize: 14,
+      fontWeight: "400",
+      color: theme.text,
+      opacity: 0.7,
+      lineHeight: 20,
     },
   });

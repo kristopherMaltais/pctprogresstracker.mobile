@@ -55,15 +55,9 @@ export const HikeList: React.FC<HikeListProps> = ({ hikes, onSelectHike, isSearc
                     )}
                   </View>
                   <View style={styles(theme).infoRow}>
-                    <Text style={styles(theme).distance}>{hike.totalDistance} km</Text>
-                    {hike.stickerCount !== undefined && (
-                      <>
-                        <Text style={styles(theme).separator}>•</Text>
-                        <Text style={styles(theme).stickerCount}>
-                          {hike.stickerCount} {hike.stickerCount > 1 ? "stickers" : "sticker"}
-                        </Text>
-                      </>
-                    )}
+                    <Text style={styles(theme).stickerCount}>
+                      {hike.mapCount} {hike.mapCount > 1 ? "maps" : "map"}
+                    </Text>
                   </View>
                 </View>
 

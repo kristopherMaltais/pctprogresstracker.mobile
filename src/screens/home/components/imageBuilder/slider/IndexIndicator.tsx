@@ -27,6 +27,7 @@ const styles = (theme: Theme) =>
     container: {
       flexDirection: "row",
       justifyContent: "center",
+      marginTop: 8,
     },
     dot: {
       width: 6,

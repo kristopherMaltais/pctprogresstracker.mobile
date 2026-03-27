@@ -65,7 +65,7 @@ export const useUserSettingsStore = create<FullStoreState>()(
       setSelectedHike: (hike) => {
         set({
           selectedHike: hike,
-          selectedHikeTotalDistance: hike.totalDistance,
+          selectedHikeTotalDistance: hike.maps[hike.selectedMapIndex].totalDistance,
           backgroundImage: undefined,
           location: { displayedLocation: 0, pathLocation: 0 },
           distanceHiked: 0,

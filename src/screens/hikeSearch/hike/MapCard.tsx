@@ -1,7 +1,7 @@
 import { HikeProgressStatic } from "@/src/common/components/hikeProgressAnimation/HikeProgressStatic";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
-import { Sticker } from "@/src/models/sticker";
+import { Map } from "@/src/models/map";
 import React from "react";
 import { Animated, Dimensions, StyleSheet, View } from "react-native";
 
@@ -11,13 +11,13 @@ const SPACING = 16;
 export const CARD_WIDTH = width - SPACING * 2;
 export const SNAP_INTERVAL = CARD_WIDTH + SPACING * 2;
 
-type StickerCardProps = {
-  item: Sticker;
+type MapCardProps = {
+  item: Map;
   index: number;
   scrollX: Animated.Value;
 };
 
-export const StickerCard: React.FC<StickerCardProps> = ({ item, index, scrollX }) => {
+export const MapCard: React.FC<MapCardProps> = ({ item, index, scrollX }) => {
   const { theme, isDarkMode } = useTheme();
 
   const inputRange = [(index - 1) * SNAP_INTERVAL, index * SNAP_INTERVAL, (index + 1) * SNAP_INTERVAL];

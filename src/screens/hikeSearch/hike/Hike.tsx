@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { HikeBadges } from "./HikeBadges";
-import { StickerCarousel } from "./StickerCarousel";
+import { MapCarousel } from "./MapCarousel";
 
 export const Hike: React.FC = () => {
   const { theme, isDarkMode } = useTheme();
@@ -27,6 +27,7 @@ export const Hike: React.FC = () => {
 
   const [hike, setHike] = useState<HikeModel | undefined>();
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedMapIndex, setSelectedMapIndex] = useState(0);
 
   useEffect(() => {
     hikeService
@@ -43,7 +44,11 @@ export const Hike: React.FC = () => {
 
   const handleStartHike = () => {
     if (hike) {
-      setSelectedHike(hike);
+      const hikeWithSelectedMap: HikeModel = {
+        ...hike,
+        selectedMapIndex: selectedMapIndex,
+      };
+      setSelectedHike(hikeWithSelectedMap);
       navigation.getParent()?.navigate("home");
     }
   };
@@ -79,9 +84,9 @@ export const Hike: React.FC = () => {
         </View>
       )}
 
-      <HikeBadges hike={hike} />
+      <HikeBadges hike={hike} selectedMapIndex={selectedMapIndex} />
 
-      <StickerCarousel stickers={hike.stickers} onChangeSticker={() => {}} />
+      <MapCarousel maps={hike.maps} onMapChange={setSelectedMapIndex} currentMap={hike.maps[selectedMapIndex]} />
 
       <TouchableOpacity style={styles(theme).startButton} onPress={handleStartHike}>
         <Text style={styles(theme).startButtonText}>{t("hikeSearch:detail.startHike")}</Text>

@@ -12,14 +12,17 @@ import { Badge } from "./Badge";
 
 type HikeBadgesProps = {
   hike: Hike;
+  selectedMapIndex: number;
 };
 
-export const HikeBadges: React.FC<HikeBadgesProps> = ({ hike }) => {
+export const HikeBadges: React.FC<HikeBadgesProps> = ({ hike, selectedMapIndex }) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
   const measurementUnit = useUserSettingsStore((s) => s.measurementUnit);
 
-  const distance = measurementUnit === MeasurementUnit.MILE ? kilometerToMile(hike.totalDistance) : hike.totalDistance;
+  const selectedMap = hike.maps[selectedMapIndex];
+  const distance =
+    measurementUnit === MeasurementUnit.MILE ? kilometerToMile(selectedMap.totalDistance) : selectedMap.totalDistance;
   const distanceValue = `${distance} ${getMeasurementUnit(measurementUnit)}`;
   const roundtripValue = hike.isRoundtrip ? t("common:yes") : t("common:no");
   const skippedSectionsValue = hike.isRoundtrip ? t("common:no") : t("common:yes");

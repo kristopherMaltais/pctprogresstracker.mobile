@@ -32,7 +32,7 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
   const [isHorizontal, setIsHorizontal] = useState<boolean>(true);
 
   useEffect(() => {
-    setIsHorizontal(selectedHike?.stickers[0].orientation == Orientation.HORIZONTAL);
+    setIsHorizontal(selectedHike?.maps[selectedHike.selectedMapIndex].orientation == Orientation.HORIZONTAL);
   }, [selectedHike]);
 
   const viewShotCallbackRef = React.useCallback(

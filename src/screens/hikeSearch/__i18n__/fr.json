@@ -18,8 +18,8 @@
     "distance": "Distance",
     "roundtrip": "Aller-retour",
     "skippedSections": "Sections sautées",
-    "stickerAvailable": "sticker disponible",
-    "stickersAvailable": "stickers disponibles",
+    "mapAvailable": "carte disponible",
+    "mapsAvailable": "cartes disponibles",
     "startHike": "Sélectionner cette randonnée !",
     "error": "Impossible de charger les détails de la randonnée"
   }

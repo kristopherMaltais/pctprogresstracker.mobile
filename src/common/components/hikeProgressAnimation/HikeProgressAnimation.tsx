@@ -52,7 +52,7 @@ export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({ si
   if (!selectedHike) return null;
 
   const path = useMemo(() => {
-    var _path = selectedHike.stickers[0].path;
+    var _path = selectedHike.maps[selectedHike.selectedMapIndex].path;
 
     if (selectedHike.isRoundtrip && location.pathLocation > selectedHikeTotalDistance / 2) {
       _path = reverse(_path);
@@ -60,26 +60,32 @@ export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({ si
       _path = reverse(_path);
     }
     return _path;
-  }, [selectedHike?.stickers[0].path, isReverse, location.pathLocation]);
+  }, [selectedHike.maps[selectedHike.selectedMapIndex].path, isReverse, location.pathLocation]);
 
   return (
     <Canvas
       key={selectedHike.id}
       style={[
         {
-          width: selectedHike?.stickers[0].width,
-          height: selectedHike?.stickers[0].height,
+          width: selectedHike.maps[selectedHike.selectedMapIndex].width,
+          height: selectedHike.maps[selectedHike.selectedMapIndex].height,
         },
         { transform: [{ scale: size }] },
       ]}
     >
-      {selectedHike.stickers[0].decorations?.map((decoration: string, index) => (
+      {selectedHike.maps[selectedHike.selectedMapIndex].decorations?.map((decoration: string, index) => (
         <Path key={`decoration-${index}`} path={decoration} color={theme.decorations} strokeWidth={1} style="stroke">
           <Shadow dx={0.2} dy={0.2} blur={1} color="rgba(0,0,0,0.5)" />
         </Path>
       ))}
 
-      <Path path={selectedHike.stickers[0].path} color={theme.path} style="stroke" strokeWidth={3} strokeCap="round">
+      <Path
+        path={selectedHike.maps[selectedHike.selectedMapIndex].path}
+        color={theme.path}
+        style="stroke"
+        strokeWidth={3}
+        strokeCap="round"
+      >
         <Shadow dx={0.2} dy={0.2} blur={1} color="rgba(0,0,0,0.5)" />
       </Path>
 

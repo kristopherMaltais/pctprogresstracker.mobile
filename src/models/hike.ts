@@ -1,11 +1,10 @@
-import { Sticker } from "./sticker";
+import { Map } from "./map";
 
 export type Hike = {
   id: string;
   name: string;
-  totalDistance: number;
   isPremium: boolean;
   isRoundtrip: boolean;
-  stickers: Sticker[];
-  selectedStickerId: string;
+  maps: Map[];
+  selectedMapIndex: number;
 };
