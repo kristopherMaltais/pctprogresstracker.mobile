@@ -5,18 +5,14 @@ import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUser
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Gesture, GestureDetector, GestureType } from "react-native-gesture-handler";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 
-type ImageBuilderProps = {
+type CanvasProps = {
   children: React.ReactNode;
 };
 
-export const imageBuilderPanRef = {
-  current: undefined as GestureType | undefined,
-};
-
-export const ImageBuilder: React.FC<ImageBuilderProps> = ({ children }) => {
+export const Canvas: React.FC<CanvasProps> = ({ children }) => {
   const backgroundImage = useUserSettingsStore((s) => s.backgroundImage);
   const isStickerSelectedPremium = useUserSettingsStore((s) => s.isStickerSelectedPremium);
   const { isPremiumUnlocked } = usePremium();
@@ -75,7 +71,7 @@ export const ImageBuilder: React.FC<ImageBuilderProps> = ({ children }) => {
 
   return (
     <GestureDetector gesture={composedGesture}>
-      <View ref={viewRef} style={{ height: "90%" }}>
+      <View ref={viewRef}>
         {isStickerSelectedPremium && !isPremiumUnlocked && <PremiumButton />}
         <Animated.View
           style={{
@@ -94,6 +90,7 @@ export const ImageBuilder: React.FC<ImageBuilderProps> = ({ children }) => {
 const styles = () =>
   StyleSheet.create({
     container: {
+      width: "100%",
       height: "100%",
       justifyContent: "center",
       alignItems: "center",

@@ -1,10 +1,11 @@
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { Map } from "@/src/models/map";
+import * as Haptics from "expo-haptics";
 import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Animated, ListRenderItem, StyleSheet, Text, View, ViewToken } from "react-native";
-import { IndexIndicator } from "../../home/components/imageBuilder/slider/IndexIndicator";
+import { IndexIndicator } from "./IndexIndicator";
 import { MapCard, SNAP_INTERVAL } from "./MapCard";
 
 type MapCarouselProps = {
@@ -34,6 +35,7 @@ export const MapCarousel: React.FC<MapCarouselProps> = ({ maps, onMapChange, cur
     if (viewableItems.length > 0 && viewableItems[0].index !== null) {
       const index = viewableItems[0].index;
       setActiveIndex(index);
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       if (onMapChange) {
         onMapChange(index);
       }

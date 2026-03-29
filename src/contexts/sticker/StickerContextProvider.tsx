@@ -1,11 +1,12 @@
-import { StickerMap } from "@/src/screens/home/components/imageBuilder/stickers/StickerMap";
-import { StickerMapLarge } from "@/src/screens/home/components/imageBuilder/stickers/stickerMapLarge";
-import { StickerStats } from "@/src/screens/home/components/imageBuilder/stickers/stickerStats/StickerStats";
+import { StickerMap } from "@/src/screens/home/components/imageEditor/stickers/StickerMap";
+import { StickerMapLarge } from "@/src/screens/home/components/imageEditor/stickers/stickerMapLarge";
+import { StickerStats } from "@/src/screens/home/components/imageEditor/stickers/stickerStats/StickerStats";
 import React, { createContext, useContext, useState } from "react";
 
 type Sticker = {
   isPremium: boolean;
   sticker: React.JSX.Element;
+  name: string;
 };
 
 interface StickerProps {
@@ -34,9 +35,9 @@ export const StickerContextProvider = ({ children }: StickerProviderProps) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   const stickers = [
-    { isPremium: false, sticker: <StickerMap key="small" /> },
-    { isPremium: true, sticker: <StickerStats key="stats" /> },
-    { isPremium: true, sticker: <StickerMapLarge key="large" /> },
+    { isPremium: false, sticker: <StickerMap key="small" />, name: "A" },
+    { isPremium: true, sticker: <StickerStats key="stats" />, name: "B" },
+    { isPremium: true, sticker: <StickerMapLarge key="large" />, name: "C" },
   ];
 
   const _setCurrentSticker = (direction: "left" | "right") => {

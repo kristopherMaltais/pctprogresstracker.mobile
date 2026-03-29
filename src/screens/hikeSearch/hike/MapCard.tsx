@@ -61,5 +61,6 @@ const styles = (theme: Theme) =>
       shadowOpacity: 0.2,
       shadowRadius: 4,
       elevation: 5,
+      minHeight: 240,
     },
   });

@@ -3,7 +3,7 @@ import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import * as Haptics from "expo-haptics";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Animated, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { AdvancedSettings } from "./AdvancedSettings";
 import { FindHike } from "./FindHike";
@@ -16,10 +16,9 @@ import { UploadBackgroundImage } from "./UploadBackgroundImage";
 
 type userSettingsProps = {
   disabled?: boolean;
-  hide: boolean;
   closeMenu: boolean;
 };
-export const UserSettings: React.FC<userSettingsProps> = ({ disabled = false, hide, closeMenu }) => {
+export const UserSettings: React.FC<userSettingsProps> = ({ disabled = false, closeMenu }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { getIcon, theme } = useTheme();
   const { isPremiumUnlocked } = usePremium();
@@ -27,19 +26,9 @@ export const UserSettings: React.FC<userSettingsProps> = ({ disabled = false, hi
   const setIsCalibratePositionOpen = useUserSettingsStore((s) => s.setIsCalibratePositionOpen);
   const isCalibratePositionOpen = useUserSettingsStore((s) => s.isCalibratePositionOpen);
 
-  const position = useRef(new Animated.Value(35)).current;
-
   useEffect(() => {
     setIsMenuOpen(false);
   }, [closeMenu]);
-
-  useEffect(() => {
-    Animated.timing(position, {
-      toValue: hide ? -130 : 35,
-      duration: 50,
-      useNativeDriver: false,
-    }).start();
-  }, [hide]);
 
   useEffect(() => {
     if (disabled) {
@@ -63,7 +52,6 @@ export const UserSettings: React.FC<userSettingsProps> = ({ disabled = false, hi
           styles(theme).container,
           {
             justifyContent: isMenuOpen ? "space-between" : "center",
-            left: position,
           },
         ]}
       >
@@ -110,7 +98,7 @@ const styles = (theme: Theme) =>
       gap: 8,
       position: "absolute",
       top: 10,
-      left: 35,
+      left: 10,
       zIndex: 1,
     },
     toggleMenu: {
