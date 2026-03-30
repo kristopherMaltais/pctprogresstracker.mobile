@@ -1,3 +1,4 @@
+import { shadows } from "@/src/contexts/theme/shadows";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import React, { useMemo } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
@@ -48,8 +49,8 @@ export const StickerItem: React.FC<StickerItemProps> = ({
         borderColor: theme.primary,
       },
       activeItem: {
+        ...shadows.medium,
         shadowColor: theme.primary,
-        shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
         shadowRadius: 8,
         elevation: 8,

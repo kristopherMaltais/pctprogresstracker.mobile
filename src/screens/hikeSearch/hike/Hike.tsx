@@ -1,5 +1,6 @@
 import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { Theme } from "@/src/contexts/theme/models/theme";
+import { shadows } from "@/src/contexts/theme/shadows";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { useService } from "@/src/hooks/useService";
@@ -143,11 +144,7 @@ const styles = (theme: Theme) =>
       paddingVertical: 16,
       borderRadius: 12,
       alignItems: "center",
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 3 },
-      shadowOpacity: 0.3,
-      shadowRadius: 4,
-      elevation: 5,
+      ...shadows.medium,
       marginHorizontal: 16,
     },
     startButtonDisabled: {

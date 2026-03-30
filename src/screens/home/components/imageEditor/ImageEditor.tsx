@@ -1,5 +1,7 @@
 import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { useSticker } from "@/src/contexts/sticker/StickerContextProvider";
+import { shadows } from "@/src/contexts/theme/shadows";
+import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import React, { useEffect, useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
@@ -12,6 +14,7 @@ export const ImageEditor: React.FC = () => {
 
   const { isPremiumUnlocked } = usePremium();
   const { currentSticker } = useSticker();
+  const { isDarkMode } = useTheme();
 
   const [closeMenu, setCloseMenu] = useState<boolean>(false);
 
@@ -21,7 +24,10 @@ export const ImageEditor: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={() => setCloseMenu((prev) => !prev)} style={styles.canvasContainer}>
+      <Pressable
+        onPress={() => setCloseMenu((prev) => !prev)}
+        style={{ ...styles.canvasContainer, shadowOpacity: isDarkMode ? 1 : 0.3 }}
+      >
         <Canvas>{currentSticker.sticker}</Canvas>
         <UserSettings disabled={currentSticker.isPremium && !isPremiumUnlocked} closeMenu={closeMenu} />
       </Pressable>
@@ -40,9 +46,6 @@ const styles = StyleSheet.create({
   },
   canvasContainer: {
     flex: 1,
-    shadowColor: "#000000BF",
-    shadowOffset: { width: 0, height: 3 },
-    shadowRadius: 4,
-    shadowOpacity: 0.7,
+    ...shadows.medium,
   },
 });

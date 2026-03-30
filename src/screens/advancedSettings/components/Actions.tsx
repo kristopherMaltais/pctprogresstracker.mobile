@@ -1,4 +1,5 @@
 import { Theme } from "@/src/contexts/theme/models/theme";
+import { shadows } from "@/src/contexts/theme/shadows";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { AdvancedSettingsStackParamList } from "@/src/navigation/AdvancedSettingsNavigation";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
@@ -47,10 +48,7 @@ const styles = (theme: Theme) =>
       borderRadius: 8,
       flex: 2,
       alignItems: "center",
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.2,
-      shadowRadius: 5,
+      ...shadows.medium,
     },
     saveButtonText: {
       color: "#FFF",

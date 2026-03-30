@@ -1,4 +1,5 @@
 import { Theme } from "@/src/contexts/theme/models/theme";
+import { shadows } from "@/src/contexts/theme/shadows";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -29,11 +30,7 @@ const styles = (theme: Theme) =>
       alignItems: "center",
       justifyContent: "center",
       minWidth: 100,
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.1,
-      shadowRadius: 2,
-      elevation: 2,
+      ...shadows.small,
     },
     label: {
       fontSize: 11,

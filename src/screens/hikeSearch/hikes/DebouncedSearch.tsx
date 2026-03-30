@@ -1,4 +1,5 @@
 import { Theme } from "@/src/contexts/theme/models/theme";
+import { shadows } from "@/src/contexts/theme/shadows";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, TextInput, View } from "react-native";
@@ -47,12 +48,7 @@ const styles = (theme: Theme) =>
       paddingHorizontal: 16,
       borderRadius: 8,
       height: 60,
-
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 5,
+      ...shadows.medium,
     },
     searchIcon: {
       width: 20,

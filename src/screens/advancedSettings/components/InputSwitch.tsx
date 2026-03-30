@@ -24,15 +24,10 @@ export const InputSwitch: React.FC<InputSwitchProps> = ({ value, onToggle, label
   }, [value]);
 
   return (
-    <Pressable
-      style={{ ...styles(theme).container, opacity: isDisabled ? 0.5 : 1 }}
-      onPress={() => !isDisabled && onToggle(!value)}
-    >
+    <Pressable style={{ ...styles(theme).container }} onPress={() => !isDisabled && onToggle(!value)}>
       <Text style={styles(theme).label}>{label}</Text>
       <View style={[styles(theme).switch, value && { backgroundColor: theme.primary, opacity: 1 }]}>
-        <Animated.View
-          style={[styles(theme).thumb, value && { backgroundColor: "white" }, { transform: [{ translateX }] }]}
-        />
+        <Animated.View style={[styles(theme).thumb, { transform: [{ translateX }] }]} />
       </View>
     </Pressable>
   );
@@ -61,7 +56,6 @@ const styles = (theme: Theme) =>
       height: 26,
       borderRadius: 6,
       backgroundColor: theme.text,
-      opacity: 0.2,
       padding: 2,
       justifyContent: "center",
     },

@@ -133,22 +133,22 @@ const styles = StyleSheet.create({
     color: "white",
     marginTop: 10,
     fontSize: 12,
-    fontWeight: "500",
     textAlign: "center",
+    fontWeight: "700",
 
-    // textShadowColor: "rgba(0, 0, 0, 0.50)",
-    // textShadowOffset: { width: 0, height: 1 },
-    // textShadowRadius: 1,
+    textShadowColor: "rgba(0, 0, 0, 0.50)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 1,
   },
   value: {
-    fontSize: 20,
+    fontSize: 16,
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
 
-    // textShadowColor: "rgba(0, 0, 0, 0.50)",
-    // textShadowOffset: { width: 0, height: 1 },
-    // textShadowRadius: 1,
+    textShadowColor: "rgba(0, 0, 0, 0.50)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 1,
   },
 
   name: {
@@ -157,8 +157,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
 
-    // textShadowColor: "rgba(0, 0, 0, 0.50)",
-    // textShadowOffset: { width: 0, height: 1 },
-    // textShadowRadius: 1,
+    textShadowColor: "rgba(0, 0, 0, 0.50)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 1,
   },
 });

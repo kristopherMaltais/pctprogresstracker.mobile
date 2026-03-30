@@ -1,4 +1,5 @@
 import { Theme } from "@/src/contexts/theme/models/theme";
+import { shadows } from "@/src/contexts/theme/shadows";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -29,14 +30,7 @@ const styles = (theme: Theme) =>
       borderRadius: 12,
       padding: 16,
 
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 4,
-      },
-      shadowOpacity: 0.1,
-      shadowRadius: 6,
-      elevation: 5,
+      ...shadows.medium,
     },
     header: {
       display: "flex",

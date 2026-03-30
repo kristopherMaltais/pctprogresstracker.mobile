@@ -1,5 +1,6 @@
 // App.tsx
 import { Theme } from "@/src/contexts/theme/models/theme";
+import { shadows } from "@/src/contexts/theme/shadows";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { useNavigation } from "expo-router";
@@ -58,11 +59,7 @@ const styles = (theme: Theme) =>
       alignItems: "center",
       justifyContent: "center",
       gap: 12,
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.3,
-      shadowRadius: 4,
-      elevation: 5,
+      ...shadows.medium,
     },
     searchIcon: {
       width: 24,

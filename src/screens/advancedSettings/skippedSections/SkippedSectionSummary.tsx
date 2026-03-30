@@ -1,5 +1,6 @@
 import { ConfirmationModal } from "@/src/common/components/modals/ConfirmationModal";
 import { Theme } from "@/src/contexts/theme/models/theme";
+import { shadows } from "@/src/contexts/theme/shadows";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { FullStoreState, useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { kilometerToMile } from "@/src/helpers/computeDistances";
@@ -87,11 +88,7 @@ const styles = (theme: Theme) =>
       borderRadius: 8,
       marginBottom: 16,
       backgroundColor: theme.secondaryBackground,
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 3 },
-      shadowOpacity: 0.2,
-      shadowRadius: 4,
-      elevation: 5,
+      ...shadows.medium,
     },
     summary: {
       flex: 1,

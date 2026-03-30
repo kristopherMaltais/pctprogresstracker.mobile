@@ -1,5 +1,6 @@
 import { HikeProgressAnimation } from "@/src/common/components/hikeProgressAnimation/HikeProgressAnimation";
 import { Theme } from "@/src/contexts/theme/models/theme";
+import { shadows } from "@/src/contexts/theme/shadows";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { useValidation } from "@/src/contexts/validation/ValidationContextProvider";
@@ -171,12 +172,7 @@ const styles = (theme: Theme) =>
       marginBottom: 20,
       padding: 10,
       backgroundColor: theme.secondaryBackground,
-
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 3 },
-      shadowOpacity: 0.2,
-      shadowRadius: 4,
-      elevation: 5,
+      ...shadows.medium,
     },
     note: {
       color: theme.text,

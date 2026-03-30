@@ -1,5 +1,6 @@
 import { HikeProgressStatic } from "@/src/common/components/hikeProgressAnimation/HikeProgressStatic";
 import { Theme } from "@/src/contexts/theme/models/theme";
+import { shadows } from "@/src/contexts/theme/shadows";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { Map } from "@/src/models/map";
 import React from "react";
@@ -56,11 +57,7 @@ const styles = (theme: Theme) =>
       padding: 20,
       alignItems: "center",
       justifyContent: "center",
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 3 },
-      shadowOpacity: 0.2,
-      shadowRadius: 4,
-      elevation: 5,
+      ...shadows.medium,
       minHeight: 240,
     },
   });

@@ -13,6 +13,8 @@ export const PositionInput: React.FC<PositionInputProps> = ({ closePositionInput
   const { getIcon, theme } = useTheme();
   const setPathLocation = useUserSettingsStore((s) => s.setPathLocation);
   const displayedLocation = useUserSettingsStore((s) => s.location.displayedLocation);
+  const pathLocation = useUserSettingsStore((s) => s.location.pathLocation);
+  const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
 
   const unSaveChanges = () => {
     setPathLocation(displayedLocation);
@@ -21,7 +23,7 @@ export const PositionInput: React.FC<PositionInputProps> = ({ closePositionInput
 
   return (
     <View style={styles(theme).container}>
-      <Slider onChange={setPathLocation} />
+      <Slider onChange={setPathLocation} maximum={selectedHikeTotalDistance} value={pathLocation} />
       <View style={styles(theme).buttonContainer}>
         <TouchableOpacity style={styles(theme).button} onPress={closePositionInput}>
           <Image style={styles(theme).save} source={getIcon("save")} />
