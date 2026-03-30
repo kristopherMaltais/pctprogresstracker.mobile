@@ -115,10 +115,6 @@ export const EditSkippedSection: React.FC = () => {
 
   return (
     <ScrollView style={styles(theme).container} contentContainerStyle={{ paddingBottom: 100 }}>
-      <Text style={styles(theme).title}>
-        {t(`advancedSettings:editSkippedSection.${params.isEditMode ? "titleEdit" : "titleAdd"}`)}
-      </Text>
-
       <View style={styles(theme).mapContainer}>
         {skippedSection && (
           <HikeProgressAnimation
@@ -166,14 +162,6 @@ const styles = (theme: Theme) =>
       backgroundColor: theme.background,
       paddingTop: 24,
       paddingHorizontal: 16,
-    },
-    title: {
-      fontSize: 16,
-      fontWeight: "500",
-      color: theme.text,
-      textAlign: "center",
-      marginBottom: 10,
-      textTransform: "uppercase",
     },
     mapContainer: {
       justifyContent: "center",

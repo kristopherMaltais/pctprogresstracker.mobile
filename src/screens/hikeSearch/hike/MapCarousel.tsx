@@ -21,9 +21,12 @@ type ViewableItemsChangedInfo = {
 
 export const MapCarousel: React.FC<MapCarouselProps> = ({ maps, onMapChange, currentMap }) => {
   const { theme } = useTheme();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const scrollX = useRef(new Animated.Value(0)).current;
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const currentLanguage = i18n.language;
+  const mapDescription = currentLanguage === "fr" ? currentMap.descriptionFR : currentMap.descriptionEN;
 
   const mapCount = maps.length;
   const mapCountText =
@@ -54,7 +57,7 @@ export const MapCarousel: React.FC<MapCarouselProps> = ({ maps, onMapChange, cur
     <View style={styles(theme).container}>
       <View style={styles(theme).mapInfoContainer}>
         <Text style={styles(theme).mapName}>{currentMap.name}</Text>
-        {currentMap.description && <Text style={styles(theme).mapDescription}>{currentMap.description}</Text>}
+        {mapDescription && <Text style={styles(theme).mapDescription}>{mapDescription}</Text>}
       </View>
       <Animated.FlatList
         data={maps}
@@ -81,6 +84,7 @@ const styles = (theme: Theme) =>
     container: {
       marginBottom: 24,
       marginTop: 16,
+      height: 330,
     },
     mapInfoContainer: {
       paddingHorizontal: 16,

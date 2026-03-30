@@ -1,11 +1,11 @@
-import { Hike } from "@/src/models/hike";
+import { HikeList } from "@/src/models/hikeList";
 import { HikeRepository } from "../hikeRepository";
 import { supabase } from "./supabaseClient";
 
 export class HikeSupabaseRepository implements HikeRepository {
   constructor() {}
 
-  async getHikes(page: number = 0, pageSize: number = 10): Promise<any[]> {
+  async getHikes(page: number = 0, pageSize: number = 10): Promise<HikeList[]> {
     const from = page * pageSize;
     const to = from + pageSize - 1;
 
@@ -49,7 +49,8 @@ export class HikeSupabaseRepository implements HikeRepository {
             height,
             totalDistance,
             path,
-            description,
+            descriptionFR,
+            descriptionEN,
             name,
             map_decoration (
               decorations (
@@ -74,7 +75,8 @@ export class HikeSupabaseRepository implements HikeRepository {
           totalDistance: s.totalDistance,
           path: s.path,
           name: s.name,
-          description: s.description,
+          descriptionFR: s.descriptionFR,
+          descriptionEN: s.descriptionEN,
           decorations: s.map_decoration.map((sd: any) => sd.decorations.decoration),
         })),
       };
@@ -84,7 +86,7 @@ export class HikeSupabaseRepository implements HikeRepository {
     }
   }
 
-  async searchHikes(keyword: string): Promise<Hike[]> {
+  async searchHikes(keyword: string): Promise<HikeList[]> {
     try {
       const { data, error } = await supabase
         .from("hikes")
@@ -102,7 +104,7 @@ export class HikeSupabaseRepository implements HikeRepository {
           id: hike.id,
           name: hike.name,
           isPremium: hike.isPremium,
-          isRoundtrip: false,
+          mapCount: hike.maps[0].count,
         })) || []
       );
     } catch (error) {

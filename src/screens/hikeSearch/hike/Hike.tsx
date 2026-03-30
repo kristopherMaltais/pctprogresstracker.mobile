@@ -17,7 +17,7 @@ import { MapCarousel } from "./MapCarousel";
 export const Hike: React.FC = () => {
   const { theme, isDarkMode } = useTheme();
   const { t } = useTranslation();
-  const { isPremiumUnlocked } = usePremium();
+  const { isPremiumUnlocked, setIsPremiumModalVisible } = usePremium();
   const hikeService: HikeService = useService("Hike.HikeService");
   const setSelectedHike = useUserSettingsStore((s) => s.setSelectedHike);
   const navigation = useNavigation();
@@ -43,7 +43,9 @@ export const Hike: React.FC = () => {
   }, [id]);
 
   const handleStartHike = () => {
-    if (hike) {
+    if (hike?.isPremium && !isPremiumUnlocked) {
+      setIsPremiumModalVisible(true);
+    } else if (hike) {
       const hikeWithSelectedMap: HikeModel = {
         ...hike,
         selectedMapIndex: selectedMapIndex,
@@ -75,7 +77,7 @@ export const Hike: React.FC = () => {
         <View
           style={{
             ...styles(theme).premiumBanner,
-            backgroundColor: isDarkMode ? theme.primary : theme.pathColored,
+            backgroundColor: isDarkMode ? theme.primary : theme.secondaryBackground,
           }}
         >
           <Text style={{ ...styles(theme).premiumBannerText, color: isDarkMode ? "#FFFFFF" : theme.primary }}>

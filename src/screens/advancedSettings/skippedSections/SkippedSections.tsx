@@ -25,8 +25,6 @@ export const SkippedSections: React.FC = () => {
 
   return (
     <ScrollView style={styles(theme).container}>
-      <Text style={styles(theme).title}>{t("advancedSettings:skippedSections.title")}</Text>
-
       <View style={{ ...styles(theme).mapContainer }}>
         <HikeProgressAnimation
           size={1}
@@ -67,14 +65,6 @@ const styles = (theme: Theme) =>
       paddingTop: 24,
       paddingHorizontal: 16,
       paddingBottom: 100,
-    },
-    title: {
-      fontSize: 16,
-      fontWeight: "500",
-      color: theme.text,
-      textAlign: "center",
-      marginBottom: 10,
-      textTransform: "uppercase",
     },
     mapContainer: {
       justifyContent: "center",

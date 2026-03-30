@@ -1,6 +1,6 @@
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import React, { useMemo } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import Animated, { Extrapolation, interpolate, SharedValue, useAnimatedStyle } from "react-native-reanimated";
 
 const ITEM_SIZE = 70;
@@ -24,7 +24,7 @@ export const StickerItem: React.FC<StickerItemProps> = ({
   isPremiumUnlocked,
   name,
 }) => {
-  const { theme, isDarkMode } = useTheme();
+  const { theme, isDarkMode, getIcon } = useTheme();
 
   const animatedStyle = useAnimatedStyle(() => {
     const centerPosition = index * (ITEM_SIZE + ITEM_SPACING);
@@ -66,10 +66,7 @@ export const StickerItem: React.FC<StickerItemProps> = ({
     <Animated.View style={[styles.itemContainer, animatedStyle, isActive && dynamicStyles.activeItem]}>
       <View style={dynamicStyles.itemContent}>
         {isLocked ? (
-          <View style={styles.lockIcon}>
-            <View style={styles.lockBody} />
-            <View style={styles.lockShackle} />
-          </View>
+          <Image source={getIcon("lock")} style={styles.lockIcon} />
         ) : (
           <Text style={dynamicStyles.nameText} numberOfLines={2}>
             {name}
@@ -95,8 +92,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   lockIcon: {
-    width: 24,
-    height: 24,
+    width: 18,
+    height: 23,
   },
   lockBody: {
     position: "absolute",

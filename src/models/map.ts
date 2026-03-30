@@ -9,5 +9,6 @@ export type Map = {
   height: number;
   orientation: Orientation;
   decorations: string[];
-  description: string;
+  descriptionEN?: string;
+  descriptionFR?: string;
 };

@@ -16,7 +16,6 @@ export const ImageEditor: React.FC = () => {
   const [closeMenu, setCloseMenu] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log(currentSticker.sticker);
     setIsStickerSelectedPremium(currentSticker.isPremium);
   }, [currentSticker]);
 

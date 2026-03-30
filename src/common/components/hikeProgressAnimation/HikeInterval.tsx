@@ -18,11 +18,14 @@ export const HikeInterval: React.FC<HikeIntervalProps> = ({
   selectedHikeTotalDistance,
 }) => {
   const animatedEnd = useDerivedValue(() => {
+    if (selectedHikeTotalDistance === 0) return 0;
     return Math.min(
       globalProgress.value / selectedHikeTotalDistance,
       interval.end.pathLocation / selectedHikeTotalDistance
     );
   });
+
+  if (selectedHikeTotalDistance === 0) return null;
 
   return (
     <Path

@@ -80,7 +80,7 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
           <View style={isHorizontal ? styles.statsContainerHorizontal : styles.statsContainerVertical}>
             {showLogo && <Image source={getIcon("iconWithTextBackground")} style={styles.logo} />}
             <View>
-              <Text style={styles.name}>{selectedHike?.name}</Text>
+              <Text style={styles.name}>{selectedHike?.maps[selectedHike?.selectedMapIndex].name}</Text>
               <Text style={styles.label}>{t("home:sticker.total")}</Text>
               <Text style={styles.value}>
                 {getTotalDistance()} {getMeasurementUnit(measurementUnit)}
@@ -133,22 +133,22 @@ const styles = StyleSheet.create({
     color: "white",
     marginTop: 10,
     fontSize: 12,
+    fontWeight: "500",
     textAlign: "center",
-    fontWeight: "700",
 
-    textShadowColor: "rgba(0, 0, 0, 0.50)",
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 1,
+    // textShadowColor: "rgba(0, 0, 0, 0.50)",
+    // textShadowOffset: { width: 0, height: 1 },
+    // textShadowRadius: 1,
   },
   value: {
-    fontSize: 16,
+    fontSize: 20,
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
 
-    textShadowColor: "rgba(0, 0, 0, 0.50)",
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 1,
+    // textShadowColor: "rgba(0, 0, 0, 0.50)",
+    // textShadowOffset: { width: 0, height: 1 },
+    // textShadowRadius: 1,
   },
 
   name: {
@@ -157,8 +157,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
 
-    textShadowColor: "rgba(0, 0, 0, 0.50)",
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 1,
+    // textShadowColor: "rgba(0, 0, 0, 0.50)",
+    // textShadowOffset: { width: 0, height: 1 },
+    // textShadowRadius: 1,
   },
 });

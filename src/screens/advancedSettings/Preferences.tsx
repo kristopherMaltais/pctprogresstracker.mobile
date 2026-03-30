@@ -7,7 +7,7 @@ import { MeasurementUnit } from "@/src/models/measurementUnit";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Actions } from "./components/Actions";
 import { InputCheckbox } from "./components/InputCheckbox";
@@ -66,7 +66,6 @@ export const Preferences: React.FC = () => {
 
   return (
     <ScrollView style={styles(theme).container}>
-      <Text style={styles(theme).title}>{t("advancedSettings:preferences.title")}</Text>
       <InputNumber
         label={t("advancedSettings:editHikeTotalDistance.totalDistance")}
         value={_hikeTotalDistance}
@@ -97,13 +96,5 @@ const styles = (theme: Theme) =>
       backgroundColor: theme.background,
       paddingTop: 24,
       paddingHorizontal: 16,
-    },
-    title: {
-      fontSize: 16,
-      fontWeight: "500",
-      color: theme.text,
-      textAlign: "center",
-      marginBottom: 30,
-      textTransform: "uppercase",
     },
   });

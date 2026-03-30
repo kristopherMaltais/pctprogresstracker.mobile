@@ -6,7 +6,11 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, Image, Pressable, StyleSheet, Text, View } from "react-native";
 
-export const AdvancesSettingsHeader: React.FC = () => {
+type AdvancesSettingsHeaderProps = {
+  title?: string;
+};
+
+export const AdvancesSettingsHeader: React.FC<AdvancesSettingsHeaderProps> = ({ title }) => {
   const { getIcon, theme } = useTheme();
   const { t } = useTranslation();
   const { height } = Dimensions.get("window");
@@ -28,7 +32,7 @@ export const AdvancesSettingsHeader: React.FC = () => {
               source={getIcon("backHeader")}
             />
           </Pressable>
-          <Text style={styles(theme).title}>{t("advancedSettings:screenTitle")}</Text>
+          <Text style={styles(theme).title}>{title ? t(title) : t("advancedSettings:screenTitle")}</Text>
         </View>
       </View>
     </View>

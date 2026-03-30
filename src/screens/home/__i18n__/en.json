@@ -1,13 +1,12 @@
 {
   "findMyHike": "Find my hike",
   "searchHike": "Search for a hike...",
-  "itinary": "What is your itinerary?",
   "sticker": {
     "total": "Total",
     "distanceHiked": "Distance Hiked"
   },
   "userSettings": {
-    "findHike": "Find hike",
+    "findHike": "Hikes",
     "backgroundImage": "Image",
     "share": "Share",
     "distance": "Distance",
