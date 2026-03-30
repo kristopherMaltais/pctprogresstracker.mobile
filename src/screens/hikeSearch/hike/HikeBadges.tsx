@@ -42,7 +42,6 @@ const styles = (theme: Theme) =>
       flexDirection: "row",
       gap: 12,
       paddingHorizontal: 16,
-      paddingVertical: 16,
       flexWrap: "wrap",
     },
   });

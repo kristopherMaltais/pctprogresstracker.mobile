@@ -25,6 +25,12 @@ export const AdvancedSettings: React.FC = () => {
 
   const [isConfirmModalVisible, setIsConfirmModalVisible] = useState<boolean>(false);
 
+  const handleResetSettings = () => {
+    resetStore();
+    setIsConfirmModalVisible(false);
+    navigation.getParent()?.navigate("home");
+  };
+
   return (
     <ScrollView style={styles(theme).container}>
       <View style={styles(theme).body}>
@@ -47,7 +53,7 @@ export const AdvancedSettings: React.FC = () => {
         isVisible={isConfirmModalVisible}
         title={t("advancedSettings:resetSettings.title")}
         message={t("advancedSettings:resetSettings.message")}
-        onConfirm={resetStore}
+        onConfirm={handleResetSettings}
         closeModal={() => setIsConfirmModalVisible(false)}
       />
     </ScrollView>

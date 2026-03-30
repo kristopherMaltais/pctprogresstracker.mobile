@@ -19,7 +19,7 @@ type MapCardProps = {
 };
 
 export const MapCard: React.FC<MapCardProps> = ({ item, index, scrollX }) => {
-  const { theme, isDarkMode } = useTheme();
+  const { theme } = useTheme();
 
   const inputRange = [(index - 1) * SNAP_INTERVAL, index * SNAP_INTERVAL, (index + 1) * SNAP_INTERVAL];
 
@@ -58,6 +58,6 @@ const styles = (theme: Theme) =>
       alignItems: "center",
       justifyContent: "center",
       ...shadows.medium,
-      minHeight: 240,
+      minHeight: 250,
     },
   });

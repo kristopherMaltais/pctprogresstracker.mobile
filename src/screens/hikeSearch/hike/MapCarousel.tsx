@@ -3,8 +3,7 @@ import { Theme } from "@/src/contexts/theme/models/theme";
 import { Map } from "@/src/models/map";
 import * as Haptics from "expo-haptics";
 import React, { useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Animated, ListRenderItem, StyleSheet, Text, View, ViewToken } from "react-native";
+import { Animated, ListRenderItem, StyleSheet, View, ViewToken } from "react-native";
 import { IndexIndicator } from "./IndexIndicator";
 import { MapCard, SNAP_INTERVAL } from "./MapCard";
 
@@ -21,18 +20,10 @@ type ViewableItemsChangedInfo = {
 
 export const MapCarousel: React.FC<MapCarouselProps> = ({ maps, onMapChange, currentMap }) => {
   const { theme } = useTheme();
-  const { t, i18n } = useTranslation();
   const scrollX = useRef(new Animated.Value(0)).current;
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const currentLanguage = i18n.language;
-  const mapDescription = currentLanguage === "fr" ? currentMap.descriptionFR : currentMap.descriptionEN;
-
   const mapCount = maps.length;
-  const mapCountText =
-    mapCount === 1
-      ? `${mapCount} ${t("hikeSearch:detail.mapAvailable")}`
-      : `${mapCount} ${t("hikeSearch:detail.mapsAvailable")}`;
 
   const onViewableItemsChangedRef = useRef(({ viewableItems }: ViewableItemsChangedInfo) => {
     if (viewableItems.length > 0 && viewableItems[0].index !== null) {
@@ -55,10 +46,6 @@ export const MapCarousel: React.FC<MapCarouselProps> = ({ maps, onMapChange, cur
 
   return (
     <View style={styles(theme).container}>
-      <View style={styles(theme).mapInfoContainer}>
-        <Text style={styles(theme).mapName}>{currentMap.name}</Text>
-        {mapDescription && <Text style={styles(theme).mapDescription}>{mapDescription}</Text>}
-      </View>
       <Animated.FlatList
         data={maps}
         renderItem={renderItem}
@@ -82,28 +69,20 @@ export const MapCarousel: React.FC<MapCarouselProps> = ({ maps, onMapChange, cur
 const styles = (theme: Theme) =>
   StyleSheet.create({
     container: {
+      marginTop: 24,
       marginBottom: 24,
-      marginTop: 16,
-      height: 330,
+      minHeight: 290,
     },
+
     mapInfoContainer: {
+      display: "flex",
+      alignItems: "center",
       paddingHorizontal: 16,
-      marginBottom: 16,
-      minHeight: 40,
-    },
-    mapName: {
-      fontSize: 16,
-      fontWeight: "700",
-      color: theme.text,
-      textTransform: "uppercase",
-      letterSpacing: 1,
-      opacity: 0.5,
     },
     mapDescription: {
-      fontSize: 14,
+      fontSize: 16,
       fontWeight: "400",
       color: theme.text,
-      opacity: 0.7,
-      lineHeight: 20,
+      fontStyle: "italic",
     },
   });

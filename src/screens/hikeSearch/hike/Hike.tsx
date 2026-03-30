@@ -17,11 +17,12 @@ import { MapCarousel } from "./MapCarousel";
 
 export const Hike: React.FC = () => {
   const { theme, isDarkMode } = useTheme();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { isPremiumUnlocked, setIsPremiumModalVisible } = usePremium();
   const hikeService: HikeService = useService("Hike.HikeService");
   const setSelectedHike = useUserSettingsStore((s) => s.setSelectedHike);
   const navigation = useNavigation();
+  const currentLanguage = i18n.language;
 
   const route = useRoute<RouteProp<HikeSearchStackParamList, "hike">>();
   const { id } = route.params;
@@ -74,11 +75,11 @@ export const Hike: React.FC = () => {
 
   return (
     <ScrollView style={styles(theme).container} contentContainerStyle={styles(theme).contentContainer}>
-      {hike.isPremium && !isPremiumUnlocked && (
+      {!isPremiumUnlocked && hike.isPremium && (
         <View
           style={{
             ...styles(theme).premiumBanner,
-            backgroundColor: isDarkMode ? theme.primary : theme.secondaryBackground,
+            backgroundColor: isDarkMode ? theme.primary : "#E8E8EA",
           }}
         >
           <Text style={{ ...styles(theme).premiumBannerText, color: isDarkMode ? "#FFFFFF" : theme.primary }}>
@@ -87,6 +88,13 @@ export const Hike: React.FC = () => {
         </View>
       )}
 
+      <View style={styles(theme).mapInfoContainer}>
+        <Text style={styles(theme).mapDescription}>
+          {currentLanguage == "fr"
+            ? hike.maps[selectedMapIndex].descriptionFR
+            : hike.maps[selectedMapIndex].descriptionEN}
+        </Text>
+      </View>
       <HikeBadges hike={hike} selectedMapIndex={selectedMapIndex} />
 
       <MapCarousel maps={hike.maps} onMapChange={setSelectedMapIndex} currentMap={hike.maps[selectedMapIndex]} />
@@ -156,5 +164,17 @@ const styles = (theme: Theme) =>
       fontWeight: "700",
       textTransform: "uppercase",
       letterSpacing: 1,
+    },
+    mapInfoContainer: {
+      display: "flex",
+      alignItems: "center",
+      paddingHorizontal: 16,
+      marginVertical: 16,
+    },
+    mapDescription: {
+      fontSize: 16,
+      fontWeight: "400",
+      color: theme.text,
+      fontStyle: "italic",
     },
   });
