@@ -7,9 +7,8 @@ import { MeasurementUnit } from "@/src/models/measurementUnit";
 import { t } from "i18next";
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { ProgressBar } from "./ProgressBar";
 
-export const StickerStats: React.FC = () => {
+export const StickerStatsWithoutProgressBar: React.FC = () => {
   const selectedHike = useUserSettingsStore((s) => s.selectedHike);
   const displayedLocation = useUserSettingsStore((s) => s.location.displayedLocation);
   const skippedSections = useUserSettingsStore((s) => s.skippedSections);
@@ -66,16 +65,14 @@ export const StickerStats: React.FC = () => {
             {showLogo && <Image source={getIcon("iconWithTextBackground")} style={styles.logo} />}
           </View>
         </View>
-
-        <ProgressBar percentage={Math.round(calculatePercentage())} />
       </View>
       <View style={styles.body}>
         <View>
-          <Text style={styles.label}>{t("home:sticker.total")}</Text>
+          <Text style={styles.label}>{t("home:statistic.hikeTotalDistance")}</Text>
           <Text style={styles.value}>
             {getTotalDistance()} {getMeasurementUnit(measurementUnit)}
           </Text>
-          <Text style={styles.label}>{t("home:sticker.distanceHiked")}</Text>
+          <Text style={styles.label}>{t("home:statistic.distanceHiked")}</Text>
           <Text style={styles.value}>
             {getDistanceHiked()} {getMeasurementUnit(measurementUnit)}
           </Text>

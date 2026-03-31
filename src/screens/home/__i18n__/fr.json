@@ -1,9 +1,13 @@
 {
   "findMyHike": "Trouver mon hike",
   "searchHike": "Chercher un hike...",
-  "sticker": {
-    "total": "Total",
-    "distanceHiked": "Dist. parcourue"
+  "statistic": {
+    "hikeTotalDistance": "Total",
+    "distanceHiked": "Dist. parcourue",
+    "percentage": "Progression",
+    "remaining": "Restant",
+    "day": "Jours",
+    "averageDistanceDay": "Moy./Jour"
   },
   "userSettings": {
     "findHike": "Hikes",

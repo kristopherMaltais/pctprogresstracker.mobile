@@ -3,25 +3,17 @@ import { HikeProgressAnimation } from "@/src/common/components/hikeProgressAnima
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
-import { kilometerToMile } from "@/src/helpers/computeDistances";
-import { getMeasurementUnit } from "@/src/helpers/getMeasurementUnit";
-import { removeSkippedSection } from "@/src/helpers/removeSkippedSectionDistance";
-import { MeasurementUnit } from "@/src/models/measurementUnit";
 import { Orientation } from "@/src/models/orientation";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, View } from "react-native";
 import ViewShot from "react-native-view-shot";
+import { Statistic, Statistics } from "./Statistic";
 
-type StickerMapProps = {};
-export const StickerMap: React.FC<StickerMapProps> = () => {
+export const StickerFree: React.FC = () => {
   const selectedHike = useUserSettingsStore((s) => s.selectedHike);
-  const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
-  const measurementUnit = useUserSettingsStore((s) => s.measurementUnit);
-  const displayedLocation = useUserSettingsStore((s) => s.location.displayedLocation);
   const skippedSections = useUserSettingsStore((s) => s.skippedSections);
   const progressMode = useUserSettingsStore((s) => s.progressMode);
-  const substractSkippedSections = useUserSettingsStore((s) => s.substractSkippedSections);
 
   const showLogo = useUserSettingsStore((s) => s.showLogo);
 
@@ -44,25 +36,6 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
     [setViewShotTransparentBackgroud]
   );
 
-  const getTotalDistance = () => {
-    var distance = selectedHikeTotalDistance;
-
-    if (substractSkippedSections) {
-      distance = removeSkippedSection(selectedHikeTotalDistance, skippedSections);
-    }
-
-    if (measurementUnit == MeasurementUnit.MILE) {
-      distance = kilometerToMile(distance);
-    }
-
-    return distance;
-  };
-
-  const getDistanceHiked = () => {
-    var distance = removeSkippedSection(displayedLocation, skippedSections);
-    return measurementUnit == MeasurementUnit.KILOMETER ? distance : kilometerToMile(distance);
-  };
-
   if (!selectedHike) {
     return null;
   }
@@ -81,14 +54,8 @@ export const StickerMap: React.FC<StickerMapProps> = () => {
             {showLogo && <Image source={getIcon("iconWithTextBackground")} style={styles.logo} />}
             <View>
               <Text style={styles.name}>{selectedHike?.maps[selectedHike?.selectedMapIndex].name}</Text>
-              <Text style={styles.label}>{t("home:sticker.total")}</Text>
-              <Text style={styles.value}>
-                {getTotalDistance()} {getMeasurementUnit(measurementUnit)}
-              </Text>
-              <Text style={styles.label}>{t("home:sticker.distanceHiked")}</Text>
-              <Text style={styles.value}>
-                {getDistanceHiked()} {getMeasurementUnit(measurementUnit)}
-              </Text>
+              <Statistic defaultStatistic={Statistics.HIKE_TOTAL_DISTANCE} />
+              <Statistic defaultStatistic={Statistics.DISTANCE_HIKE} />
             </View>
           </View>
           {isHorizontal && <HikeProgressAnimation key={`${progressMode}-${skippedSections}`} />}
@@ -129,28 +96,6 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
   },
-  label: {
-    color: "white",
-    marginTop: 10,
-    fontSize: 12,
-    textAlign: "center",
-    fontWeight: "700",
-
-    textShadowColor: "rgba(0, 0, 0, 0.50)",
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 1,
-  },
-  value: {
-    fontSize: 16,
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-
-    textShadowColor: "rgba(0, 0, 0, 0.50)",
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 1,
-  },
-
   name: {
     fontSize: 16,
     color: "white",

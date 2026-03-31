@@ -1,6 +1,12 @@
-import { StickerMap } from "@/src/screens/home/components/imageEditor/stickers/StickerMap";
-import { StickerMapLarge } from "@/src/screens/home/components/imageEditor/stickers/stickerMapLarge";
-import { StickerStats } from "@/src/screens/home/components/imageEditor/stickers/stickerStats/StickerStats";
+import { StickerFree } from "@/src/screens/home/components/imageEditor/stickers/StickerFree";
+import { StickerMapOnly } from "@/src/screens/home/components/imageEditor/stickers/StickerMapOnly";
+import { StickerStatsWithoutProgressBar } from "@/src/screens/home/components/imageEditor/stickers/stickerStats/StickerStatsWithoutProgressBar";
+import { StickerStatsWithProgressBar } from "@/src/screens/home/components/imageEditor/stickers/stickerStats/StickerStatsWithProgressBar";
+import { StickerStats3 } from "@/src/screens/home/components/imageEditor/stickers/StickerStats3";
+import { StickerStats3Vertical } from "@/src/screens/home/components/imageEditor/stickers/StickerStats3Vertical";
+import { StickerStats6 } from "@/src/screens/home/components/imageEditor/stickers/StickerStats6";
+import { StickerStatsMap3 } from "@/src/screens/home/components/imageEditor/stickers/StickerStatsMap3";
+import { StickerStatsMap6 } from "@/src/screens/home/components/imageEditor/stickers/StickerStatsMap6";
 import React, { createContext, useContext, useState } from "react";
 
 type Sticker = {
@@ -35,9 +41,15 @@ export const StickerContextProvider = ({ children }: StickerProviderProps) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   const stickers = [
-    { isPremium: false, sticker: <StickerMap key="small" />, name: "A" },
-    { isPremium: true, sticker: <StickerStats key="stats" />, name: "B" },
-    { isPremium: true, sticker: <StickerMapLarge key="large" />, name: "C" },
+    { isPremium: false, sticker: <StickerFree key="free" />, name: "A" },
+    { isPremium: true, sticker: <StickerMapOnly key="mapOnly" />, name: "B" },
+    { isPremium: false, sticker: <StickerStats3 key="stats3" />, name: "C" },
+    { isPremium: false, sticker: <StickerStatsMap3 key="statsMap3" />, name: "D" },
+    { isPremium: false, sticker: <StickerStats6 key="stats6" />, name: "E" },
+    { isPremium: false, sticker: <StickerStatsMap6 key="statsMap6" />, name: "F" },
+    { isPremium: false, sticker: <StickerStats3Vertical key="stats3Vertical" />, name: "G" },
+    { isPremium: true, sticker: <StickerStatsWithProgressBar key="statsWithProgressBar" />, name: "H" },
+    { isPremium: true, sticker: <StickerStatsWithoutProgressBar key="statsWithoutProgressBar" />, name: "I" },
   ];
 
   const _setCurrentSticker = (direction: "left" | "right") => {
