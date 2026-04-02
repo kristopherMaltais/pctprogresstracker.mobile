@@ -38,19 +38,21 @@ export const StickerStats6: React.FC = () => {
         ref={viewShotCallbackRef}
       >
         <View style={styles.container}>
-          <View style={styles.header}>
-            {showLogo && <Image source={getIcon("icon")} style={styles.logo} />}
-            <Text style={styles.name}>{selectedHike.maps[selectedHike.selectedMapIndex].name}</Text>
-          </View>
-          <View style={styles.statsGrid}>
-            <Statistic defaultStatistic={Statistics.HIKE_TOTAL_DISTANCE} />
-            <Statistic defaultStatistic={Statistics.DISTANCE_HIKE} />
-            <Statistic defaultStatistic={Statistics.PERCENTAGE} />
-          </View>
-          <View style={styles.statsGrid}>
-            <Statistic defaultStatistic={Statistics.DAY} />
-            <Statistic defaultStatistic={Statistics.AVERAGE_DISTANCE_DAY} />
-            <Statistic defaultStatistic={Statistics.REMAINING} />
+          <View>
+            <View style={styles.header}>
+              {showLogo && <Image source={getIcon("icon")} style={styles.logo} />}
+              <Text style={styles.name}>{selectedHike.maps[selectedHike.selectedMapIndex].name}</Text>
+            </View>
+            <View style={styles.statsGrid}>
+              <Statistic defaultStatistic={Statistics.HIKE_TOTAL_DISTANCE} />
+              <Statistic defaultStatistic={Statistics.DISTANCE_HIKE} />
+              <Statistic defaultStatistic={Statistics.PERCENTAGE} />
+            </View>
+            <View style={styles.statsGrid}>
+              <Statistic defaultStatistic={Statistics.DAY} />
+              <Statistic defaultStatistic={Statistics.AVERAGE_DISTANCE_DAY} />
+              <Statistic defaultStatistic={Statistics.REMAINING} />
+            </View>
           </View>
         </View>
       </ViewShot>
@@ -61,8 +63,11 @@ export const StickerStats6: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     display: "flex",
+    flexDirection: "row",
     alignItems: "center",
     gap: 8,
+    borderRadius: 12,
+    padding: 12,
   },
   logo: {
     width: 24,
@@ -71,6 +76,7 @@ const styles = StyleSheet.create({
   header: {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "center",
     gap: 4,
     alignItems: "center",
   },
@@ -87,9 +93,5 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
-
-    textShadowColor: "rgba(0, 0, 0, 0.50)",
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 1,
   },
 });

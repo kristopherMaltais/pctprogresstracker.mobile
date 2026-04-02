@@ -1,7 +1,7 @@
 import { shadows } from "@/src/contexts/theme/shadows";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import React, { useMemo } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 import Animated, { Extrapolation, interpolate, SharedValue, useAnimatedStyle } from "react-native-reanimated";
 
 const ITEM_SIZE = 70;
@@ -65,7 +65,7 @@ export const StickerItem: React.FC<StickerItemProps> = ({
 
   return (
     <Animated.View style={[styles.itemContainer, animatedStyle, isActive && dynamicStyles.activeItem]}>
-      <View style={dynamicStyles.itemContent}>
+      <TouchableOpacity style={dynamicStyles.itemContent} onPress={() => alert("test")}>
         {isLocked ? (
           <Image source={getIcon("lock")} style={styles.lockIcon} />
         ) : (
@@ -73,7 +73,7 @@ export const StickerItem: React.FC<StickerItemProps> = ({
             {name}
           </Text>
         )}
-      </View>
+      </TouchableOpacity>
     </Animated.View>
   );
 };

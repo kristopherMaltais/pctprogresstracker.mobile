@@ -47,7 +47,7 @@ export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({ si
         duration: 1500,
       });
     }
-  }, [location, isCalibratePositionOpen]);
+  }, [location]);
 
   if (!selectedHike) return null;
 

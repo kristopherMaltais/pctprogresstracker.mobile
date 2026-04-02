@@ -47,7 +47,7 @@ export const StickerStats3: React.FC = () => {
           <View style={styles.statsGrid}>
             <Statistic defaultStatistic={Statistics.HIKE_TOTAL_DISTANCE} />
             <Statistic defaultStatistic={Statistics.DISTANCE_HIKE} />
-            <Statistic defaultStatistic={Statistics.PERCENTAGE} />
+            <Statistic defaultStatistic={Statistics.DAY} />
           </View>
         </View>
       </ViewShot>

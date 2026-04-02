@@ -1,3 +1,4 @@
+import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { kilometerToMile } from "@/src/helpers/computeDistances";
 import { getMeasurementUnit } from "@/src/helpers/getMeasurementUnit";
@@ -29,9 +30,22 @@ export const Statistic: React.FC<StatisticProps> = ({ defaultStatistic, labelSiz
   const skippedSections = useUserSettingsStore((s) => s.skippedSections);
   const measurementUnit = useUserSettingsStore((s) => s.measurementUnit);
   const substractSkippedSections = useUserSettingsStore((s) => s.substractSkippedSections);
+  const hikeStartDate = useUserSettingsStore((s) => s.hikeStartDate);
   const { t } = useTranslation();
+  const { isPremiumUnlocked } = usePremium();
 
-  const day = 3;
+  const calculateDaysSinceStart = (): number => {
+    if (!hikeStartDate) return 1;
+
+    const startDate = new Date(hikeStartDate);
+    const today = new Date();
+    const diffTime = Math.abs(today.getTime() - startDate.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    return diffDays > 0 ? diffDays : 1;
+  };
+
+  const day = calculateDaysSinceStart();
 
   const statistics = [
     Statistics.DISTANCE_HIKE,
@@ -78,13 +92,24 @@ export const Statistic: React.FC<StatisticProps> = ({ defaultStatistic, labelSiz
     } else if (statistics[currentStatisticIndex] == Statistics.AVERAGE_DISTANCE_DAY) {
       setStatdisplayed(`${(getDistanceHiked() / day).toFixed(1)} ${getMeasurementUnit(measurementUnit)}`);
     }
-  }, [currentStatisticIndex]);
+  }, [
+    currentStatisticIndex,
+    displayedLocation,
+    selectedHikeTotalDistance,
+    measurementUnit,
+    skippedSections,
+    substractSkippedSections,
+    hikeStartDate,
+    day,
+  ]);
 
   const changeStatdisplayed = () => {
-    if (currentStatisticIndex + 1 >= statistics.length) {
-      setCurrentStatisticIndex(0);
-    } else {
-      setCurrentStatisticIndex(currentStatisticIndex + 1);
+    if (isPremiumUnlocked) {
+      if (currentStatisticIndex + 1 >= statistics.length) {
+        setCurrentStatisticIndex(0);
+      } else {
+        setCurrentStatisticIndex(currentStatisticIndex + 1);
+      }
     }
   };
 

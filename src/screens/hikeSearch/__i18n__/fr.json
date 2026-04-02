@@ -21,6 +21,9 @@
     "mapAvailable": "carte disponible",
     "mapsAvailable": "cartes disponibles",
     "startHike": "Sélectionner cette randonnée !",
-    "error": "Impossible de charger les détails de la randonnée"
+    "error": "Impossible de charger les détails de la randonnée",
+    "startDate": "Date de départ",
+    "chooseStartDate": "Choisir ma date de départ",
+    "selectStartDate": "Sélectionner la date de départ"
   }
 }

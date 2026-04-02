@@ -14,6 +14,7 @@ import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from "rea
 import { ScrollView } from "react-native-gesture-handler";
 import { HikeBadges } from "./HikeBadges";
 import { MapCarousel } from "./MapCarousel";
+import { StartDatePicker } from "./StartDatePicker";
 
 export const Hike: React.FC = () => {
   const { theme, isDarkMode } = useTheme();
@@ -21,6 +22,8 @@ export const Hike: React.FC = () => {
   const { isPremiumUnlocked, setIsPremiumModalVisible } = usePremium();
   const hikeService: HikeService = useService("Hike.HikeService");
   const setSelectedHike = useUserSettingsStore((s) => s.setSelectedHike);
+  const setHikeStartDate = useUserSettingsStore((s) => s.setHikeStartDate);
+  const hikeStartDate = useUserSettingsStore((s) => s.hikeStartDate);
   const navigation = useNavigation();
   const currentLanguage = i18n.language;
 
@@ -30,6 +33,13 @@ export const Hike: React.FC = () => {
   const [hike, setHike] = useState<HikeModel | undefined>();
   const [isLoading, setIsLoading] = useState(true);
   const [selectedMapIndex, setSelectedMapIndex] = useState(0);
+  const [startDate, setStartDate] = useState<Date | undefined>(() => {
+    if (hikeStartDate) {
+      const date = new Date(hikeStartDate);
+      return isNaN(date.getTime()) ? undefined : date;
+    }
+    return undefined;
+  });
 
   useEffect(() => {
     hikeService
@@ -52,9 +62,14 @@ export const Hike: React.FC = () => {
         ...hike,
         selectedMapIndex: selectedMapIndex,
       };
+      setHikeStartDate(startDate?.toISOString());
       setSelectedHike(hikeWithSelectedMap);
       navigation.getParent()?.navigate("home");
     }
+  };
+
+  const handleDateSelect = (date: Date) => {
+    setStartDate(date);
   };
 
   if (isLoading) {
@@ -98,6 +113,7 @@ export const Hike: React.FC = () => {
       <HikeBadges hike={hike} selectedMapIndex={selectedMapIndex} />
 
       <MapCarousel maps={hike.maps} onMapChange={setSelectedMapIndex} currentMap={hike.maps[selectedMapIndex]} />
+      <StartDatePicker selectedDate={startDate} onDateSelect={handleDateSelect} />
 
       <TouchableOpacity style={styles(theme).startButton} onPress={handleStartHike}>
         <Text style={styles(theme).startButtonText}>{t("hikeSearch:detail.startHike")}</Text>

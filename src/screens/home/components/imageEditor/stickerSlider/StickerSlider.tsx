@@ -1,6 +1,5 @@
 import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { useSticker } from "@/src/contexts/sticker/StickerContextProvider";
-import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import * as Haptics from "expo-haptics";
 import React, { useEffect } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
@@ -15,7 +14,6 @@ const ITEM_SPACING = 20;
 const ACTIVE_SCALE = 1.2;
 
 export const StickerSlider: React.FC = () => {
-  const { theme, isDarkMode } = useTheme();
   const { stickers, currentIndex, setCurrentSticker, stickerCount } = useSticker();
   const { isPremiumUnlocked } = usePremium();
   const insets = useSafeAreaInsets();
@@ -83,9 +81,9 @@ export const StickerSlider: React.FC = () => {
   });
 
   return (
-    <View style={[styles(theme, isDarkMode).wrapper, { paddingBottom: Math.max(insets.bottom, 16) }]}>
+    <View style={[styles.wrapper, { paddingBottom: Math.max(insets.bottom, 16) }]}>
       <GestureDetector gesture={panGesture}>
-        <Animated.View style={[styles(theme, isDarkMode).sliderContainer, animatedContainerStyle]}>
+        <Animated.View style={[styles.sliderContainer, animatedContainerStyle]}>
           {stickers.map((sticker, index) => (
             <StickerItem
               key={index}
@@ -103,18 +101,17 @@ export const StickerSlider: React.FC = () => {
   );
 };
 
-const styles = (theme: any, isDarkMode: boolean) =>
-  StyleSheet.create({
-    wrapper: {
-      height: ITEM_SIZE * ACTIVE_SCALE + 20,
-      marginTop: 8,
-      overflow: "visible",
-    },
-    sliderContainer: {
-      flexDirection: "row",
-      alignItems: "center",
-      height: "100%",
-      paddingLeft: SCREEN_WIDTH / 2 - ITEM_SIZE / 2 - 16,
-      gap: ITEM_SPACING,
-    },
-  });
+const styles = StyleSheet.create({
+  wrapper: {
+    height: ITEM_SIZE * ACTIVE_SCALE + 20,
+    marginTop: 8,
+    overflow: "visible",
+  },
+  sliderContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    height: "100%",
+    paddingLeft: SCREEN_WIDTH / 2 - ITEM_SIZE / 2 - 16,
+    gap: ITEM_SPACING,
+  },
+});
