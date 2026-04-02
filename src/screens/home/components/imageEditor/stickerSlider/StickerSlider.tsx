@@ -6,7 +6,7 @@ import { Dimensions, StyleSheet, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { StickerItem } from "./StickerItem";
+import { StickerItem } from "./Item";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 const ITEM_SIZE = 70;
@@ -14,7 +14,7 @@ const ITEM_SPACING = 20;
 const ACTIVE_SCALE = 1.2;
 
 export const StickerSlider: React.FC = () => {
-  const { stickers, currentIndex, setCurrentSticker, stickerCount } = useSticker();
+  const { stickers, currentIndex, setCurrentSticker, stickerCount, cycleVariant } = useSticker();
   const { isPremiumUnlocked } = usePremium();
   const insets = useSafeAreaInsets();
 
@@ -93,6 +93,8 @@ export const StickerSlider: React.FC = () => {
               isPremium={sticker.isPremium}
               isPremiumUnlocked={isPremiumUnlocked}
               name={sticker.name}
+              stickerId={sticker.id}
+              onPress={cycleVariant}
             />
           ))}
         </Animated.View>

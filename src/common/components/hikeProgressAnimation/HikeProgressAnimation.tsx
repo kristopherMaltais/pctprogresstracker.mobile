@@ -8,9 +8,17 @@ import { useSharedValue, withTiming } from "react-native-reanimated";
 import { reverse } from "svg-path-reverse";
 import { HikeInterval } from "./HikeInterval";
 
-type HikeProgressAnimationProps = { size?: number; skippedSectionsDisplay?: LocationInterval[] };
+type HikeProgressAnimationProps = {
+  size?: number;
+  skippedSectionsDisplay?: LocationInterval[];
+  hideDecorations?: boolean;
+};
 
-export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({ size = 1, skippedSectionsDisplay }) => {
+export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({
+  size = 1,
+  skippedSectionsDisplay,
+  hideDecorations = false,
+}) => {
   const { theme } = useTheme();
   const selectedHike = useUserSettingsStore((s) => s.selectedHike);
   const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
@@ -73,11 +81,12 @@ export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({ si
         { transform: [{ scale: size }] },
       ]}
     >
-      {selectedHike.maps[selectedHike.selectedMapIndex].decorations?.map((decoration: string, index) => (
-        <Path key={`decoration-${index}`} path={decoration} color={theme.decorations} strokeWidth={1} style="stroke">
-          <Shadow dx={0.2} dy={0.2} blur={1} color="rgba(0,0,0,0.5)" />
-        </Path>
-      ))}
+      {!hideDecorations &&
+        selectedHike.maps[selectedHike.selectedMapIndex].decorations?.map((decoration: string, index) => (
+          <Path key={`decoration-${index}`} path={decoration} color={theme.decorations} strokeWidth={1} style="stroke">
+            <Shadow dx={0.2} dy={0.2} blur={1} color="rgba(0,0,0,0.5)" />
+          </Path>
+        ))}
 
       <Path
         path={selectedHike.maps[selectedHike.selectedMapIndex].path}

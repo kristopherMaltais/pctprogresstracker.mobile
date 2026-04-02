@@ -40,6 +40,7 @@ const styles = (theme: Theme) =>
       width: "100%",
       height: 20,
       borderWidth: 1,
+      borderRadius: 6,
       borderColor: theme.pathColored,
       overflow: "hidden",
     },

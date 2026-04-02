@@ -1,17 +1,27 @@
+import { STICKER_CONFIGS } from "@/src/screens/home/components/imageEditor/stickers/configs";
+import { StickerVariant } from "@/src/screens/home/components/imageEditor/stickers/configs/types";
 import { StickerFree } from "@/src/screens/home/components/imageEditor/stickers/StickerFree";
-import { StickerMapOnly } from "@/src/screens/home/components/imageEditor/stickers/StickerMapOnly";
+import { StickerFreeMapOnly } from "@/src/screens/home/components/imageEditor/stickers/StickerFreeMapOnly";
+import { StickerStats } from "@/src/screens/home/components/imageEditor/stickers/StickerStats";
 import { StickerStatsWithProgressBar } from "@/src/screens/home/components/imageEditor/stickers/stickerStats/StickerStatsWithProgressBar";
-import { StickerStats3 } from "@/src/screens/home/components/imageEditor/stickers/StickerStats3";
 import { StickerStats3Vertical } from "@/src/screens/home/components/imageEditor/stickers/StickerStats3Vertical";
-import { StickerStats4 } from "@/src/screens/home/components/imageEditor/stickers/StickerStats4";
-import { StickerStats6 } from "@/src/screens/home/components/imageEditor/stickers/StickerStats6";
 import React, { createContext, useContext, useState } from "react";
 
 type Sticker = {
+  id: string;
   isPremium: boolean;
   sticker: React.JSX.Element;
   name: string;
 };
+
+export type { StickerFreeVariant } from "@/src/screens/home/components/imageEditor/stickers/configs/StickerFree.config";
+export type { StickerFreeMapOnlyVariant } from "@/src/screens/home/components/imageEditor/stickers/configs/StickerFreeMapOnly.config";
+export type {
+  CardMode,
+  StickerStats3VerticalVariant,
+  StickerStatsVariant,
+  StickerStatsWithProgressBarVariant,
+} from "@/src/screens/home/components/imageEditor/stickers/configs/StickerStats.config";
 
 interface StickerProps {
   stickers: Sticker[];
@@ -19,6 +29,9 @@ interface StickerProps {
   setCurrentSticker: (direction: "left" | "right") => void;
   currentIndex: number;
   stickerCount: number;
+  variantIndexMap: Record<string, number>;
+  cycleVariant: (stickerId: string) => void;
+  getCurrentVariant: <T extends StickerVariant>(stickerId: string) => T | undefined;
 }
 
 interface StickerProviderProps {
@@ -37,15 +50,26 @@ export const useSticker = (): StickerProps => {
 
 export const StickerContextProvider = ({ children }: StickerProviderProps) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [variantIndexMap, setVariantIndexMap] = useState<Record<string, number>>({});
 
-  const stickers = [
-    { isPremium: false, sticker: <StickerFree key="free" />, name: "A" },
-    { isPremium: false, sticker: <StickerMapOnly key="mapOnly" />, name: "B" },
-    { isPremium: false, sticker: <StickerStats3 key="stats3" />, name: "C" },
-    { isPremium: false, sticker: <StickerStats4 key="stats4" />, name: "D" },
-    { isPremium: true, sticker: <StickerStats6 key="stats6" />, name: "E" },
-    { isPremium: true, sticker: <StickerStats3Vertical key="stats3Vertical" />, name: "F" },
-    { isPremium: true, sticker: <StickerStatsWithProgressBar key="statsWithProgressBar" />, name: "G" },
+  const stickers: Sticker[] = [
+    { id: "stickerFree", isPremium: false, sticker: <StickerFree key="free" />, name: "A" },
+    { id: "stickerFreeMapOnly", isPremium: false, sticker: <StickerFreeMapOnly key="freeMapOnly" />, name: "B" },
+    { id: "stickerStats3", isPremium: false, sticker: <StickerStats key="stats3" mode={3} />, name: "C" },
+    { id: "stickerStats4", isPremium: false, sticker: <StickerStats key="stats4" mode={4} />, name: "D" },
+    { id: "stickerStats6", isPremium: true, sticker: <StickerStats key="stats6" mode={6} />, name: "E" },
+    {
+      id: "stickerStats3Vertical",
+      isPremium: true,
+      sticker: <StickerStats3Vertical key="stats3Vertical" />,
+      name: "F",
+    },
+    {
+      id: "stickerStatsWithProgressBar",
+      isPremium: true,
+      sticker: <StickerStatsWithProgressBar key="statsWithProgressBar" />,
+      name: "G",
+    },
   ];
 
   const _setCurrentSticker = (direction: "left" | "right") => {
@@ -58,12 +82,31 @@ export const StickerContextProvider = ({ children }: StickerProviderProps) => {
     });
   };
 
+  const cycleVariant = (stickerId: string) => {
+    const config = STICKER_CONFIGS[stickerId];
+    if (!config) return;
+    setVariantIndexMap((prev) => {
+      const current = prev[stickerId] ?? 0;
+      return { ...prev, [stickerId]: (current + 1) % config.variants.length };
+    });
+  };
+
+  const getCurrentVariant = <T extends StickerVariant>(stickerId: string): T | undefined => {
+    const config = STICKER_CONFIGS[stickerId];
+    if (!config) return undefined;
+    const index = variantIndexMap[stickerId] ?? 0;
+    return config.variants[index] as T;
+  };
+
   const contextValue: StickerProps = {
-    stickers: stickers,
+    stickers,
     currentSticker: stickers[currentIndex],
     setCurrentSticker: _setCurrentSticker,
-    currentIndex: currentIndex,
+    currentIndex,
     stickerCount: stickers.length,
+    variantIndexMap,
+    cycleVariant,
+    getCurrentVariant,
   };
 
   return <StickerContext.Provider value={contextValue}>{children}</StickerContext.Provider>;

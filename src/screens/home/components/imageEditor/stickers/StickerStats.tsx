@@ -1,19 +1,51 @@
 import { GestureWrapper } from "@/src/common/components/GestureWrapper";
-import { useSticker, StickerStats3VerticalVariant } from "@/src/contexts/sticker/StickerContextProvider";
+import { HikeProgressAnimation } from "@/src/common/components/hikeProgressAnimation/HikeProgressAnimation";
+import { useSticker, StickerStatsVariant } from "@/src/contexts/sticker/StickerContextProvider";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
+import { removeSkippedSection } from "@/src/helpers/removeSkippedSectionDistance";
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import ViewShot from "react-native-view-shot";
+import { ProgressBar } from "./stickerStats/ProgressBar";
 import { Statistic, Statistics } from "./Statistic";
 
-export const StickerStats3Vertical: React.FC = () => {
+type StatsMode = 3 | 4 | 6;
+
+const STICKER_ID: Record<StatsMode, string> = {
+  3: "stickerStats3",
+  4: "stickerStats4",
+  6: "stickerStats6",
+};
+
+const STATS_ROWS: Record<StatsMode, Statistics[][]> = {
+  3: [[Statistics.HIKE_TOTAL_DISTANCE, Statistics.DISTANCE_HIKE, Statistics.DAY]],
+  4: [
+    [Statistics.HIKE_TOTAL_DISTANCE, Statistics.DISTANCE_HIKE],
+    [Statistics.DAY, Statistics.AVERAGE_DISTANCE_DAY],
+  ],
+  6: [
+    [Statistics.HIKE_TOTAL_DISTANCE, Statistics.DISTANCE_HIKE, Statistics.PERCENTAGE],
+    [Statistics.DAY, Statistics.AVERAGE_DISTANCE_DAY, Statistics.REMAINING],
+  ],
+};
+
+type Props = {
+  mode: StatsMode;
+};
+
+export const StickerStats: React.FC<Props> = ({ mode }) => {
   const selectedHike = useUserSettingsStore((s) => s.selectedHike);
+  const skippedSections = useUserSettingsStore((s) => s.skippedSections);
+  const progressMode = useUserSettingsStore((s) => s.progressMode);
   const showLogo = useUserSettingsStore((s) => s.showLogo);
+  const displayedLocation = useUserSettingsStore((s) => s.location.displayedLocation);
+  const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
+  const substractSkippedSections = useUserSettingsStore((s) => s.substractSkippedSections);
 
   const { getCurrentVariant } = useSticker();
-  const variant = getCurrentVariant<StickerStats3VerticalVariant>("stickerStats3Vertical");
+  const variant = getCurrentVariant<StickerStatsVariant>(STICKER_ID[mode]);
 
   const { getIcon } = useTheme();
   const { setViewShotTransparentBackgroud } = useViewShot();
@@ -36,6 +68,14 @@ export const StickerStats3Vertical: React.FC = () => {
   const textShadow = cardMode !== "white";
   const cardStyle = cardMode === "dark" ? styles.cardDark : cardMode === "white" ? styles.cardWhite : undefined;
 
+  const calculatePercentage = () => {
+    const hiked = removeSkippedSection(displayedLocation, skippedSections);
+    const total = substractSkippedSections
+      ? removeSkippedSection(selectedHikeTotalDistance, skippedSections)
+      : selectedHikeTotalDistance;
+    return Math.round((hiked * 100) / total);
+  };
+
   return (
     <GestureWrapper>
       <ViewShot options={{ format: "png", quality: 1 }} ref={viewShotCallbackRef}>
@@ -46,11 +86,17 @@ export const StickerStats3Vertical: React.FC = () => {
               {selectedHike.maps[selectedHike.selectedMapIndex].name}
             </Text>
           </View>
-          <View style={styles.statsGrid}>
-            <Statistic defaultStatistic={Statistics.HIKE_TOTAL_DISTANCE} textColor={textColor} textShadow={textShadow} />
-            <Statistic defaultStatistic={Statistics.DISTANCE_HIKE} textColor={textColor} textShadow={textShadow} />
-            <Statistic defaultStatistic={Statistics.PERCENTAGE} textColor={textColor} textShadow={textShadow} />
-          </View>
+          {STATS_ROWS[mode].map((row, rowIndex) => (
+            <View key={rowIndex} style={styles.statsRow}>
+              {row.map((stat) => (
+                <Statistic key={stat} defaultStatistic={stat} textColor={textColor} textShadow={textShadow} />
+              ))}
+            </View>
+          ))}
+          {variant?.showProgressBar && <ProgressBar percentage={calculatePercentage()} />}
+          {variant?.showAnimation && (
+            <HikeProgressAnimation key={`${progressMode}-${skippedSections}`} />
+          )}
         </View>
       </ViewShot>
     </GestureWrapper>
@@ -90,13 +136,14 @@ const styles = StyleSheet.create({
   header: {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "center",
     gap: 4,
     alignItems: "center",
   },
-  statsGrid: {
+  statsRow: {
     display: "flex",
-    flexDirection: "column",
-    gap: 8,
+    flexDirection: "row",
+    gap: 20,
   },
   name: {
     fontSize: 18,

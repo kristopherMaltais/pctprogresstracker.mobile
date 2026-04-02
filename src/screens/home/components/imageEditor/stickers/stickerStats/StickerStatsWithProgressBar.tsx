@@ -1,3 +1,4 @@
+import { StickerStatsWithProgressBarVariant, useSticker } from "@/src/contexts/sticker/StickerContextProvider";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { kilometerToMile } from "@/src/helpers/computeDistances";
@@ -17,6 +18,9 @@ export const StickerStatsWithProgressBar: React.FC = () => {
   const measurementUnit = useUserSettingsStore((s) => s.measurementUnit);
   const showLogo = useUserSettingsStore((s) => s.showLogo);
   const substractSkippedSections = useUserSettingsStore((s) => s.substractSkippedSections);
+
+  const { getCurrentVariant } = useSticker();
+  const variant = getCurrentVariant<StickerStatsWithProgressBarVariant>("stickerStatsWithProgressBar");
 
   const { getIcon } = useTheme();
 
@@ -67,7 +71,7 @@ export const StickerStatsWithProgressBar: React.FC = () => {
           </View>
         </View>
 
-        <ProgressBar percentage={Math.round(calculatePercentage())} />
+        {variant?.showProgressBar && <ProgressBar percentage={Math.round(calculatePercentage())} />}
       </View>
       <View style={styles.body}>
         <View>

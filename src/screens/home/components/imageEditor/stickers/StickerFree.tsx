@@ -1,5 +1,6 @@
 import { GestureWrapper } from "@/src/common/components/GestureWrapper";
 import { HikeProgressAnimation } from "@/src/common/components/hikeProgressAnimation/HikeProgressAnimation";
+import { StickerFreeVariant, useSticker } from "@/src/contexts/sticker/StickerContextProvider";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
@@ -14,6 +15,9 @@ export const StickerFree: React.FC = () => {
   const selectedHike = useUserSettingsStore((s) => s.selectedHike);
   const skippedSections = useUserSettingsStore((s) => s.skippedSections);
   const progressMode = useUserSettingsStore((s) => s.progressMode);
+
+  const { getCurrentVariant } = useSticker();
+  const variant = getCurrentVariant<StickerFreeVariant>("stickerFree");
 
   const showLogo = useUserSettingsStore((s) => s.showLogo);
 
@@ -49,7 +53,12 @@ export const StickerFree: React.FC = () => {
         ref={viewShotCallbackRef}
       >
         <View style={isHorizontal ? styles.containerHorizontal : styles.containerVertical}>
-          {!isHorizontal && <HikeProgressAnimation key={`${progressMode}-${skippedSections}`} />}
+          {!isHorizontal && (
+            <HikeProgressAnimation
+              hideDecorations={variant?.hideDecorations}
+              key={`${progressMode}-${skippedSections}`}
+            />
+          )}
           <View style={isHorizontal ? styles.statsContainerHorizontal : styles.statsContainerVertical}>
             {showLogo && <Image source={getIcon("iconWithTextBackground")} style={styles.logo} />}
             <View>
@@ -58,7 +67,12 @@ export const StickerFree: React.FC = () => {
               <Statistic defaultStatistic={Statistics.DISTANCE_HIKE} />
             </View>
           </View>
-          {isHorizontal && <HikeProgressAnimation key={`${progressMode}-${skippedSections}`} />}
+          {isHorizontal && (
+            <HikeProgressAnimation
+              hideDecorations={variant?.hideDecorations}
+              key={`${progressMode}-${skippedSections}`}
+            />
+          )}
         </View>
       </ViewShot>
     </GestureWrapper>

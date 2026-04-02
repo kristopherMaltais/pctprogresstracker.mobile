@@ -21,9 +21,17 @@ export type StatisticProps = {
   defaultStatistic: Statistics;
   labelSize?: number;
   valueSize?: number;
+  textColor?: string;
+  textShadow?: boolean;
 };
 
-export const Statistic: React.FC<StatisticProps> = ({ defaultStatistic, labelSize, valueSize }) => {
+export const Statistic: React.FC<StatisticProps> = ({
+  defaultStatistic,
+  labelSize,
+  valueSize,
+  textColor,
+  textShadow = true,
+}) => {
   const selectedHike = useUserSettingsStore((s) => s.selectedHike);
   const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
   const displayedLocation = useUserSettingsStore((s) => s.location.displayedLocation);
@@ -117,12 +125,19 @@ export const Statistic: React.FC<StatisticProps> = ({ defaultStatistic, labelSiz
     return null;
   }
 
+  const resolvedColor = textColor ?? "white";
+  const shadow = textShadow
+    ? { textShadowColor: "rgba(0, 0, 0, 0.50)", textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 1 }
+    : {};
+
   return (
     <Pressable style={styles.container} onPress={changeStatdisplayed}>
-      <Text style={{ ...styles.label, fontSize: labelSize ? labelSize : 9 }}>
+      <Text style={{ ...styles.label, fontSize: labelSize ?? 9, color: resolvedColor, ...shadow }}>
         {t(`home:statistic.${statistics[currentStatisticIndex]}`)}
       </Text>
-      <Text style={{ ...styles.value, fontSize: valueSize ? valueSize : 18 }}>{statDisplayed}</Text>
+      <Text style={{ ...styles.value, fontSize: valueSize ?? 18, color: resolvedColor, ...shadow }}>
+        {statDisplayed}
+      </Text>
     </Pressable>
   );
 };
@@ -136,18 +151,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     textAlign: "center",
     fontWeight: "700",
-
-    textShadowColor: "rgba(0, 0, 0, 0.50)",
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 1,
   },
   value: {
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
-
-    textShadowColor: "rgba(0, 0, 0, 0.50)",
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 1,
   },
 });

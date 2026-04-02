@@ -15,6 +15,8 @@ interface StickerItemProps {
   isPremium: boolean;
   isPremiumUnlocked: boolean;
   name: string;
+  stickerId: string;
+  onPress: (stickerId: string) => void;
 }
 
 export const StickerItem: React.FC<StickerItemProps> = ({
@@ -24,6 +26,8 @@ export const StickerItem: React.FC<StickerItemProps> = ({
   isPremium,
   isPremiumUnlocked,
   name,
+  stickerId,
+  onPress,
 }) => {
   const { theme, isDarkMode, getIcon } = useTheme();
 
@@ -65,7 +69,7 @@ export const StickerItem: React.FC<StickerItemProps> = ({
 
   return (
     <Animated.View style={[styles.itemContainer, animatedStyle, isActive && dynamicStyles.activeItem]}>
-      <TouchableOpacity style={dynamicStyles.itemContent} onPress={() => alert("test")}>
+      <TouchableOpacity style={dynamicStyles.itemContent} onPress={() => onPress(stickerId)}>
         {isLocked ? (
           <Image source={getIcon("lock")} style={styles.lockIcon} />
         ) : (
