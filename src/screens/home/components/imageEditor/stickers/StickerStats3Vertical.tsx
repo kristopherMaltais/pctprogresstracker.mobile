@@ -3,7 +3,6 @@ import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
 import React from "react";
-import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, View } from "react-native";
 import ViewShot from "react-native-view-shot";
 import { Statistic, Statistics } from "./Statistic";
@@ -14,7 +13,6 @@ export const StickerStats3Vertical: React.FC = () => {
   const showLogo = useUserSettingsStore((s) => s.showLogo);
 
   const { getIcon } = useTheme();
-  const { t } = useTranslation();
   const { setViewShotTransparentBackgroud } = useViewShot();
 
   const viewShotCallbackRef = React.useCallback(
