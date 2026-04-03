@@ -1,3 +1,4 @@
+import { DatePickerModal } from "@/src/common/components/modals/DatePickerModal";
 import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
@@ -10,14 +11,16 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Actions } from "./components/Actions";
+import { InputButton } from "./components/InputButton";
 import { InputCheckbox } from "./components/InputCheckbox";
+import { InputCounter } from "./components/InputCounter";
 import { InputNumber } from "./components/InputNumber";
 import { InputSwitch } from "./components/InputSwitch";
 import { InputToggleText } from "./components/InputToggleText";
 
-export const Preferences: React.FC = () => {
+export const Configuration: React.FC = () => {
   const { theme } = useTheme();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigation = useNavigation();
   const { isPremiumUnlocked } = usePremium();
 
@@ -29,6 +32,10 @@ export const Preferences: React.FC = () => {
   const setSubstractSkippedSections = useUserSettingsStore((state) => state.setSubstractSkippedSections);
   const selectedHikeTotalDistance = useUserSettingsStore((state) => state.selectedHikeTotalDistance);
   const setSelectedHikeTotalDistance = useUserSettingsStore((state) => state.setSelectedHikeTotalDistance);
+  const hikeStartDate = useUserSettingsStore((state) => state.hikeStartDate);
+  const setHikeStartDate = useUserSettingsStore((state) => state.setHikeStartDate);
+  const zeroDays = useUserSettingsStore((state) => state.zeroDays);
+  const setZeroDays = useUserSettingsStore((state) => state.setZeroDays);
 
   const [_measurementUnit, _setMeasurementUnit] = useState<MeasurementUnit>(measurementUnit);
   const [_isReverse, _setIsReverse] = useState<boolean>(isReverse);
@@ -38,6 +45,9 @@ export const Preferences: React.FC = () => {
       ? Math.round(selectedHikeTotalDistance)
       : Math.round(kilometerToMile(selectedHikeTotalDistance))
   );
+  const [_startDate, _setStartDate] = useState<Date>(hikeStartDate ? new Date(hikeStartDate) : new Date());
+  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
+  const [_zeroDays, _setZeroDays] = useState<number>(zeroDays);
 
   const handleMeasurementUnitToggle = () => {
     const newUnit = _measurementUnit === MeasurementUnit.KILOMETER ? MeasurementUnit.MILE : MeasurementUnit.KILOMETER;
@@ -57,6 +67,8 @@ export const Preferences: React.FC = () => {
     setMeasurementUnit(_measurementUnit);
     setIsReverse(_isReverse);
     setSubstractSkippedSections(_substractSkippedSections);
+    setHikeStartDate(_startDate.toISOString());
+    setZeroDays(_zeroDays);
     navigation.goBack();
   };
 
@@ -81,10 +93,27 @@ export const Preferences: React.FC = () => {
       <InputToggleText
         value={getMeasurementUnitText()}
         onToggle={handleMeasurementUnitToggle}
-        label={t("advancedSettings:preferences.measurementUnit")}
+        label={t("advancedSettings:configuration.measurementUnit")}
       />
-      <InputSwitch value={_isReverse} onToggle={_setIsReverse} label={t("advancedSettings:preferences.direction")} />
+      <InputSwitch value={_isReverse} onToggle={_setIsReverse} label={t("advancedSettings:configuration.direction")} />
+      <InputCounter
+        label={t("advancedSettings:configuration.zeroDays")}
+        value={_zeroDays}
+        onChange={_setZeroDays}
+      />
+      <InputButton
+        label={t("advancedSettings:configuration.startDate")}
+        value={_startDate.toLocaleDateString(i18n.language, { day: "2-digit", month: "short", year: "numeric" })}
+        onPress={() => setIsDatePickerVisible(true)}
+      />
       <Actions onSave={saveSettings} />
+      <DatePickerModal
+        isVisible={isDatePickerVisible}
+        closeModal={() => setIsDatePickerVisible(false)}
+        onConfirm={(date) => { _setStartDate(date); setIsDatePickerVisible(false); }}
+        selectedDate={_startDate}
+        title={t("advancedSettings:configuration.startDate")}
+      />
     </ScrollView>
   );
 };

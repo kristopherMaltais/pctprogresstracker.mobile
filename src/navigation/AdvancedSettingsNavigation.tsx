@@ -1,10 +1,9 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { AdvancesSettingsHeader } from "../common/components/headers/AdvancedSettingsHeader";
-import { useTheme } from "../contexts/theme/ThemeContextProvider";
 import { LocationInterval } from "../models/locationInterval";
 import { AdvancedSettings } from "../screens/advancedSettings/AdvancedSettings";
-import { Preferences } from "../screens/advancedSettings/Preferences";
+import { Configuration } from "../screens/advancedSettings/Configuration";
 import { ProgressInputModes } from "../screens/advancedSettings/progressInputModes/ProgressInputModes";
 import { EditSkippedSection } from "../screens/advancedSettings/skippedSections/EditSkippedSection";
 import { SkippedSections } from "../screens/advancedSettings/skippedSections/SkippedSections";
@@ -14,13 +13,12 @@ export type AdvancedSettingsStackParamList = {
   editHikeBoundaries: undefined;
   skippedSections: undefined;
   editSkippedSection: { isEditMode: boolean; skippedSection?: LocationInterval };
-  preferences: undefined;
+  configuration: undefined;
   progressInputModes: undefined;
 };
 
 export const AdvancedSettingsNavigation: React.FC = () => {
   const Stack = createNativeStackNavigator<AdvancedSettingsStackParamList>();
-  const { theme } = useTheme();
 
   return (
     <Stack.Navigator
@@ -49,9 +47,9 @@ export const AdvancedSettingsNavigation: React.FC = () => {
         })}
       />
       <Stack.Screen
-        name="preferences"
-        component={Preferences}
-        options={{ title: "advancedSettings:preferences.title" }}
+        name="configuration"
+        component={Configuration}
+        options={{ title: "advancedSettings:configuration.title" }}
       />
       <Stack.Screen
         name="progressInputModes"

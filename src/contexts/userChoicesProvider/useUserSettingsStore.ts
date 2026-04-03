@@ -16,9 +16,10 @@ const initialState = {
   isStickerSelectedPremium: false,
   showLogo: true,
   showShareMenu: false,
-  substractSkippedSections: true,
+  substractSkippedSections: false,
   progressMode: ProgressModes.MARKER,
   hikeStartDate: undefined,
+  zeroDays: 0,
 };
 
 export type FullStoreState = LocationSlice & {
@@ -34,6 +35,7 @@ export type FullStoreState = LocationSlice & {
   substractSkippedSections: boolean;
   progressMode: ProgressModes;
   hikeStartDate: string | undefined;
+  zeroDays: number;
 
   // Actions
   setSelectedHike: (hike: Hike) => void;
@@ -49,6 +51,7 @@ export type FullStoreState = LocationSlice & {
   resetStore: () => void;
   setProgressMode: (mode: ProgressModes) => void;
   setHikeStartDate: (date: string | undefined) => void;
+  setZeroDays: (count: number) => void;
 };
 
 export const useUserSettingsStore = create<FullStoreState>()(
@@ -90,6 +93,7 @@ export const useUserSettingsStore = create<FullStoreState>()(
       setShowShareMenu: (flag) => set({ showShareMenu: flag }),
       setSubstractSkippedSections: (flag) => set({ substractSkippedSections: flag }),
       setHikeStartDate: (date) => set({ hikeStartDate: date }),
+      setZeroDays: (count) => set({ zeroDays: count }),
     }),
     {
       name: "user-settings-storage",
@@ -105,6 +109,7 @@ export const useUserSettingsStore = create<FullStoreState>()(
         progressMode: state.progressMode,
         distanceHiked: state.distanceHiked,
         hikeStartDate: state.hikeStartDate,
+        zeroDays: state.zeroDays,
       }),
     }
   )

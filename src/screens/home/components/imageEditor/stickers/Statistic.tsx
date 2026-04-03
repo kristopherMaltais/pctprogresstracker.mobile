@@ -14,6 +14,7 @@ export enum Statistics {
   AVERAGE_DISTANCE_DAY = "averageDistanceDay",
   REMAINING = "remaining",
   SKIPPED = "skipped",
+  ZERO_DAYS = "zeroDays",
 }
 
 export type StatisticProps = {
@@ -39,6 +40,7 @@ export const Statistic: React.FC<StatisticProps> = ({
   const substractSkippedSections = useUserSettingsStore((s) => s.substractSkippedSections);
   const toDisplayUnit = useUserSettingsStore((s) => s.toDisplayUnit);
   const hikeStartDate = useUserSettingsStore((s) => s.hikeStartDate);
+  const zeroDays = useUserSettingsStore((s) => s.zeroDays);
   const { t } = useTranslation();
   const { isPremiumUnlocked } = usePremium();
 
@@ -63,6 +65,7 @@ export const Statistic: React.FC<StatisticProps> = ({
     Statistics.AVERAGE_DISTANCE_DAY,
     Statistics.REMAINING,
     Statistics.SKIPPED,
+    Statistics.ZERO_DAYS,
   ];
 
   const [currentStatisticIndex, setCurrentStatisticIndex] = useState<number>(
@@ -119,6 +122,8 @@ export const Statistic: React.FC<StatisticProps> = ({
       setStatdisplayed(`${(getDistanceHiked() / day).toFixed(1)} ${getMeasurementUnit(measurementUnit)}`);
     } else if (statistics[currentStatisticIndex] == Statistics.SKIPPED) {
       setStatdisplayed(`${getTotalSkippedDistance()} ${getMeasurementUnit(measurementUnit)}`);
+    } else if (statistics[currentStatisticIndex] == Statistics.ZERO_DAYS) {
+      setStatdisplayed(`${zeroDays}`);
     }
   }, [
     currentStatisticIndex,
@@ -129,6 +134,7 @@ export const Statistic: React.FC<StatisticProps> = ({
     substractSkippedSections,
     hikeStartDate,
     day,
+    zeroDays,
   ]);
 
   const changeStatdisplayed = () => {

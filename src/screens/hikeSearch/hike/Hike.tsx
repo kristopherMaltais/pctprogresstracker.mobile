@@ -62,7 +62,7 @@ export const Hike: React.FC = () => {
         ...hike,
         selectedMapIndex: selectedMapIndex,
       };
-      setHikeStartDate(startDate?.toISOString());
+      setHikeStartDate((startDate ?? new Date()).toISOString());
       setSelectedHike(hikeWithSelectedMap);
       navigation.getParent()?.navigate("home");
     }

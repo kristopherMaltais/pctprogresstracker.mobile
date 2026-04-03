@@ -6,7 +6,7 @@
     "confirmButton": "reset"
   },
   "hikeSettings": {
-    "title": "Hike Settings"
+    "title": "Hike"
   },
   "skippedSections": {
     "title": "Skipped Section(s)",
@@ -33,10 +33,12 @@
     "totalDistance": "Hike total distance",
     "substractSkippedSections": "Substract skipped sections"
   },
-  "preferences": {
-    "title": "Preferences",
+  "configuration": {
+    "title": "Configuration",
     "measurementUnit": "Measurement Unit",
-    "direction": "Reverse Direction"
+    "direction": "Reverse Direction",
+    "startDate": "Start Date",
+    "zeroDays": "Zero Days"
   },
   "progressInputModes": {
     "bestForLabel": "Best for:",

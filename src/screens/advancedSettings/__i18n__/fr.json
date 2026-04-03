@@ -6,13 +6,7 @@
     "confirmButton": "Réinitialiser"
   },
   "hikeSettings": {
-    "title": "Paramètres de la randonnée"
-  },
-  "editHikeBoundaries": {
-    "title": "Personnaliser les limites de votre randonnée",
-    "notes": "Calibration de la carte : Utilisez les curseurs pour ajuster manuellement votre position si l’emplacement sur la carte ne reflète pas correctement la distance que vous avez saisie.",
-    "start": "Début",
-    "end": "Fin"
+    "title": "Randonnée"
   },
   "skippedSections": {
     "title": "Section(s) sautée(s)",
@@ -39,10 +33,12 @@
     "totalDistance": "Distance totale randonnée",
     "substractSkippedSections": "Soustraire les sections sautées"
   },
-  "preferences": {
-    "title": "Préférences",
+  "configuration": {
+    "title": "Configuration",
     "measurementUnit": "Unité de mesure",
-    "direction": "Inverser la direction"
+    "direction": "Inverser la direction",
+    "startDate": "Date de départ",
+    "zeroDays": "Zero"
   },
   "progressInputModes": {
     "title": "Modes de saisie de progression",
