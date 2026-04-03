@@ -96,6 +96,7 @@ export const StickerContextProvider = ({ children }: StickerProviderProps) => {
     const config = STICKER_CONFIGS[stickerId];
     if (!config) return undefined;
     const index = variantIndexMap[stickerId] ?? 0;
+
     return config.variants[index] as T;
   };
 

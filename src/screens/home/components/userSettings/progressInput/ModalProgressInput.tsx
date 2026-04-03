@@ -54,10 +54,12 @@ export const ModalProgressInput: React.FC<ModalProgressInputProps> = ({ isVisibl
     const sanitized = sanitizeNumericInput(text, 1);
     if (sanitized === null) return;
 
-    _setLocationText(sanitized);
-
     const parsed = parseFloat(sanitized);
-    _setLocation(!isNaN(parsed) ? Math.max(0, Math.min(selectedHikeTotalDistance, parsed)) : 0);
+    const maxDisplay = toDisplayUnit(selectedHikeTotalDistance);
+    const clamped = !isNaN(parsed) ? Math.max(0, Math.min(maxDisplay, parsed)) : 0;
+
+    _setLocation(clamped);
+    _setLocationText(clamped === parsed ? sanitized : clamped.toString());
   };
 
   const updateProgression = () => {

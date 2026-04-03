@@ -1,6 +1,7 @@
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
 import { openNativeShareUri } from "@/src/helpers/openNativeSharing";
 import { requestAppReview } from "@/src/helpers/requestAppReview";
+import { useTrackShare } from "@/src/hooks/useTrackShare";
 import { makeImageFromView } from "@shopify/react-native-skia";
 import { File, Paths } from "expo-file-system";
 import * as Haptics from "expo-haptics";
@@ -17,6 +18,7 @@ export const DownloadWithBackground: React.FC<DownloadNoBackgroundProps> = ({ on
   const { skiaViewRef } = useViewShot();
   const [iconDisplay, setIconDisplay] = useState<string>("downloadImageUnlocked");
   const { t } = useTranslation();
+  const { trackShare } = useTrackShare();
 
   const saveToGallery = async () => {
     if (!skiaViewRef?.current) return;
@@ -46,6 +48,7 @@ export const DownloadWithBackground: React.FC<DownloadNoBackgroundProps> = ({ on
   };
 
   const downloadSuccess = () => {
+    trackShare("downloadWithBackground");
     setIconDisplay("success");
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     requestAppReview();
