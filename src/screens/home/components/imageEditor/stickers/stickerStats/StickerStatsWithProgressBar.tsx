@@ -1,10 +1,8 @@
 import { StickerStatsWithProgressBarVariant, useSticker } from "@/src/contexts/sticker/StickerContextProvider";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
-import { kilometerToMile } from "@/src/helpers/computeDistances";
 import { getMeasurementUnit } from "@/src/helpers/getMeasurementUnit";
 import { removeSkippedSection } from "@/src/helpers/removeSkippedSectionDistance";
-import { MeasurementUnit } from "@/src/models/measurementUnit";
 import { t } from "i18next";
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
@@ -18,6 +16,7 @@ export const StickerStatsWithProgressBar: React.FC = () => {
   const measurementUnit = useUserSettingsStore((s) => s.measurementUnit);
   const showLogo = useUserSettingsStore((s) => s.showLogo);
   const substractSkippedSections = useUserSettingsStore((s) => s.substractSkippedSections);
+  const toDisplayUnit = useUserSettingsStore((s) => s.toDisplayUnit);
 
   const { getCurrentVariant } = useSticker();
   const variant = getCurrentVariant<StickerStatsWithProgressBarVariant>("stickerStatsWithProgressBar");
@@ -36,22 +35,14 @@ export const StickerStatsWithProgressBar: React.FC = () => {
   };
 
   const getTotalDistance = () => {
-    var distance = selectedHikeTotalDistance;
-
-    if (substractSkippedSections) {
-      distance = removeSkippedSection(selectedHikeTotalDistance, skippedSections);
-    }
-
-    if (measurementUnit == MeasurementUnit.MILE) {
-      distance = kilometerToMile(distance);
-    }
-
-    return distance;
+    const distance = substractSkippedSections
+      ? removeSkippedSection(selectedHikeTotalDistance, skippedSections)
+      : selectedHikeTotalDistance;
+    return toDisplayUnit(distance, 0);
   };
 
   const getDistanceHiked = () => {
-    var distance = removeSkippedSection(displayedLocation, skippedSections);
-    return measurementUnit == MeasurementUnit.KILOMETER ? distance : kilometerToMile(distance);
+    return toDisplayUnit(removeSkippedSection(displayedLocation, skippedSections));
   };
 
   return (

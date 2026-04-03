@@ -3,7 +3,6 @@ import { Theme } from "@/src/contexts/theme/models/theme";
 import { shadows } from "@/src/contexts/theme/shadows";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { FullStoreState, useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
-import { kilometerToMile } from "@/src/helpers/computeDistances";
 import { LocationInterval } from "@/src/models/locationInterval";
 import { MeasurementUnit } from "@/src/models/measurementUnit";
 import { AdvancedSettingsStackParamList } from "@/src/navigation/AdvancedSettingsNavigation";
@@ -24,6 +23,7 @@ export const SkippedSectionSummary: React.FC<SkippedSectionSummaryProps> = ({ sk
   const selectedHikeTotalDistance = useUserSettingsStore((state: FullStoreState) => state.selectedHikeTotalDistance);
   const deleteSkippedSection = useUserSettingsStore((state: FullStoreState) => state.deleteSkippedSection);
   const measurementUnit = useUserSettingsStore((state: FullStoreState) => state.measurementUnit);
+  const toDisplayUnit = useUserSettingsStore((state: FullStoreState) => state.toDisplayUnit);
 
   const [isConfirmModalVisible, setIsConfirmModalVisible] = useState<boolean>(false);
 
@@ -46,18 +46,14 @@ export const SkippedSectionSummary: React.FC<SkippedSectionSummaryProps> = ({ sk
           <View style={styles(theme).location}>
             <Text style={styles(theme).label}>{t("advancedSettings:skippedSections.start")}</Text>
             <Text style={styles(theme).value}>
-              {measurementUnit == MeasurementUnit.KILOMETER
-                ? skippedSection.start.displayedLocation
-                : kilometerToMile(skippedSection.start.displayedLocation)}
+              {toDisplayUnit(skippedSection.start.displayedLocation, 1)}
               {measurementUnit == MeasurementUnit.KILOMETER ? "km" : "mi"}
             </Text>
           </View>
           <View style={styles(theme).location}>
             <Text style={styles(theme).label}>{t("advancedSettings:skippedSections.end")}</Text>
             <Text style={styles(theme).value}>
-              {measurementUnit == MeasurementUnit.KILOMETER
-                ? skippedSection.end.displayedLocation
-                : kilometerToMile(skippedSection.end.displayedLocation)}
+              {toDisplayUnit(skippedSection.end.displayedLocation, 1)}
               {measurementUnit == MeasurementUnit.KILOMETER ? "km" : "mi"}
             </Text>
           </View>

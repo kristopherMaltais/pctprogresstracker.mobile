@@ -55,7 +55,7 @@ const styles = (theme: Theme) =>
       width: 48,
       height: 26,
       borderRadius: 6,
-      backgroundColor: theme.text,
+      backgroundColor: "#5A5A5A",
       padding: 2,
       justifyContent: "center",
     },
@@ -64,6 +64,5 @@ const styles = (theme: Theme) =>
       height: 22,
       borderRadius: 4,
       backgroundColor: "white",
-      opacity: 0.8,
     },
   });

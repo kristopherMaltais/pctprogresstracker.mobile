@@ -1,6 +1,7 @@
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
-import React from "react";
+import { sanitizeNumericInput } from "@/src/helpers/sanitizeNumericInput";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 
 type InputNumberProps = {
@@ -10,19 +11,33 @@ type InputNumberProps = {
   label: string;
   autoFocus?: boolean;
   max?: number;
+  decimals?: number;
 };
 
-export const InputNumber: React.FC<InputNumberProps> = ({ value, onChange, unit, label, autoFocus, max }) => {
+export const InputNumber: React.FC<InputNumberProps> = ({
+  value,
+  onChange,
+  unit,
+  label,
+  autoFocus,
+  max,
+  decimals = 0,
+}) => {
   const { theme } = useTheme();
+  const [text, setText] = useState<string>(value.toString());
 
-  const stringValue = value.toString();
+  useEffect(() => {
+    setText(value.toString());
+  }, [value]);
 
-  const handleOnChange = (value: string) => {
-    if (max) {
-      onChange(Math.min(Math.max(0, Number(value)), max));
-    } else {
-      onChange(Number(value));
-    }
+  const handleOnChange = (input: string) => {
+    const sanitized = sanitizeNumericInput(input, decimals);
+    if (sanitized === null) return;
+
+    setText(sanitized);
+
+    const parsed = decimals > 0 ? parseFloat(sanitized) : parseInt(sanitized, 10);
+    onChange(!isNaN(parsed) ? (max !== undefined ? Math.min(Math.max(0, parsed), max) : parsed) : 0);
   };
 
   return (
@@ -30,10 +45,10 @@ export const InputNumber: React.FC<InputNumberProps> = ({ value, onChange, unit,
       <Text style={styles(theme).label}>{label}</Text>
       <View style={styles(theme).inputContainer}>
         <TextInput
-          selection={{ start: stringValue.length, end: stringValue.length }}
+          selection={{ start: text.length, end: text.length }}
           style={styles(theme).input}
-          keyboardType="numeric"
-          value={value.toString()}
+          keyboardType={decimals > 0 ? "decimal-pad" : "numeric"}
+          value={text}
           onChangeText={handleOnChange}
           autoFocus={autoFocus}
         />

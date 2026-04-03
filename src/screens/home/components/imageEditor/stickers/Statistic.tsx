@@ -1,9 +1,7 @@
 import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
-import { kilometerToMile } from "@/src/helpers/computeDistances";
 import { getMeasurementUnit } from "@/src/helpers/getMeasurementUnit";
 import { removeSkippedSection } from "@/src/helpers/removeSkippedSectionDistance";
-import { MeasurementUnit } from "@/src/models/measurementUnit";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, StyleSheet, Text } from "react-native";
@@ -15,6 +13,7 @@ export enum Statistics {
   DAY = "day",
   AVERAGE_DISTANCE_DAY = "averageDistanceDay",
   REMAINING = "remaining",
+  SKIPPED = "skipped",
 }
 
 export type StatisticProps = {
@@ -38,6 +37,7 @@ export const Statistic: React.FC<StatisticProps> = ({
   const skippedSections = useUserSettingsStore((s) => s.skippedSections);
   const measurementUnit = useUserSettingsStore((s) => s.measurementUnit);
   const substractSkippedSections = useUserSettingsStore((s) => s.substractSkippedSections);
+  const toDisplayUnit = useUserSettingsStore((s) => s.toDisplayUnit);
   const hikeStartDate = useUserSettingsStore((s) => s.hikeStartDate);
   const { t } = useTranslation();
   const { isPremiumUnlocked } = usePremium();
@@ -62,6 +62,7 @@ export const Statistic: React.FC<StatisticProps> = ({
     Statistics.DAY,
     Statistics.AVERAGE_DISTANCE_DAY,
     Statistics.REMAINING,
+    Statistics.SKIPPED,
   ];
 
   const [currentStatisticIndex, setCurrentStatisticIndex] = useState<number>(
@@ -71,8 +72,22 @@ export const Statistic: React.FC<StatisticProps> = ({
   const [statDisplayed, setStatdisplayed] = useState<string>("");
 
   const getDistanceHiked = () => {
-    var distance = removeSkippedSection(displayedLocation, skippedSections);
-    return measurementUnit == MeasurementUnit.KILOMETER ? distance : kilometerToMile(distance);
+    return toDisplayUnit(removeSkippedSection(displayedLocation, skippedSections), 1);
+  };
+
+  const getEffectiveTotalDistance = () => {
+    const total = substractSkippedSections
+      ? removeSkippedSection(selectedHikeTotalDistance, skippedSections)
+      : selectedHikeTotalDistance;
+    return toDisplayUnit(total, 0);
+  };
+
+  const getTotalSkippedDistance = () => {
+    const totalKm = skippedSections.reduce(
+      (acc, section) => acc + (section.end.displayedLocation - section.start.displayedLocation),
+      0
+    );
+    return toDisplayUnit(totalKm, 1);
   };
 
   const calculatePercentage = () => {
@@ -90,15 +105,20 @@ export const Statistic: React.FC<StatisticProps> = ({
     if (statistics[currentStatisticIndex] == Statistics.DISTANCE_HIKE) {
       setStatdisplayed(`${getDistanceHiked()} ${getMeasurementUnit(measurementUnit)}`);
     } else if (statistics[currentStatisticIndex] == Statistics.HIKE_TOTAL_DISTANCE) {
-      setStatdisplayed(`${selectedHikeTotalDistance} ${getMeasurementUnit(measurementUnit)}`);
+      setStatdisplayed(`${getEffectiveTotalDistance()} ${getMeasurementUnit(measurementUnit)}`);
     } else if (statistics[currentStatisticIndex] == Statistics.PERCENTAGE) {
       setStatdisplayed(`${calculatePercentage().toFixed(1)} %`);
     } else if (statistics[currentStatisticIndex] == Statistics.REMAINING) {
-      setStatdisplayed(`${selectedHikeTotalDistance - getDistanceHiked()} ${getMeasurementUnit(measurementUnit)}`);
+      const totalConverted = toDisplayUnit(selectedHikeTotalDistance, 0);
+      setStatdisplayed(
+        `${totalConverted - getDistanceHiked() - getTotalSkippedDistance()} ${getMeasurementUnit(measurementUnit)}`
+      );
     } else if (statistics[currentStatisticIndex] == Statistics.DAY) {
       setStatdisplayed(`${day}`);
     } else if (statistics[currentStatisticIndex] == Statistics.AVERAGE_DISTANCE_DAY) {
       setStatdisplayed(`${(getDistanceHiked() / day).toFixed(1)} ${getMeasurementUnit(measurementUnit)}`);
+    } else if (statistics[currentStatisticIndex] == Statistics.SKIPPED) {
+      setStatdisplayed(`${getTotalSkippedDistance()} ${getMeasurementUnit(measurementUnit)}`);
     }
   }, [
     currentStatisticIndex,

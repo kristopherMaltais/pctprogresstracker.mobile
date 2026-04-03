@@ -4,10 +4,8 @@ import { shadows } from "@/src/contexts/theme/shadows";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { useValidation } from "@/src/contexts/validation/ValidationContextProvider";
-import { mileToKilometer } from "@/src/helpers/computeDistances";
 import { getHikedLocationIntervals } from "@/src/helpers/getHikedLocationIntervals";
 import { LocationInterval } from "@/src/models/locationInterval";
-import { MeasurementUnit } from "@/src/models/measurementUnit";
 import { AdvancedSettingsStackParamList } from "@/src/navigation/AdvancedSettingsNavigation";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import React, { useState } from "react";
@@ -27,6 +25,7 @@ export const EditSkippedSection: React.FC = () => {
 
   const selectedHikeTotalDistance = useUserSettingsStore((state) => state.selectedHikeTotalDistance);
   const measurementUnit = useUserSettingsStore((state) => state.measurementUnit);
+  const toStoreValue = useUserSettingsStore((state) => state.toStoreValue);
   const addSkippedSection = useUserSettingsStore((state) => state.addSkippedSection);
   const editSkippedSection = useUserSettingsStore((state) => state.editSkippedSection);
   const skippedSections = useUserSettingsStore((state) => state.skippedSections);
@@ -44,7 +43,7 @@ export const EditSkippedSection: React.FC = () => {
   const [skippedSection, setSkippedSection] = useState<LocationInterval>(getInitialSkippedSection());
 
   const handleStartDisplayChange = (value: number) => {
-    const newValue = measurementUnit == MeasurementUnit.KILOMETER ? value : mileToKilometer(value);
+    const newValue = toStoreValue(value);
     setSkippedSection((prev) => ({
       ...prev,
       start: { displayedLocation: newValue, pathLocation: newValue },
@@ -52,7 +51,7 @@ export const EditSkippedSection: React.FC = () => {
   };
 
   const handleStartPathChange = (value: number) => {
-    const newValue = measurementUnit == MeasurementUnit.KILOMETER ? value : mileToKilometer(value);
+    const newValue = toStoreValue(value);
     setSkippedSection((prev) => ({
       ...prev,
       start: { ...prev.start, pathLocation: newValue },
@@ -60,7 +59,7 @@ export const EditSkippedSection: React.FC = () => {
   };
 
   const handleEndDisplayChange = (value: number) => {
-    const newValue = measurementUnit == MeasurementUnit.KILOMETER ? value : mileToKilometer(value);
+    const newValue = toStoreValue(value);
     setSkippedSection((prev) => ({
       ...prev,
       end: { displayedLocation: newValue, pathLocation: newValue },
@@ -68,7 +67,7 @@ export const EditSkippedSection: React.FC = () => {
   };
 
   const handleEndPathChange = (value: number) => {
-    const newValue = measurementUnit == MeasurementUnit.KILOMETER ? value : mileToKilometer(value);
+    const newValue = toStoreValue(value);
     setSkippedSection((prev) => ({
       ...prev,
       end: { ...prev.end, pathLocation: newValue },

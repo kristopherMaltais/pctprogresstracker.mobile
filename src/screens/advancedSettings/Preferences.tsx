@@ -35,8 +35,8 @@ export const Preferences: React.FC = () => {
   const [_substractSkippedSections, _setSubstractSkippedSections] = useState<boolean>(substractSkippedSections);
   const [_hikeTotalDistance, _setHikeTotalDistance] = useState<number>(
     measurementUnit == MeasurementUnit.KILOMETER
-      ? selectedHikeTotalDistance
-      : kilometerToMile(selectedHikeTotalDistance)
+      ? Math.round(selectedHikeTotalDistance)
+      : Math.round(kilometerToMile(selectedHikeTotalDistance))
   );
 
   const handleMeasurementUnitToggle = () => {
@@ -44,9 +44,9 @@ export const Preferences: React.FC = () => {
     _setMeasurementUnit(newUnit);
 
     if (newUnit === MeasurementUnit.MILE) {
-      _setHikeTotalDistance(kilometerToMile(_hikeTotalDistance));
+      _setHikeTotalDistance(Math.round(kilometerToMile(_hikeTotalDistance)));
     } else {
-      _setHikeTotalDistance(mileToKilometer(_hikeTotalDistance));
+      _setHikeTotalDistance(Math.round(mileToKilometer(_hikeTotalDistance)));
     }
   };
 

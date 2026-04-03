@@ -4,10 +4,11 @@
   "statistic": {
     "hikeTotalDistance": "Total",
     "distanceHiked": "Dist. parcourue",
-    "percentage": "Progression",
+    "percentage": "Completed",
     "remaining": "Restant",
     "day": "Jours",
-    "averageDistanceDay": "Moy./Jour"
+    "averageDistanceDay": "Moy./Jour",
+    "skipped": "Sauté"
   },
   "userSettings": {
     "findHike": "Hikes",
