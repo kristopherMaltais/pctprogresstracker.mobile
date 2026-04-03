@@ -1,6 +1,6 @@
 import { GestureWrapper } from "@/src/common/components/GestureWrapper";
 import { HikeProgressAnimation } from "@/src/common/components/hikeProgressAnimation/HikeProgressAnimation";
-import { useSticker, StickerStatsVariant } from "@/src/contexts/sticker/StickerContextProvider";
+import { StickerStatsVariant, useSticker } from "@/src/contexts/sticker/StickerContextProvider";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
@@ -8,8 +8,8 @@ import { removeSkippedSection } from "@/src/helpers/removeSkippedSectionDistance
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import ViewShot from "react-native-view-shot";
-import { ProgressBar } from "./stickerStats/ProgressBar";
 import { Statistic, Statistics } from "./Statistic";
+import { ProgressBar } from "./stickerProgressBar/ProgressBar";
 
 type StatsMode = 3 | 4 | 6;
 
@@ -64,8 +64,9 @@ export const StickerStats: React.FC<Props> = ({ mode }) => {
   }
 
   const cardMode = variant?.cardMode ?? "none";
-  const textColor = cardMode === "white" ? "#1a1a1a" : "white";
-  const textShadow = cardMode !== "white";
+  const colorScheme = variant?.colorScheme ?? "white";
+  const textColor = colorScheme === "white" ? "white" : "#1a1a1a";
+  const showShadow = colorScheme === "white";
   const cardStyle = cardMode === "dark" ? styles.cardDark : cardMode === "white" ? styles.cardWhite : undefined;
 
   const calculatePercentage = () => {
@@ -82,20 +83,20 @@ export const StickerStats: React.FC<Props> = ({ mode }) => {
         <View style={[styles.container, cardStyle]}>
           <View style={styles.header}>
             {showLogo && <Image source={getIcon("icon")} style={styles.logo} />}
-            <Text style={[styles.name, { color: textColor }, !textShadow && styles.noShadow]}>
+            <Text style={[styles.name, { color: textColor }, !showShadow && styles.noShadow]}>
               {selectedHike.maps[selectedHike.selectedMapIndex].name}
             </Text>
           </View>
           {STATS_ROWS[mode].map((row, rowIndex) => (
             <View key={rowIndex} style={styles.statsRow}>
               {row.map((stat) => (
-                <Statistic key={stat} defaultStatistic={stat} textColor={textColor} textShadow={textShadow} />
+                <Statistic key={stat} defaultStatistic={stat} color={textColor} />
               ))}
             </View>
           ))}
           {variant?.showProgressBar && <ProgressBar percentage={calculatePercentage()} />}
           {variant?.showAnimation && (
-            <HikeProgressAnimation key={`${progressMode}-${skippedSections}`} />
+            <HikeProgressAnimation key={`${progressMode}-${skippedSections}`} color={textColor} />
           )}
         </View>
       </ViewShot>

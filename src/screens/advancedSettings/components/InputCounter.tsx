@@ -59,10 +59,11 @@ const styles = (theme: Theme) =>
       alignItems: "center",
     },
     buttonText: {
-      color: "white",
+      color: theme.text,
       fontSize: 18,
       fontWeight: "700",
       lineHeight: 20,
+      opacity: 0.4,
     },
     value: {
       fontSize: 24,

@@ -41,7 +41,7 @@ const styles = (theme: Theme) =>
       height: 20,
       borderWidth: 1,
       borderRadius: 6,
-      borderColor: theme.pathColored,
+      borderColor: theme.primary,
       overflow: "hidden",
     },
     filledBar: {

@@ -2,8 +2,8 @@ import { STICKER_CONFIGS } from "@/src/screens/home/components/imageEditor/stick
 import { StickerVariant } from "@/src/screens/home/components/imageEditor/stickers/configs/types";
 import { StickerFree } from "@/src/screens/home/components/imageEditor/stickers/StickerFree";
 import { StickerFreeMapOnly } from "@/src/screens/home/components/imageEditor/stickers/StickerFreeMapOnly";
+import { StickerProgressBar } from "@/src/screens/home/components/imageEditor/stickers/stickerProgressBar/StickerProgressBar";
 import { StickerStats } from "@/src/screens/home/components/imageEditor/stickers/StickerStats";
-import { StickerStatsWithProgressBar } from "@/src/screens/home/components/imageEditor/stickers/stickerStats/StickerStatsWithProgressBar";
 import { StickerStats3Vertical } from "@/src/screens/home/components/imageEditor/stickers/StickerStats3Vertical";
 import React, { createContext, useContext, useState } from "react";
 
@@ -20,8 +20,9 @@ export type {
   CardMode,
   StickerStats3VerticalVariant,
   StickerStatsVariant,
-  StickerStatsWithProgressBarVariant,
 } from "@/src/screens/home/components/imageEditor/stickers/configs/StickerStats.config";
+
+export type { StickerProgressBarVariant } from "@/src/screens/home/components/imageEditor/stickers/configs/StickerProgressBar.config";
 
 interface StickerProps {
   stickers: Sticker[];
@@ -55,8 +56,8 @@ export const StickerContextProvider = ({ children }: StickerProviderProps) => {
   const stickers: Sticker[] = [
     { id: "stickerFree", isPremium: false, sticker: <StickerFree key="free" />, name: "A" },
     { id: "stickerFreeMapOnly", isPremium: false, sticker: <StickerFreeMapOnly key="freeMapOnly" />, name: "B" },
-    { id: "stickerStats3", isPremium: false, sticker: <StickerStats key="stats3" mode={3} />, name: "C" },
-    { id: "stickerStats4", isPremium: false, sticker: <StickerStats key="stats4" mode={4} />, name: "D" },
+    { id: "stickerStats3", isPremium: true, sticker: <StickerStats key="stats3" mode={3} />, name: "C" },
+    { id: "stickerStats4", isPremium: true, sticker: <StickerStats key="stats4" mode={4} />, name: "D" },
     { id: "stickerStats6", isPremium: true, sticker: <StickerStats key="stats6" mode={6} />, name: "E" },
     {
       id: "stickerStats3Vertical",
@@ -65,9 +66,9 @@ export const StickerContextProvider = ({ children }: StickerProviderProps) => {
       name: "F",
     },
     {
-      id: "stickerStatsWithProgressBar",
+      id: "stickerProgressBar",
       isPremium: true,
-      sticker: <StickerStatsWithProgressBar key="statsWithProgressBar" />,
+      sticker: <StickerProgressBar key="statsWithProgressBar" />,
       name: "G",
     },
   ];

@@ -1,4 +1,4 @@
-import { StickerStatsWithProgressBarVariant, useSticker } from "@/src/contexts/sticker/StickerContextProvider";
+import { StickerProgressBarVariant, useSticker } from "@/src/contexts/sticker/StickerContextProvider";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { getMeasurementUnit } from "@/src/helpers/getMeasurementUnit";
@@ -8,7 +8,7 @@ import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { ProgressBar } from "./ProgressBar";
 
-export const StickerStatsWithProgressBar: React.FC = () => {
+export const StickerProgressBar: React.FC = () => {
   const selectedHike = useUserSettingsStore((s) => s.selectedHike);
   const displayedLocation = useUserSettingsStore((s) => s.location.displayedLocation);
   const skippedSections = useUserSettingsStore((s) => s.skippedSections);
@@ -19,7 +19,7 @@ export const StickerStatsWithProgressBar: React.FC = () => {
   const toDisplayUnit = useUserSettingsStore((s) => s.toDisplayUnit);
 
   const { getCurrentVariant } = useSticker();
-  const variant = getCurrentVariant<StickerStatsWithProgressBarVariant>("stickerStatsWithProgressBar");
+  const variant = getCurrentVariant<StickerProgressBarVariant>("stickerProgressBar");
 
   const { getIcon } = useTheme();
 

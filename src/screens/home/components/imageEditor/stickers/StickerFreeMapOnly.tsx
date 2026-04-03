@@ -47,9 +47,12 @@ export const StickerFreeMapOnly: React.FC = () => {
         <View style={styles.container}>
           <View style={styles.header}>
             {showLogo && <Image source={getIcon("icon")} style={styles.logo} />}
-            <Text style={styles.name}>{selectedHike.maps[selectedHike.selectedMapIndex].name}</Text>
+            <Text style={{ ...styles.name, color: variant?.color }}>
+              {selectedHike.maps[selectedHike.selectedMapIndex].name}
+            </Text>
           </View>
           <HikeProgressAnimation
+            color={variant?.color!}
             hideDecorations={variant?.hideDecorations}
             key={`${progressMode}-${skippedSections}`}
           />
@@ -77,10 +80,8 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 18,
-    color: "white",
     fontWeight: "bold",
     textAlign: "center",
-
     textShadowColor: "rgba(0, 0, 0, 0.50)",
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 1,

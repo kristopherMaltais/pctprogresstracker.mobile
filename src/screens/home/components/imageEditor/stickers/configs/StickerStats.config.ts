@@ -2,20 +2,30 @@ import { StickerConfig, StickerVariant } from "./types";
 
 export type CardMode = "none" | "dark" | "white";
 
+export type ColorScheme = "white" | "black";
+
 export interface StickerStatsVariant extends StickerVariant {
   showAnimation: boolean;
   cardMode: CardMode;
   showProgressBar: boolean;
+  colorScheme: ColorScheme;
 }
 
 const statsVariants: StickerStatsVariant[] = [
-  { showAnimation: false, cardMode: "none",  showProgressBar: false },
-  { showAnimation: true,  cardMode: "none",  showProgressBar: false },
-  { showAnimation: false, cardMode: "dark",  showProgressBar: false },
-  { showAnimation: true,  cardMode: "dark",  showProgressBar: false },
-  { showAnimation: false, cardMode: "dark",  showProgressBar: true  },
-  { showAnimation: false, cardMode: "white", showProgressBar: false },
-  { showAnimation: false, cardMode: "white", showProgressBar: true  },
+  // No card
+  { colorScheme: "white", cardMode: "none", showProgressBar: false, showAnimation: false },
+  { colorScheme: "white", cardMode: "none", showProgressBar: true, showAnimation: false },
+  { colorScheme: "white", cardMode: "none", showProgressBar: false, showAnimation: true },
+
+  // White card
+  { colorScheme: "black", cardMode: "white", showProgressBar: false, showAnimation: false },
+  { colorScheme: "black", cardMode: "white", showProgressBar: true, showAnimation: false },
+  { colorScheme: "black", cardMode: "white", showProgressBar: false, showAnimation: true },
+
+  // Dark card
+  { colorScheme: "white", cardMode: "dark", showProgressBar: false, showAnimation: false },
+  { colorScheme: "white", cardMode: "dark", showProgressBar: true, showAnimation: false },
+  { colorScheme: "white", cardMode: "dark", showProgressBar: false, showAnimation: true },
 ];
 
 export const StickerStats3Config: StickerConfig<StickerStatsVariant> = {
@@ -33,27 +43,11 @@ export const StickerStats6Config: StickerConfig<StickerStatsVariant> = {
   variants: statsVariants,
 };
 
-export interface StickerStatsWithProgressBarVariant extends StickerVariant {
-  showProgressBar: boolean;
-}
-
-export const StickerStatsWithProgressBarConfig: StickerConfig<StickerStatsWithProgressBarVariant> = {
-  id: "stickerStatsWithProgressBar",
-  variants: [
-    { showProgressBar: true },
-    { showProgressBar: false },
-  ],
-};
-
 export interface StickerStats3VerticalVariant extends StickerVariant {
   cardMode: CardMode;
 }
 
 export const StickerStats3VerticalConfig: StickerConfig<StickerStats3VerticalVariant> = {
   id: "stickerStats3Vertical",
-  variants: [
-    { cardMode: "none" },
-    { cardMode: "dark" },
-    { cardMode: "white" },
-  ],
+  variants: [{ cardMode: "none" }, { cardMode: "dark" }, { cardMode: "white" }],
 };

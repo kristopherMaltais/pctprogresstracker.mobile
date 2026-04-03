@@ -16,6 +16,7 @@ export const Offering: React.FC = () => {
     { title: "common:premium.features.transparent", icon: "layers-outline" },
     { title: "common:premium.features.skippedSections", icon: "map-marker-distance" },
     { title: "common:premium.features.sectionHiker", icon: "vector-line" },
+    { title: "common:premium.features.allStats", icon: "chart-bar" },
   ];
 
   return (

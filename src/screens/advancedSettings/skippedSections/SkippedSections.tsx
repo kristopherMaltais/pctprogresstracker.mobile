@@ -14,7 +14,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { SkippedSectionSummary } from "./SkippedSectionSummary";
 
 export const SkippedSections: React.FC = () => {
-  const { theme } = useTheme();
+  const { theme, isDarkMode } = useTheme();
   const { t } = useTranslation();
   const navigation = useNavigation<NavigationProp<AdvancedSettingsStackParamList>>();
   const skippedSections = useUserSettingsStore((state: FullStoreState) => state.skippedSections);
@@ -28,6 +28,7 @@ export const SkippedSections: React.FC = () => {
     <ScrollView style={styles(theme).container}>
       <View style={{ ...styles(theme).mapContainer }}>
         <HikeProgressAnimation
+          color={isDarkMode ? "white" : "black"}
           size={1}
           skippedSectionsDisplay={[
             ...getHikedLocationIntervals(skippedSections, {

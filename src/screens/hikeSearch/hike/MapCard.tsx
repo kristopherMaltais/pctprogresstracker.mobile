@@ -19,7 +19,7 @@ type MapCardProps = {
 };
 
 export const MapCard: React.FC<MapCardProps> = ({ item, index, scrollX }) => {
-  const { theme } = useTheme();
+  const { theme, isDarkMode } = useTheme();
 
   const inputRange = [(index - 1) * SNAP_INTERVAL, index * SNAP_INTERVAL, (index + 1) * SNAP_INTERVAL];
 
@@ -37,7 +37,7 @@ export const MapCard: React.FC<MapCardProps> = ({ item, index, scrollX }) => {
           backgroundColor: theme.secondaryBackground,
         }}
       >
-        <HikeProgressStatic sticker={item} size={1} />
+        <HikeProgressStatic map={item} size={1} color={isDarkMode ? "white" : "black"} />
       </View>
     </Animated.View>
   );

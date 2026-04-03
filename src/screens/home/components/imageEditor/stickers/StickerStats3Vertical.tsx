@@ -1,5 +1,5 @@
 import { GestureWrapper } from "@/src/common/components/GestureWrapper";
-import { useSticker, StickerStats3VerticalVariant } from "@/src/contexts/sticker/StickerContextProvider";
+import { StickerStats3VerticalVariant, useSticker } from "@/src/contexts/sticker/StickerContextProvider";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
@@ -47,9 +47,9 @@ export const StickerStats3Vertical: React.FC = () => {
             </Text>
           </View>
           <View style={styles.statsGrid}>
-            <Statistic defaultStatistic={Statistics.HIKE_TOTAL_DISTANCE} textColor={textColor} textShadow={textShadow} />
-            <Statistic defaultStatistic={Statistics.DISTANCE_HIKE} textColor={textColor} textShadow={textShadow} />
-            <Statistic defaultStatistic={Statistics.PERCENTAGE} textColor={textColor} textShadow={textShadow} />
+            <Statistic defaultStatistic={Statistics.HIKE_TOTAL_DISTANCE} color={textColor} />
+            <Statistic defaultStatistic={Statistics.DISTANCE_HIKE} color={textColor} />
+            <Statistic defaultStatistic={Statistics.PERCENTAGE} color={textColor} />
           </View>
         </View>
       </ViewShot>

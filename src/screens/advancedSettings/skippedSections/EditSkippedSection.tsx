@@ -20,7 +20,7 @@ export const EditSkippedSection: React.FC = () => {
   const navigation = useNavigation();
   const { showErrorModal } = useValidation();
 
-  const { theme } = useTheme();
+  const { theme, isDarkMode } = useTheme();
   const { t } = useTranslation();
 
   const selectedHikeTotalDistance = useUserSettingsStore((state) => state.selectedHikeTotalDistance);
@@ -118,6 +118,7 @@ export const EditSkippedSection: React.FC = () => {
       <View style={styles(theme).mapContainer}>
         {skippedSection && (
           <HikeProgressAnimation
+            color={isDarkMode ? "white" : "black"}
             size={1}
             skippedSectionsDisplay={[
               ...getHikedLocationIntervals([skippedSection], {

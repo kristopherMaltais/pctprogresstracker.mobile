@@ -81,8 +81,7 @@ export const PremiumContextProvider = ({ children }: PremiumProviderProps) => {
 
       const customerInfo = await Purchases.getCustomerInfo();
       const premiumEntitlement = customerInfo.entitlements.active["premium"];
-      // setIsPremiumUnlocked(!!premiumEntitlement?.isActive);
-      setIsPremiumUnlocked(true);
+      setIsPremiumUnlocked(!!premiumEntitlement?.isActive);
 
       setTimeout(() => {
         SplashScreen.hideAsync();

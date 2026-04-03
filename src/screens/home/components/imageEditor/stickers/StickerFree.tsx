@@ -6,7 +6,6 @@ import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUser
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
 import { Orientation } from "@/src/models/orientation";
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, View } from "react-native";
 import ViewShot from "react-native-view-shot";
 import { Statistic, Statistics } from "./Statistic";
@@ -22,7 +21,6 @@ export const StickerFree: React.FC = () => {
   const showLogo = useUserSettingsStore((s) => s.showLogo);
 
   const { getIcon } = useTheme();
-  const { t } = useTranslation();
   const { setViewShotTransparentBackgroud } = useViewShot();
 
   const [isHorizontal, setIsHorizontal] = useState<boolean>(true);
@@ -55,6 +53,7 @@ export const StickerFree: React.FC = () => {
         <View style={isHorizontal ? styles.containerHorizontal : styles.containerVertical}>
           {!isHorizontal && (
             <HikeProgressAnimation
+              color={variant?.color!}
               hideDecorations={variant?.hideDecorations}
               key={`${progressMode}-${skippedSections}`}
             />
@@ -62,13 +61,16 @@ export const StickerFree: React.FC = () => {
           <View style={isHorizontal ? styles.statsContainerHorizontal : styles.statsContainerVertical}>
             {showLogo && <Image source={getIcon("iconWithTextBackground")} style={styles.logo} />}
             <View>
-              <Text style={styles.name}>{selectedHike?.maps[selectedHike?.selectedMapIndex].name}</Text>
-              <Statistic defaultStatistic={Statistics.HIKE_TOTAL_DISTANCE} />
-              <Statistic defaultStatistic={Statistics.DISTANCE_HIKE} />
+              <Text style={{ ...styles.name, color: variant?.color }}>
+                {selectedHike?.maps[selectedHike?.selectedMapIndex].name}
+              </Text>
+              <Statistic defaultStatistic={Statistics.HIKE_TOTAL_DISTANCE} color={variant?.color!} />
+              <Statistic defaultStatistic={Statistics.DISTANCE_HIKE} color={variant?.color!} />
             </View>
           </View>
           {isHorizontal && (
             <HikeProgressAnimation
+              color={variant?.color!}
               hideDecorations={variant?.hideDecorations}
               key={`${progressMode}-${skippedSections}`}
             />
@@ -112,10 +114,8 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 16,
-    color: "white",
     fontWeight: "bold",
     textAlign: "center",
-
     textShadowColor: "rgba(0, 0, 0, 0.50)",
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 1,

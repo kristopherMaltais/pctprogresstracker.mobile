@@ -12,12 +12,14 @@ type HikeProgressAnimationProps = {
   size?: number;
   skippedSectionsDisplay?: LocationInterval[];
   hideDecorations?: boolean;
+  color: string;
 };
 
 export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({
   size = 1,
   skippedSectionsDisplay,
   hideDecorations = false,
+  color,
 }) => {
   const { theme } = useTheme();
   const selectedHike = useUserSettingsStore((s) => s.selectedHike);
@@ -83,7 +85,7 @@ export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({
     >
       {!hideDecorations &&
         selectedHike.maps[selectedHike.selectedMapIndex].decorations?.map((decoration: string, index) => (
-          <Path key={`decoration-${index}`} path={decoration} color={theme.decorations} strokeWidth={1} style="stroke">
+          <Path key={`decoration-${index}`} path={decoration} color={color} strokeWidth={1} style="stroke">
             <Shadow dx={0.2} dy={0.2} blur={1} color="rgba(0,0,0,0.5)" />
           </Path>
         ))}
