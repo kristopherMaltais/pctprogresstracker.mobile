@@ -59,11 +59,21 @@ export const StickerFree: React.FC = () => {
             />
           )}
           <View style={isHorizontal ? styles.statsContainerHorizontal : styles.statsContainerVertical}>
-            {showLogo && <Image source={getIcon("iconWithTextBackground")} style={styles.logo} />}
             <View>
-              <Text style={{ ...styles.name, color: variant?.color }}>
-                {selectedHike?.maps[selectedHike?.selectedMapIndex].name}
-              </Text>
+              <View
+                style={{
+                  ...styles.header,
+                  flexDirection:
+                    selectedHike.maps[selectedHike.selectedMapIndex].orientation == Orientation.VERTICAL
+                      ? "row"
+                      : "column",
+                }}
+              >
+                {showLogo && <Image source={getIcon("logo")} style={styles.logo} />}
+                <Text style={{ ...styles.name, color: variant?.color }}>
+                  {selectedHike?.maps[selectedHike?.selectedMapIndex].name}
+                </Text>
+              </View>
               <Statistic defaultStatistic={Statistics.HIKE_TOTAL_DISTANCE} color={variant?.color!} />
               <Statistic defaultStatistic={Statistics.DISTANCE_HIKE} color={variant?.color!} />
             </View>
@@ -108,9 +118,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: 180,
   },
+  header: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 8,
+    gap: 4,
+  },
   logo: {
-    width: 60,
-    height: 60,
+    width: 26,
+    height: 18,
   },
   name: {
     fontSize: 16,

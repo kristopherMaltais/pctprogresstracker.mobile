@@ -40,7 +40,7 @@ export const StickerStats3Vertical: React.FC = () => {
       <ViewShot options={{ format: "png", quality: 1 }} ref={viewShotCallbackRef}>
         <View style={[styles.container, cardStyle]}>
           <View style={styles.header}>
-            {showLogo && <Image source={getIcon("icon")} style={styles.logo} />}
+            {showLogo && <Image source={getIcon("logo")} style={styles.logo} />}
             <Text style={[styles.name, { color: textColor }]}>
               {selectedHike.maps[selectedHike.selectedMapIndex].name}
             </Text>
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   logo: {
-    width: 24,
+    width: 26,
     height: 18,
   },
   header: {

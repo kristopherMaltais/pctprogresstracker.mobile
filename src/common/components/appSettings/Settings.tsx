@@ -29,7 +29,7 @@ export default function Settings() {
   return (
     <View style={styles(theme).container}>
       <View style={styles(theme).header}>
-        <Image style={styles(theme).icon} source={getIcon("icon")} />
+        <Image style={styles(theme).icon} source={getIcon("logo")} />
       </View>
       <Language />
       <DarkMode />

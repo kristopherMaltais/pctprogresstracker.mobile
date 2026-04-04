@@ -58,7 +58,7 @@ export const StickerProgressBar: React.FC = () => {
               alignItems: "center",
             }}
           >
-            {showLogo && <Image source={getIcon("iconWithTextBackground")} style={styles.logo} />}
+            {showLogo && <Image source={getIcon("logo")} style={styles.logo} />}
           </View>
         </View>
 
@@ -142,5 +142,5 @@ const styles = StyleSheet.create({
     textShadowRadius: 1,
   },
 
-  logo: { width: 58, height: 50, marginBottom: 10 },
+  logo: { width: 26, height: 18 },
 });
