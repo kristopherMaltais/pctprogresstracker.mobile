@@ -37,10 +37,27 @@ export const DatePickerModal: React.FC<DatePickerModalProps> = ({
   };
 
   const onDateChange = (event: any, date?: Date) => {
-    if (date) {
+    if (Platform.OS === "android") {
+      if (event.type === "set" && date) {
+        onConfirm(date);
+      }
+      closeModal();
+    } else if (date) {
       setTempDate(date);
     }
   };
+
+  if (Platform.OS === "android") {
+    if (!isVisible) return null;
+    return (
+      <DateTimePicker
+        value={selectedDate}
+        mode="date"
+        display="default"
+        onChange={onDateChange}
+      />
+    );
+  }
 
   return (
     <Modal animationType="fade" transparent={true} visible={isVisible} onRequestClose={closeModal}>
@@ -51,7 +68,7 @@ export const DatePickerModal: React.FC<DatePickerModalProps> = ({
             <DateTimePicker
               value={tempDate}
               mode="date"
-              display={Platform.OS === "ios" ? "spinner" : "default"}
+              display="spinner"
               onChange={onDateChange}
               textColor={theme.text}
             />

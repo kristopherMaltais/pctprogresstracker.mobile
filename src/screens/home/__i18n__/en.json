@@ -9,7 +9,8 @@
     "day": "Days",
     "averageDistanceDay": "Avg/Day",
     "skipped": "Skipped",
-    "zeroDays": "Zero"
+    "zeroDays": "Zero",
+    "steps": "Steps"
   },
   "userSettings": {
     "findHike": "Hikes",

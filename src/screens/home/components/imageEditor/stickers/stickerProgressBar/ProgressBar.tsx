@@ -39,10 +39,10 @@ const styles = (theme: Theme) =>
     container: {
       width: "100%",
       height: 20,
-      borderWidth: 1,
       borderRadius: 6,
       borderColor: theme.primary,
       overflow: "hidden",
+      backgroundColor: theme.decorations,
     },
     filledBar: {
       height: "100%",

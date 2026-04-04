@@ -10,6 +10,7 @@ export interface StatisticEntry {
   skippedSection: number | null;
   location: number | null;
   sharingMode: SharingMode;
+  isLogoCached: boolean;
 }
 
 export interface StatisticRepository {

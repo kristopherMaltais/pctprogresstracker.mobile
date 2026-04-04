@@ -4,7 +4,7 @@ import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Platform, StyleSheet, Text, View } from "react-native";
 import ViewShot from "react-native-view-shot";
 import { Statistic, Statistics } from "./Statistic";
 
@@ -33,7 +33,6 @@ export const StickerStats3Vertical: React.FC = () => {
 
   const cardMode = variant?.cardMode ?? "none";
   const textColor = cardMode === "white" ? "#1a1a1a" : "white";
-  const textShadow = cardMode !== "white";
   const cardStyle = cardMode === "dark" ? styles.cardDark : cardMode === "white" ? styles.cardWhite : undefined;
 
   return (
@@ -42,7 +41,7 @@ export const StickerStats3Vertical: React.FC = () => {
         <View style={[styles.container, cardStyle]}>
           <View style={styles.header}>
             {showLogo && <Image source={getIcon("icon")} style={styles.logo} />}
-            <Text style={[styles.name, { color: textColor }, !textShadow && styles.noShadow]}>
+            <Text style={[styles.name, { color: textColor }]}>
               {selectedHike.maps[selectedHike.selectedMapIndex].name}
             </Text>
           </View>
@@ -71,7 +70,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.5,
     shadowRadius: 8,
-    elevation: 8,
+    elevation: Platform.OS === "android" ? 0 : 8,
   },
   cardWhite: {
     backgroundColor: "white",
@@ -103,12 +102,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     textShadowColor: "rgba(0, 0, 0, 0.50)",
-    textShadowOffset: { width: 0, height: 1 },
+    textShadowOffset: { width: 0, height: 0.5 },
     textShadowRadius: 1,
-  },
-  noShadow: {
-    textShadowColor: "transparent",
-    textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 0,
   },
 });

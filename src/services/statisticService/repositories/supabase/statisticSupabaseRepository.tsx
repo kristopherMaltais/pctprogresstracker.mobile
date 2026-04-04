@@ -15,6 +15,7 @@ export class StatisticSupabaseRepository implements StatisticRepository {
       skippedSection: entry.skippedSection,
       location: entry.location,
       sharingMode: entry.sharingMode,
+      isLogoCached: entry.isLogoCached,
     });
 
     if (error) {

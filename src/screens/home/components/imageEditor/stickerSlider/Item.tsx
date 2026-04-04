@@ -1,8 +1,9 @@
 import { shadows } from "@/src/contexts/theme/shadows";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import React, { useMemo } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import Animated, { Extrapolation, interpolate, SharedValue, useAnimatedStyle } from "react-native-reanimated";
+import { StickerLayoutPreview } from "../stickerLayout/StickerLayoutPreview";
 
 const ITEM_SIZE = 70;
 const ITEM_SPACING = 20;
@@ -25,7 +26,7 @@ export const StickerItem: React.FC<StickerItemProps> = ({
   translateX,
   isPremium,
   isPremiumUnlocked,
-  name,
+  name: _name,
   stickerId,
   onPress,
 }) => {
@@ -59,10 +60,6 @@ export const StickerItem: React.FC<StickerItemProps> = ({
         shadowRadius: 8,
         elevation: 8,
       },
-      nameText: {
-        ...styles.nameText,
-        color: theme.text,
-      },
     }),
     [theme, isDarkMode]
   );
@@ -73,9 +70,7 @@ export const StickerItem: React.FC<StickerItemProps> = ({
         {isLocked ? (
           <Image source={getIcon("lock")} style={styles.lockIcon} />
         ) : (
-          <Text style={dynamicStyles.nameText} numberOfLines={2}>
-            {name}
-          </Text>
+          <StickerLayoutPreview stickerId={stickerId} color={theme.primary} />
         )}
       </TouchableOpacity>
     </Animated.View>
@@ -99,32 +94,5 @@ const styles = StyleSheet.create({
   lockIcon: {
     width: 18,
     height: 23,
-  },
-  lockBody: {
-    position: "absolute",
-    bottom: 0,
-    left: 4,
-    width: 16,
-    height: 16,
-    backgroundColor: "#FFFFFF",
-    borderRadius: 3,
-  },
-  lockShackle: {
-    position: "absolute",
-    top: 0,
-    left: 7,
-    width: 10,
-    height: 12,
-    borderWidth: 2,
-    borderColor: "#FFFFFF",
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
-    borderBottomWidth: 0,
-  },
-  nameText: {
-    fontSize: 14,
-    fontWeight: "600",
-    textAlign: "center",
-    paddingHorizontal: 4,
   },
 });

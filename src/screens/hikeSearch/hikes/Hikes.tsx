@@ -7,10 +7,9 @@ import { HikeService } from "@/src/services/hikeService/services/hikeService";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { ActivityIndicator, FlatList, StyleSheet, Text, View } from "react-native";
 import { DebouncedSearch } from "./DebouncedSearch";
-import { HikeList } from "./HikeList";
+import { HikeCard } from "./HikeCard";
 
 export const Hikes: React.FC = () => {
   const { theme } = useTheme();
@@ -27,7 +26,6 @@ export const Hikes: React.FC = () => {
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [isSearchLoading, setIsSearchLoading] = useState(false);
 
-  // Load hikes with pagination
   const loadHikes = useCallback(
     async (page: number) => {
       try {
@@ -55,14 +53,12 @@ export const Hikes: React.FC = () => {
     [hikeService]
   );
 
-  // Load initial hikes
   useEffect(() => {
     loadHikes(0);
   }, [loadHikes]);
 
-  // Load more hikes (pagination)
   const loadMoreHikes = async () => {
-    if (isLoadingMore || !hasMoreHikes || isSearching) return;
+    if (isLoadingMore || !hasMoreHikes || isSearching || isInitialLoading) return;
 
     setIsLoadingMore(true);
     const nextPage = currentPage + 1;
@@ -71,7 +67,6 @@ export const Hikes: React.FC = () => {
     setIsLoadingMore(false);
   };
 
-  // Handle search
   const handleSearch = async (keyword: string) => {
     if (!keyword.trim()) {
       setIsSearching(false);
@@ -94,37 +89,52 @@ export const Hikes: React.FC = () => {
   };
 
   const displayedHikes = isSearching ? searchResults : hikes;
+  const isLoading = isInitialLoading || isSearchLoading;
 
   return (
-    <ScrollView
+    <FlatList
       style={styles(theme).container}
-      onScroll={({ nativeEvent }) => {
-        const { layoutMeasurement, contentOffset, contentSize } = nativeEvent;
-        const isCloseToBottom = layoutMeasurement.height + contentOffset.y >= contentSize.height - 100;
-
-        if (isCloseToBottom && !isSearching) {
-          loadMoreHikes();
-        }
-      }}
-      scrollEventThrottle={400}
-    >
-      <DebouncedSearch onSearch={handleSearch} placeholder={t("hikeSearch:search.placeholder")} />
-
-      <HikeList
-        hikes={displayedHikes}
-        onSelectHike={(hike) => {
-          navigation.navigate("hike", { id: hike.id, name: hike.name });
-        }}
-        isSearching={isSearching}
-        isLoading={isInitialLoading || isSearchLoading}
-      />
-
-      {isLoadingMore && !isSearching && (
-        <View style={styles(theme).loadingContainer}>
-          <ActivityIndicator size="small" color={theme.text} />
-        </View>
+      contentContainerStyle={styles(theme).contentContainer}
+      data={displayedHikes}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => (
+        <HikeCard
+          hike={item}
+          onPress={(hike) => navigation.navigate("hike", { id: hike.id, name: hike.name })}
+        />
       )}
-    </ScrollView>
+      ListHeaderComponent={
+        <View>
+          <DebouncedSearch onSearch={handleSearch} placeholder={t("hikeSearch:search.placeholder")} />
+          <Text style={styles(theme).sectionTitle}>
+            {isSearching ? t("hikeSearch:list.searchResults") : t("hikeSearch:list.allHikes")}
+          </Text>
+        </View>
+      }
+      ListEmptyComponent={
+        isLoading ? (
+          <View style={styles(theme).loadingContainer}>
+            <ActivityIndicator size="large" color={theme.text} />
+          </View>
+        ) : (
+          <View style={styles(theme).emptyContainer}>
+            <Text style={styles(theme).emptyText}>
+              {isSearching ? t("hikeSearch:list.noResults") : t("hikeSearch:list.noHikes")}
+            </Text>
+          </View>
+        )
+      }
+      ListFooterComponent={
+        isLoadingMore && !isSearching ? (
+          <View style={styles(theme).footerLoading}>
+            <ActivityIndicator size="small" color={theme.text} />
+          </View>
+        ) : null
+      }
+      onEndReached={loadMoreHikes}
+      onEndReachedThreshold={0.3}
+      ItemSeparatorComponent={() => <View style={styles(theme).separator} />}
+    />
   );
 };
 
@@ -133,10 +143,41 @@ const styles = (theme: Theme) =>
     container: {
       flex: 1,
       backgroundColor: theme.background,
+    },
+    contentContainer: {
       paddingHorizontal: 16,
       paddingTop: 8,
+      paddingBottom: 40,
+    },
+    sectionTitle: {
+      fontSize: 14,
+      fontWeight: "700",
+      color: theme.text,
+      textTransform: "uppercase",
+      letterSpacing: 1,
+      opacity: 0.5,
+      marginBottom: 12,
+      marginTop: 16,
+    },
+    separator: {
+      height: 12,
     },
     loadingContainer: {
+      paddingVertical: 60,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    emptyContainer: {
+      paddingVertical: 40,
+      alignItems: "center",
+    },
+    emptyText: {
+      fontSize: 14,
+      color: theme.text,
+      opacity: 0.5,
+      textAlign: "center",
+    },
+    footerLoading: {
       paddingVertical: 20,
       alignItems: "center",
     },

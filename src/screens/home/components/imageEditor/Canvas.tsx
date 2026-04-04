@@ -95,8 +95,8 @@ const styles = () =>
       justifyContent: "center",
       alignItems: "center",
       overflow: "hidden",
-      elevation: 5,
       borderRadius: 8,
+      elevation: 5,
     },
     backgroundImage: {
       width: "100%",

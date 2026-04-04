@@ -24,6 +24,7 @@ export const Hike: React.FC = () => {
   const setSelectedHike = useUserSettingsStore((s) => s.setSelectedHike);
   const setHikeStartDate = useUserSettingsStore((s) => s.setHikeStartDate);
   const hikeStartDate = useUserSettingsStore((s) => s.hikeStartDate);
+  const selectedHike = useUserSettingsStore((s) => s.selectedHike);
   const navigation = useNavigation();
   const currentLanguage = i18n.language;
 
@@ -34,7 +35,7 @@ export const Hike: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedMapIndex, setSelectedMapIndex] = useState(0);
   const [startDate, setStartDate] = useState<Date | undefined>(() => {
-    if (hikeStartDate) {
+    if (hikeStartDate && selectedHike?.id === id) {
       const date = new Date(hikeStartDate);
       return isNaN(date.getTime()) ? undefined : date;
     }
@@ -113,7 +114,7 @@ export const Hike: React.FC = () => {
       <HikeBadges hike={hike} selectedMapIndex={selectedMapIndex} />
 
       <MapCarousel maps={hike.maps} onMapChange={setSelectedMapIndex} currentMap={hike.maps[selectedMapIndex]} />
-      <StartDatePicker selectedDate={startDate} onDateSelect={handleDateSelect} />
+      <StartDatePicker selectedDate={startDate} onDateSelect={handleDateSelect} isDisabled={!isPremiumUnlocked} />
 
       <TouchableOpacity style={styles(theme).startButton} onPress={handleStartHike}>
         <Text style={styles(theme).startButtonText}>{t("hikeSearch:detail.startHike")}</Text>

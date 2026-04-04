@@ -5,7 +5,6 @@ import React, { useEffect } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { StickerItem } from "./Item";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
@@ -16,7 +15,6 @@ const ACTIVE_SCALE = 1.2;
 export const StickerSlider: React.FC = () => {
   const { stickers, currentIndex, setCurrentSticker, stickerCount, cycleVariant } = useSticker();
   const { isPremiumUnlocked } = usePremium();
-  const insets = useSafeAreaInsets();
 
   const translateX = useSharedValue(0);
   const contextX = useSharedValue(0);
@@ -81,7 +79,7 @@ export const StickerSlider: React.FC = () => {
   });
 
   return (
-    <View style={[styles.wrapper, { paddingBottom: Math.max(insets.bottom, 16) }]}>
+    <View style={styles.wrapper}>
       <GestureDetector gesture={panGesture}>
         <Animated.View style={[styles.sliderContainer, animatedContainerStyle]}>
           {stickers.map((sticker, index) => (
@@ -105,8 +103,9 @@ export const StickerSlider: React.FC = () => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    height: ITEM_SIZE * ACTIVE_SCALE + 20,
-    marginTop: 8,
+    height: ITEM_SIZE * ACTIVE_SCALE + 10,
+    marginTop: 4,
+    paddingBottom: 4,
     overflow: "visible",
   },
   sliderContainer: {

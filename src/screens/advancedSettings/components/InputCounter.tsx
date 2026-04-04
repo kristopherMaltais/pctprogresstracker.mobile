@@ -8,20 +8,21 @@ type InputCounterProps = {
   value: number;
   onChange: (value: number) => void;
   min?: number;
+  isDisabled?: boolean;
 };
 
-export const InputCounter: React.FC<InputCounterProps> = ({ label, value, onChange, min = 0 }) => {
+export const InputCounter: React.FC<InputCounterProps> = ({ label, value, onChange, min = 0, isDisabled }) => {
   const { theme } = useTheme();
 
   return (
-    <View style={styles(theme).container}>
+    <View style={{ ...styles(theme).container, opacity: isDisabled ? 0.5 : 1 }}>
       <Text style={styles(theme).label}>{label}</Text>
       <View style={styles(theme).controls}>
-        <Pressable hitSlop={20} style={styles(theme).button} onPress={() => onChange(Math.max(min, value - 1))}>
+        <Pressable hitSlop={20} style={styles(theme).button} onPress={() => !isDisabled && onChange(Math.max(min, value - 1))}>
           <Text style={styles(theme).buttonText}>−</Text>
         </Pressable>
         <Text style={styles(theme).value}>{value}</Text>
-        <Pressable hitSlop={20} style={styles(theme).button} onPress={() => onChange(value + 1)}>
+        <Pressable hitSlop={20} style={styles(theme).button} onPress={() => !isDisabled && onChange(value + 1)}>
           <Text style={styles(theme).buttonText}>+</Text>
         </Pressable>
       </View>

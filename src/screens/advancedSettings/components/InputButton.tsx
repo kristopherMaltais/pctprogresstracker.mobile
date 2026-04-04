@@ -7,13 +7,14 @@ type InputButtonProps = {
   label: string;
   value: string;
   onPress: () => void;
+  isDisabled?: boolean;
 };
 
-export const InputButton: React.FC<InputButtonProps> = ({ label, value, onPress }) => {
+export const InputButton: React.FC<InputButtonProps> = ({ label, value, onPress, isDisabled }) => {
   const { theme } = useTheme();
 
   return (
-    <Pressable style={styles(theme).container} onPress={onPress}>
+    <Pressable style={{ ...styles(theme).container, opacity: isDisabled ? 0.5 : 1 }} onPress={() => !isDisabled && onPress()}>
       <Text style={styles(theme).label}>{label}</Text>
       <View style={styles(theme).valueContainer}>
         <Text style={styles(theme).value}>{value}</Text>

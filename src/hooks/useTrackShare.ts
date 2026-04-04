@@ -13,6 +13,7 @@ export const useTrackShare = () => {
   const progressMode = useUserSettingsStore((s) => s.progressMode);
   const skippedSections = useUserSettingsStore((s) => s.skippedSections);
   const location = useUserSettingsStore((s) => s.location);
+  const showLogo = useUserSettingsStore((s) => s.showLogo);
 
   const trackShare = (sharingMode: SharingMode) => {
     statisticService
@@ -26,6 +27,7 @@ export const useTrackShare = () => {
         skippedSection: skippedSections.length,
         location: location.displayedLocation,
         sharingMode: sharingMode,
+        isLogoCached: !showLogo,
       })
       .catch(() => {});
   };

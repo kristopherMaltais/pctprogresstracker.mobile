@@ -20,7 +20,6 @@ const statsVariants: StickerStatsVariant[] = [
   // White card
   { colorScheme: "black", cardMode: "white", showProgressBar: false, showAnimation: false },
   { colorScheme: "black", cardMode: "white", showProgressBar: true, showAnimation: false },
-  { colorScheme: "black", cardMode: "white", showProgressBar: false, showAnimation: true },
 
   // Dark card
   { colorScheme: "white", cardMode: "dark", showProgressBar: false, showAnimation: false },

@@ -54,22 +54,22 @@ export const StickerContextProvider = ({ children }: StickerProviderProps) => {
   const [variantIndexMap, setVariantIndexMap] = useState<Record<string, number>>({});
 
   const stickers: Sticker[] = [
-    { id: "stickerFree", isPremium: false, sticker: <StickerFree key="free" />, name: "A" },
-    { id: "stickerFreeMapOnly", isPremium: false, sticker: <StickerFreeMapOnly key="freeMapOnly" />, name: "B" },
-    { id: "stickerStats3", isPremium: true, sticker: <StickerStats key="stats3" mode={3} />, name: "C" },
-    { id: "stickerStats4", isPremium: true, sticker: <StickerStats key="stats4" mode={4} />, name: "D" },
-    { id: "stickerStats6", isPremium: true, sticker: <StickerStats key="stats6" mode={6} />, name: "E" },
+    { id: "stickerFreeMapOnly", isPremium: false, sticker: <StickerFreeMapOnly key="freeMapOnly" />, name: "Map" },
+    { id: "stickerFree", isPremium: false, sticker: <StickerFree key="free" />, name: "2 Stats" },
+    { id: "stickerStats3", isPremium: true, sticker: <StickerStats key="stats3" mode={3} />, name: "3 Stats" },
+    { id: "stickerStats4", isPremium: true, sticker: <StickerStats key="stats4" mode={4} />, name: "4 Stats" },
+    { id: "stickerStats6", isPremium: true, sticker: <StickerStats key="stats6" mode={6} />, name: "6 Stats" },
     {
       id: "stickerStats3Vertical",
       isPremium: true,
       sticker: <StickerStats3Vertical key="stats3Vertical" />,
-      name: "F",
+      name: "3 Stats Vertical",
     },
     {
       id: "stickerProgressBar",
       isPremium: true,
       sticker: <StickerProgressBar key="statsWithProgressBar" />,
-      name: "G",
+      name: "Prog. Bar",
     },
   ];
 

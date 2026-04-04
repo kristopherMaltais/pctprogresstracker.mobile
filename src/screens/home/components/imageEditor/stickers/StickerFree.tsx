@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     textShadowColor: "rgba(0, 0, 0, 0.50)",
-    textShadowOffset: { width: 0, height: 1 },
+    textShadowOffset: { width: 0, height: 0.5 },
     textShadowRadius: 1,
   },
 });

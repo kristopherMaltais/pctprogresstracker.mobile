@@ -22,6 +22,7 @@ export const MapCarousel: React.FC<MapCarouselProps> = ({ maps, onMapChange, cur
   const { theme } = useTheme();
   const scrollX = useRef(new Animated.Value(0)).current;
   const [activeIndex, setActiveIndex] = useState(0);
+  const hasInitialized = useRef(false);
 
   const mapCount = maps.length;
 
@@ -29,6 +30,10 @@ export const MapCarousel: React.FC<MapCarouselProps> = ({ maps, onMapChange, cur
     if (viewableItems.length > 0 && viewableItems[0].index !== null) {
       const index = viewableItems[0].index;
       setActiveIndex(index);
+      if (!hasInitialized.current) {
+        hasInitialized.current = true;
+        return;
+      }
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       if (onMapChange) {
         onMapChange(index);

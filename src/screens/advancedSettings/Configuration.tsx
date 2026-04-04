@@ -100,11 +100,13 @@ export const Configuration: React.FC = () => {
         label={t("advancedSettings:configuration.zeroDays")}
         value={_zeroDays}
         onChange={_setZeroDays}
+        isDisabled={!isPremiumUnlocked}
       />
       <InputButton
         label={t("advancedSettings:configuration.startDate")}
         value={_startDate.toLocaleDateString(i18n.language, { day: "2-digit", month: "short", year: "numeric" })}
         onPress={() => setIsDatePickerVisible(true)}
+        isDisabled={!isPremiumUnlocked}
       />
       <Actions onSave={saveSettings} />
       <DatePickerModal

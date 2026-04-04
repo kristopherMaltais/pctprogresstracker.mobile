@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
 
     textShadowColor: "rgba(0, 0, 0, 0.50)",
-    textShadowOffset: { width: 0, height: 1 },
+    textShadowOffset: { width: 0, height: 0.5 },
     textShadowRadius: 1,
   },
   body: {
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
 
     textShadowColor: "rgba(0, 0, 0, 0.50)",
-    textShadowOffset: { width: 0, height: 1 },
+    textShadowOffset: { width: 0, height: 0.5 },
     textShadowRadius: 1,
   },
   value: {
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
 
     textShadowColor: "rgba(0, 0, 0, 0.50)",
-    textShadowOffset: { width: 0, height: 1 },
+    textShadowOffset: { width: 0, height: 0.5 },
     textShadowRadius: 1,
   },
   percentage: {
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
 
     textShadowColor: "rgba(0, 0, 0, 0.50)",
-    textShadowOffset: { width: 0, height: 1 },
+    textShadowOffset: { width: 0, height: 0.5 },
     textShadowRadius: 1,
   },
 

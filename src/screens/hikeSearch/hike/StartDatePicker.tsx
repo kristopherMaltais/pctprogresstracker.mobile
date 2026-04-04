@@ -9,9 +9,10 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 type StartDatePickerProps = {
   selectedDate: Date | undefined;
   onDateSelect: (date: Date) => void;
+  isDisabled?: boolean;
 };
 
-export const StartDatePicker: React.FC<StartDatePickerProps> = ({ selectedDate, onDateSelect }) => {
+export const StartDatePicker: React.FC<StartDatePickerProps> = ({ selectedDate, onDateSelect, isDisabled }) => {
   const { theme } = useTheme();
   const { t, i18n } = useTranslation();
   const [showModal, setShowModal] = useState(false);
@@ -29,6 +30,7 @@ export const StartDatePicker: React.FC<StartDatePickerProps> = ({ selectedDate, 
   };
 
   const handleOpenModal = () => {
+    if (isDisabled) return;
     setShowModal(true);
   };
 
@@ -37,13 +39,13 @@ export const StartDatePicker: React.FC<StartDatePickerProps> = ({ selectedDate, 
   };
 
   return (
-    <View style={styles(theme).container}>
+    <View style={{ ...styles(theme).container, opacity: isDisabled ? 0.5 : 1 }}>
       {selectedDate ? (
-        <TouchableOpacity style={styles(theme).dateDisplay} onPress={handleOpenModal}>
+        <TouchableOpacity style={styles(theme).dateDisplay} onPress={handleOpenModal} disabled={isDisabled}>
           <Text style={styles(theme).dateText}>Starting on {formatDate(selectedDate)}</Text>
         </TouchableOpacity>
       ) : (
-        <TouchableOpacity style={styles(theme).button} onPress={handleOpenModal}>
+        <TouchableOpacity style={styles(theme).button} onPress={handleOpenModal} disabled={isDisabled}>
           <Text style={styles(theme).chooseButtonText}>{t("hikeSearch:detail.chooseStartDate")}</Text>
         </TouchableOpacity>
       )}
