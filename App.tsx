@@ -3,6 +3,7 @@ import * as SplashScreen from "expo-splash-screen";
 import React, { useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { CalibrationProvider } from "./src/contexts/calibration/CalibrationContext";
 import { HikesContextProvider } from "./src/contexts/hikes/HikesContextProvider";
 import { LocalizationContextProvider } from "./src/contexts/localization/LocalizationContextProvider";
 import { PremiumContextProvider } from "./src/contexts/premium/PremiumContextProvider";
@@ -30,25 +31,27 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <GestureHandlerRootView>
-        <ValidationContextProvider>
-          <PremiumContextProvider>
-            <ViewShotContextProvider>
-              <ThemeContextProvider>
-                <ServicesContextProvider>
-                  <HikesContextProvider>
-                    <LocalizationContextProvider>
-                      <StickerContextProvider>
-                        <ScreenLayout areSettingsOpen={areSettingsOpen} setAreSettingsOpen={setAreSettingsOpen}>
-                          <Navigation areSettingsOpen={areSettingsOpen} setAreSettingsOpen={setAreSettingsOpen} />
-                        </ScreenLayout>
-                      </StickerContextProvider>
-                    </LocalizationContextProvider>
-                  </HikesContextProvider>
-                </ServicesContextProvider>
-              </ThemeContextProvider>
-            </ViewShotContextProvider>
-          </PremiumContextProvider>
-        </ValidationContextProvider>
+        <CalibrationProvider>
+          <ValidationContextProvider>
+            <PremiumContextProvider>
+              <ViewShotContextProvider>
+                <ThemeContextProvider>
+                  <ServicesContextProvider>
+                    <HikesContextProvider>
+                      <LocalizationContextProvider>
+                        <StickerContextProvider>
+                          <ScreenLayout areSettingsOpen={areSettingsOpen} setAreSettingsOpen={setAreSettingsOpen}>
+                            <Navigation areSettingsOpen={areSettingsOpen} setAreSettingsOpen={setAreSettingsOpen} />
+                          </ScreenLayout>
+                        </StickerContextProvider>
+                      </LocalizationContextProvider>
+                    </HikesContextProvider>
+                  </ServicesContextProvider>
+                </ThemeContextProvider>
+              </ViewShotContextProvider>
+            </PremiumContextProvider>
+          </ValidationContextProvider>
+        </CalibrationProvider>
       </GestureHandlerRootView>
     </SafeAreaProvider>
   );

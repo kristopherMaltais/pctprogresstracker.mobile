@@ -1,9 +1,10 @@
+import { useCalibrationContext } from "@/src/contexts/calibration/CalibrationContext";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { getHikedLocationIntervals } from "@/src/helpers/getHikedLocationIntervals";
 import { LocationInterval } from "@/src/models/locationInterval";
 import { Canvas, Path, Shadow } from "@shopify/react-native-skia";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useSharedValue, withTiming } from "react-native-reanimated";
 import { reverse } from "svg-path-reverse";
 import { HikeInterval } from "./HikeInterval";
@@ -26,51 +27,63 @@ export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({
   const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
   const location = useUserSettingsStore((s) => s.location);
   const skippedSections = useUserSettingsStore((s) => s.skippedSections);
-  const isCalibratePositionOpen = useUserSettingsStore((s) => s.isCalibratePositionOpen);
   const isReverse = useUserSettingsStore((s) => s.isReverse);
+  const { calibrationProgress, isCalibratePositionOpen } = useCalibrationContext();
 
-  const [_selectedHikeTotalDistance, _setSelectedHikeTotalDistance] = useState<number>(0);
+  const effectiveTotalDistance = selectedHike?.isRoundtrip ? selectedHikeTotalDistance / 2 : selectedHikeTotalDistance;
 
-  useEffect(() => {
-    _setSelectedHikeTotalDistance(
-      selectedHike?.isRoundtrip ? selectedHikeTotalDistance / 2 : selectedHikeTotalDistance
-    );
-  }, [selectedHike, selectedHikeTotalDistance]);
-
-  const hikedIntervals = useMemo(() => {
-    return getHikedLocationIntervals(skippedSections, location);
-  }, [skippedSections, location, isReverse]);
-
-  const globalProgress = useSharedValue(0);
+  // Normal mode: animate path to new location when the user updates their position.
+  const animatedLocation = useSharedValue(0);
 
   useEffect(() => {
-    var _location = location.pathLocation;
-
-    if (selectedHike?.isRoundtrip && _location > selectedHikeTotalDistance / 2) {
-      _location = _location - selectedHikeTotalDistance / 2;
+    if (isCalibratePositionOpen) return;
+    let loc = location.pathLocation;
+    if (selectedHike?.isRoundtrip && loc > selectedHikeTotalDistance / 2) {
+      loc = loc - selectedHikeTotalDistance / 2;
     }
-
-    if (isCalibratePositionOpen) {
-      globalProgress.value = _location;
-    } else {
-      globalProgress.value = withTiming(_location, {
-        duration: 1500,
-      });
-    }
+    animatedLocation.value = withTiming(loc, { duration: 800 });
   }, [location]);
 
-  if (!selectedHike) return null;
+  const activeProgress = isCalibratePositionOpen ? calibrationProgress : animatedLocation;
 
+  // Calibration: extend the interval to the full effective distance so the slider
+  // can drive globalProgress from 0 to effectiveTotalDistance freely.
+  const calibrationIntervals = useMemo(() => {
+    return getHikedLocationIntervals(skippedSections, {
+      displayedLocation: effectiveTotalDistance,
+      pathLocation: effectiveTotalDistance,
+    });
+  }, [skippedSections, effectiveTotalDistance]);
+
+  // Normal mode: adjust pathLocation values for roundtrip return leg so HikeInterval
+  // receives positions in the 0–effectiveTotalDistance range (matching animatedLocation).
+  const normalIntervals = useMemo(() => {
+    const intervals = getHikedLocationIntervals(skippedSections, location);
+    if (!selectedHike?.isRoundtrip || location.pathLocation <= selectedHikeTotalDistance / 2) {
+      return intervals;
+    }
+    const half = selectedHikeTotalDistance / 2;
+    return intervals.map((interval) => ({
+      start: { ...interval.start, pathLocation: Math.max(0, interval.start.pathLocation - half) },
+      end: { ...interval.end, pathLocation: Math.max(0, interval.end.pathLocation - half) },
+    }));
+  }, [skippedSections, location, isReverse, selectedHike?.isRoundtrip, selectedHikeTotalDistance]);
+
+  const hikedIntervals = isCalibratePositionOpen ? calibrationIntervals : normalIntervals;
+
+  // Gestion du path si est reversed ou non
   const path = useMemo(() => {
-    var _path = selectedHike.maps[selectedHike.selectedMapIndex].path;
-
+    if (!selectedHike) return "";
+    let _path = selectedHike.maps[selectedHike.selectedMapIndex].path;
     if (selectedHike.isRoundtrip && location.pathLocation > selectedHikeTotalDistance / 2) {
       _path = reverse(_path);
     } else if (isReverse) {
       _path = reverse(_path);
     }
     return _path;
-  }, [selectedHike.maps[selectedHike.selectedMapIndex].path, isReverse, location.pathLocation]);
+  }, [selectedHike?.maps[selectedHike?.selectedMapIndex]?.path, isReverse, location.pathLocation]);
+
+  if (!selectedHike) return null;
 
   return (
     <Canvas
@@ -109,17 +122,17 @@ export const HikeProgressAnimation: React.FC<HikeProgressAnimationProps> = ({
               style="stroke"
               strokeCap={"square"}
               strokeWidth={3}
-              start={interval.start.pathLocation / _selectedHikeTotalDistance}
-              end={interval.end.pathLocation / _selectedHikeTotalDistance}
+              start={interval.start.pathLocation / effectiveTotalDistance}
+              end={interval.end.pathLocation / effectiveTotalDistance}
             />
           ))
         : hikedIntervals.map((interval, index) => (
             <HikeInterval
-              selectedHikeTotalDistance={_selectedHikeTotalDistance}
+              selectedHikeTotalDistance={effectiveTotalDistance}
               path={path}
               key={`hike-interval-${index}`}
               interval={interval}
-              globalProgress={globalProgress}
+              globalProgress={activeProgress}
               color={theme.primary}
             />
           ))}

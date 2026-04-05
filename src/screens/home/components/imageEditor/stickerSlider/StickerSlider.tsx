@@ -13,7 +13,7 @@ const ITEM_SPACING = 20;
 const ACTIVE_SCALE = 1.2;
 
 export const StickerSlider: React.FC = () => {
-  const { stickers, currentIndex, setCurrentSticker, stickerCount, cycleVariant } = useSticker();
+  const { stickers, currentIndex, setCurrentSticker, setCurrentStickerByIndex, stickerCount, cycleVariant } = useSticker();
   const { isPremiumUnlocked } = usePremium();
 
   const translateX = useSharedValue(0);
@@ -93,6 +93,7 @@ export const StickerSlider: React.FC = () => {
               name={sticker.name}
               stickerId={sticker.id}
               onPress={cycleVariant}
+              onSelectIndex={setCurrentStickerByIndex}
             />
           ))}
         </Animated.View>

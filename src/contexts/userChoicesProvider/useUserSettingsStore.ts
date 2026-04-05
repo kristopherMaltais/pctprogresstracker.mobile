@@ -10,7 +10,6 @@ const initialState = {
   selectedHike: undefined,
   selectedHikeTotalDistance: 0,
   isReverse: false,
-  isCalibratePositionOpen: false,
   backgroundImage: undefined,
   measurementUnit: MeasurementUnit.KILOMETER,
   isStickerSelectedPremium: false,
@@ -29,7 +28,6 @@ export type FullStoreState = LocationSlice & {
   backgroundImage: string | undefined;
   measurementUnit: MeasurementUnit;
   isStickerSelectedPremium: boolean;
-  isCalibratePositionOpen: boolean;
   showLogo: boolean;
   showShareMenu: boolean;
   substractSkippedSections: boolean;
@@ -44,7 +42,6 @@ export type FullStoreState = LocationSlice & {
   setIsStickerSelectedPremium: (flag: boolean) => void;
   setSelectedHikeTotalDistance: (newValue: number) => void;
   setIsReverse: (flag: boolean) => void;
-  setIsCalibratePositionOpen: (flag: boolean) => void;
   setShowLogo: (flag: boolean) => void;
   setShowShareMenu: (flag: boolean) => void;
   setSubstractSkippedSections: (flag: boolean) => void;
@@ -89,7 +86,6 @@ export const useUserSettingsStore = create<FullStoreState>()(
       setSelectedHikeTotalDistance: (newValue) => set({ selectedHikeTotalDistance: newValue }),
       setIsReverse: (flag) => set({ isReverse: flag }),
       setShowLogo: (flag) => set({ showLogo: flag }),
-      setIsCalibratePositionOpen: (flag) => set({ isCalibratePositionOpen: flag }),
       setShowShareMenu: (flag) => set({ showShareMenu: flag }),
       setSubstractSkippedSections: (flag) => set({ substractSkippedSections: flag }),
       setHikeStartDate: (date) => set({ hikeStartDate: date }),

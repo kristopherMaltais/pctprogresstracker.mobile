@@ -28,6 +28,7 @@ interface StickerProps {
   stickers: Sticker[];
   currentSticker: Sticker;
   setCurrentSticker: (direction: "left" | "right") => void;
+  setCurrentStickerByIndex: (index: number) => void;
   currentIndex: number;
   stickerCount: number;
   variantIndexMap: Record<string, number>;
@@ -100,10 +101,15 @@ export const StickerContextProvider = ({ children }: StickerProviderProps) => {
     return config.variants[index] as T;
   };
 
+  const setCurrentStickerByIndex = (index: number) => {
+    setCurrentIndex(Math.max(0, Math.min(stickers.length - 1, index)));
+  };
+
   const contextValue: StickerProps = {
     stickers,
     currentSticker: stickers[currentIndex],
     setCurrentSticker: _setCurrentSticker,
+    setCurrentStickerByIndex,
     currentIndex,
     stickerCount: stickers.length,
     variantIndexMap,

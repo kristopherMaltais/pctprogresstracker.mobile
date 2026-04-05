@@ -1,34 +1,40 @@
+import { useCalibrationContext } from "@/src/contexts/calibration/CalibrationContext";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue } from "react-native-reanimated";
 
 type SliderProps = {
-  onChange: (newValue: number) => void;
   maximum: number;
   value: number;
 };
 
 const CONTAINER_HEIGHT = Dimensions.get("window").height * 0.4;
 
-export const Slider: React.FC<SliderProps> = ({ onChange, maximum, value }) => {
+export const Slider: React.FC<SliderProps> = ({ maximum, value }) => {
   const { theme } = useTheme();
+  const { calibrationProgress, isRoundtrip, halfTotalDistance, onSliderChange } = useCalibrationContext();
 
   const [layoutHeight, setLayoutHeight] = useState(0);
 
   const fillHeight = useSharedValue(0);
   const contextY = useSharedValue(0);
+  const latestValue = useSharedValue(0);
+
+  const valueRef = useRef(value);
+  valueRef.current = value;
 
   useEffect(() => {
     if (layoutHeight === 0) return;
-
-    const clamped = Math.max(0, Math.min(value, maximum));
+    const clamped = Math.max(0, Math.min(valueRef.current, maximum));
     fillHeight.value = (clamped / maximum) * layoutHeight;
-  }, [value, maximum, layoutHeight]);
+  }, [layoutHeight, maximum]);
 
   const panGesture = Gesture.Pan()
+    .activeOffsetY([-10, 10])
+    .failOffsetX([-5, 5])
     .onStart(() => {
       contextY.value = fillHeight.value;
     })
@@ -41,7 +47,16 @@ export const Slider: React.FC<SliderProps> = ({ onChange, maximum, value }) => {
       fillHeight.value = newHeight;
 
       const newValue = (newHeight / layoutHeight) * maximum;
-      runOnJS(onChange)(newValue);
+      latestValue.value = newValue;
+
+      const adjusted =
+        isRoundtrip.value && newValue > halfTotalDistance.value
+          ? newValue - halfTotalDistance.value
+          : newValue;
+      calibrationProgress.value = adjusted;
+    })
+    .onEnd(() => {
+      runOnJS(onSliderChange)(latestValue.value);
     });
 
   const animatedFillStyle = useAnimatedStyle(() => ({

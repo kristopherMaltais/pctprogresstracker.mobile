@@ -1,3 +1,4 @@
+import { useCalibrationContext } from "@/src/contexts/calibration/CalibrationContext";
 import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
@@ -23,8 +24,7 @@ export const UserSettings: React.FC<userSettingsProps> = ({ disabled = false, cl
   const { getIcon, theme } = useTheme();
   const { isPremiumUnlocked } = usePremium();
   const isStickerSelectedPremium = useUserSettingsStore((s) => s.isStickerSelectedPremium);
-  const setIsCalibratePositionOpen = useUserSettingsStore((s) => s.setIsCalibratePositionOpen);
-  const isCalibratePositionOpen = useUserSettingsStore((s) => s.isCalibratePositionOpen);
+  const { isCalibratePositionOpen, openCalibration } = useCalibrationContext();
 
   useEffect(() => {
     setIsMenuOpen(false);
@@ -56,12 +56,7 @@ export const UserSettings: React.FC<userSettingsProps> = ({ disabled = false, cl
         ]}
       >
         {isCalibratePositionOpen ? (
-          <PositionInput
-            closePositionInput={() => {
-              setIsCalibratePositionOpen(false);
-              setIsMenuOpen(false);
-            }}
-          />
+          <PositionInput closeMenu={() => setIsMenuOpen(false)} />
         ) : (
           <>
             <UploadBackgroundImage isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
@@ -71,7 +66,7 @@ export const UserSettings: React.FC<userSettingsProps> = ({ disabled = false, cl
               <>
                 <FindHike isMenuOpen={isMenuOpen} />
                 <ShowLogoSwitch isMenuOpen={isMenuOpen} />
-                <Position isMenuOpen={isMenuOpen} openPositionInput={() => setIsCalibratePositionOpen(true)} />
+                <Position isMenuOpen={isMenuOpen} openPositionInput={openCalibration} />
                 <AdvancedSettings isMenuOpen={isMenuOpen} />
               </>
             )}

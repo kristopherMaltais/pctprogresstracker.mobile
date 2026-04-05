@@ -1,5 +1,6 @@
 import { LocationInterval } from "@/src/models/locationInterval";
 import { Path } from "@shopify/react-native-skia";
+import React from "react";
 import { SharedValue, useDerivedValue } from "react-native-reanimated";
 
 type HikeIntervalProps = {

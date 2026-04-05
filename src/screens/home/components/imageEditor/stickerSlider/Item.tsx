@@ -18,6 +18,7 @@ interface StickerItemProps {
   name: string;
   stickerId: string;
   onPress: (stickerId: string) => void;
+  onSelectIndex: (index: number) => void;
 }
 
 export const StickerItem: React.FC<StickerItemProps> = ({
@@ -29,6 +30,7 @@ export const StickerItem: React.FC<StickerItemProps> = ({
   name: _name,
   stickerId,
   onPress,
+  onSelectIndex,
 }) => {
   const { theme, isDarkMode, getIcon } = useTheme();
 
@@ -66,7 +68,7 @@ export const StickerItem: React.FC<StickerItemProps> = ({
 
   return (
     <Animated.View style={[styles.itemContainer, animatedStyle, isActive && dynamicStyles.activeItem]}>
-      <TouchableOpacity style={dynamicStyles.itemContent} onPress={() => onPress(stickerId)}>
+      <TouchableOpacity style={dynamicStyles.itemContent} onPress={() => isActive ? onPress(stickerId) : onSelectIndex(index)}>
         {isLocked ? (
           <Image source={getIcon("lock")} style={styles.lockIcon} />
         ) : (
