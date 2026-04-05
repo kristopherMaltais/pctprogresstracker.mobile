@@ -46,8 +46,8 @@ const styles = (theme: Theme) =>
       opacity: 0.5,
     },
     checkbox: {
-      width: 20,
-      height: 20,
+      width: 24,
+      height: 24,
       borderRadius: 4,
       borderWidth: 2,
       borderColor: theme.primary,

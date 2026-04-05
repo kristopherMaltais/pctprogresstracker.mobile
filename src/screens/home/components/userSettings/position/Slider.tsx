@@ -1,60 +1,72 @@
+import { useCalibrationContext } from "@/src/contexts/calibration/CalibrationContext";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
-import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import Animated, { runOnJS, useAnimatedStyle, useSharedValue } from "react-native-reanimated";
 
 type SliderProps = {
-  onChange: (newValue: number) => void;
+  maximum: number;
+  value: number;
 };
 
 const CONTAINER_HEIGHT = Dimensions.get("window").height * 0.4;
 
-export const Slider: React.FC<SliderProps> = ({ onChange }) => {
+export const Slider: React.FC<SliderProps> = ({ maximum, value }) => {
   const { theme } = useTheme();
+  const { calibrationProgress, isRoundtrip, halfTotalDistance, onSliderChange } = useCalibrationContext();
 
-  const pathDistanceHiked = useUserSettingsStore((s) => s.location.pathLocation);
-  const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
+  const [layoutHeight, setLayoutHeight] = useState(0);
 
   const fillHeight = useSharedValue(0);
   const contextY = useSharedValue(0);
+  const latestValue = useSharedValue(0);
+
+  const valueRef = useRef(value);
+  valueRef.current = value;
 
   useEffect(() => {
-    if (selectedHikeTotalDistance > 0) {
-      const percentage = pathDistanceHiked / selectedHikeTotalDistance;
-      fillHeight.value = withTiming(percentage * CONTAINER_HEIGHT);
-    }
-  }, [pathDistanceHiked, selectedHikeTotalDistance]);
+    if (layoutHeight === 0) return;
+    const clamped = Math.max(0, Math.min(valueRef.current, maximum));
+    fillHeight.value = (clamped / maximum) * layoutHeight;
+  }, [layoutHeight, maximum]);
 
   const panGesture = Gesture.Pan()
+    .activeOffsetY([-10, 10])
+    .failOffsetX([-5, 5])
     .onStart(() => {
       contextY.value = fillHeight.value;
     })
     .onUpdate((event) => {
-      let newHeight = contextY.value - event.translationY;
+      if (layoutHeight === 0) return;
 
-      newHeight = Math.max(0, Math.min(newHeight, CONTAINER_HEIGHT));
+      let newHeight = contextY.value - event.translationY;
+      newHeight = Math.max(0, Math.min(newHeight, layoutHeight));
+
       fillHeight.value = newHeight;
 
-      if (selectedHikeTotalDistance > 0) {
-        const newValue = (newHeight * selectedHikeTotalDistance) / CONTAINER_HEIGHT;
-        runOnJS(onChange)(newValue);
-      }
+      const newValue = (newHeight / layoutHeight) * maximum;
+      latestValue.value = newValue;
+
+      const adjusted =
+        isRoundtrip.value && newValue > halfTotalDistance.value
+          ? newValue - halfTotalDistance.value
+          : newValue;
+      calibrationProgress.value = adjusted;
+    })
+    .onEnd(() => {
+      runOnJS(onSliderChange)(latestValue.value);
     });
 
-  const animatedFillStyle = useAnimatedStyle(() => {
-    return {
-      height: fillHeight.value,
-      backgroundColor: theme.primary || "#FFD700",
-    };
-  });
+  const animatedFillStyle = useAnimatedStyle(() => ({
+    height: fillHeight.value,
+    backgroundColor: theme.primary || "#FFD700",
+  }));
 
   return (
     <GestureDetector gesture={panGesture}>
-      <View style={styles(theme).container}>
-        {/* Le fond du slider */}
+      <View style={styles(theme).container} onLayout={(e) => setLayoutHeight(e.nativeEvent.layout.height)}>
         <Animated.View style={[styles(theme).filler, animatedFillStyle]} />
       </View>
     </GestureDetector>

@@ -18,27 +18,30 @@ export const AdvancedSettings: React.FC = () => {
   const { isPremiumUnlocked } = usePremium();
   const navigation = useNavigation<NavigationProp<AdvancedSettingsStackParamList>>();
   const openEditSkippedSection = () => navigation.navigate("skippedSections");
-  const openEditHikeTotalDistance = () => navigation.navigate("editHikeTotalDistance");
+  const openEditHikeTotalDistance = () => navigation.navigate("configuration");
   const openProgressInputModes = () => navigation.navigate("progressInputModes");
   const resetStore = useUserSettingsStore((s) => s.resetStore);
   const selectedHike = useUserSettingsStore((s) => s.selectedHike);
 
   const [isConfirmModalVisible, setIsConfirmModalVisible] = useState<boolean>(false);
 
+  const handleResetSettings = () => {
+    resetStore();
+    setIsConfirmModalVisible(false);
+    navigation.getParent()?.navigate("home");
+  };
+
   return (
     <ScrollView style={styles(theme).container}>
       <View style={styles(theme).body}>
         <SettingSection title={t("advancedSettings:hikeSettings.title")}>
           <Setting
-            isDisabled={selectedHike?.stickerMetadata.isRoundTrip}
+            isDisabled={selectedHike?.isRoundtrip}
             isPremium={!isPremiumUnlocked}
             name={t("advancedSettings:skippedSections.title")}
             onSettingPress={openEditSkippedSection}
           />
-          <Setting
-            name={t("advancedSettings:editHikeTotalDistance.title")}
-            onSettingPress={openEditHikeTotalDistance}
-          />
+          <Setting name={t("advancedSettings:configuration.title")} onSettingPress={openEditHikeTotalDistance} />
           <Setting name={t("advancedSettings:progressInputModes.title")} onSettingPress={openProgressInputModes} />
         </SettingSection>
         <TouchableOpacity style={styles(theme).addSkippedSection} onPress={() => setIsConfirmModalVisible(true)}>
@@ -50,7 +53,7 @@ export const AdvancedSettings: React.FC = () => {
         isVisible={isConfirmModalVisible}
         title={t("advancedSettings:resetSettings.title")}
         message={t("advancedSettings:resetSettings.message")}
-        onConfirm={resetStore}
+        onConfirm={handleResetSettings}
         closeModal={() => setIsConfirmModalVisible(false)}
       />
     </ScrollView>

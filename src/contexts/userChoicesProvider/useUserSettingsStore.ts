@@ -8,32 +8,32 @@ import { createLocationSlice, LocationSlice } from "./slices/locationSlice";
 
 const initialState = {
   selectedHike: undefined,
-  selectedHikeId: undefined,
   selectedHikeTotalDistance: 0,
   isReverse: false,
-  isCalibratePositionOpen: false,
   backgroundImage: undefined,
   measurementUnit: MeasurementUnit.KILOMETER,
   isStickerSelectedPremium: false,
   showLogo: true,
   showShareMenu: false,
-  substractSkippedSections: true,
+  substractSkippedSections: false,
   progressMode: ProgressModes.MARKER,
+  hikeStartDate: undefined,
+  zeroDays: 0,
 };
 
 export type FullStoreState = LocationSlice & {
   selectedHike: Hike | undefined;
-  selectedHikeId: string | undefined;
   selectedHikeTotalDistance: number;
   isReverse: boolean;
   backgroundImage: string | undefined;
   measurementUnit: MeasurementUnit;
   isStickerSelectedPremium: boolean;
-  isCalibratePositionOpen: boolean;
   showLogo: boolean;
   showShareMenu: boolean;
   substractSkippedSections: boolean;
   progressMode: ProgressModes;
+  hikeStartDate: string | undefined;
+  zeroDays: number;
 
   // Actions
   setSelectedHike: (hike: Hike) => void;
@@ -42,12 +42,13 @@ export type FullStoreState = LocationSlice & {
   setIsStickerSelectedPremium: (flag: boolean) => void;
   setSelectedHikeTotalDistance: (newValue: number) => void;
   setIsReverse: (flag: boolean) => void;
-  setIsCalibratePositionOpen: (flag: boolean) => void;
   setShowLogo: (flag: boolean) => void;
   setShowShareMenu: (flag: boolean) => void;
   setSubstractSkippedSections: (flag: boolean) => void;
   resetStore: () => void;
   setProgressMode: (mode: ProgressModes) => void;
+  setHikeStartDate: (date: string | undefined) => void;
+  setZeroDays: (count: number) => void;
 };
 
 export const useUserSettingsStore = create<FullStoreState>()(
@@ -65,18 +66,10 @@ export const useUserSettingsStore = create<FullStoreState>()(
       },
 
       setSelectedHike: (hike) => {
-        const currentId = get().selectedHikeId;
-        if (currentId === hike.id) {
-          set({ selectedHike: hike });
-          return;
-        }
-
         set({
           selectedHike: hike,
-          selectedHikeId: hike.id,
-          selectedHikeTotalDistance: hike.totalDistance,
+          selectedHikeTotalDistance: hike.maps[hike.selectedMapIndex].totalDistance,
           backgroundImage: undefined,
-          isReverse: false,
           location: { displayedLocation: 0, pathLocation: 0 },
           distanceHiked: 0,
         });
@@ -93,16 +86,17 @@ export const useUserSettingsStore = create<FullStoreState>()(
       setSelectedHikeTotalDistance: (newValue) => set({ selectedHikeTotalDistance: newValue }),
       setIsReverse: (flag) => set({ isReverse: flag }),
       setShowLogo: (flag) => set({ showLogo: flag }),
-      setIsCalibratePositionOpen: (flag) => set({ isCalibratePositionOpen: flag }),
       setShowShareMenu: (flag) => set({ showShareMenu: flag }),
       setSubstractSkippedSections: (flag) => set({ substractSkippedSections: flag }),
+      setHikeStartDate: (date) => set({ hikeStartDate: date }),
+      setZeroDays: (count) => set({ zeroDays: count }),
     }),
     {
       name: "user-settings-storage",
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => ({
         measurementUnit: state.measurementUnit,
-        selectedHikeId: state.selectedHikeId,
+        selectedHike: state.selectedHike,
         selectedHikeTotalDistance: state.selectedHikeTotalDistance,
         substractSkippedSections: state.substractSkippedSections,
         skippedSections: state.skippedSections,
@@ -110,6 +104,8 @@ export const useUserSettingsStore = create<FullStoreState>()(
         isReverse: state.isReverse,
         progressMode: state.progressMode,
         distanceHiked: state.distanceHiked,
+        hikeStartDate: state.hikeStartDate,
+        zeroDays: state.zeroDays,
       }),
     }
   )

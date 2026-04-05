@@ -6,12 +6,11 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions, Image, Pressable, StyleSheet, Text, View } from "react-native";
 
-type HeaderProps = {
-  pageTitle: string;
-  toggleAppSettingsDrawer: () => void;
+type AdvancesSettingsHeaderProps = {
+  title?: string;
 };
 
-export const AdvancesSettingsHeader: React.FC<HeaderProps> = ({ pageTitle, toggleAppSettingsDrawer }) => {
+export const AdvancesSettingsHeader: React.FC<AdvancesSettingsHeaderProps> = ({ title }) => {
   const { getIcon, theme } = useTheme();
   const { t } = useTranslation();
   const { height } = Dimensions.get("window");
@@ -27,13 +26,13 @@ export const AdvancesSettingsHeader: React.FC<HeaderProps> = ({ pageTitle, toggl
     >
       <View style={styles(theme).body}>
         <View style={styles(theme).titleContainer}>
-          <Pressable onPress={() => navigation.goBack()} hitSlop={100}>
+          <Pressable onPress={() => navigation.goBack()} hitSlop={25}>
             <Image
               style={{ width: 18, height: 18, transform: [{ rotate: "180deg" }] }}
               source={getIcon("backHeader")}
             />
           </Pressable>
-          <Text style={styles(theme).title}>{t("advancedSettings:screenTitle")}</Text>
+          <Text style={styles(theme).title}>{title ? t(title) : t("advancedSettings:screenTitle")}</Text>
         </View>
       </View>
     </View>

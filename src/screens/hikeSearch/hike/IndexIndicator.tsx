@@ -1,0 +1,43 @@
+import { Theme } from "@/src/contexts/theme/models/theme";
+import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+
+type IndexIndicatorProps = {
+  indexCount: number;
+  activeIndex: number;
+};
+
+export const IndexIndicator: React.FC<IndexIndicatorProps> = ({ indexCount, activeIndex }) => {
+  const { theme } = useTheme();
+  return (
+    <View style={styles(theme).container}>
+      {Array.from({ length: indexCount }, (_, index) => (
+        <View
+          key={index}
+          style={[styles(theme).dot, index === activeIndex ? styles(theme).activeDot : styles(theme).inactiveDot]}
+        />
+      ))}
+    </View>
+  );
+};
+
+const styles = (theme: Theme) =>
+  StyleSheet.create({
+    container: {
+      flexDirection: "row",
+      justifyContent: "center",
+    },
+    dot: {
+      width: 6,
+      height: 6,
+      borderRadius: 8,
+      marginHorizontal: 4,
+    },
+    activeDot: {
+      backgroundColor: theme.primary,
+    },
+    inactiveDot: {
+      backgroundColor: "#E0E0E0",
+    },
+  });

@@ -1,12 +1,10 @@
-import { StickerMetadata } from "./stickerMetaData";
+import { Map } from "./map";
 
 export type Hike = {
   id: string;
   name: string;
-  path: string;
   isPremium: boolean;
-  stickerMetadata: StickerMetadata;
-  regions: string[];
-  border: string;
-  totalDistance: number;
+  isRoundtrip: boolean;
+  maps: Map[];
+  selectedMapIndex: number;
 };

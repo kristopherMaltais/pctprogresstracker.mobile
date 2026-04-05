@@ -101,4 +101,8 @@ export const iconsLightMode: Array<Image> = [
     name: "backHeader",
     image: require("@/assets/images/lightMode/backHeader.png"),
   },
+  {
+    name: "search",
+    image: require("@/assets/images/lightMode/search.png"),
+  },
 ];

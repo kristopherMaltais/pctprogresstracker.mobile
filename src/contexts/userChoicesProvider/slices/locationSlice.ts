@@ -1,5 +1,7 @@
+import { kilometerToMile, mileToKilometer, roundDistance } from "@/src/helpers/computeDistances";
 import { Location } from "@/src/models/location";
 import { LocationInterval } from "@/src/models/locationInterval";
+import { MeasurementUnit } from "@/src/models/measurementUnit";
 import { StateCreator } from "zustand";
 import { FullStoreState } from "../useUserSettingsStore";
 
@@ -7,6 +9,9 @@ export type LocationSlice = {
   location: Location;
   distanceHiked: number;
   skippedSections: LocationInterval[];
+
+  toDisplayUnit: (km: number, decimals?: number) => number;
+  toStoreValue: (value: number) => number;
 
   setLocation: (distance: number) => void;
   setDistanceHiked: (distance: number) => void;
@@ -16,10 +21,22 @@ export type LocationSlice = {
   deleteSkippedSection: (skippedSection: LocationInterval) => void;
 };
 
-export const createLocationSlice: StateCreator<FullStoreState, [], [], LocationSlice> = (set) => ({
+export const createLocationSlice: StateCreator<FullStoreState, [], [], LocationSlice> = (set, get) => ({
   location: { displayedLocation: 0, pathLocation: 0 },
   distanceHiked: 0,
   skippedSections: [],
+
+  toDisplayUnit: (km, decimals = 2) => {
+    const { measurementUnit } = get();
+    const raw = measurementUnit === MeasurementUnit.MILE ? kilometerToMile(km) : km;
+    return roundDistance(raw, decimals);
+  },
+
+  toStoreValue: (value) => {
+    const { measurementUnit } = get();
+    const raw = measurementUnit === MeasurementUnit.MILE ? mileToKilometer(value) : value;
+    return roundDistance(raw);
+  },
 
   addSkippedSection(skippedSection: LocationInterval) {
     set((state) => ({

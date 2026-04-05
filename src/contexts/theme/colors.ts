@@ -21,7 +21,7 @@ export const LIGHT_THEME: Theme = {
   text: PALETTE.lightBlack,
   pathColored: PALETTE.primary,
   path: PALETTE.grey,
-  borders: PALETTE.white,
+  decorations: PALETTE.white,
   error: PALETTE.red,
 };
 
@@ -34,6 +34,6 @@ export const DARK_THEME: Theme = {
   text: PALETTE.darkWhite,
   pathColored: PALETTE.primary,
   path: PALETTE.grey,
-  borders: PALETTE.white,
+  decorations: PALETTE.white,
   error: PALETTE.red,
 };

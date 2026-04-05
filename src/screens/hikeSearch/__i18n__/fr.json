@@ -1,0 +1,29 @@
+{
+  "screenTitle": "Trouver une randonnée",
+  "search": {
+    "placeholder": "Rechercher une randonnée..."
+  },
+  "favorites": {
+    "title": "Favoris",
+    "empty": "Aucun favori pour le moment. Appuyez longuement sur une randonnée pour l'ajouter."
+  },
+  "list": {
+    "allHikes": "Toutes les randonnées",
+    "searchResults": "Résultats de recherche",
+    "noResults": "Aucun résultat trouvé",
+    "noHikes": "Aucune randonnée disponible",
+    "premium": "Premium"
+  },
+  "detail": {
+    "distance": "Distance",
+    "roundtrip": "Aller-retour",
+    "skippedSections": "Sections sautées",
+    "mapAvailable": "carte disponible",
+    "mapsAvailable": "cartes disponibles",
+    "startHike": "Sélectionner cette randonnée !",
+    "error": "Impossible de charger les détails de la randonnée",
+    "startDate": "Date de départ",
+    "chooseStartDate": "Choisir ma date de départ",
+    "selectStartDate": "Sélectionner la date de départ"
+  }
+}

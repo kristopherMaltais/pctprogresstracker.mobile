@@ -1,9 +1,10 @@
-const MILE_KM_RATIO = 0.621371;
+export const MILE_KM_RATIO = 0.621371;
 
-export const mileToKilometer = (distance: number) => {
-  return Math.round(distance / MILE_KM_RATIO);
+export const roundDistance = (distance: number, decimals = 2) => {
+  const factor = Math.pow(10, decimals);
+  return Math.round(distance * factor) / factor;
 };
 
-export const kilometerToMile = (distance: number) => {
-  return Math.round(distance * MILE_KM_RATIO);
-};
+export const mileToKilometer = (distance: number) => distance / MILE_KM_RATIO;
+
+export const kilometerToMile = (distance: number) => distance * MILE_KM_RATIO;

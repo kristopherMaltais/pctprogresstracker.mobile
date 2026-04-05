@@ -7,6 +7,6 @@ export type Theme = {
   tertiaryBackground: string;
   pathColored: string;
   path: string;
-  borders: string;
+  decorations: string;
   error: string;
 };

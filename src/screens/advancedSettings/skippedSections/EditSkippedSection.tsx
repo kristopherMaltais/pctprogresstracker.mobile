@@ -1,12 +1,11 @@
 import { HikeProgressAnimation } from "@/src/common/components/hikeProgressAnimation/HikeProgressAnimation";
 import { Theme } from "@/src/contexts/theme/models/theme";
+import { shadows } from "@/src/contexts/theme/shadows";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { useValidation } from "@/src/contexts/validation/ValidationContextProvider";
-import { mileToKilometer } from "@/src/helpers/computeDistances";
 import { getHikedLocationIntervals } from "@/src/helpers/getHikedLocationIntervals";
 import { LocationInterval } from "@/src/models/locationInterval";
-import { MeasurementUnit } from "@/src/models/measurementUnit";
 import { AdvancedSettingsStackParamList } from "@/src/navigation/AdvancedSettingsNavigation";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import React, { useState } from "react";
@@ -21,11 +20,12 @@ export const EditSkippedSection: React.FC = () => {
   const navigation = useNavigation();
   const { showErrorModal } = useValidation();
 
-  const { theme } = useTheme();
+  const { theme, isDarkMode } = useTheme();
   const { t } = useTranslation();
 
   const selectedHikeTotalDistance = useUserSettingsStore((state) => state.selectedHikeTotalDistance);
   const measurementUnit = useUserSettingsStore((state) => state.measurementUnit);
+  const toStoreValue = useUserSettingsStore((state) => state.toStoreValue);
   const addSkippedSection = useUserSettingsStore((state) => state.addSkippedSection);
   const editSkippedSection = useUserSettingsStore((state) => state.editSkippedSection);
   const skippedSections = useUserSettingsStore((state) => state.skippedSections);
@@ -43,7 +43,7 @@ export const EditSkippedSection: React.FC = () => {
   const [skippedSection, setSkippedSection] = useState<LocationInterval>(getInitialSkippedSection());
 
   const handleStartDisplayChange = (value: number) => {
-    const newValue = measurementUnit == MeasurementUnit.KILOMETER ? value : mileToKilometer(value);
+    const newValue = toStoreValue(value);
     setSkippedSection((prev) => ({
       ...prev,
       start: { displayedLocation: newValue, pathLocation: newValue },
@@ -51,7 +51,7 @@ export const EditSkippedSection: React.FC = () => {
   };
 
   const handleStartPathChange = (value: number) => {
-    const newValue = measurementUnit == MeasurementUnit.KILOMETER ? value : mileToKilometer(value);
+    const newValue = toStoreValue(value);
     setSkippedSection((prev) => ({
       ...prev,
       start: { ...prev.start, pathLocation: newValue },
@@ -59,7 +59,7 @@ export const EditSkippedSection: React.FC = () => {
   };
 
   const handleEndDisplayChange = (value: number) => {
-    const newValue = measurementUnit == MeasurementUnit.KILOMETER ? value : mileToKilometer(value);
+    const newValue = toStoreValue(value);
     setSkippedSection((prev) => ({
       ...prev,
       end: { displayedLocation: newValue, pathLocation: newValue },
@@ -67,7 +67,7 @@ export const EditSkippedSection: React.FC = () => {
   };
 
   const handleEndPathChange = (value: number) => {
-    const newValue = measurementUnit == MeasurementUnit.KILOMETER ? value : mileToKilometer(value);
+    const newValue = toStoreValue(value);
     setSkippedSection((prev) => ({
       ...prev,
       end: { ...prev.end, pathLocation: newValue },
@@ -115,13 +115,10 @@ export const EditSkippedSection: React.FC = () => {
 
   return (
     <ScrollView style={styles(theme).container} contentContainerStyle={{ paddingBottom: 100 }}>
-      <Text style={styles(theme).title}>
-        {t(`advancedSettings:editSkippedSection.${params.isEditMode ? "titleEdit" : "titleAdd"}`)}
-      </Text>
-
       <View style={styles(theme).mapContainer}>
         {skippedSection && (
           <HikeProgressAnimation
+            color={isDarkMode ? "white" : "black"}
             size={1}
             skippedSectionsDisplay={[
               ...getHikedLocationIntervals([skippedSection], {
@@ -167,14 +164,6 @@ const styles = (theme: Theme) =>
       paddingTop: 24,
       paddingHorizontal: 16,
     },
-    title: {
-      fontSize: 16,
-      fontWeight: "500",
-      color: theme.text,
-      textAlign: "center",
-      marginBottom: 10,
-      textTransform: "uppercase",
-    },
     mapContainer: {
       justifyContent: "center",
       alignItems: "center",
@@ -183,12 +172,7 @@ const styles = (theme: Theme) =>
       marginBottom: 20,
       padding: 10,
       backgroundColor: theme.secondaryBackground,
-
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 3 },
-      shadowOpacity: 0.2,
-      shadowRadius: 4,
-      elevation: 5,
+      ...shadows.medium,
     },
     note: {
       color: theme.text,

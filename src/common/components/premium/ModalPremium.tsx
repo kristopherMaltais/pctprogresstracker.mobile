@@ -1,5 +1,6 @@
 import { PremiumState, usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { Theme } from "@/src/contexts/theme/models/theme";
+import { shadows } from "@/src/contexts/theme/shadows";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -65,14 +66,7 @@ const styles = (theme: Theme) =>
       backgroundColor: theme.secondaryBackground,
       borderRadius: 20,
       padding: 24,
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 5,
+      ...shadows.medium,
     },
     header: {
       display: "flex",

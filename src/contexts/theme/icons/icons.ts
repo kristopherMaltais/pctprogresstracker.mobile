@@ -42,12 +42,8 @@ export const icons: Array<Image> = [
     image: require("@/assets/images/privacyPolicy.png"),
   },
   {
-    name: "icon",
-    image: require("@/assets/images/icon.png"),
-  },
-  {
-    name: "iconWithTextBackground",
-    image: require("@/assets/images/iconWithTextBackground.png"),
+    name: "logo",
+    image: require("@/assets/images/logo.png"),
   },
   {
     name: "home",
@@ -60,5 +56,25 @@ export const icons: Array<Image> = [
   {
     name: "info",
     image: require("@/assets/images/info.png"),
+  },
+  {
+    name: "map",
+    image: require("@/assets/images/map.png"),
+  },
+  {
+    name: "watermark",
+    image: require("@/assets/images/watermark.png"),
+  },
+  {
+    name: "backpackLight",
+    image: require("@/assets/images/backpackLight.png"),
+  },
+  {
+    name: "backpackDark",
+    image: require("@/assets/images/backpackDark.png"),
+  },
+  {
+    name: "backpackPrimary",
+    image: require("@/assets/images/backpackPrimary.png"),
   },
 ];

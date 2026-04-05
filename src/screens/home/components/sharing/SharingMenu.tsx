@@ -1,4 +1,5 @@
 import { Theme } from "@/src/contexts/theme/models/theme";
+import { shadows } from "@/src/contexts/theme/shadows";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import React, { useMemo } from "react";
@@ -29,12 +30,7 @@ export const SharingMenu: React.FC<SharingMenuProps> = ({ isOpen, onClose }) => 
       backgroundStyle={{ backgroundColor: theme.secondaryBackground }}
       index={1}
       style={{
-        shadowColor: "#000",
-        shadowOffset: {
-          width: 0,
-          height: -1,
-        },
-        shadowOpacity: 0.1,
+        ...shadows.medium,
         elevation: 20,
       }}
       snapPoints={snapPoints}

@@ -1,0 +1,140 @@
+import { GestureWrapper } from "@/src/common/components/GestureWrapper";
+import { HikeProgressAnimation } from "@/src/common/components/hikeProgressAnimation/HikeProgressAnimation";
+import { StickerFreeVariant, useSticker } from "@/src/contexts/sticker/StickerContextProvider";
+import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
+import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
+import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
+import { Orientation } from "@/src/models/orientation";
+import React, { useEffect, useState } from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import ViewShot from "react-native-view-shot";
+import { Statistic, Statistics } from "./Statistic";
+
+export const StickerFree: React.FC = () => {
+  const selectedHike = useUserSettingsStore((s) => s.selectedHike);
+  const skippedSections = useUserSettingsStore((s) => s.skippedSections);
+  const progressMode = useUserSettingsStore((s) => s.progressMode);
+
+  const { getCurrentVariant } = useSticker();
+  const variant = getCurrentVariant<StickerFreeVariant>("stickerFree");
+
+  const showLogo = useUserSettingsStore((s) => s.showLogo);
+
+  const { getIcon } = useTheme();
+  const { setViewShotTransparentBackgroud } = useViewShot();
+
+  const [isHorizontal, setIsHorizontal] = useState<boolean>(true);
+
+  useEffect(() => {
+    setIsHorizontal(selectedHike?.maps[selectedHike.selectedMapIndex].orientation == Orientation.HORIZONTAL);
+  }, [selectedHike]);
+
+  const viewShotCallbackRef = React.useCallback(
+    (node: ViewShot | null) => {
+      if (node !== null) {
+        setViewShotTransparentBackgroud(node);
+      }
+    },
+    [setViewShotTransparentBackgroud]
+  );
+
+  if (!selectedHike) {
+    return null;
+  }
+  return (
+    <GestureWrapper>
+      <ViewShot
+        options={{
+          format: "png",
+          quality: 1,
+        }}
+        ref={viewShotCallbackRef}
+      >
+        <View style={isHorizontal ? styles.containerHorizontal : styles.containerVertical}>
+          {!isHorizontal && (
+            <HikeProgressAnimation
+              color={variant?.color!}
+              hideDecorations={variant?.hideDecorations}
+              key={`${progressMode}-${skippedSections}`}
+            />
+          )}
+          <View style={isHorizontal ? styles.statsContainerHorizontal : styles.statsContainerVertical}>
+            <View>
+              <View
+                style={{
+                  ...styles.header,
+                  flexDirection:
+                    selectedHike.maps[selectedHike.selectedMapIndex].orientation == Orientation.VERTICAL
+                      ? "row"
+                      : "column",
+                }}
+              >
+                {showLogo && <Image source={getIcon("logo")} style={styles.logo} />}
+                <Text style={{ ...styles.name, color: variant?.color }}>
+                  {selectedHike?.maps[selectedHike?.selectedMapIndex].name}
+                </Text>
+              </View>
+              <Statistic defaultStatistic={Statistics.HIKE_TOTAL_DISTANCE} color={variant?.color!} />
+              <Statistic defaultStatistic={Statistics.DISTANCE_HIKE} color={variant?.color!} />
+            </View>
+          </View>
+          {isHorizontal && (
+            <HikeProgressAnimation
+              color={variant?.color!}
+              hideDecorations={variant?.hideDecorations}
+              key={`${progressMode}-${skippedSections}`}
+            />
+          )}
+        </View>
+      </ViewShot>
+    </GestureWrapper>
+  );
+};
+
+const styles = StyleSheet.create({
+  containerHorizontal: {
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  containerVertical: {
+    alignItems: "center",
+    flexDirection: "column",
+  },
+  statsContainerHorizontal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 20,
+    gap: 0,
+    flexDirection: "column",
+    width: 150,
+  },
+  statsContainerVertical: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 20,
+    gap: 30,
+    flexDirection: "row",
+    width: 180,
+  },
+  header: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 8,
+    gap: 4,
+  },
+  logo: {
+    width: 26,
+    height: 18,
+  },
+  name: {
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+    textShadowColor: "rgba(0, 0, 0, 0.50)",
+    textShadowOffset: { width: 0, height: 0.5 },
+    textShadowRadius: 1,
+  },
+});

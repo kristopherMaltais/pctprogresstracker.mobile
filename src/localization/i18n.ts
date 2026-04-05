@@ -4,12 +4,14 @@ import commonEN from "../common/__i18n__/en.json";
 import commonFR from "../common/__i18n__/fr.json";
 import advancedSettingsEN from "../screens/advancedSettings/__i18n__/en.json";
 import advancedSettingsFR from "../screens/advancedSettings/__i18n__/fr.json";
+import hikeSearchEN from "../screens/hikeSearch/__i18n__/en.json";
+import hikeSearchFR from "../screens/hikeSearch/__i18n__/fr.json";
 import homeEN from "../screens/home/__i18n__/en.json";
 import homeFR from "../screens/home/__i18n__/fr.json";
 
 const resources = {
-  en: { home: homeEN, common: commonEN, advancedSettings: advancedSettingsEN },
-  fr: { home: homeFR, common: commonFR, advancedSettings: advancedSettingsFR },
+  en: { home: homeEN, common: commonEN, advancedSettings: advancedSettingsEN, hikeSearch: hikeSearchEN },
+  fr: { home: homeFR, common: commonFR, advancedSettings: advancedSettingsFR, hikeSearch: hikeSearchFR },
 };
 
 const options: InitOptions = {

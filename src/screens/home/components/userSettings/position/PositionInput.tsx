@@ -1,3 +1,4 @@
+import { useCalibrationContext } from "@/src/contexts/calibration/CalibrationContext";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
@@ -6,27 +7,35 @@ import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Slider } from "./Slider";
 
 type PositionInputProps = {
-  closePositionInput: () => void;
+  closeMenu: () => void;
 };
 
-export const PositionInput: React.FC<PositionInputProps> = ({ closePositionInput }) => {
+export const PositionInput: React.FC<PositionInputProps> = ({ closeMenu }) => {
   const { getIcon, theme } = useTheme();
-  const setPathLocation = useUserSettingsStore((s) => s.setPathLocation);
-  const displayedLocation = useUserSettingsStore((s) => s.location.displayedLocation);
-
-  const unSaveChanges = () => {
-    setPathLocation(displayedLocation);
-    closePositionInput();
-  };
+  const { saveCalibration, cancelCalibration } = useCalibrationContext();
+  const pathLocation = useUserSettingsStore((s) => s.location.pathLocation);
+  const selectedHikeTotalDistance = useUserSettingsStore((s) => s.selectedHikeTotalDistance);
 
   return (
     <View style={styles(theme).container}>
-      <Slider onChange={setPathLocation} />
+      <Slider maximum={selectedHikeTotalDistance} value={pathLocation} />
       <View style={styles(theme).buttonContainer}>
-        <TouchableOpacity style={styles(theme).button} onPress={closePositionInput}>
+        <TouchableOpacity
+          style={styles(theme).button}
+          onPress={() => {
+            saveCalibration();
+            closeMenu();
+          }}
+        >
           <Image style={styles(theme).save} source={getIcon("save")} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles(theme).button} onPress={unSaveChanges}>
+        <TouchableOpacity
+          style={styles(theme).button}
+          onPress={() => {
+            cancelCalibration();
+            closeMenu();
+          }}
+        >
           <Image style={styles(theme).close} source={getIcon("close")} />
         </TouchableOpacity>
       </View>

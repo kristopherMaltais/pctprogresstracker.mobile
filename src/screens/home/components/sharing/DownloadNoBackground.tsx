@@ -2,6 +2,7 @@ import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
 import { openNativeShareUri } from "@/src/helpers/openNativeSharing";
 import { requestAppReview } from "@/src/helpers/requestAppReview";
+import { useTrackShare } from "@/src/hooks/useTrackShare";
 import * as Haptics from "expo-haptics";
 import * as MediaLibrary from "expo-media-library";
 import React, { useState } from "react";
@@ -17,6 +18,7 @@ export const DownloadNoBackground: React.FC<DownloadNoBackgroundProps> = ({ onCl
   const { viewShotTransparentBackground } = useViewShot();
   const { isPremiumUnlocked, setIsPremiumModalVisible } = usePremium();
   const { t } = useTranslation();
+  const { trackShare } = useTrackShare();
   const [iconDisplay, setIconDisplay] = useState<string>("downloadImageUnlocked");
 
   const saveToGallery = async () => {
@@ -50,6 +52,7 @@ export const DownloadNoBackground: React.FC<DownloadNoBackgroundProps> = ({ onCl
   };
 
   const downloadSuccess = () => {
+    trackShare("downloadNoBackground");
     setIconDisplay("success");
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     requestAppReview();

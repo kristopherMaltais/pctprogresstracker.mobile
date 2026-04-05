@@ -1,5 +1,6 @@
 import { HikeProgressAnimation } from "@/src/common/components/hikeProgressAnimation/HikeProgressAnimation";
 import { Theme } from "@/src/contexts/theme/models/theme";
+import { shadows } from "@/src/contexts/theme/shadows";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { FullStoreState, useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import { getHikedLocationIntervals } from "@/src/helpers/getHikedLocationIntervals";
@@ -13,7 +14,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { SkippedSectionSummary } from "./SkippedSectionSummary";
 
 export const SkippedSections: React.FC = () => {
-  const { theme } = useTheme();
+  const { theme, isDarkMode } = useTheme();
   const { t } = useTranslation();
   const navigation = useNavigation<NavigationProp<AdvancedSettingsStackParamList>>();
   const skippedSections = useUserSettingsStore((state: FullStoreState) => state.skippedSections);
@@ -25,10 +26,9 @@ export const SkippedSections: React.FC = () => {
 
   return (
     <ScrollView style={styles(theme).container}>
-      <Text style={styles(theme).title}>{t("advancedSettings:skippedSections.title")}</Text>
-
       <View style={{ ...styles(theme).mapContainer }}>
         <HikeProgressAnimation
+          color={isDarkMode ? "white" : "black"}
           size={1}
           skippedSectionsDisplay={[
             ...getHikedLocationIntervals(skippedSections, {
@@ -68,14 +68,6 @@ const styles = (theme: Theme) =>
       paddingHorizontal: 16,
       paddingBottom: 100,
     },
-    title: {
-      fontSize: 16,
-      fontWeight: "500",
-      color: theme.text,
-      textAlign: "center",
-      marginBottom: 10,
-      textTransform: "uppercase",
-    },
     mapContainer: {
       justifyContent: "center",
       alignItems: "center",
@@ -85,11 +77,7 @@ const styles = (theme: Theme) =>
       padding: 10,
       backgroundColor: theme.secondaryBackground,
 
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 3 },
-      shadowOpacity: 0.2,
-      shadowRadius: 4,
-      elevation: 5,
+      ...shadows.medium,
     },
     addSkippedSection: {
       display: "flex",

@@ -1,6 +1,5 @@
-import { Hike } from "@/src/models/hike";
-import { HikeWithItinary } from "@/src/models/hikeWithItinary";
-
 export interface HikeService {
-  getHikes: () => Promise<Hike[] | HikeWithItinary[]>;
+  getHikes: (page: number, pageSize: number) => Promise<any[]>;
+  getHikeById: (id: string) => Promise<any>;
+  searchHikes: (keyword: string) => Promise<any>;
 }

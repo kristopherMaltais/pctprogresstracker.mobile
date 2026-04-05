@@ -1,4 +1,5 @@
 import { Theme } from "@/src/contexts/theme/models/theme";
+import { shadows } from "@/src/contexts/theme/shadows";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { ProgressModes } from "@/src/models/progressModes";
 import React from "react";
@@ -68,14 +69,7 @@ const styles = (theme: Theme) =>
       borderWidth: 2,
       borderColor: "transparent",
 
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 4,
-      },
-      shadowOpacity: 0.1,
-      shadowRadius: 6,
-      elevation: 5,
+      ...shadows.medium,
     },
     selectedCard: {
       borderWidth: 2,

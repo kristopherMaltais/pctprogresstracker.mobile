@@ -1,13 +1,13 @@
+import { useCalibrationContext } from "@/src/contexts/calibration/CalibrationContext";
 import { usePremium } from "@/src/contexts/premium/PremiumContextProvider";
 import { Theme } from "@/src/contexts/theme/models/theme";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
 import * as Haptics from "expo-haptics";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Animated, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { AdvancedSettings } from "./AdvancedSettings";
-import { Direction } from "./Direction";
-import { MeasurementUnitSwitch } from "./MeasurementUnitSwitch";
+import { FindHike } from "./FindHike";
 import { Position } from "./position/Position";
 import { PositionInput } from "./position/PositionInput";
 import { ProgressInput } from "./progressInput/ProgressInput";
@@ -17,30 +17,18 @@ import { UploadBackgroundImage } from "./UploadBackgroundImage";
 
 type userSettingsProps = {
   disabled?: boolean;
-  hide: boolean;
   closeMenu: boolean;
 };
-export const UserSettings: React.FC<userSettingsProps> = ({ disabled = false, hide, closeMenu }) => {
+export const UserSettings: React.FC<userSettingsProps> = ({ disabled = false, closeMenu }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { getIcon, theme } = useTheme();
   const { isPremiumUnlocked } = usePremium();
   const isStickerSelectedPremium = useUserSettingsStore((s) => s.isStickerSelectedPremium);
-  const setIsCalibratePositionOpen = useUserSettingsStore((s) => s.setIsCalibratePositionOpen);
-  const isCalibratePositionOpen = useUserSettingsStore((s) => s.isCalibratePositionOpen);
-
-  const position = useRef(new Animated.Value(35)).current;
+  const { isCalibratePositionOpen, openCalibration } = useCalibrationContext();
 
   useEffect(() => {
     setIsMenuOpen(false);
   }, [closeMenu]);
-
-  useEffect(() => {
-    Animated.timing(position, {
-      toValue: hide ? -130 : 35,
-      duration: 50,
-      useNativeDriver: false,
-    }).start();
-  }, [hide]);
 
   useEffect(() => {
     if (disabled) {
@@ -64,17 +52,11 @@ export const UserSettings: React.FC<userSettingsProps> = ({ disabled = false, hi
           styles(theme).container,
           {
             justifyContent: isMenuOpen ? "space-between" : "center",
-            left: position,
           },
         ]}
       >
         {isCalibratePositionOpen ? (
-          <PositionInput
-            closePositionInput={() => {
-              setIsCalibratePositionOpen(false);
-              setIsMenuOpen(false);
-            }}
-          />
+          <PositionInput closeMenu={() => setIsMenuOpen(false)} />
         ) : (
           <>
             <UploadBackgroundImage isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
@@ -82,10 +64,9 @@ export const UserSettings: React.FC<userSettingsProps> = ({ disabled = false, hi
             <ProgressInput isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
             {isMenuOpen && (
               <>
-                <MeasurementUnitSwitch isMenuOpen={isMenuOpen} />
-                <Direction isMenuOpen={isMenuOpen} />
+                <FindHike isMenuOpen={isMenuOpen} />
                 <ShowLogoSwitch isMenuOpen={isMenuOpen} />
-                <Position isMenuOpen={isMenuOpen} openPositionInput={() => setIsCalibratePositionOpen(true)} />
+                <Position isMenuOpen={isMenuOpen} openPositionInput={openCalibration} />
                 <AdvancedSettings isMenuOpen={isMenuOpen} />
               </>
             )}
@@ -112,7 +93,7 @@ const styles = (theme: Theme) =>
       gap: 8,
       position: "absolute",
       top: 10,
-      left: 35,
+      left: 10,
       zIndex: 1,
     },
     toggleMenu: {

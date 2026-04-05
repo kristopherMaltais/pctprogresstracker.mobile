@@ -2,6 +2,8 @@
   "cancel": "Annuler",
   "delete": "Supprimer",
   "save": "Enregistrer",
+  "yes": "Oui",
+  "no": "Non",
   "settings": {
     "restorePurchase": "Restaurer l'achat",
     "madeInQuebec": "Fait au Québec!",
@@ -29,10 +31,11 @@
     "features": {
       "allTrails": "Accès illimité à tous les sentiers",
       "noLogo": "Supprimer le logo Share my Hike",
-      "allStickers": "Débloquez tous les styles de stickers",
+      "allStickers": "Accès à tous les styles de stickers",
       "transparent": "Exports avec arrière-plan transparent",
       "skippedSections": "Suivi des sections sautées",
-      "sectionHiker": "Suivi des sections de randonnée"
+      "sectionHiker": "Suivi des sections de randonnée",
+      "allStats": "Accès à toutes les statistiques de randonnée"
     },
     "button": {
       "unlock": "Débloquer ce sticker",

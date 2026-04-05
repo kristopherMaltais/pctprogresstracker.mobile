@@ -97,4 +97,8 @@ export const iconsDarkMode: Array<Image> = [
     name: "backHeader",
     image: require("@/assets/images/darkMode/backHeader.png"),
   },
+  {
+    name: "search",
+    image: require("@/assets/images/darkMode/search.png"),
+  },
 ];

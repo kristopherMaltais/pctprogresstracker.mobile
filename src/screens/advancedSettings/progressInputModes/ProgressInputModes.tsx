@@ -5,7 +5,7 @@ import { ProgressModes } from "@/src/models/progressModes";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, StyleSheet, Text } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { Actions } from "../components/Actions";
 import { ProgressInputModeCard } from "./ProgressInputModeCard";
 
@@ -26,7 +26,6 @@ export const ProgressInputModes: React.FC = () => {
 
   return (
     <ScrollView style={styles(theme).container} contentContainerStyle={{ paddingBottom: 40 }}>
-      <Text style={styles(theme).title}>{t("advancedSettings:progressInputModes.title")}</Text>
       <ProgressInputModeCard
         mode={ProgressModes.MARKER}
         onPress={setProgressModeSelected}
@@ -48,13 +47,5 @@ const styles = (theme: Theme) =>
       flex: 1,
       backgroundColor: theme.background,
       padding: 16,
-    },
-    title: {
-      fontSize: 16,
-      fontWeight: "500",
-      color: theme.text,
-      textAlign: "center",
-      marginBottom: 30,
-      textTransform: "uppercase",
     },
   });

@@ -1,12 +1,19 @@
 {
-  "dropDownHikeListPlaceHolder": "Choisir une randonnée",
-  "dropDownHikeSearchInputPlaceholder": "Trouver une randonnée...",
-  "itinary": "Quel est votre itinéraire?",
-  "sticker": {
-    "total": "Total",
-    "distanceHiked": "Dist. parcourue"
+  "findMyHike": "Trouver mon hike",
+  "searchHike": "Chercher un hike...",
+  "statistic": {
+    "hikeTotalDistance": "Total",
+    "distanceHiked": "Dist. parcourue",
+    "percentage": "Completed",
+    "remaining": "Restant",
+    "day": "Jours",
+    "averageDistanceDay": "Moy./Jour",
+    "skipped": "Sauté",
+    "zeroDays": "Zero",
+    "steps": "Pas"
   },
   "userSettings": {
+    "findHike": "Hikes",
     "backgroundImage": "Image",
     "share": "Share",
     "distance": "Distances",

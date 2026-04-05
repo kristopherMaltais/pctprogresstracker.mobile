@@ -1,4 +1,5 @@
 import { useViewShot } from "@/src/contexts/viewShot/ViewShotContextProvider";
+import { useTrackShare } from "@/src/hooks/useTrackShare";
 import { makeImageFromView } from "@shopify/react-native-skia";
 import { File, Paths } from "expo-file-system";
 import React from "react";
@@ -9,6 +10,7 @@ import { SharingButton } from "./SharingButton";
 export const ShareInstagramWithBackground: React.FC = () => {
   const { t } = useTranslation();
   const { skiaViewRef } = useViewShot();
+  const { trackShare } = useTrackShare();
 
   const shareOnInstagram = async () => {
     if (!skiaViewRef?.current) return;
@@ -29,6 +31,7 @@ export const ShareInstagramWithBackground: React.FC = () => {
       };
 
       await Share.shareSingle(shareOptions);
+      trackShare("instagram");
     } catch (err) {
       console.error("Erreur partage Instagram:", err);
       // Ici tu pourrais ajouter ton fallback vers openNativeShare(file.uri)

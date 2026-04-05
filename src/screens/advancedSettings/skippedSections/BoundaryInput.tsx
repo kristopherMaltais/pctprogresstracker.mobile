@@ -1,5 +1,4 @@
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
-import { kilometerToMile } from "@/src/helpers/computeDistances";
 import { Location } from "@/src/models/location";
 import { MeasurementUnit } from "@/src/models/measurementUnit";
 import React from "react";
@@ -24,38 +23,23 @@ export const BoundaryInput: React.FC<BoundaryInputProps> = ({
   label,
   unit,
 }) => {
-  const measurementUnit = useUserSettingsStore((state) => state.measurementUnit);
   const selectedHikeTotalDistance = useUserSettingsStore((state) => state.selectedHikeTotalDistance);
+  const toDisplayUnit = useUserSettingsStore((state) => state.toDisplayUnit);
   return (
     <View style={styles.container}>
       <InputNumber
-        max={
-          measurementUnit == MeasurementUnit.KILOMETER
-            ? selectedHikeTotalDistance
-            : kilometerToMile(selectedHikeTotalDistance)
-        }
+        max={toDisplayUnit(selectedHikeTotalDistance)}
         label={label}
-        value={
-          measurementUnit == MeasurementUnit.KILOMETER
-            ? value.displayedLocation
-            : kilometerToMile(value.displayedLocation)
-        }
+        value={toDisplayUnit(value.displayedLocation)}
         autoFocus={autoFocus}
         onChange={(value: number) => onDisplayedLocationChange(value)}
         unit={unit == MeasurementUnit.KILOMETER ? "km" : "mi"}
+        decimals={1}
       />
       <Slider
-        maximum={
-          measurementUnit == MeasurementUnit.KILOMETER
-            ? selectedHikeTotalDistance
-            : kilometerToMile(selectedHikeTotalDistance)
-        }
+        maximum={toDisplayUnit(selectedHikeTotalDistance)}
         onChange={(value: number) => onPathLocationchange(value)}
-        value={
-          measurementUnit == MeasurementUnit.KILOMETER
-            ? value.displayedLocation
-            : kilometerToMile(value.displayedLocation)
-        }
+        value={toDisplayUnit(value.displayedLocation)}
       />
     </View>
   );

@@ -1,5 +1,6 @@
 import { LocationInterval } from "@/src/models/locationInterval";
 import { Path } from "@shopify/react-native-skia";
+import React from "react";
 import { SharedValue, useDerivedValue } from "react-native-reanimated";
 
 type HikeIntervalProps = {
@@ -18,11 +19,14 @@ export const HikeInterval: React.FC<HikeIntervalProps> = ({
   selectedHikeTotalDistance,
 }) => {
   const animatedEnd = useDerivedValue(() => {
+    if (selectedHikeTotalDistance === 0) return 0;
     return Math.min(
       globalProgress.value / selectedHikeTotalDistance,
       interval.end.pathLocation / selectedHikeTotalDistance
     );
   });
+
+  if (selectedHikeTotalDistance === 0) return null;
 
   return (
     <Path

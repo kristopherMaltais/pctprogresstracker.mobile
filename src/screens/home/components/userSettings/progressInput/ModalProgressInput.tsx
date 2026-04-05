@@ -1,15 +1,17 @@
 import { Theme } from "@/src/contexts/theme/models/theme";
+import { shadows } from "@/src/contexts/theme/shadows";
 import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import { useUserSettingsStore } from "@/src/contexts/userChoicesProvider/useUserSettingsStore";
-import { kilometerToMile, mileToKilometer } from "@/src/helpers/computeDistances";
 import { getMeasurementUnit } from "@/src/helpers/getMeasurementUnit";
-import { MeasurementUnit } from "@/src/models/measurementUnit";
+import { sanitizeNumericInput } from "@/src/helpers/sanitizeNumericInput";
 import { ProgressModes } from "@/src/models/progressModes";
 import { useNavigation } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Modal, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { ProgressInputInfo } from "./ProgressInputInfo";
+
+import { getTotalSkippedDistance } from "@/src/helpers/computeStatistics";
 
 type ModalProgressInputProps = {
   isVisible: boolean;
@@ -27,45 +29,51 @@ export const ModalProgressInput: React.FC<ModalProgressInputProps> = ({ isVisibl
   const distanceHiked = useUserSettingsStore((s) => s.distanceHiked);
   const setDistanceHiked = useUserSettingsStore((s) => s.setDistanceHiked);
   const skippedSections = useUserSettingsStore((s) => s.skippedSections);
+  const toDisplayUnit = useUserSettingsStore((s) => s.toDisplayUnit);
+  const toStoreValue = useUserSettingsStore((s) => s.toStoreValue);
   const navigation = useNavigation<any>();
   const { t } = useTranslation();
   const { theme, getIcon } = useTheme();
 
-  const getTest = () => {
+  const getDisplayedDistance = () => {
     if (progressMode == ProgressModes.MANUAL) {
-      return measurementUnit == MeasurementUnit.MILE ? kilometerToMile(distanceHiked) : distanceHiked;
+      return toDisplayUnit(distanceHiked);
     } else {
-      return measurementUnit == MeasurementUnit.MILE
-        ? kilometerToMile(currentLocation.displayedLocation)
-        : currentLocation.displayedLocation;
+      return toDisplayUnit(currentLocation.displayedLocation);
     }
   };
 
-  const [_location, _setLocation] = useState<number>(getTest());
+  const [_location, _setLocation] = useState<number>(getDisplayedDistance());
+  const [_locationText, _setLocationText] = useState<string>(getDisplayedDistance().toString());
 
   useEffect(() => {
-    _setLocation(getTest());
+    const value = getDisplayedDistance();
+    _setLocation(value);
+    _setLocationText(value.toString());
   }, [currentLocation, measurementUnit]);
 
   const onProgressionChange = (text: string) => {
-    const parsed = parseInt(text, 10);
-    const max = selectedHikeTotalDistance;
+    const sanitized = sanitizeNumericInput(text, 1);
+    if (sanitized === null) return;
 
-    if (!isNaN(parsed)) {
-      const clamped = Math.max(0, Math.min(max, parsed));
-      _setLocation(clamped);
-    } else {
-      _setLocation(0);
-    }
+    const parsed = parseFloat(sanitized);
+    const maxDisplay =
+      progressMode == ProgressModes.MANUAL
+        ? getTotalSkippedDistance(skippedSections, toDisplayUnit)
+        : toDisplayUnit(selectedHikeTotalDistance);
+    const clamped = !isNaN(parsed) ? Math.max(0, Math.min(maxDisplay, parsed)) : 0;
+
+    _setLocation(clamped);
+    _setLocationText(clamped === parsed ? sanitized : clamped.toString());
   };
 
   const updateProgression = () => {
     if (progressMode == ProgressModes.MANUAL) {
-      const convertedDistance = measurementUnit == MeasurementUnit.MILE ? mileToKilometer(_location) : _location;
+      const convertedDistance = toStoreValue(_location);
       setDistanceHiked(convertedDistance);
       setLocation(calculateManualDistance(convertedDistance));
     } else {
-      setLocation(measurementUnit == MeasurementUnit.MILE ? mileToKilometer(_location) : _location);
+      setLocation(toStoreValue(_location));
     }
     setIsInfoModeActivated(false);
     onClose();
@@ -136,8 +144,8 @@ export const ModalProgressInput: React.FC<ModalProgressInputProps> = ({ isVisibl
                 <TextInput
                   ref={inputRef}
                   style={styles(theme).input}
-                  keyboardType="numeric"
-                  value={_location.toString()}
+                  keyboardType="decimal-pad"
+                  value={_locationText}
                   onChangeText={onProgressionChange}
                   returnKeyType="done"
                   onSubmitEditing={updateProgression}
@@ -165,14 +173,7 @@ const styles = (theme: Theme) =>
       backgroundColor: theme.secondaryBackground,
       borderRadius: 20,
       padding: 16,
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 5,
+      ...shadows.medium,
     },
     header: {
       position: "relative",
