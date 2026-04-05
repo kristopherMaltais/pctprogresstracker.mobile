@@ -1,5 +1,6 @@
+import { useTheme } from "@/src/contexts/theme/ThemeContextProvider";
 import React from "react";
-import { View } from "react-native";
+import { Image, View } from "react-native";
 import { Block } from "./Block";
 
 interface StickerLayoutPreviewProps {
@@ -8,6 +9,7 @@ interface StickerLayoutPreviewProps {
 }
 
 export const StickerLayoutPreview: React.FC<StickerLayoutPreviewProps> = ({ stickerId, color }) => {
+  const { getIcon } = useTheme();
   switch (stickerId) {
     case "stickerFreeMapOnly":
       return (
@@ -26,6 +28,13 @@ export const StickerLayoutPreview: React.FC<StickerLayoutPreviewProps> = ({ stic
             <Block width={10} height={4} color={color} />
           </View>
           <Block width={18} height={22} color={color} />
+        </View>
+      );
+
+    case "stickerBackpack":
+      return (
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Image source={getIcon("backpackPrimary")} style={{ width: 34, height: 34 }} />
         </View>
       );
 

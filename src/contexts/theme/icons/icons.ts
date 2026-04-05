@@ -65,4 +65,16 @@ export const icons: Array<Image> = [
     name: "watermark",
     image: require("@/assets/images/watermark.png"),
   },
+  {
+    name: "backpackLight",
+    image: require("@/assets/images/backpackLight.png"),
+  },
+  {
+    name: "backpackDark",
+    image: require("@/assets/images/backpackDark.png"),
+  },
+  {
+    name: "backpackPrimary",
+    image: require("@/assets/images/backpackPrimary.png"),
+  },
 ];

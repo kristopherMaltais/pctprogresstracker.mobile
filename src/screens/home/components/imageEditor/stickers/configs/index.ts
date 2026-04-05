@@ -1,7 +1,13 @@
+import { StickerBackpackConfig } from "./StickerBackpack.config";
 import { StickerFreeConfig } from "./StickerFree.config";
 import { StickerFreeMapOnlyConfig } from "./StickerFreeMapOnly.config";
 import { StickerStatsWithProgressBarConfig } from "./StickerProgressBar.config";
-import { StickerStats3Config, StickerStats4Config, StickerStats6Config, StickerStats3VerticalConfig } from "./StickerStats.config";
+import {
+  StickerStats3Config,
+  StickerStats3VerticalConfig,
+  StickerStats4Config,
+  StickerStats6Config,
+} from "./StickerStats.config";
 import { StickerConfig } from "./types";
 
 export const STICKER_CONFIGS: Record<string, StickerConfig> = {
@@ -12,4 +18,5 @@ export const STICKER_CONFIGS: Record<string, StickerConfig> = {
   stickerStats6: StickerStats6Config,
   stickerStats3Vertical: StickerStats3VerticalConfig,
   stickerProgressBar: StickerStatsWithProgressBarConfig,
+  stickerBackpack: StickerBackpackConfig,
 };
