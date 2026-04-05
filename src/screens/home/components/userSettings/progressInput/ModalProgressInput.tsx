@@ -11,6 +11,8 @@ import { useTranslation } from "react-i18next";
 import { Image, Modal, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { ProgressInputInfo } from "./ProgressInputInfo";
 
+import { getTotalSkippedDistance } from "@/src/helpers/computeStatistics";
+
 type ModalProgressInputProps = {
   isVisible: boolean;
   onClose: () => void;
@@ -55,7 +57,10 @@ export const ModalProgressInput: React.FC<ModalProgressInputProps> = ({ isVisibl
     if (sanitized === null) return;
 
     const parsed = parseFloat(sanitized);
-    const maxDisplay = toDisplayUnit(selectedHikeTotalDistance);
+    const maxDisplay =
+      progressMode == ProgressModes.MANUAL
+        ? getTotalSkippedDistance(skippedSections, toDisplayUnit)
+        : toDisplayUnit(selectedHikeTotalDistance);
     const clamped = !isNaN(parsed) ? Math.max(0, Math.min(maxDisplay, parsed)) : 0;
 
     _setLocation(clamped);
